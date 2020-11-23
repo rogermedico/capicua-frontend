@@ -1,0 +1,38 @@
+<header *ngIf="(user$ | async)">
+  <span>
+    <a routerLink="/" routerLinkActive="Active">
+      <img class="logo" src="assets/images/logo.png">
+    </a>
+  </span>
+  <h1 class="title">{{title | uppercase}}</h1>
+  <div *ngIf="(user$ |async)" class="login-info">Logged in as {{(user$ | async).email}}
+    ({{(user$ | async).type}})
+  </div>
+  <nav>
+    <span class="menu-item" *ngIf="!(user$ | async)">
+      <a routerLink="/auth/login" routerLinkActive="active">Login</a>
+    </span>
+    <span class="menu-item" *ngIf="!(user$ | async)">
+      <a routerLink="/auth/register" routerLinkActive="active">Register</a>
+    </span>
+    <span class="menu-item" *ngIf="(user$ | async)">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+    </span>
+    <span class="menu-item" *ngIf="(user$ | async)">
+      <a routerLink="/activities/admin" routerLinkActive="active">Admin</a>
+    </span>
+    <span class="menu-item" *ngIf="(user$ | async)">
+      <a routerLink="/favorites" routerLinkActive="active">Favorites</a>
+    </span>
+    <span class="menu-item" *ngIf="(user$ | async)">
+      <a routerLink="/myactivities" routerLinkActive="active">My activities</a>
+    </span>
+    <span class="menu-item" *ngIf="(user$ | async)l">
+      <a routerLink="/user/profile" routerLinkActive="active">Profile</a>
+    </span>
+    <span class="menu-item" *ngIf="(user$ | async)">
+      <a routerLink="/auth/logout" routerLinkActive="active">Logout</a>
+    </span>
+
+  </nav>
+</header>
