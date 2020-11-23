@@ -26,8 +26,7 @@
       "@mock/*": ["app/shared/mock/*"],
       "@store/*": ["app/shared/store/*"],
       "@modules/*": ["app/modules/*"],
-      "@environments/*": ["environments/*"],
-      "@assets/*": ["assets/*"]
+      "@environments/*": ["environments/*"]
     }
   }
 }
