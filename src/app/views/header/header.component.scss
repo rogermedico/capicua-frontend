@@ -49,3 +49,24 @@
 // nav a.active {
 //     font-weight: 700;
 // }
+
+
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+a:hover, a:active{
+  color: lightgray;
+}
+
+.navigation-items{
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.fixed {
+  position: fixed;
+}

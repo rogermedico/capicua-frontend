@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AppState } from '@store/root.state';
 import { User } from '@models/user.model';
 import { Store } from '@ngrx/store';
@@ -16,10 +16,16 @@ export class HeaderComponent implements OnInit {
 
   public user$: Observable<User> = this.store$.select(UserSelectors.selectUser);
 
+  @Output() public sidenavToggle = new EventEmitter();
+
   constructor(private store$: Store<AppState>) { }
 
   ngOnInit(): void {
 
+  }
+
+  public onToggleSidenav() {
+    this.sidenavToggle.emit();
   }
 
 }

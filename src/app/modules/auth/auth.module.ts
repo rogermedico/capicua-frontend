@@ -19,6 +19,9 @@ import { MaterialModule } from '@modules/material/material.module';
     AuthRoutingModule,
     ReactiveFormsModule,
     MaterialModule
+  ],
+  exports: [
+    LoginComponent
   ]
 })
 export class AuthModule { }

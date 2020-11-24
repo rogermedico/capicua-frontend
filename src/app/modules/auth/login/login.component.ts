@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.authStateSubscription = this.authState$.pipe(
       skipWhile(as => as.loading === true),
       map(as => {
-        if (as.wrongCredentials == false && !as.loading) this.router.navigate(['']);
+        if (as.wrongCredentials == false && !as.loading) this.router.navigate(['/dashboard']);
       })
     ).subscribe();
   }

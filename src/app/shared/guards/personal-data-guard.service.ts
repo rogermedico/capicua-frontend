@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { CanDeactivate } from '@angular/router';
 import { ProfileComponent } from '@modules/user/components/profile/profile.component';
 import { UserState } from '@store/user/user.state';
-import { AppStore } from '@store/root.state';
+import { AppState } from '@store/root.state';
 import * as UserSelectors from '@store/user/user.selector';
 import * as UserActions from '@store/user/user.action';
 import { Store } from '@ngrx/store';
@@ -14,7 +14,7 @@ export class PersonalDataGuard implements CanDeactivate<ProfileComponent> {
 
   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
 
-  constructor(private store$: Store<AppStore>) { }
+  constructor(private store$: Store<AppState>) { }
 
   canDeactivate(): Observable<boolean> | boolean {
 

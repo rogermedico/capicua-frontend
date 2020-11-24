@@ -28,19 +28,24 @@ import { CustomSerializer } from '@store/router/custom-router-serializer';
 import { environment } from '@environments/environment';
 
 /* angular material */
-import { MaterialModule } from '@modules/material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AuthModule } from '@modules/auth/auth.module';
+import { MaterialModule } from '@modules/material/material.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    FooterComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    MaterialModule,
+    FlexLayoutModule,
+    AuthModule,
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, { dataEncapsulation: false }
