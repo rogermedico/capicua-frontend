@@ -5,65 +5,75 @@ import { Action, createReducer, on } from '@ngrx/store';
 /* the auth state starts with no one logged in */
 const defaultUserState: UserState = {
   user: null,
+  loginErrors: 0,
   loading: false,
+  loaded: true,
   edited: false,
   error: null
 };
 
 const _userReducer = createReducer(defaultUserState,
 
-  /* signin */
-  on(UserActions.UserSignin, state => {
+  /* login */
+  on(UserActions.UserLogin, state => {
     return {
       ...state,
       loading: true,
+      loaded: false,
       error: null
     }
   }),
 
-  /* signin success */
-  on(UserActions.UserSigninSuccess, (state, { user }) => {
+  /* login success */
+  on(UserActions.UserLoginSuccess, (state, { user }) => {
     return {
       ...state,
       user: user,
+      loginErrors: 0,
       loading: false,
+      loaded: true,
       error: null
     }
   }),
 
-  /* signin error */
-  on(UserActions.UserSigninError, (state, { err }) => {
+  /* login error */
+  on(UserActions.UserLoginError, (state, { err }) => {
     return {
       ...state,
+      loginErrors: state.loginErrors + 1,
       loading: false,
+      loaded: true,
       error: err
     }
   }),
 
-  /* signout */
-  on(UserActions.UserSignout, state => {
+  /* logout */
+  on(UserActions.UserLogout, state => {
     return {
       ...state,
       loading: true,
+      loaded: false,
       error: null
     }
   }),
 
-  /* signout success */
-  on(UserActions.UserSignoutSuccess, state => {
+  /* logout success */
+  on(UserActions.UserLogoutSuccess, state => {
     return {
       ...state,
       user: null,
       loading: false,
+      loaded: true,
       error: null
     }
   }),
 
-  /* signout error */
-  on(UserActions.UserSignoutError, (state, { err }) => {
+  /* logout error */
+  on(UserActions.UserLogoutError, (state, { err }) => {
     return {
       ...state,
       loading: false,
+      loaded: true,
       error: err
     }
   }),
@@ -82,6 +92,7 @@ const _userReducer = createReducer(defaultUserState,
     return {
       ...state,
       loading: false,
+      loaded: true,
       edited: true,
       error: null
     }
@@ -92,6 +103,7 @@ const _userReducer = createReducer(defaultUserState,
     return {
       ...state,
       loading: false,
+      loaded: true,
       error: err
     }
   }),
@@ -110,6 +122,7 @@ const _userReducer = createReducer(defaultUserState,
     return {
       ...state,
       loading: false,
+      loaded: true,
       edited: false,
       error: null
     }
@@ -120,6 +133,7 @@ const _userReducer = createReducer(defaultUserState,
     return {
       ...state,
       loading: false,
+      loaded: true,
       error: err
     }
   }),

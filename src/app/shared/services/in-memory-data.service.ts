@@ -18,12 +18,8 @@ export class InMemoryDataService implements InMemoryDbService {
     return { users, usersTypes };
   }
 
-  // genId(entries: any): number {
-  //   return entries.length > 0 ? Math.max(...entries.map(entry => entry.id)) + 1 : 1;
-  // }
-
-  genId(users: any): number {
-    return users.length > 0 ? Math.max(...users.map(user => user.id)) + 1 : 1;
+  genId(entries: any): number {
+    return entries.length > 0 ? Math.max(...entries.map(entry => entry.id)) + 1 : 1;
   }
 
 }

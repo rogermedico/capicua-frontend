@@ -8,8 +8,12 @@ const routes: Routes = [
     loadChildren: () => import("./modules/auth/auth.module").then((m) => m.AuthModule),
   },
   {
-    path: 'user',
-    loadChildren: () => import("./modules/user/user.module").then((m) => m.UserModule),
+    path: 'home',
+    loadChildren: () => import("./modules/home/home.module").then((m) => m.HomeModule),
+  },
+  {
+    path: 'profile',
+    loadChildren: () => import("./modules/profile/profile.module").then((m) => m.ProfileModule),
   },
   { path: '**', redirectTo: '' }
 ];

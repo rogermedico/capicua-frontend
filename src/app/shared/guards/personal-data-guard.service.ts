@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CanDeactivate } from '@angular/router';
-import { ProfileComponent } from '@modules/user/components/profile/profile.component';
+import { ProfileComponent } from '@modules/profile/components/profile/profile.component';
 import { UserState } from '@store/user/user.state';
 import { AppState } from '@store/root.state';
 import * as UserSelectors from '@store/user/user.selector';

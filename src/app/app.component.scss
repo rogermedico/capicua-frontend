@@ -1,14 +1,11 @@
-// mat-sidenav-container, mat-sidenav-content, mat-sidenav {
-//   height: 100%;
-// }
+
+mat-sidenav-container, mat-sidenav-content, mat-sidenav {
+  height: 100%;
+}
 
 // mat-sidenav {
 //   // width: 250px;
 
-// }
-
-// main {
-//   padding: 10px;
 // }
 
 a {
@@ -30,4 +27,8 @@ a:hover, a:active{
   position: fixed;
   z-index: 2;
   margin-bottom: 16px;
+}
+
+.router-outlet-container {
+  height: 100%;
 }

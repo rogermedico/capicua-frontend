@@ -5,13 +5,17 @@ import { Language } from '@models/language.model';
 import { Education } from '@models/education.model';
 
 export enum UserActionTypes {
-  USER_SIGNIN = '[User] USER_SIGNIN',
-  USER_SIGNIN_SUCCESS = '[User] USER_SIGNIN_SUCCESS',
-  USER_SIGNIN_ERROR = '[User] USER_SIGNIN_ERROR',
+  USER_LOGIN = '[User] USER_LOGIN',
+  USER_LOGIN_SUCCESS = '[User] USER_LOGIN_SUCCESS',
+  USER_LOGIN_ERROR = '[User] USER_LOGIN_ERROR',
 
-  USER_SIGNOUT = '[User] USER_SIGNOUT',
-  USER_SIGNOUT_SUCCESS = '[User] USER_SIGNOUT_SUCCESS',
-  USER_SIGNOUT_ERROR = '[User] USER_SIGNOUT_ERROR',
+  USER_LOGOUT = '[User] USER_LOGOUT',
+  USER_LOGOUT_SUCCESS = '[User] USER_LOGOUT_SUCCESS',
+  USER_LOGOUT_ERROR = '[User] USER_LOGOUT_ERROR',
+
+  USER_REGISTER = '[User] USER_REGISTER',
+  USER_REGISTER_SUCCESS = '[User] USER_REGISTER_SUCCESS',
+  USER_REGISTER_ERROR = '[User] USER_REGISTER_ERROR',
 
   USER_MODIFY_PERSONAL_DATA = '[User/Profile] USER_MODIFY_PERSONAL_DATA',
   USER_MODIFY_PERSONAL_DATA_SUCCESS = '[User/Profile] USER_MODIFY_PERSONAL_DATA_SUCCESS',
@@ -58,15 +62,20 @@ export enum UserActionTypes {
   USER_TOGGLE_FAVORITE_ACTIVITY_ERROR = '[User/Favorite] USER_TOGGLE_FAVORITE_ACTIVITY_ERROR',
 }
 
-/* signin */
-export const UserSignin = createAction(UserActionTypes.USER_SIGNIN, props<{ loginInfo: Login }>());
-export const UserSigninSuccess = createAction(UserActionTypes.USER_SIGNIN_SUCCESS, props<{ user: User }>());
-export const UserSigninError = createAction(UserActionTypes.USER_SIGNIN_ERROR, props<{ err: String }>());
+/* login */
+export const UserLogin = createAction(UserActionTypes.USER_LOGIN, props<{ loginInfo: Login }>());
+export const UserLoginSuccess = createAction(UserActionTypes.USER_LOGIN_SUCCESS, props<{ user: User }>());
+export const UserLoginError = createAction(UserActionTypes.USER_LOGIN_ERROR, props<{ err: String }>());
 
-/* signout */
-export const UserSignout = createAction(UserActionTypes.USER_SIGNOUT);
-export const UserSignoutSuccess = createAction(UserActionTypes.USER_SIGNOUT_SUCCESS);
-export const UserSignoutError = createAction(UserActionTypes.USER_SIGNOUT_ERROR, props<{ err: String }>());
+/* logout */
+export const UserLogout = createAction(UserActionTypes.USER_LOGOUT, props<{ user: User }>());
+export const UserLogoutSuccess = createAction(UserActionTypes.USER_LOGOUT_SUCCESS);
+export const UserLogoutError = createAction(UserActionTypes.USER_LOGOUT_ERROR, props<{ err: String }>());
+
+/* register */
+export const UserRegister = createAction(UserActionTypes.USER_REGISTER, props<{ user: User }>());
+export const UserRegisterSuccess = createAction(UserActionTypes.USER_REGISTER_SUCCESS, props<{ user: User }>());
+export const UserRegisterError = createAction(UserActionTypes.USER_REGISTER_ERROR, props<{ err: String }>());
 
 /* user modify profile */
 export const UserModifyPersonalData = createAction(UserActionTypes.USER_MODIFY_PERSONAL_DATA);

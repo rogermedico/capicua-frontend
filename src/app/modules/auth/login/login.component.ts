@@ -4,11 +4,11 @@ import { Router } from '@angular/router';
 import { Login } from '@models/login.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '@store/root.state';
-import * as AuthActions from '@store/auth/auth.action';
-import * as AuthSelectors from '@store/auth/auth.selector';
+import * as UserActions from '@store/user/user.action';
+import * as UserSelectors from '@store/user/user.selector';
 import { Observable, Subscription } from 'rxjs';
 import { delay, map, skipWhile } from 'rxjs/operators';
-import { AuthState } from '@store/auth/auth.state';
+import { UserState } from '@store/user/user.state';
 
 @Component({
   selector: "app-login",
@@ -20,23 +20,23 @@ export class LoginComponent implements OnInit, OnDestroy {
   public hidePassword: boolean = true;
   public wrongCredentials: Boolean = false;
   public loginForm: FormGroup;
-  public authState$: Observable<AuthState> = this.store$.select(AuthSelectors.selectAuthState);
-  private authStateSubscription: Subscription;
+  public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
+  private userStateSubscription: Subscription;
 
   constructor(private store$: Store<AppState>, private fb: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
     this.createForm();
-    this.authStateSubscription = this.authState$.pipe(
-      skipWhile(as => as.loading === true),
-      map(as => {
-        if (as.wrongCredentials == false && !as.loading) this.router.navigate(['/dashboard']);
+    this.userStateSubscription = this.userState$.pipe(
+      skipWhile(us => us.loading === true),
+      map(us => {
+        if (us.user) this.router.navigate(['/home']);
       })
     ).subscribe();
   }
 
   ngOnDestroy(): void {
-    this.authStateSubscription.unsubscribe();
+    this.userStateSubscription.unsubscribe();
   }
 
   createForm() {
@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       password: this.password.value
     }
 
-    this.store$.dispatch(AuthActions.AuthLogin({ loginInfo: loginInfo }));
+    this.store$.dispatch(UserActions.UserLogin({ loginInfo: loginInfo }));
 
   }
 

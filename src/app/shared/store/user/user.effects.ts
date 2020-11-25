@@ -8,29 +8,75 @@ import { User } from '@models/user.model';
 import { Language } from '@models/language.model';
 import { Education } from '@models/education.model';
 import { ActivitiesFavoritesService } from '@services/activities-favorites.service';
+import { Login } from '@models/login.model';
 
 @Injectable()
 export class UserEffects {
 
   constructor(private actions$: Actions, private us: UserService, private favService: ActivitiesFavoritesService) { }
 
-  /* signin */
-  signin$ = createEffect(() => this.actions$.pipe(
-    ofType(UserActions.UserActionTypes.USER_SIGNIN),
-    map((action: { type: string, user: User }) => {
-      return { type: UserActions.UserActionTypes.USER_SIGNIN_SUCCESS, user: action.user };
-    }),
-    catchError(err => of({ type: UserActions.UserActionTypes.USER_SIGNIN_ERROR, err: err }))
+  /* login */
+  login$ = createEffect(() => this.actions$.pipe(
+    ofType(UserActions.UserActionTypes.USER_LOGIN),
+    mergeMap((action: { type: string, loginInfo: Login }) => this.us.login(action.loginInfo).pipe(
+      map(user => {
+        return { type: UserActions.UserActionTypes.USER_LOGIN_SUCCESS, user: user };
+      }),
+      catchError(err => of({ type: UserActions.UserActionTypes.USER_LOGIN_ERROR, err: err }))
+    ))
   ));
 
+  // /* login */
+  // login$ = createEffect(() => this.actions$.pipe(
+  //   ofType(AuthActions.AuthActionTypes.AUTH_LOGIN),
+  //   mergeMap((action: { type: string, loginInfo: Login }) => this.us.login(action.loginInfo).pipe(
+  //     mergeMap(user => {
+  //       const loginInfo: Login = { username: user.email, password: user.password };
+  //       return [
+  //         { type: AuthActions.AuthActionTypes.AUTH_LOGIN_SUCCESS, loginInfo: loginInfo },
+  //         { type: UserActions.UserActionTypes.USER_SIGNIN, user: user }
+  //       ]
+  //     }),
+  //     catchError(err => of({ type: AuthActions.AuthActionTypes.AUTH_LOGIN_ERROR, err: err }))
+  //   ))
+  // ));
 
-  /* signout */
+
+  /* logout */
   logout$ = createEffect(() => this.actions$.pipe(
-    ofType(UserActions.UserActionTypes.USER_SIGNOUT),
-    map(() => {
-      return { type: UserActions.UserActionTypes.USER_SIGNOUT_SUCCESS }
-    }),
-    catchError(err => of({ type: UserActions.UserActionTypes.USER_SIGNOUT_ERROR, err: err }))
+    ofType(UserActions.UserActionTypes.USER_LOGOUT),
+    mergeMap((action: { type: string, user: User }) => this.us.logout(action.user).pipe(
+      map(() => {
+        return { type: UserActions.UserActionTypes.USER_LOGOUT_SUCCESS }
+      }),
+      catchError(err => of({ type: UserActions.UserActionTypes.USER_LOGOUT_ERROR, err: err }))
+    ))
+  ));
+
+  /* logout */
+  // logout$ = createEffect(() => this.actions$.pipe(
+  //   ofType(AuthActions.AuthActionTypes.AUTH_LOGOUT),
+  //   mergeMap((action: { type: string, user: User }) => this.us.logout(action.user).pipe(
+  //     mergeMap(() => {
+  //       return [
+  //         { type: AuthActions.AuthActionTypes.AUTH_LOGOUT_SUCCESS },
+  //         { type: UserActions.UserActionTypes.USER_LOGOUT }
+  //       ]
+  //     }),
+  //     catchError(err => of({ type: AuthActions.AuthActionTypes.AUTH_LOGOUT_ERROR, err: err }))
+  //   ))
+  // ));
+
+
+  /* register */
+  register$ = createEffect(() => this.actions$.pipe(
+    ofType(UserActions.UserActionTypes.USER_REGISTER),
+    mergeMap((action: { type: string, user: User }) => this.us.register(action.user).pipe(
+      map(user => {
+        return { type: UserActions.UserActionTypes.USER_REGISTER_SUCCESS, user: user }
+      }),
+      catchError(err => of({ type: UserActions.UserActionTypes.USER_REGISTER_ERROR, err: err }))
+    ))
   ));
 
   /* modify personal data */

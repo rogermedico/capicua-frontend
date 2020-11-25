@@ -14,9 +14,9 @@ export class HeaderComponent implements OnInit {
 
   public title: string = 'UOC activities organizer';
 
-  public user$: Observable<User> = this.store$.select(UserSelectors.selectUser);
+  // public user$: Observable<User> = this.store$.select(UserSelectors.selectUser);
 
-  @Output() public sidenavToggle = new EventEmitter();
+  // @Output() public sidenavToggle = new EventEmitter();
 
   constructor(private store$: Store<AppState>) { }
 
@@ -24,8 +24,8 @@ export class HeaderComponent implements OnInit {
 
   }
 
-  public onToggleSidenav() {
-    this.sidenavToggle.emit();
-  }
+  // public onToggleSidenav() {
+  //   this.sidenavToggle.emit();
+  // }
 
 }

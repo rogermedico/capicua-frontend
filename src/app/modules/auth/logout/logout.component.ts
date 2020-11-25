@@ -2,11 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppState } from '@store/root.state';
 import { Store } from '@ngrx/store';
-import * as AuthActions from '@store/auth/auth.action';
+import * as UserActions from '@store/user/user.action';
 import * as UserSelectors from '@store/user/user.selector';
 import { Observable, Subscription } from 'rxjs';
-import { User } from '@models/user.model';
-import { map, take } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
+import { UserState } from '@store/user/user.state';
 
 @Component({
   selector: 'app-logout',
@@ -15,16 +15,18 @@ import { map, take } from 'rxjs/operators';
 })
 export class LogoutComponent implements OnInit, OnDestroy {
 
-  public userLoggedIn$: Observable<User> = this.store$.select(UserSelectors.selectUser);
+  public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
   private userSubscription: Subscription;
 
   constructor(private store$: Store<AppState>, private router: Router) { }
 
   ngOnInit(): void {
-    this.userSubscription = this.userLoggedIn$.pipe(
+    this.userSubscription = this.userState$.pipe(
       take(1),
-      map(user => {
-        this.store$.dispatch(AuthActions.AuthLogout({ user: user }))
+      filter(us => us.user !== null),
+      map(us => {
+        console.log('logout dispatch', us);
+        this.store$.dispatch(UserActions.UserLogout({ user: us.user }))
       })
     ).subscribe();
 
