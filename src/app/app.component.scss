@@ -1,12 +1,16 @@
+@import './modules/material/variables.theme.scss';
 
 mat-sidenav-container, mat-sidenav-content, mat-sidenav {
   height: 100%;
 }
 
-// mat-sidenav {
-//   // width: 250px;
+mat-sidenav {
+  width: 250px;
+}
 
-// }
+.toolbar__brand {
+  margin-left: 16px;
+}
 
 a {
   text-decoration: none;
@@ -31,4 +35,10 @@ a:hover, a:active{
 
 .router-outlet-container {
   height: 100%;
+}
+
+.active-sidenav-item {
+  // color: #fff;
+  // color: #fbba44 !important;
+  color: mat-color($capicua-app-primary);
 }

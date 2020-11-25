@@ -6,9 +6,10 @@ import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
 
 const routes: Routes = [
-  { path: "login", component: LoginComponent, canActivate: [LoginGuardService] },
+  { path: '', redirectTo: '/auth/login', pathMatch: "full" },
+  { path: 'login', component: LoginComponent, canActivate: [LoginGuardService] },
   // { path: "register", component: RegisterComponent, canActivate: [LoginGuardService] },
-  { path: "logout", component: LogoutComponent, canActivate: [LogoutGuardService] },
+  { path: "logout", component: LogoutComponent, canActivate: [LogoutGuardService] }
 ];
 
 @NgModule({

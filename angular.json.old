@@ -93,7 +93,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/app/modules/material/material.theme.scss",
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
             "scripts": []

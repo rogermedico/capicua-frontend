@@ -74,11 +74,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       { name: 'theme-color', content: primaryColor }, //firefox,chrome,opera
       { name: 'msapplication-navbutton-color', content: primaryColor }, //windows phone
       { name: 'apple-mobile-web-app-status-bar-style', content: primaryColor }, // ios safary
-      //       <meta name="theme-color" content="#4285f4">
-      // <!-- Windows Phone -->
-      // <meta name="msapplication-navbutton-color" content="#4285f4">
-      // <!-- iOS Safari -->
-      // <meta name="apple-mobile-web-app-status-bar-style" content="#4285f4">
     ])
   }
 

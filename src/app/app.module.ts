@@ -48,7 +48,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     AuthModule,
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, { dataEncapsulation: false }
+      InMemoryDataService, { dataEncapsulation: false, delay: 1000 }
     ),
 
     StoreModule.forRoot(reducers),
