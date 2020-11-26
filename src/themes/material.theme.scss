@@ -1,5 +1,6 @@
 @import '~@angular/material/theming';
-@import "./variables.theme.scss";
+@import "./light-variables.theme.scss";
+@import './app.theme.scss';
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -14,15 +15,18 @@
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as `color` or `typography`.
-$capicua-app-theme: mat-light-theme((
+$capicua-light-app-theme: mat-light-theme((
   color: (
-    primary: $capicua-app-primary,
-    accent: $capicua-app-accent,
-    warn: $capicua-app-warn,  
+    primary: $capicua-light-app-primary,
+    accent: $capicua-light-app-accent,
+    warn: $capicua-light-app-warn,  
   )
 ));
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($capicua-app-theme);
+@include angular-material-theme($capicua-light-app-theme);
+
+/* add custom themes below */
+@include app-theme($capicua-light-app-theme);

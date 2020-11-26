@@ -28,7 +28,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/app/modules/material/material.theme.scss",
+              "src/themes/material.theme.scss",
               "src/styles.scss"
             ],
             "scripts": []
@@ -93,7 +93,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/app/modules/material/material.theme.scss",
+              "src/themes/material.theme.scss",
               "src/styles.scss"
             ],
             "scripts": []

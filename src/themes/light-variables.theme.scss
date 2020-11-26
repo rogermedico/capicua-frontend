@@ -1,0 +1,76 @@
+@import "~@angular/material/theming";
+
+/* For use in src/lib/core/theming/_palette.scss */
+$capicua-light-primary: (
+    50 : #fff7e9,
+    100 : #feeac7,
+    200 : #fddda2,
+    300 : #fccf7c,
+    400 : #fcc460,
+    500 : #fbba44,
+    600 : #fab33e,
+    700 : #faab35,
+    800 : #f9a32d,
+    900 : #f8941f,
+    A100 : #ffffff,
+    A200 : #fffdfb,
+    A400 : #ffe4c8,
+    A700 : #ffd7ae,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+/* For use in src/lib/core/theming/_palette.scss */
+$capicua-light-secondary: (
+    50 : #e9f0ff,
+    100 : #c7dafe,
+    200 : #a2c2fd,
+    300 : #7ca9fc,
+    400 : #6096fc,
+    500 : #4484fb,
+    600 : #3e7cfa,
+    700 : #3571fa,
+    800 : #2d67f9,
+    900 : #1f54f8,
+    A100 : #ffffff,
+    A200 : #fbfcff,
+    A400 : #c8d4ff,
+    A700 : #aec0ff,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+
+$capicua-light-app-primary: mat-palette($capicua-light-primary,500);
+$capicua-light-app-accent: mat-palette($capicua-light-secondary,500);
+
+// The warn palette is optional (defaults to red).
+$capicua-light-app-warn: mat-palette($mat-red);
