@@ -2,12 +2,12 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import { UserRoutingModule } from "./profile-routing.module";
-import { ProfileComponent } from './components/profile/profile.component';
+import { UserRoutingModule } from "./user-routing.module";
+import { UserComponent } from './components/user/user.component';
 
 @NgModule({
   declarations: [
-    ProfileComponent
+    UserComponent
   ],
   imports: [
     CommonModule,
@@ -16,4 +16,4 @@ import { ProfileComponent } from './components/profile/profile.component';
     ReactiveFormsModule
   ]
 })
-export class ProfileModule { }
+export class UserModule { }

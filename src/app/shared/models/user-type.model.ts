@@ -1,5 +1,5 @@
 export interface UserType {
-  id?: number;
+  id: number;
   name: string;
   rank: number;
 }

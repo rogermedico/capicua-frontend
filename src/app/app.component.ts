@@ -4,9 +4,9 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '@store/root.state';
 import { Observable, Subscription } from 'rxjs';
-import * as UserSelectors from '@store/user/user.selector';
-import { map, skipWhile } from 'rxjs/operators';
-import { UserState } from '@store/user/user.state';
+import * as UserSelectors from '@modules/user/store/user.selector';
+import { filter, map, skipWhile, take, tap } from 'rxjs/operators';
+import { UserState } from '@modules/user/store/user.state';
 import { Meta } from '@angular/platform-browser';
 
 @Component({
@@ -30,11 +30,13 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   public XSmallBreakpointSubscriber: Subscription;
   public smallBreakpointSubscriber: Subscription;
   public largeBreakpointSubscriber: Subscription;
+  public userStateSubscriber: Subscription;
 
 
   constructor(private meta: Meta, private store$: Store<AppState>, private bpo: BreakpointObserver/*, private router: Router*/) { }
 
   ngOnInit(): void {
+    console.log('app component')
 
     this.XSmallBreakpointSubscriber = this.bpo.observe([Breakpoints.XSmall]).subscribe((state: BreakpointState) => {
       if (state.matches) {
@@ -62,24 +64,33 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  ngOnDestroy(): void {
-    this.XSmallBreakpointSubscriber.unsubscribe();
-    this.smallBreakpointSubscriber.unsubscribe();
-    this.largeBreakpointSubscriber.unsubscribe();
-  }
-
   ngAfterViewInit() {
-    const primaryColor = getComputedStyle(this.getStylesElement.nativeElement).color;
-    this.meta.addTags([
-      { name: 'theme-color', content: primaryColor }, //firefox,chrome,opera
-      { name: 'msapplication-navbutton-color', content: primaryColor }, //windows phone
-      { name: 'apple-mobile-web-app-status-bar-style', content: primaryColor }, // ios safary
-    ])
+    this.userStateSubscriber = this.userState$.pipe(
+      filter(us => us.user !== null),
+      take(1),
+      tap(() => {
+        const primaryColor = getComputedStyle(this.getStylesElement.nativeElement).color;
+        console.log('color:', primaryColor);
+        this.meta.addTags([
+          { name: 'theme-color', content: primaryColor }, //firefox,chrome,opera
+          { name: 'msapplication-navbutton-color', content: primaryColor }, //windows phone
+          { name: 'apple-mobile-web-app-status-bar-style', content: primaryColor }, // ios safary
+        ])
+      })
+    ).subscribe()
+
   }
 
   onsidenavClick() {
     const sidenavClick = new EventEmitter();
     console.log(sidenavClick)
+  }
+
+  ngOnDestroy(): void {
+    this.XSmallBreakpointSubscriber.unsubscribe();
+    this.smallBreakpointSubscriber.unsubscribe();
+    this.largeBreakpointSubscriber.unsubscribe();
+    this.userStateSubscriber.unsubscribe();
   }
 
 }

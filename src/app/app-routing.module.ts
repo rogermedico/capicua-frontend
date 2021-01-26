@@ -16,8 +16,12 @@ const routes: Routes = [
     loadChildren: () => import("./modules/my-docs/my-docs.module").then((m) => m.MyDocsModule),
   },
   {
-    path: 'profile',
-    loadChildren: () => import("./modules/profile/profile.module").then((m) => m.ProfileModule),
+    path: 'user',
+    loadChildren: () => import("./modules/user/user.module").then((m) => m.UserModule),
+  },
+  {
+    path: 'users',
+    loadChildren: () => import("./modules/users/users.module").then((m) => m.UsersModule),
   },
   { path: '**', redirectTo: '' }
 ];

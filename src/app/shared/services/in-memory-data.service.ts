@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { InMemoryDbService } from 'angular-in-memory-web-api';
 import { User } from '@models/user.model';
 import { USERS_MOCK_DATA } from '@mock/users.mock';
-import { UserType } from '@models/user_type.model';
+import { UserType } from '@models/user-type.model';
 import { USERS_TYPES_MOCK_DATA } from '@mock/usersTypes.mock';
 
 @Injectable({

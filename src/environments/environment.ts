@@ -5,7 +5,10 @@
 export const environment = {
   production: false,
   backend: {
-    users: 'api/users'
+    api: 'http://localhost:80/capicua_intranet/capicua-backend/public/api/',
+    loginEndpoint: 'auth/login',
+    logoutEndpoint: 'auth/logout',
+    profile: 'auth/profile'
   }
 };
 

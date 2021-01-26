@@ -4,12 +4,12 @@ import { NgModule } from "@angular/core";
 import { LogoutGuardService } from '@guards/logout-guard.service';
 import { PersonalDataGuard } from '@guards/personal-data-guard.service';
 
-import { ProfileComponent } from './components/profile/profile.component';
+import { UserComponent } from './components/user/user.component';
 
 
 
 const routes: Routes = [
-  { path: '', component: ProfileComponent, canActivate: [LogoutGuardService] }
+  { path: '', component: UserComponent, canActivate: [LogoutGuardService] }
 ];
 
 @NgModule({

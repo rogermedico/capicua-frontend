@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { AppState } from '@store/root.state';
-import { UserState } from '@store/user/user.state';
+import { UserState } from '@modules/user/store/user.state';
 
 
 /* Select a feature from state, in this case we only have one feature called todoList but 
@@ -16,5 +16,3 @@ import { UserState } from '@store/user/user.state';
 export const selectUserState = createFeatureSelector<AppState, UserState>('userState');
 
 export const selectUser = createSelector(selectUserState, (state: UserState) => state.user);
-export const selectEducation = createSelector(selectUserState, (state: UserState) => state.user.education);
-export const selectLanguages = createSelector(selectUserState, (state: UserState) => state.user.languages);

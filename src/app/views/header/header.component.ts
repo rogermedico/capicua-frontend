@@ -3,7 +3,7 @@ import { AppState } from '@store/root.state';
 import { User } from '@models/user.model';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import * as UserSelectors from '@store/user/user.selector';
+import * as UserSelectors from '@modules/user/store/user.selector';
 
 @Component({
   selector: 'app-header',

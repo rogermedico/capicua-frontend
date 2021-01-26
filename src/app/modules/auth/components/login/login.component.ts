@@ -4,11 +4,12 @@ import { Router } from '@angular/router';
 import { Login } from '@models/login.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '@store/root.state';
-import * as UserActions from '@store/user/user.action';
-import * as UserSelectors from '@store/user/user.selector';
+import * as AuthActions from '../../store/auth.action';
+import * as AuthSelectors from '../../store/auth.selector';
 import { Observable, Subscription } from 'rxjs';
 import { delay, map, skipWhile } from 'rxjs/operators';
-import { UserState } from '@store/user/user.state';
+import { UserState } from '@modules/user/store/user.state';
+import { AuthState } from "@modules/auth/store/auth.state";
 
 @Component({
   selector: "app-login",
@@ -20,28 +21,28 @@ export class LoginComponent implements OnInit, OnDestroy {
   public hidePassword: boolean = true;
   public wrongCredentials: Boolean = false;
   public loginForm: FormGroup;
-  public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
-  private userStateSubscription: Subscription;
+  public authState$: Observable<AuthState> = this.store$.select(AuthSelectors.selectAuthState);
+  private authStateSubscription: Subscription;
 
   constructor(private store$: Store<AppState>, private fb: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
     this.createForm();
-    this.userStateSubscription = this.userState$.pipe(
-      skipWhile(us => us.loading === true),
-      map(us => {
-        if (us.user) this.router.navigate(['/home']);
+    this.authStateSubscription = this.authState$.pipe(
+      skipWhile(as => as.loading === true),
+      map(as => {
+        if (as.authInfo) this.router.navigate(['/home']);
       })
     ).subscribe();
   }
 
   ngOnDestroy(): void {
-    this.userStateSubscription.unsubscribe();
+    this.authStateSubscription.unsubscribe();
   }
 
   createForm() {
     this.loginForm = this.fb.group({
-      username: [null, [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      username: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.required]],
     });
   }
@@ -53,7 +54,18 @@ export class LoginComponent implements OnInit, OnDestroy {
       password: this.password.value
     }
 
-    this.store$.dispatch(UserActions.UserLogin({ loginInfo: loginInfo }));
+    this.store$.dispatch(AuthActions.AuthLogin({ loginInfo: loginInfo }));
+
+  }
+
+  loginSpecificUser(username: string, password: string) {
+
+    const loginInfo: Login = {
+      username: username,
+      password: password
+    }
+
+    this.store$.dispatch(AuthActions.AuthLogin({ loginInfo: loginInfo }));
 
   }
 

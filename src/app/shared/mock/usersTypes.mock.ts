@@ -1,4 +1,4 @@
-import { UserType } from '@models/user_type.model';
+import { UserType } from '@models/user-type.model';
 
 export const USERS_TYPES_MOCK_DATA: UserType[] = [
   {

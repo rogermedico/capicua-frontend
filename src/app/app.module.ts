@@ -11,7 +11,7 @@ import { HeaderComponent } from '@views/header/header.component';
 import { FooterComponent } from '@views/footer/footer.component';
 
 /* in memory web api */
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from '@services/in-memory-data.service';
 
@@ -31,7 +31,12 @@ import { environment } from '@environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthModule } from '@modules/auth/auth.module';
 import { MaterialModule } from '@modules/material/material.module';
+
+/* flex layout */
 import { FlexLayoutModule } from '@angular/flex-layout';
+
+/* interceptors */
+import { AccessTokenInterceptor } from './shared/interceptors/access-token.interceptor';
 
 @NgModule({
   declarations: [
@@ -47,9 +52,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     FlexLayoutModule,
     AuthModule,
     HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, { dataEncapsulation: false, delay: 1000 }
-    ),
+
+    /* in memory web api */
+    // HttpClientInMemoryWebApiModule.forRoot(
+    //   InMemoryDataService, { dataEncapsulation: false, delay: 1000 }
+    // ),
 
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot(effects),
@@ -63,7 +70,13 @@ import { FlexLayoutModule } from '@angular/flex-layout';
       logOnly: environment.production
     })
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AccessTokenInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

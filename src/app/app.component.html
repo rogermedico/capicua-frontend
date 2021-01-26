@@ -35,9 +35,13 @@
           (click)="sidenavDisableClose?null:sidenav.close()">
           <span class="nav-caption">Home</span>
         </a>
-        <a mat-list-item routerLink="/profile" routerLinkActive="active-sidenav-item"
+        <a mat-list-item routerLink="/user" routerLinkActive="active-sidenav-item"
           (click)="sidenavDisableClose?null:sidenav.close()">
           <span class="nav-caption">Profile</span>
+        </a>
+        <a mat-list-item routerLink="/users" routerLinkActive="active-sidenav-item"
+          (click)="sidenavDisableClose?null:sidenav.close()">
+          <span class="nav-caption">Users</span>
         </a>
         <a mat-list-item routerLink="/mydocs" routerLinkActive="active-sidenav-item"
           (click)="sidenavDisableClose?null:sidenav.close()">

@@ -12,7 +12,7 @@
         <input matInput [type]="hidePassword ? 'password' : 'text'" placeholder="Password" name="password"
           formControlName="password" autocomplete="on">
         <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'"
-          [attr.aria-pressed]="hidePassword">
+          [attr.aria-pressed]="hidePassword" type="button">
           <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
       </mat-form-field>
@@ -22,4 +22,17 @@
       </div>
     </form>
   </div>
+</div>
+
+<!-- To speed up logins when developing test -->
+<div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="center center">
+  <button mat-raised-button color="accent" type="button"
+    (click)="loginSpecificUser('admin@gmail.com','password')">Signin
+    Admin</button>
+  <button mat-raised-button color="accent" type="button"
+    (click)="loginSpecificUser('moderator@gmail.com','password')">Signin
+    Moderator</button>
+  <button mat-raised-button color="accent" type="button"
+    (click)="loginSpecificUser('worker@gmail.com','password')">Signin
+    Worker</button>
 </div>

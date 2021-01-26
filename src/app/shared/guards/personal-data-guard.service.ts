@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CanDeactivate } from '@angular/router';
-import { ProfileComponent } from '@modules/profile/components/profile/profile.component';
-import { UserState } from '@store/user/user.state';
+import { UserComponent } from '@modules/user/components/user/user.component';
+import { UserState } from '@modules/user/store/user.state';
 import { AppState } from '@store/root.state';
-import * as UserSelectors from '@store/user/user.selector';
-import * as UserActions from '@store/user/user.action';
+import * as UserSelectors from '@modules/user/store/user.selector';
+import * as UserActions from '@modules/user/store/user.action';
 import { Store } from '@ngrx/store';
 import { map, take } from 'rxjs/operators';
 
 @Injectable()
-export class PersonalDataGuard implements CanDeactivate<ProfileComponent> {
+export class PersonalDataGuard implements CanDeactivate<UserComponent> {
 
   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
 
