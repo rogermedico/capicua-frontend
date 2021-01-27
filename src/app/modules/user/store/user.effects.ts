@@ -18,12 +18,17 @@ export class UserEffects {
   /* get data */
   getData$ = createEffect(() => this.actions$.pipe(
     ofType(UserActions.UserActionTypes.USER_GET_DATA),
-    mergeMap((action: { type: string }) => this.us.getUser().pipe(
-      map(user => {
-        return { type: UserActions.UserActionTypes.USER_GET_DATA_SUCCESS, user: user };
-      }),
-      catchError(err => of({ type: UserActions.UserActionTypes.USER_GET_DATA_ERROR, err: err }))
-    ))
+    mergeMap((action: { type: string, user: User }) => {
+      if (action.user) return of({ type: UserActions.UserActionTypes.USER_GET_DATA_SUCCESS, user: action.user });
+      else {
+        return this.us.getUser().pipe(
+          map(user => {
+            return { type: UserActions.UserActionTypes.USER_GET_DATA_SUCCESS, user: user };
+          }),
+          catchError(err => of({ type: UserActions.UserActionTypes.USER_GET_DATA_ERROR, err: err }))
+        )
+      }
+    })
   ));
 
   /* reset data */

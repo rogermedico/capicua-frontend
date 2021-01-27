@@ -19,9 +19,10 @@ export class AuthEffects {
     ofType(AuthActions.AuthActionTypes.AUTH_LOGIN),
     mergeMap((action: { type: string, loginInfo: Login }) => this.authService.login(action.loginInfo).pipe(
       mergeMap(auth => {
+        const user = this.parseUser(auth.user);
         return [
           { type: AuthActions.AuthActionTypes.AUTH_LOGIN_SUCCESS, authInfo: auth },
-          { type: UserActions.UserActionTypes.USER_GET_DATA }
+          { type: UserActions.UserActionTypes.USER_GET_DATA, user: user }
         ]
       }),
       catchError(err => of({ type: AuthActions.AuthActionTypes.AUTH_LOGIN_ERROR, err: err }))
@@ -82,6 +83,37 @@ export class AuthEffects {
   //     catchError(err => of({ type: AuthActions.AuthActionTypes.AUTH_REGISTER_ERROR, err: err }))
   //   ))
   // ));
+
+  private parseUser(user): User {
+    const parsedUser = {
+      id: user.id,
+      name: user.name,
+      surname: user.surname,
+      email: user.email,
+      userType: {
+        name: user.user_type.name,
+        rank: user.user_type.rank
+      },
+      dni: user.dni,
+      birthDate: new Date(user.birth_date),
+      address: {
+        street: user.address_street,
+        number: user.address_number,
+        city: user.address_city,
+        cp: user.address_cp,
+        country: user.address_country
+      },
+      actualPosition: user.actual_position,
+      phone: user.phone,
+      summerCampTitles: []
+    }
+
+    user.summer_camp_titles.forEach(summerCampTitle => {
+      parsedUser.summerCampTitles.push(summerCampTitle)
+    });
+
+    return parsedUser;
+  }
 
 
 }

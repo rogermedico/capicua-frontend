@@ -62,12 +62,12 @@ export enum UserActionTypes {
   // USER_TOGGLE_FAVORITE_ACTIVITY_ERROR = '[User/Favorite] USER_TOGGLE_FAVORITE_ACTIVITY_ERROR',
 }
 
-/* login */
+/* get data */
 export const UserGetData = createAction(UserActionTypes.USER_GET_DATA);
 export const UserGetDataSuccess = createAction(UserActionTypes.USER_GET_DATA_SUCCESS, props<{ user: User }>());
 export const UserGetDataError = createAction(UserActionTypes.USER_GET_DATA_ERROR, props<{ err: String }>());
 
-/* logout */
+/* reset data */
 export const UserResetData = createAction(UserActionTypes.USER_RESET_DATA);
 export const UserResetDataSuccess = createAction(UserActionTypes.USER_RESET_DATA_SUCCESS);
 export const UserResetDataError = createAction(UserActionTypes.USER_RESET_DATA_ERROR, props<{ err: String }>());

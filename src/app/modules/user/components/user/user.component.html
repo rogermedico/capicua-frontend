@@ -1,1 +1,110 @@
-<p>user!</p>
+<div class="profile-container" *ngIf="(userState$ | async).loaded; else loading">
+
+  <mat-card fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px" fxLayout.gt-md="row"
+    fxLayoutAlign.gt-md="start center" fxLayoutGap.gt-md="0px" class="mat-elevation-z4">
+    <div flex-item>
+      <img src="../../../../../assets/images/generic-avatar.png">
+    </div>
+    <div flex-item>
+      <mat-card-header>
+        <mat-card-title>{{user.name}} {{user.surname}}</mat-card-title>
+        <mat-card-subtitle>{{user.actualPosition}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="user-detail-row">
+          <span class="user-tooltip">DNI:</span>
+          <span class="user-item"> {{user.dni}}</span>
+        </div>
+        <div class="user-detail-row">
+          <span class="user-tooltip">Birth date:</span>
+          <span class="user-item"> {{user.birthDate | date:'d/MM/yyyy'}}</span>
+        </div>
+        <div class="user-detail-row">
+          <span class="user-tooltip">Phone:</span>
+          <span class="user-item"> {{user.phone}}</span>
+        </div>
+        <div class="user-detail-row">
+          <span class="user-tooltip">Address:</span>
+          <span class="user-item"> {{user.address.street}}, {{user.address.number}}</span>
+        </div>
+        <div class="user-detail-row">
+          <span class="user-tooltip">City:</span>
+          <span class="user-item"> {{user.address.city}}</span>
+        </div>
+        <div class="user-detail-row">
+          <span class="user-tooltip">CP:</span>
+          <span class="user-item"> {{user.address.cp}}</span>
+        </div>
+        <div *ngIf="user.address.country" class="user-detail-row">
+          <span class="user-tooltip">Country:</span>
+          <span class="user-item"> {{user.address.country}}</span>
+        </div>
+        <div class="user-detail-row">
+          <span class="user-tooltip">Email:</span>
+          <span class="user-item"> {{user.email}}</span>
+        </div>
+        <!-- <div fxLayout="row wrap" fxLayoutGap="grid">
+          <div class="activity-detail-row" fxFlex="100%" fxFlex.gt-sm="50%">
+            <span class="activity-tooltip">Category:</span>
+            <span class="activity-item"> {{activity.category}}</span>
+          </div>
+          <div class="activity-detail-row" fxFlex="100%" fxFlex.gt-sm="50%">
+            <span class="activity-tooltip">Subcategory:</span>
+            <span class="activity-item"> {{activity.subcategory}}</span>
+          </div>
+        </div>
+        <div class="activity-detail-row">
+          <span class="activity-tooltip">Description:</span>
+          <span class="activity-item"> {{activity.description}}</span>
+        </div>
+        <div class="activity-detail-row">
+          <span class="activity-tooltip">Language:</span>
+          <span class="activity-item"> {{activity.language}}</span>
+        </div>
+        <div fxLayout="row wrap" fxLayoutGap="grid">
+          <div class="activity-detail-row" fxFlex="100%" fxFlex.gt-sm="50%">
+            <span class="activity-tooltip">Minium capacity:</span>
+            <span class="activity-item"> {{activity.miniumCapacity}}</span>
+          </div>
+          <div class="activity-detail-row" fxFlex="100%" fxFlex.gt-sm="50%">
+            <span class="activity-tooltip">Maxium capacity:</span>
+            <span class="activity-item"> {{activity.maxCapacity}}</span>
+          </div>
+        </div>
+        <div fxLayout="row wrap" fxLayoutGap="grid">
+          <div class="activity-detail-row" fxFlex="100%" fxFlex.gt-sm="50%">
+            <span class="activity-tooltip">People registered:</span>
+            <span class="activity-item"> {{activity.participatingUsers.length}}</span>
+          </div>
+          <div class="activity-detail-row" fxFlex="100%" fxFlex.gt-sm="50%">
+            <span class="activity-tooltip">Status:</span>
+            <span class="activity-item"> {{status}}</span>
+          </div>
+        </div>
+        <div class="activity-detail-row">
+          <span class="activity-tooltip">Price:</span>
+          <span class="activity-item price"> {{activity.price}} €</span>
+        </div> -->
+
+      </mat-card-content>
+    </div>
+    <!-- <mat-card-actions *ngIf="user && user.type !== 'company' && activity">
+      <button mat-raised-button color="primary" *ngIf="!activity.participatingUsers.includes(user.id)" type="submit"
+        (click)="signUp()" [disabled]="status != 'Available'">
+        Sign up
+      </button>
+      <button mat-raised-button color="primary" *ngIf="activity.participatingUsers.includes(user.id)" type="submit"
+        (click)="signOut()">
+        Sign out
+      </button>
+    </mat-card-actions> -->
+
+  </mat-card>
+
+</div>
+
+<ng-template #loading>
+  <div class="profile-container">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>
