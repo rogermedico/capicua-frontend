@@ -1,6 +1,6 @@
 import { UserType } from '@models/user-type.model';
 import { Address } from '@models/address.model';
-import { SummerCampTitle } from './summer-camp-title.model';
+import { Course } from './course.model';
 
 export interface User {
   id: number;
@@ -13,5 +13,5 @@ export interface User {
   address: Address;
   phone: string;
   actualPosition: string;
-  summerCampTitles: SummerCampTitle[];
+  courses: Course[];
 }

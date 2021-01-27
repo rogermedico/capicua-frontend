@@ -8,6 +8,7 @@ import { User } from '@models/user.model';
 import { Login } from '@models/login.model';
 import { AuthService } from '../services/auth.service';
 import { Auth } from '@models/auth.model';
+import { Course } from '@models/course.model';
 
 @Injectable()
 export class AuthEffects {
@@ -105,11 +106,17 @@ export class AuthEffects {
       },
       actualPosition: user.actual_position,
       phone: user.phone,
-      summerCampTitles: []
+      courses: []
     }
 
-    user.summer_camp_titles.forEach(summerCampTitle => {
-      parsedUser.summerCampTitles.push(summerCampTitle)
+    user.courses.forEach(course => {
+      const parsedCourse: Course = {
+        name: course.name,
+        number: course.number,
+        expeditionDate: course.expedition_date,
+        validUntil: course.valid_until
+      }
+      parsedUser.courses.push(parsedCourse);
     });
 
     return parsedUser;

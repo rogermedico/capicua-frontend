@@ -1,9 +1,9 @@
 <div class="profile-container" *ngIf="(userState$ | async).loaded; else loading">
 
   <mat-card fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px" fxLayout.gt-md="row"
-    fxLayoutAlign.gt-md="start center" fxLayoutGap.gt-md="0px" class="mat-elevation-z4">
+    fxLayoutAlign.gt-md="start center" class="mat-elevation-z4">
     <div flex-item>
-      <img src="../../../../../assets/images/generic-avatar.png">
+      <img class="avatar" src="../../../../../assets/images/generic-avatar.png">
     </div>
     <div flex-item>
       <mat-card-header>
@@ -43,62 +43,46 @@
           <span class="user-tooltip">Email:</span>
           <span class="user-item"> {{user.email}}</span>
         </div>
-        <!-- <div fxLayout="row wrap" fxLayoutGap="grid">
-          <div class="activity-detail-row" fxFlex="100%" fxFlex.gt-sm="50%">
-            <span class="activity-tooltip">Category:</span>
-            <span class="activity-item"> {{activity.category}}</span>
-          </div>
-          <div class="activity-detail-row" fxFlex="100%" fxFlex.gt-sm="50%">
-            <span class="activity-tooltip">Subcategory:</span>
-            <span class="activity-item"> {{activity.subcategory}}</span>
-          </div>
-        </div>
-        <div class="activity-detail-row">
-          <span class="activity-tooltip">Description:</span>
-          <span class="activity-item"> {{activity.description}}</span>
-        </div>
-        <div class="activity-detail-row">
-          <span class="activity-tooltip">Language:</span>
-          <span class="activity-item"> {{activity.language}}</span>
-        </div>
-        <div fxLayout="row wrap" fxLayoutGap="grid">
-          <div class="activity-detail-row" fxFlex="100%" fxFlex.gt-sm="50%">
-            <span class="activity-tooltip">Minium capacity:</span>
-            <span class="activity-item"> {{activity.miniumCapacity}}</span>
-          </div>
-          <div class="activity-detail-row" fxFlex="100%" fxFlex.gt-sm="50%">
-            <span class="activity-tooltip">Maxium capacity:</span>
-            <span class="activity-item"> {{activity.maxCapacity}}</span>
-          </div>
-        </div>
-        <div fxLayout="row wrap" fxLayoutGap="grid">
-          <div class="activity-detail-row" fxFlex="100%" fxFlex.gt-sm="50%">
-            <span class="activity-tooltip">People registered:</span>
-            <span class="activity-item"> {{activity.participatingUsers.length}}</span>
-          </div>
-          <div class="activity-detail-row" fxFlex="100%" fxFlex.gt-sm="50%">
-            <span class="activity-tooltip">Status:</span>
-            <span class="activity-item"> {{status}}</span>
-          </div>
-        </div>
-        <div class="activity-detail-row">
-          <span class="activity-tooltip">Price:</span>
-          <span class="activity-item price"> {{activity.price}} €</span>
-        </div> -->
-
       </mat-card-content>
     </div>
-    <!-- <mat-card-actions *ngIf="user && user.type !== 'company' && activity">
-      <button mat-raised-button color="primary" *ngIf="!activity.participatingUsers.includes(user.id)" type="submit"
-        (click)="signUp()" [disabled]="status != 'Available'">
-        Sign up
-      </button>
-      <button mat-raised-button color="primary" *ngIf="activity.participatingUsers.includes(user.id)" type="submit"
-        (click)="signOut()">
-        Sign out
-      </button>
-    </mat-card-actions> -->
+  </mat-card>
 
+  <mat-card class="mat-elevation-z4">
+    <mat-card-title>Courses</mat-card-title>
+    <mat-card-content>
+      <mat-table [dataSource]="user.courses">
+
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="number">
+          <mat-header-cell *matHeaderCellDef>Number</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <ng-container *ngIf="element.number">{{element.number}}</ng-container>
+            <ng-container *ngIf="!element.number">-</ng-container>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="expeditionDate">
+          <mat-header-cell *matHeaderCellDef>Expedition Date</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <ng-container *ngIf="element.expeditionDate">{{element.expeditionDate | date:'d/MM/yyyy'}}</ng-container>
+            <ng-container *ngIf="!element.expeditionDate">-</ng-container>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="validUntil">
+          <mat-header-cell *matHeaderCellDef>Valid Until</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <ng-container *ngIf="element.validUntil">{{element.validUntil | date:'d/MM/yyyy'}}</ng-container>
+            <ng-container *ngIf="!element.validUntil">-</ng-container>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="coursesDisplayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: coursesDisplayedColumns;"></mat-row>
+
+      </mat-table>
+    </mat-card-content>
   </mat-card>
 
 </div>
