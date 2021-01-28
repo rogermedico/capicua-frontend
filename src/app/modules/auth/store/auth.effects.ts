@@ -9,18 +9,30 @@ import { Login } from '@models/login.model';
 import { AuthService } from '../services/auth.service';
 import { Auth } from '@models/auth.model';
 import { Course } from '@models/course.model';
+import { DrivingLicence } from '@models/driving-licence.model';
+import { AuthBackend } from '@models/auth-backend.model';
+import { ParserService } from '../services/parser.service';
 
 @Injectable()
 export class AuthEffects {
 
-  constructor(private actions$: Actions, private authService: AuthService) { }
+  constructor(private actions$: Actions, private authService: AuthService, private parser: ParserService) { }
 
   /* login */
   login$ = createEffect(() => this.actions$.pipe(
     ofType(AuthActions.AuthActionTypes.AUTH_LOGIN),
     mergeMap((action: { type: string, loginInfo: Login }) => this.authService.login(action.loginInfo).pipe(
-      mergeMap(auth => {
-        const user = this.parseUser(auth.user);
+      mergeMap((authBackend: AuthBackend) => {
+        const user = this.parser.parseUser(authBackend.user);
+        const auth: Auth = {
+          accessToken: authBackend.accessToken,
+          tokenType: authBackend.tokenType,
+          expiresIn: authBackend.expiresIn,
+          username: authBackend.user.email
+        }
+
+        console.log('auth:', auth);
+        console.log('user', user);
         return [
           { type: AuthActions.AuthActionTypes.AUTH_LOGIN_SUCCESS, authInfo: auth },
           { type: UserActions.UserActionTypes.USER_GET_DATA, user: user }
@@ -85,42 +97,7 @@ export class AuthEffects {
   //   ))
   // ));
 
-  private parseUser(user): User {
-    const parsedUser = {
-      id: user.id,
-      name: user.name,
-      surname: user.surname,
-      email: user.email,
-      userType: {
-        name: user.user_type.name,
-        rank: user.user_type.rank
-      },
-      dni: user.dni,
-      birthDate: new Date(user.birth_date),
-      address: {
-        street: user.address_street,
-        number: user.address_number,
-        city: user.address_city,
-        cp: user.address_cp,
-        country: user.address_country
-      },
-      actualPosition: user.actual_position,
-      phone: user.phone,
-      courses: []
-    }
 
-    user.courses.forEach(course => {
-      const parsedCourse: Course = {
-        name: course.name,
-        number: course.number,
-        expeditionDate: course.expedition_date,
-        validUntil: course.valid_until
-      }
-      parsedUser.courses.push(parsedCourse);
-    });
-
-    return parsedUser;
-  }
 
 
 }

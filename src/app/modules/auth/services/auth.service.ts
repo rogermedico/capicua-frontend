@@ -6,6 +6,7 @@ import { Login } from '@models/login.model';
 import { Observable, of } from 'rxjs';
 import { Auth } from '@models/auth.model';
 import { catchError } from 'rxjs/operators';
+import { AuthBackend } from '@models/auth-backend.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,13 +19,13 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  login(loginInfo: Login): Observable<Auth> {
+  login(loginInfo: Login): Observable<AuthBackend> {
     const body = {
       email: loginInfo.username,
       password: loginInfo.password
     }
 
-    return this.http.post<Auth>(environment.backend.api + environment.backend.loginEndpoint, body, this.httpOptions).pipe(
+    return this.http.post<AuthBackend>(environment.backend.api + environment.backend.loginEndpoint, body, this.httpOptions).pipe(
       catchError(this.handleError)
     )
   }

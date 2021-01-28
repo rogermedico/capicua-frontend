@@ -1,43 +1,50 @@
 <div class="profile-container" *ngIf="(userState$ | async).loaded; else loading">
 
   <mat-card fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px" fxLayout.gt-md="row"
-    fxLayoutAlign.gt-md="start center" class="mat-elevation-z4">
+    fxLayoutAlign.gt-md="start start" class="mat-elevation-z4">
     <div flex-item>
       <img class="avatar" src="../../../../../assets/images/generic-avatar.png">
     </div>
     <div flex-item>
       <mat-card-header>
         <mat-card-title>{{user.name}} {{user.surname}}</mat-card-title>
-        <mat-card-subtitle>{{user.actualPosition}}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <div class="user-detail-row">
+        <div *ngIf="user.actualPosition" class="user-detail-row">
+          <span class="user-tooltip">Actual position:</span>
+          <span class="user-item"> {{user.actualPosition}}</span>
+        </div>
+        <div *ngIf="user.dni" class="user-detail-row">
           <span class="user-tooltip">DNI:</span>
           <span class="user-item"> {{user.dni}}</span>
         </div>
-        <div class="user-detail-row">
+        <div *ngIf="user.birthDate" class="user-detail-row">
           <span class="user-tooltip">Birth date:</span>
           <span class="user-item"> {{user.birthDate | date:'d/MM/yyyy'}}</span>
         </div>
-        <div class="user-detail-row">
+        <div *ngIf="user.phone" class="user-detail-row">
           <span class="user-tooltip">Phone:</span>
           <span class="user-item"> {{user.phone}}</span>
         </div>
-        <div class="user-detail-row">
+        <div *ngIf="user.address.street" class="user-detail-row">
           <span class="user-tooltip">Address:</span>
           <span class="user-item"> {{user.address.street}}, {{user.address.number}}</span>
         </div>
-        <div class="user-detail-row">
+        <div *ngIf="user.address.city" class="user-detail-row">
           <span class="user-tooltip">City:</span>
           <span class="user-item"> {{user.address.city}}</span>
         </div>
-        <div class="user-detail-row">
+        <div *ngIf="user.address.cp" class="user-detail-row">
           <span class="user-tooltip">CP:</span>
           <span class="user-item"> {{user.address.cp}}</span>
         </div>
         <div *ngIf="user.address.country" class="user-detail-row">
           <span class="user-tooltip">Country:</span>
           <span class="user-item"> {{user.address.country}}</span>
+        </div>
+        <div *ngIf="drivingLicences" class="user-detail-row">
+          <span class="user-tooltip">Driving Licences:</span>
+          <span class="user-item"> {{drivingLicences}}</span>
         </div>
         <div class="user-detail-row">
           <span class="user-tooltip">Email:</span>
@@ -47,7 +54,7 @@
     </div>
   </mat-card>
 
-  <mat-card class="mat-elevation-z4">
+  <mat-card *ngIf="user.courses.length != 0" class="mat-elevation-z4">
     <mat-card-title>Courses</mat-card-title>
     <mat-card-content>
       <mat-table [dataSource]="user.courses">

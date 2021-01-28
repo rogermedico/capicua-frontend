@@ -25,7 +25,6 @@ const _authReducer = createReducer(defaultAuthState,
 
   /* login success */
   on(AuthActions.AuthLoginSuccess, (state, { authInfo }) => {
-    console.log('auth.reducer', authInfo)
     return {
       ...state,
       authInfo: authInfo,
@@ -39,7 +38,7 @@ const _authReducer = createReducer(defaultAuthState,
   on(AuthActions.AuthLoginError, (state, { err }) => {
     return {
       ...state,
-      loginInfo: null,
+      authInfo: null,
       loading: false,
       loaded: true,
       error: err

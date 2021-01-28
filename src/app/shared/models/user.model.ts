@@ -1,6 +1,7 @@
 import { UserType } from '@models/user-type.model';
 import { Address } from '@models/address.model';
 import { Course } from './course.model';
+import { DrivingLicence } from './driving-licence.model';
 
 export interface User {
   id: number;
@@ -14,4 +15,5 @@ export interface User {
   phone: string;
   actualPosition: string;
   courses: Course[];
+  drivingLicences: DrivingLicence[];
 }
