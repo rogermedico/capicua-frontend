@@ -1,7 +1,13 @@
-import { LANGUAGES, LANGUAGE_LEVELS } from '@constants/language.constant';
+import { LANGUAGE_NAMES, LANGUAGE_LEVELS } from '@constants/language.constant';
 
 export interface Language {
-  name: LANGUAGES;
+  name: LANGUAGE_NAMES;
   level: LANGUAGE_LEVELS;
-  finishDate?: string;
+  finishDate: Date;
+}
+
+export interface LanguageBackend {
+  name: string;
+  level: string;
+  finish_date: string;
 }

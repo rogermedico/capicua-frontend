@@ -10,7 +10,7 @@ import { AuthService } from '../services/auth.service';
 import { Auth } from '@models/auth.model';
 import { Course } from '@models/course.model';
 import { DrivingLicence } from '@models/driving-licence.model';
-import { AuthBackend } from '@models/auth-backend.model';
+import { AuthBackend } from '@models/auth.model';
 import { ParserService } from '../services/parser.service';
 
 @Injectable()

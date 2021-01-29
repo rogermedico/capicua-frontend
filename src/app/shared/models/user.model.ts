@@ -1,7 +1,9 @@
 import { UserType } from '@models/user-type.model';
 import { Address } from '@models/address.model';
-import { Course } from './course.model';
-import { DrivingLicence } from './driving-licence.model';
+import { Course, CourseBackend } from './course.model';
+import { DrivingLicence, DrivingLicenceBackend } from './driving-licence.model';
+import { Education, EducationBackend } from './education.model';
+import { Language, LanguageBackend } from './language.model';
 
 export interface User {
   id: number;
@@ -16,4 +18,28 @@ export interface User {
   actualPosition: string;
   courses: Course[];
   drivingLicences: DrivingLicence[];
+  educations: Education[];
+  languages: Language[];
 }
+
+export interface UserBackend {
+  id: number;
+  name: string;
+  surname: string;
+  email: string;
+  user_type: UserType;
+  dni: string;
+  birth_date: string;
+  address_street: string;
+  address_number: string;
+  address_city: string;
+  address_cp: string;
+  address_country: string;
+  phone: string;
+  actual_position: string;
+  courses: CourseBackend[];
+  driving_licences: DrivingLicenceBackend[];
+  educations: EducationBackend[];
+  languages: LanguageBackend[];
+}
+

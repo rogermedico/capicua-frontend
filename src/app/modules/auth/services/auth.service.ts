@@ -6,7 +6,7 @@ import { Login } from '@models/login.model';
 import { Observable, of } from 'rxjs';
 import { Auth } from '@models/auth.model';
 import { catchError } from 'rxjs/operators';
-import { AuthBackend } from '@models/auth-backend.model';
+import { AuthBackend } from '@models/auth.model';
 
 @Injectable({
   providedIn: 'root'

@@ -19,6 +19,8 @@ export class UserComponent implements OnInit, OnDestroy {
   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
   public userStateSubscriber: Subscription;
   public coursesDisplayedColumns: string[] = ['name', 'number', 'expeditionDate', 'validUntil'];
+  public educationsDisplayedColumns: string[] = ['name', 'finishDate'];
+  public languagesDisplayedColumns: string[] = ['name', 'level', 'finishDate'];
 
   constructor(private store$: Store<AppState>) { }
 

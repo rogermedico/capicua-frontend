@@ -1,12 +1,15 @@
-export enum LANGUAGES {
+export enum LANGUAGE_NAMES {
   ca = 'Català',
   es = 'Castellà',
   en = 'Anglès',
   fr = 'Francès',
-  al = 'Alemany'
+  al = 'Alemany',
+  it = 'Italià',
+  zh = 'Xinès'
 }
 
 export enum LANGUAGE_LEVELS {
+  native = 'Natiu',
   a1 = 'A1',
   a2 = 'A2',
   b1 = 'B1',
