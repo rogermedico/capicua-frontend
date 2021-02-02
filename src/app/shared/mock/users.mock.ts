@@ -1,5 +1,5 @@
-import { EDUCATION_TYPE, EDUCATION_TYPE_CICLE, EDUCATION_TYPE_UNIVERSITY } from '@constants/education.constant';
-import { LANGUAGES, LANGUAGE_LEVELS } from '@constants/language.constant';
+// import { EDUCATION_TYPE, EDUCATION_TYPE_CICLE, EDUCATION_TYPE_UNIVERSITY } from '@constants/education.constant';
+// import { LANGUAGES, LANGUAGE_LEVELS } from '@constants/language.constant';
 import { User } from "@models/user.model";
 
 export const USERS_MOCK_DATA: User[] = [

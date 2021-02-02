@@ -1,6 +1,6 @@
-<div class="login__container">
+<div class="login__container" fxFlex="500px" fxFlex.gt-sm="800px" fxFlex.gt-md="1000px" fxFlex.gt-lg="1140px">
   <img class="login__image" src="assets/images/logo.png">
-  <div class="form-group">
+  <div class="form__group">
     <form clasS="login__form" (ngSubmit)="login()" [formGroup]="loginForm">
       <mat-form-field class="login__form__input" appearance="outline">
         <mat-label>Username</mat-label>
@@ -16,23 +16,26 @@
           <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
       </mat-form-field>
-      <div>
-        <button class="login__form__button" mat-raised-button color="accent" type="submit"
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <a routerLink="/auth/forgot-password">
+          <button class="login__form__button__forgot" mat-stroked-button color="accent" type="button">Forgot
+            password</button>
+        </a>
+        <button class="login__form__button__signin" mat-raised-button color="accent" type="submit"
           [disabled]="!loginForm.valid">Signin</button>
       </div>
     </form>
   </div>
-</div>
-
-<!-- To speed up logins when developing test -->
-<div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="center center">
-  <button mat-raised-button color="accent" type="button"
-    (click)="loginSpecificUser('admin@gmail.com','password')">Signin
-    Admin</button>
-  <button mat-raised-button color="accent" type="button"
-    (click)="loginSpecificUser('moderator@gmail.com','password')">Signin
-    Moderator</button>
-  <button mat-raised-button color="accent" type="button"
-    (click)="loginSpecificUser('worker@gmail.com','password')">Signin
-    Worker</button>
+  <!-- To speed up logins when developing test -->
+  <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="center center">
+    <button mat-raised-button color="accent" type="button"
+      (click)="loginSpecificUser('admin@gmail.com','password')">Signin
+      Admin</button>
+    <button mat-raised-button color="accent" type="button"
+      (click)="loginSpecificUser('moderator@gmail.com','password')">Signin
+      Moderator</button>
+    <button mat-raised-button color="accent" type="button"
+      (click)="loginSpecificUser('worker@gmail.com','password')">Signin
+      Worker</button>
+  </div>
 </div>

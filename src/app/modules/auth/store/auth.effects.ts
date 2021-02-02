@@ -12,6 +12,7 @@ import { Course } from '@models/course.model';
 import { DrivingLicence } from '@models/driving-licence.model';
 import { AuthBackend } from '@models/auth.model';
 import { ParserService } from '../services/parser.service';
+import { ResetPassword } from '@models/reset-password.model';
 
 @Injectable()
 export class AuthEffects {
@@ -42,20 +43,6 @@ export class AuthEffects {
     ))
   ));
 
-  // login$ = createEffect(() => this.actions$.pipe(
-  //   ofType(AuthActions.AuthActionTypes.AUTH_LOGIN),
-  //   mergeMap((action: { type: string, loginInfo: Login }) => this.us.login(action.loginInfo).pipe(
-  //     mergeMap(user => {
-  //       const loginInfo: Login = { username: user.email, password: user.password };
-  //       return [
-  //         { type: AuthActions.AuthActionTypes.AUTH_LOGIN_SUCCESS, loginInfo: loginInfo },
-  //         { type: UserActions.UserActionTypes.USER_SIGNIN, user: user }
-  //       ]
-  //     }),
-  //     catchError(err => of({ type: AuthActions.AuthActionTypes.AUTH_LOGIN_ERROR, err: err }))
-  //   ))
-  // ));
-
   /* logout */
   logout$ = createEffect(() => this.actions$.pipe(
     ofType(AuthActions.AuthActionTypes.AUTH_LOGOUT),
@@ -69,6 +56,44 @@ export class AuthEffects {
       catchError(err => of({ type: AuthActions.AuthActionTypes.AUTH_LOGOUT_ERROR, err: err }))
     ))
   ));
+
+  /* send reset password email */
+  sendResetPasswordEmail$ = createEffect(() => this.actions$.pipe(
+    ofType(AuthActions.AuthActionTypes.AUTH_SEND_RESET_PASSWORD_EMAIL),
+    mergeMap((action: { type: string, email: string }) => this.authService.sendResetPasswordEmail(action.email).pipe(
+      map((res) => {
+        console.log(res);
+        return { type: AuthActions.AuthActionTypes.AUTH_SEND_RESET_PASSWORD_EMAIL_SUCCESS };
+      }),
+      catchError(err => of({ type: AuthActions.AuthActionTypes.AUTH_SEND_RESET_PASSWORD_EMAIL_ERROR, err: err }))
+    ))
+  ));
+
+  /* send reset password email */
+  resetPassword$ = createEffect(() => this.actions$.pipe(
+    ofType(AuthActions.AuthActionTypes.AUTH_RESET_PASSWORD),
+    mergeMap((action: { type: string, resetPassword: ResetPassword }) => this.authService.resetPassword(action.resetPassword).pipe(
+      map((res) => {
+        console.log(res);
+        return { type: AuthActions.AuthActionTypes.AUTH_RESET_PASSWORD_SUCCESS };
+      }),
+      catchError(err => of({ type: AuthActions.AuthActionTypes.AUTH_RESET_PASSWORD_ERROR, err: err }))
+    ))
+  ));
+
+  // login$ = createEffect(() => this.actions$.pipe(
+  //   ofType(AuthActions.AuthActionTypes.AUTH_LOGIN),
+  //   mergeMap((action: { type: string, loginInfo: Login }) => this.us.login(action.loginInfo).pipe(
+  //     mergeMap(user => {
+  //       const loginInfo: Login = { username: user.email, password: user.password };
+  //       return [
+  //         { type: AuthActions.AuthActionTypes.AUTH_LOGIN_SUCCESS, loginInfo: loginInfo },
+  //         { type: UserActions.UserActionTypes.USER_SIGNIN, user: user }
+  //       ]
+  //     }),
+  //     catchError(err => of({ type: AuthActions.AuthActionTypes.AUTH_LOGIN_ERROR, err: err }))
+  //   ))
+  // ));
 
   // logout$ = createEffect(() => this.actions$.pipe(
   //   ofType(AuthActions.AuthActionTypes.AUTH_LOGOUT),

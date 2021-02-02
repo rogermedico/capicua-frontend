@@ -8,7 +8,9 @@ export const environment = {
     api: 'http://localhost:80/capicua_intranet/capicua-backend/public/api/',
     loginEndpoint: 'auth/login',
     logoutEndpoint: 'auth/logout',
-    profile: 'auth/profile'
+    profile: 'auth/profile',
+    forgotPasswordEndpoint: 'auth/password/forgot',
+    resetPasswordEndpoint: 'auth/password/reset',
   }
 };
 
