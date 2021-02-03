@@ -78,94 +78,94 @@ const _userReducer = createReducer(defaultUserState,
     }
   }),
 
-  /* modify profile */
-  on(UserActions.UserModifyPersonalData, state => {
-    return {
-      ...state,
-      loading: true,
-      error: null
-    }
-  }),
+  // /* modify profile */
+  // on(UserActions.UserModifyPersonalData, state => {
+  //   return {
+  //     ...state,
+  //     loading: true,
+  //     error: null
+  //   }
+  // }),
 
-  /* modify profile success */
-  on(UserActions.UserModifyPersonalDataSuccess, state => {
-    return {
-      ...state,
-      loading: false,
-      loaded: true,
-      edited: true,
-      error: null
-    }
-  }),
+  // /* modify profile success */
+  // on(UserActions.UserModifyPersonalDataSuccess, state => {
+  //   return {
+  //     ...state,
+  //     loading: false,
+  //     loaded: true,
+  //     edited: true,
+  //     error: null
+  //   }
+  // }),
 
-  /* modify profile error */
-  on(UserActions.UserModifyPersonalDataError, (state, { err }) => {
-    return {
-      ...state,
-      loading: false,
-      loaded: true,
-      error: err
-    }
-  }),
+  // /* modify profile error */
+  // on(UserActions.UserModifyPersonalDataError, (state, { err }) => {
+  //   return {
+  //     ...state,
+  //     loading: false,
+  //     loaded: true,
+  //     error: err
+  //   }
+  // }),
 
-  /* discard profile changes */
-  on(UserActions.UserDiscardPersonalDataChanges, state => {
-    return {
-      ...state,
-      loading: true,
-      error: null
-    }
-  }),
+  // /* discard profile changes */
+  // on(UserActions.UserDiscardPersonalDataChanges, state => {
+  //   return {
+  //     ...state,
+  //     loading: true,
+  //     error: null
+  //   }
+  // }),
 
-  /* discard profile changes success */
-  on(UserActions.UserDiscardPersonalDataChangesSuccess, state => {
-    return {
-      ...state,
-      loading: false,
-      loaded: true,
-      edited: false,
-      error: null
-    }
-  }),
+  // /* discard profile changes success */
+  // on(UserActions.UserDiscardPersonalDataChangesSuccess, state => {
+  //   return {
+  //     ...state,
+  //     loading: false,
+  //     loaded: true,
+  //     edited: false,
+  //     error: null
+  //   }
+  // }),
 
-  /* discard profile changes error */
-  on(UserActions.UserDiscardPersonalDataChangesError, (state, { err }) => {
-    return {
-      ...state,
-      loading: false,
-      loaded: true,
-      error: err
-    }
-  }),
+  // /* discard profile changes error */
+  // on(UserActions.UserDiscardPersonalDataChangesError, (state, { err }) => {
+  //   return {
+  //     ...state,
+  //     loading: false,
+  //     loaded: true,
+  //     error: err
+  //   }
+  // }),
 
-  /* update profile */
-  on(UserActions.UserUpdatePersonalData, state => {
-    return {
-      ...state,
-      loading: true,
-      error: null
-    }
-  }),
+  // /* update profile */
+  // on(UserActions.UserUpdatePersonalData, state => {
+  //   return {
+  //     ...state,
+  //     loading: true,
+  //     error: null
+  //   }
+  // }),
 
-  /* update profile success */
-  on(UserActions.UserUpdatePersonalDataSuccess, (state, { user }) => {
-    return {
-      ...state,
-      user: user,
-      loading: false,
-      edited: false,
-      error: null
-    }
-  }),
+  // /* update profile success */
+  // on(UserActions.UserUpdatePersonalDataSuccess, (state, { user }) => {
+  //   return {
+  //     ...state,
+  //     user: user,
+  //     loading: false,
+  //     edited: false,
+  //     error: null
+  //   }
+  // }),
 
-  /* update profile error */
-  on(UserActions.UserUpdatePersonalDataError, (state, { err }) => {
-    return {
-      ...state,
-      loading: false,
-      error: err
-    }
-  }),
+  // /* update profile error */
+  // on(UserActions.UserUpdatePersonalDataError, (state, { err }) => {
+  //   return {
+  //     ...state,
+  //     loading: false,
+  //     error: err
+  //   }
+  // }),
 
   // /* create language */
   // on(UserActions.UserCreateLanguage, state => {

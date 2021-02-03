@@ -1,11 +1,10 @@
 <div class="login__container" fxFlex="500px" fxFlex.gt-sm="800px" fxFlex.gt-md="1000px" fxFlex.gt-lg="1140px">
   <img class="login__image" src="assets/images/logo.png">
   <div class="form__group">
-    <form clasS="login__form" (ngSubmit)="login()" [formGroup]="loginForm">
+    <form *ngIf="(authState$ | async).loaded; else loading" (ngSubmit)="login()" [formGroup]="loginForm">
       <mat-form-field class="login__form__input" appearance="outline">
         <mat-label>Username</mat-label>
         <input matInput type="email" placeholder="Username" name="username" formControlName="username">
-
       </mat-form-field>
       <mat-form-field class="login__form__input" appearance="outline">
         <mat-label>Password</mat-label>
@@ -26,6 +25,13 @@
       </div>
     </form>
   </div>
+
+  <ng-template #loading>
+    <div fxLayout fxLayoutAlign="center center">
+      <mat-spinner color="accent"></mat-spinner>
+    </div>
+  </ng-template>
+
   <!-- To speed up logins when developing test -->
   <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="center center">
     <button mat-raised-button color="accent" type="button"

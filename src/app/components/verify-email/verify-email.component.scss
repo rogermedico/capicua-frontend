@@ -1,0 +1,24 @@
+.container {
+  margin: 0 auto;
+  margin-top: 64px;
+  @media(max-width: 599px) {
+    margin-top: 56px;
+  }
+}
+  
+.logo {
+  display:block;
+  max-width: 200px;
+  width: 100%;
+  height: auto;
+  margin: 2rem auto;
+}
+
+.caption {
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.button {
+  margin-top: 2rem;
+}

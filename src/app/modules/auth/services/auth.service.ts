@@ -1,13 +1,12 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from '@models/user.model';
 import { environment } from '@environments/environment';
 import { Login } from '@models/login.model';
-import { Observable, of, pipe } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Auth } from '@models/auth.model';
 import { catchError } from 'rxjs/operators';
-import { AuthBackend } from '@models/auth.model';
 import { ResetPassword } from '@models/reset-password.model';
+import { VerifyEmail } from '@models/verify-email.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,14 +19,14 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  login(loginInfo: Login): Observable<AuthBackend> {
+  login(loginInfo: Login): Observable<Auth> {
     const body = {
       email: loginInfo.username,
       password: loginInfo.password
     }
 
-    return this.http.post<AuthBackend>(environment.backend.api + environment.backend.loginEndpoint, body/*, this.httpOptions*/).pipe(
-      catchError(this.handleError)
+    return this.http.post<Auth>(environment.backend.api + environment.backend.loginEndpoint, body/*, this.httpOptions*/).pipe(
+      catchError(this.handleError<Auth>())
     )
   }
 
@@ -59,8 +58,25 @@ export class AuthService {
     )
   }
 
-  private handleError() {
-    return of(null)
+  sendVerificationEmail() {
+    return this.http.get(`${environment.backend.api}${environment.backend.verifyEmailEndpoint}`).pipe(
+      catchError(this.handleError)
+    )
+  }
+
+  verifyEmail(verifyEmail: VerifyEmail): Observable<any> {
+    return this.http.get(`${environment.backend.api}${environment.backend.verifyEmailEndpoint}/${verifyEmail.id}/${verifyEmail.hash}`).pipe(
+      catchError(this.handleError)
+    )
+  }
+
+  private handleError<T>(operation: string = 'operation', result?: T) {
+    return (error: any) => {
+      //do something with operation and error, maybe log somewhere? console.log?
+      //console.log(`${operation} failed: ${error.message}`)
+
+      return of(result as T);
+    }
   }
 
 }

@@ -1,0 +1,11 @@
+<div class="container" fxFlex="500px" fxFlex.gt-sm="800px" fxFlex.gt-md="1000px" fxFlex.gt-lg="1140px">
+  <img class="logo" src="assets/images/logo.png">
+  <div class="">
+    <p class="caption">To start using the application verify your mail.</p>
+    <p class="caption">If not recieved click below button.</p>
+    <div class="button" fxLayout="row" fxLayoutAlign="center center">
+      <button class="form__button__send-email" mat-raised-button color="accent" type="button"
+        (click)="sendVerificationEmail()">{{buttonText}}</button>
+    </div>
+  </div>
+</div>

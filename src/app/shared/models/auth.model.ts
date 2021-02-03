@@ -5,11 +5,5 @@ export interface Auth {
   tokenType: string;
   expiresIn: number
   username: string;
-}
-
-export interface AuthBackend {
-  accessToken: string;
-  tokenType: string;
-  expiresIn: number
-  user: UserBackend;
+  emailVerified: boolean;
 }

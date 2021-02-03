@@ -6,6 +6,7 @@ import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
 /* angular material */
@@ -20,7 +21,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     LoginComponent,
     LogoutComponent,
     ForgotPasswordComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    VerifyEmailComponent
   ],
   imports: [
     CommonModule,

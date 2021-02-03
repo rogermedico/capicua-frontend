@@ -10,11 +10,11 @@ import { User } from '@models/user.model';
 @Injectable({
   providedIn: 'root'
 })
-export class ParserService {
+export class UserParserService {
 
   constructor() { }
 
-  parseUser(user: UserBackend): User {
+  parse(user: UserBackend): User {
     const parsedUser = {
       id: user.id,
       name: user.name,
@@ -67,7 +67,8 @@ export class ParserService {
           finishDate: language.finish_date ? new Date(language.finish_date) : null
         }
         return parsedLanguage;
-      })
+      }),
+      emailVerified: user.email_verified_at ? true : false
     }
 
     return parsedUser;

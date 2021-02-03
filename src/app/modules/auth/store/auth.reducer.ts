@@ -76,6 +76,126 @@ const _authReducer = createReducer(defaultAuthState,
     }
   }),
 
+  /* send reset password email */
+  on(AuthActions.AuthSendResetPasswordEmail, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* send reset password email success */
+  on(AuthActions.AuthSendResetPasswordEmailSuccess, state => {
+    return {
+      ...state,
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* send reset password email error */
+  on(AuthActions.AuthSendResetPasswordEmailError, (state, { err }) => {
+    return {
+      ...state,
+      loading: false,
+      loaded: true,
+      error: err
+    }
+  }),
+
+  /* reset password */
+  on(AuthActions.AuthResetPassword, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* reset password success */
+  on(AuthActions.AuthResetPasswordSuccess, state => {
+    return {
+      ...state,
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* reset password error */
+  on(AuthActions.AuthResetPasswordError, (state, { err }) => {
+    return {
+      ...state,
+      loading: false,
+      loaded: true,
+      error: err
+    }
+  }),
+
+  /* send verification email */
+  on(AuthActions.AuthSendVerificationEmail, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* send verification email success */
+  on(AuthActions.AuthSendVerificationEmailSuccess, state => {
+    return {
+      ...state,
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* send verification email error */
+  on(AuthActions.AuthSendVerificationEmailError, (state, { err }) => {
+    return {
+      ...state,
+      loading: false,
+      loaded: true,
+      error: err
+    }
+  }),
+
+  /* verify email */
+  on(AuthActions.AuthVerifyEmail, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* verify email success */
+  on(AuthActions.AuthVerifyEmailSuccess, state => {
+    return {
+      ...state,
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* verify email error */
+  on(AuthActions.AuthVerifyEmailError, (state, { err }) => {
+    return {
+      ...state,
+      loading: false,
+      loaded: true,
+      error: err
+    }
+  }),
+
   // /* register */
   // on(AuthActions.AuthRegister, state => {
   //   return {

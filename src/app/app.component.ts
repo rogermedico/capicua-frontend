@@ -5,9 +5,11 @@ import { Store } from '@ngrx/store';
 import { AppState } from '@store/root.state';
 import { Observable, Subscription } from 'rxjs';
 import * as UserSelectors from '@modules/user/store/user.selector';
+import * as AuthSelectors from '@modules/auth/store/auth.selector';
 import { filter, map, skipWhile, take, tap } from 'rxjs/operators';
 import { UserState } from '@modules/user/store/user.state';
 import { Meta } from '@angular/platform-browser';
+import { AuthState } from '@modules/auth/store/auth.state';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +22,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public title: string = 'capicua-intranet-app';
 
+  public authState$: Observable<AuthState> = this.store$.select(AuthSelectors.selectAuthState);
   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
 
   public sidenavOpened: boolean;
@@ -36,8 +39,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(private meta: Meta, private store$: Store<AppState>, private bpo: BreakpointObserver/*, private router: Router*/) { }
 
   ngOnInit(): void {
-    console.log('app component')
-
     this.XSmallBreakpointSubscriber = this.bpo.observe([Breakpoints.XSmall]).subscribe((state: BreakpointState) => {
       if (state.matches) {
         this.sidenavOpened = false;

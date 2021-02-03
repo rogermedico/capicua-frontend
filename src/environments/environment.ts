@@ -5,12 +5,23 @@
 export const environment = {
   production: false,
   backend: {
+    /* endpoint */
     api: 'http://localhost:80/capicua_intranet/capicua-backend/public/api/',
+
+    /* auth */
     loginEndpoint: 'auth/login',
     logoutEndpoint: 'auth/logout',
-    profile: 'auth/profile',
-    forgotPasswordEndpoint: 'auth/password/forgot',
-    resetPasswordEndpoint: 'auth/password/reset',
+
+    /* user */
+    user: 'user',
+
+    /* email */
+    verifyEmailEndpoint: 'email/verify',
+
+    /* forgot password */
+    forgotPasswordEndpoint: 'password/forgot',
+    resetPasswordEndpoint: 'password/reset',
+
   }
 };
 

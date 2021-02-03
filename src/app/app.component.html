@@ -1,5 +1,5 @@
 <div #getStylesElement class="mat-button mat-primary" style="display:none"></div>
-<div *ngIf="!(userState$ | async).user; else loggedIn">
+<div *ngIf="!(authState$ | async).authInfo; else loggedIn">
   <router-outlet></router-outlet>
 </div>
 
@@ -17,7 +17,6 @@
     </div>
     <div fxFlex fxLayout fxLayoutAlign="end">
       <ul fxLayout fxLayoutGap="15px" class="navigation-items">
-
         <li>
           <a class="toolbar__link" routerLink="/auth/logout">
             <button mat-button>Logout</button>
@@ -27,7 +26,7 @@
     </div>
   </mat-toolbar>
 
-  <mat-sidenav-container>
+  <mat-sidenav-container *ngIf="(authState$ | async).authInfo.emailVerified; else emailNotVerified">
     <mat-sidenav #sidenav role="navigation" fixedInViewport="true" [opened]="sidenavOpened" [mode]="sidenavMode"
       [disableClose]="sidenavDisableClose" [style.marginTop.px]="sidenavMarginTop">
       <mat-nav-list>
@@ -55,4 +54,11 @@
       </main>
     </mat-sidenav-content>
   </mat-sidenav-container>
+
+  <ng-template #emailNotVerified>
+    <app-verify-email></app-verify-email>
+    <router-outlet></router-outlet>
+  </ng-template>
+
+
 </ng-template>

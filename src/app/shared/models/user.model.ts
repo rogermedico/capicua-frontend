@@ -20,6 +20,7 @@ export interface User {
   drivingLicences: DrivingLicence[];
   educations: Education[];
   languages: Language[];
+  emailVerified: boolean;
 }
 
 export interface UserBackend {
@@ -41,5 +42,6 @@ export interface UserBackend {
   driving_licences: DrivingLicenceBackend[];
   educations: EducationBackend[];
   languages: LanguageBackend[];
+  email_verified_at: string;
 }
 

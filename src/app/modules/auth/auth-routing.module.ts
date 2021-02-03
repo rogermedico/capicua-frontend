@@ -6,6 +6,7 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: "full" },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'logout', component: LogoutComponent, canActivate: [LogoutGuardService] },
   { path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [LoginGuardService] },
   { path: 'reset-password/:token', component: ResetPasswordComponent, canActivate: [LoginGuardService] },
+  { path: 'verify-email/:id/:hash', component: VerifyEmailComponent },
 
 ];
 

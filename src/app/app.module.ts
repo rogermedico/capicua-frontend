@@ -5,10 +5,11 @@ import { NgModule } from '@angular/core';
 /* routing */
 import { AppRoutingModule } from './app-routing.module';
 
-/* components */
+/* core components */
 import { AppComponent } from './app.component';
-import { HeaderComponent } from '@views/header/header.component';
-import { FooterComponent } from '@views/footer/footer.component';
+import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 /* in memory web api */
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -42,7 +43,8 @@ import { AccessTokenInterceptor } from './shared/interceptors/access-token.inter
   declarations: [
     AppComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    VerifyEmailComponent
   ],
   imports: [
     BrowserModule,

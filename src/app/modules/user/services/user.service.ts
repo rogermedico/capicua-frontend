@@ -1,10 +1,11 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, of, Subject } from "rxjs";
-import { map, mergeMap, tap } from "rxjs/operators";
-import { User } from '@models/user.model';
+import { catchError, map, mergeMap, tap } from "rxjs/operators";
+import { User, UserBackend } from '@models/user.model';
 import { environment } from '@environments/environment';
 import { Login } from '@models/login.model';
+import { UserParserService } from "./user-parser.service";
 
 @Injectable({
   providedIn: "root",
@@ -15,14 +16,24 @@ export class UserService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private userParserService: UserParserService) { }
 
   // getUsers(): Observable<User[]> {
   //   return this.http.get<User[]>(environment.backend.api);
   // }
 
   getUser(): Observable<User> {
-    return this.http.get<User>(environment.backend.api + environment.backend.profile);
+    return this.http.get<UserBackend>(environment.backend.api + environment.backend.user).pipe(
+      map(userBackend => this.userParserService.parse(userBackend)),
+      catchError(this.handleError<User>('getUser'))
+    );
+  }
+
+  private handleError<T>(operation: string = 'operation', result?: T) {
+    return (error: any) => {
+      //do something with operation, maybe log somewhere? console.log?
+      return of(result as T);
+    }
   }
 
   // getUserByEmail(email: string): Observable<User> {

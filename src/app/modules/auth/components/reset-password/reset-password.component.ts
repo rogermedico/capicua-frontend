@@ -8,6 +8,9 @@ import { passwordsValidator } from '@validators/passwords.validator';
 import { Observable, Subscription } from 'rxjs';
 import * as AuthActions from '../../store/auth.action';
 import * as RouterSelectors from '@store/router/router.selector';
+import * as AuthSelectors from '@modules/auth/store/auth.selector';
+import { AuthState } from '@modules/auth/store/auth.state';
+import { map, skipWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'app-reset-password',
@@ -19,6 +22,8 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   public resetPasswordForm: FormGroup;
   public RouteParams$: Observable<Params> = this.store$.select(RouterSelectors.selectParams);
   public routeParamsSubscription: Subscription;
+  public authState$: Observable<AuthState> = this.store$.select(AuthSelectors.selectAuthState);
+  public authStateSubscription: Subscription;
   public email: string;
   public token: string;
 
@@ -34,6 +39,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.routeParamsSubscription.unsubscribe();
+    this.authStateSubscription.unsubscribe();
   }
 
   createForm() {
@@ -56,7 +62,10 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
       };
       this.store$.dispatch(AuthActions.AuthResetPassword({ resetPassword: resetPassword }));
     }
-    this.router.navigateByUrl('/auth/login');
+    this.authStateSubscription = this.authState$.pipe(
+      skipWhile(as => as.loading),
+      map(() => this.router.navigateByUrl('/auth/login'))
+    ).subscribe()
 
   }
 

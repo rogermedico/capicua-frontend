@@ -13,21 +13,25 @@ export enum UserActionTypes {
   USER_RESET_DATA_SUCCESS = '[User] USER_RESET_DATA_SUCCESS',
   USER_RESET_DATA_ERROR = '[User] USER_RESET_DATA_ERROR',
 
-  USER_REGISTER = '[User] USER_REGISTER',
-  USER_REGISTER_SUCCESS = '[User] USER_REGISTER_SUCCESS',
-  USER_REGISTER_ERROR = '[User] USER_REGISTER_ERROR',
+  USER_VERIFY_EMAIL = '[User] USER_VERIFY_EMAIL',
+  USER_VERIFY_EMAIL_SUCCESS = '[User] USER_VERIFY_EMAIL_SUCCESS',
+  USER_VERIFY_EMAIL_ERROR = '[User] USER_VERIFY_EMAIL_ERROR',
 
-  USER_MODIFY_PERSONAL_DATA = '[User/Profile] USER_MODIFY_PERSONAL_DATA',
-  USER_MODIFY_PERSONAL_DATA_SUCCESS = '[User/Profile] USER_MODIFY_PERSONAL_DATA_SUCCESS',
-  USER_MODIFY_PERSONAL_DATA_ERROR = '[User/Profile] USER_MODIFY_PERSONAL_DATA_ERROR',
+  // USER_REGISTER = '[User] USER_REGISTER',
+  // USER_REGISTER_SUCCESS = '[User] USER_REGISTER_SUCCESS',
+  // USER_REGISTER_ERROR = '[User] USER_REGISTER_ERROR',
 
-  USER_DISCARD_PERSONAL_DATA_CHANGES = '[User/Profile] USER_DISCARD_PERSONAL_DATA_CHANGES',
-  USER_DISCARD_PERSONAL_DATA_CHANGES_SUCCESS = '[User/Profile] USER_DISCARD_PERSONAL_DATA_CHANGES_SUCCESS',
-  USER_DISCARD_PERSONAL_DATA_CHANGES_ERROR = '[User/Profile] USER_DISCARD_PERSONAL_DATA_CHANGES_ERROR',
+  // USER_MODIFY_PERSONAL_DATA = '[User/Profile] USER_MODIFY_PERSONAL_DATA',
+  // USER_MODIFY_PERSONAL_DATA_SUCCESS = '[User/Profile] USER_MODIFY_PERSONAL_DATA_SUCCESS',
+  // USER_MODIFY_PERSONAL_DATA_ERROR = '[User/Profile] USER_MODIFY_PERSONAL_DATA_ERROR',
 
-  USER_UPDATE_PERSONAL_DATA = '[User/Profile] USER_UPDATE_PERSONAL_DATA',
-  USER_UPDATE_PERSONAL_DATA_SUCCESS = '[User/Profile] USER_UPDATE_PERSONAL_DATA_SUCCESS',
-  USER_UPDATE_PERSONAL_DATA_ERROR = '[User/Profile] USER_UPDATE_PERSONAL_DATA_ERROR',
+  // USER_DISCARD_PERSONAL_DATA_CHANGES = '[User/Profile] USER_DISCARD_PERSONAL_DATA_CHANGES',
+  // USER_DISCARD_PERSONAL_DATA_CHANGES_SUCCESS = '[User/Profile] USER_DISCARD_PERSONAL_DATA_CHANGES_SUCCESS',
+  // USER_DISCARD_PERSONAL_DATA_CHANGES_ERROR = '[User/Profile] USER_DISCARD_PERSONAL_DATA_CHANGES_ERROR',
+
+  // USER_UPDATE_PERSONAL_DATA = '[User/Profile] USER_UPDATE_PERSONAL_DATA',
+  // USER_UPDATE_PERSONAL_DATA_SUCCESS = '[User/Profile] USER_UPDATE_PERSONAL_DATA_SUCCESS',
+  // USER_UPDATE_PERSONAL_DATA_ERROR = '[User/Profile] USER_UPDATE_PERSONAL_DATA_ERROR',
 
   // USER_CREATE_LANGUAGE = '[User/Language] USER_CREATE_LANGUAGE',
   // USER_CREATE_LANGUAGE_SUCCESS = '[User/Language] USER_CREATE_LANGUAGE_SUCCESS',
@@ -72,25 +76,26 @@ export const UserResetData = createAction(UserActionTypes.USER_RESET_DATA);
 export const UserResetDataSuccess = createAction(UserActionTypes.USER_RESET_DATA_SUCCESS);
 export const UserResetDataError = createAction(UserActionTypes.USER_RESET_DATA_ERROR, props<{ err: String }>());
 
-/* register */
-export const UserRegister = createAction(UserActionTypes.USER_REGISTER, props<{ user: User }>());
-export const UserRegisterSuccess = createAction(UserActionTypes.USER_REGISTER_SUCCESS, props<{ user: User }>());
-export const UserRegisterError = createAction(UserActionTypes.USER_REGISTER_ERROR, props<{ err: String }>());
 
-/* user modify profile */
-export const UserModifyPersonalData = createAction(UserActionTypes.USER_MODIFY_PERSONAL_DATA);
-export const UserModifyPersonalDataSuccess = createAction(UserActionTypes.USER_MODIFY_PERSONAL_DATA_SUCCESS);
-export const UserModifyPersonalDataError = createAction(UserActionTypes.USER_MODIFY_PERSONAL_DATA_ERROR, props<{ err: String }>());
+// /* register */
+// export const UserRegister = createAction(UserActionTypes.USER_REGISTER, props<{ user: User }>());
+// export const UserRegisterSuccess = createAction(UserActionTypes.USER_REGISTER_SUCCESS, props<{ user: User }>());
+// export const UserRegisterError = createAction(UserActionTypes.USER_REGISTER_ERROR, props<{ err: String }>());
 
-/* user discard profile changes */
-export const UserDiscardPersonalDataChanges = createAction(UserActionTypes.USER_DISCARD_PERSONAL_DATA_CHANGES);
-export const UserDiscardPersonalDataChangesSuccess = createAction(UserActionTypes.USER_DISCARD_PERSONAL_DATA_CHANGES_SUCCESS);
-export const UserDiscardPersonalDataChangesError = createAction(UserActionTypes.USER_DISCARD_PERSONAL_DATA_CHANGES_ERROR, props<{ err: String }>());
+// /* user modify profile */
+// export const UserModifyPersonalData = createAction(UserActionTypes.USER_MODIFY_PERSONAL_DATA);
+// export const UserModifyPersonalDataSuccess = createAction(UserActionTypes.USER_MODIFY_PERSONAL_DATA_SUCCESS);
+// export const UserModifyPersonalDataError = createAction(UserActionTypes.USER_MODIFY_PERSONAL_DATA_ERROR, props<{ err: String }>());
 
-/* user update profile */
-export const UserUpdatePersonalData = createAction(UserActionTypes.USER_UPDATE_PERSONAL_DATA, props<{ user: User }>());
-export const UserUpdatePersonalDataSuccess = createAction(UserActionTypes.USER_UPDATE_PERSONAL_DATA_SUCCESS, props<{ user: User }>());
-export const UserUpdatePersonalDataError = createAction(UserActionTypes.USER_UPDATE_PERSONAL_DATA_ERROR, props<{ err: String }>());
+// /* user discard profile changes */
+// export const UserDiscardPersonalDataChanges = createAction(UserActionTypes.USER_DISCARD_PERSONAL_DATA_CHANGES);
+// export const UserDiscardPersonalDataChangesSuccess = createAction(UserActionTypes.USER_DISCARD_PERSONAL_DATA_CHANGES_SUCCESS);
+// export const UserDiscardPersonalDataChangesError = createAction(UserActionTypes.USER_DISCARD_PERSONAL_DATA_CHANGES_ERROR, props<{ err: String }>());
+
+// /* user update profile */
+// export const UserUpdatePersonalData = createAction(UserActionTypes.USER_UPDATE_PERSONAL_DATA, props<{ user: User }>());
+// export const UserUpdatePersonalDataSuccess = createAction(UserActionTypes.USER_UPDATE_PERSONAL_DATA_SUCCESS, props<{ user: User }>());
+// export const UserUpdatePersonalDataError = createAction(UserActionTypes.USER_UPDATE_PERSONAL_DATA_ERROR, props<{ err: String }>());
 
 // /* create language */
 // export const UserCreateLanguage = createAction(UserActionTypes.USER_CREATE_LANGUAGE, props<{ user: User, language: Language }>());

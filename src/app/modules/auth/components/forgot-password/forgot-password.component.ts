@@ -16,14 +16,20 @@ import { AuthState } from "@modules/auth/store/auth.state";
   templateUrl: "./forgot-password.component.html",
   styleUrls: ["./forgot-password.component.scss"],
 })
-export class ForgotPasswordComponent implements OnInit {
+export class ForgotPasswordComponent implements OnInit, OnDestroy {
 
   public forgotPasswordForm: FormGroup;
+  public authState$: Observable<AuthState> = this.store$.select(AuthSelectors.selectAuthState);
+  public authStateSubscription: Subscription;
 
   constructor(private store$: Store<AppState>, private fb: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
     this.createForm();
+  }
+
+  ngOnDestroy(): void {
+    this.authStateSubscription.unsubscribe();
   }
 
   createForm() {
@@ -37,7 +43,10 @@ export class ForgotPasswordComponent implements OnInit {
     const email: string = this.email.value;
 
     this.store$.dispatch(AuthActions.AuthSendResetPasswordEmail({ email: email }));
-    this.router.navigateByUrl('/auth/login');
+    this.authStateSubscription = this.authState$.pipe(
+      skipWhile(as => as.loading),
+      map(() => this.router.navigateByUrl('/auth/login'))
+    ).subscribe()
 
 
   }
