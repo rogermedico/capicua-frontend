@@ -31,7 +31,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.authStateSubscription = this.authState$.pipe(
       skipWhile(as => as.loading === true),
       map(as => {
-        if (as.authInfo) this.router.navigate(['/home']);
+        if (as.authInfo && as.authInfo.emailVerified) this.router.navigate(['/home']);
+        if (as.authInfo && !as.authInfo.emailVerified) this.router.navigate(['/verify-email']);
       })
     ).subscribe();
   }

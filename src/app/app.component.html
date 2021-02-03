@@ -5,15 +5,20 @@
 
 <ng-template #loggedIn>
   <mat-toolbar #toolbar color="primary" class="fixed mat-elevation-z8">
-    <div fxHide.gt-sm>
-      <button mat-icon-button (click)="sidenav.toggle()">
-        <mat-icon>menu</mat-icon>
-      </button>
+    <div fxFlex fxLayout fxLayoutAlign="start">
+      <div *ngIf="(authState$ | async).authInfo.emailVerified" fxHide.gt-sm>
+        <button mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+      </div>
+      <div class="toolbar__brand">
+        <a class="toolbar__link" routerLink="/home" (click)="sidenavDisableClose?null:sidenav.close()">
+          <button mat-button class="toolbar__brand__text">Capicua</button>
+        </a>
+      </div>
     </div>
-    <div class="toolbar__brand">
-      <a class="toolbar__link" routerLink="/home" (click)="sidenavDisableClose?null:sidenav.close()">
-        <button mat-button class="toolbar__brand__text">Capicua</button>
-      </a>
+    <div fxFlex fxLayout fxLayoutAlign="center">
+      <span class="beta">beta version</span>
     </div>
     <div fxFlex fxLayout fxLayoutAlign="end">
       <ul fxLayout fxLayoutGap="15px" class="navigation-items">
@@ -56,7 +61,6 @@
   </mat-sidenav-container>
 
   <ng-template #emailNotVerified>
-    <app-verify-email></app-verify-email>
     <router-outlet></router-outlet>
   </ng-template>
 

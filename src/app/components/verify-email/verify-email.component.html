@@ -3,9 +3,14 @@
   <div class="">
     <p class="caption">To start using the application verify your mail.</p>
     <p class="caption">If not recieved click below button.</p>
-    <div class="button" fxLayout="row" fxLayoutAlign="center center">
+    <div *ngIf="(authState$ | async).loaded; else loading" class="button" fxLayout="row" fxLayoutAlign="center center">
       <button class="form__button__send-email" mat-raised-button color="accent" type="button"
         (click)="sendVerificationEmail()">{{buttonText}}</button>
     </div>
+    <ng-template #loading>
+      <div fxLayout fxLayoutAlign="center center">
+        <mat-spinner color="accent"></mat-spinner>
+      </div>
+    </ng-template>
   </div>
 </div>

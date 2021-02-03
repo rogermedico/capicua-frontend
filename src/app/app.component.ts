@@ -19,6 +19,7 @@ import { AuthState } from '@modules/auth/store/auth.state';
 export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild('getStylesElement') getStylesElement: ElementRef;
+  @ViewChild('sidenav') sidenav: ElementRef;
 
   public title: string = 'capicua-intranet-app';
 
@@ -34,7 +35,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   public smallBreakpointSubscriber: Subscription;
   public largeBreakpointSubscriber: Subscription;
   public userStateSubscriber: Subscription;
-
 
   constructor(private meta: Meta, private store$: Store<AppState>, private bpo: BreakpointObserver/*, private router: Router*/) { }
 
