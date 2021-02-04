@@ -51,6 +51,10 @@
           (click)="sidenavDisableClose?null:sidenav.close()">
           <span class="nav-caption">My docs</span>
         </a>
+        <a mat-list-item routerLink="/configuration" routerLinkActive="active-sidenav-item"
+          (click)="sidenavDisableClose?null:sidenav.close()">
+          <span class="nav-caption">Configuration</span>
+        </a>
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content class="sidenav-content" [style.marginTop.px]="sidenavMarginTop">

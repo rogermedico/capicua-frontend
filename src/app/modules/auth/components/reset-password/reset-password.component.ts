@@ -4,7 +4,7 @@ import { Params, Router } from '@angular/router';
 import { ResetPassword } from '@models/reset-password.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '@store/root.state';
-import { passwordsValidator } from '@validators/passwords.validator';
+import { passwordsEqualityValidator } from '@validators/passwords-equality.validator';
 import { Observable, Subscription } from 'rxjs';
 import * as AuthActions from '../../store/auth.action';
 import * as RouterSelectors from '@store/router/router.selector';
@@ -47,7 +47,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
       password: [null, [Validators.required, Validators.minLength(8)]],
       passwordConfirmation: [null, [Validators.required, Validators.minLength(8)]]
     }, {
-      validators: passwordsValidator
+      validators: passwordsEqualityValidator
     });
   }
 

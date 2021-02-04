@@ -25,6 +25,10 @@ const routes: Routes = [
     path: 'users',
     loadChildren: () => import("./modules/users/users.module").then((m) => m.UsersModule),
   },
+  {
+    path: 'configuration',
+    loadChildren: () => import("./modules/configuration/configuration.module").then((m) => m.ConfigurationModule),
+  },
   { path: 'verify-email', component: EmailNotVerifiedComponent, canActivate: [LogoutGuard] },
   { path: '**', redirectTo: '' }
 ];
