@@ -13,10 +13,6 @@ import { VerifyEmail } from '@models/verify-email.model';
 })
 export class AuthService {
 
-  // private httpOptions = {
-  //   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  // };
-
   constructor(private http: HttpClient) { }
 
   login(loginInfo: Login): Observable<Auth> {
@@ -25,9 +21,9 @@ export class AuthService {
       password: loginInfo.password
     }
 
-    return this.http.post<Auth>(environment.backend.api + environment.backend.loginEndpoint, body/*, this.httpOptions*/).pipe(
+    return this.http.post<Auth>(environment.backend.api + environment.backend.loginEndpoint, body).pipe(
       catchError(this.handleError<Auth>())
-    )
+    );
   }
 
   logout(): Observable<any> {

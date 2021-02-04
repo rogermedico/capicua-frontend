@@ -10,7 +10,7 @@ import { AuthState } from "@modules/auth/store/auth.state";
 @Injectable({
   providedIn: "root",
 })
-export class LoginGuardService implements CanActivate {
+export class LoginGuard implements CanActivate {
 
   public authState$: Observable<AuthState> = this.store$.select(AuthSelectors.selectAuthState);
 

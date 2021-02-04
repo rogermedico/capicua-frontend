@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LogoutGuardService } from '@guards/logout-guard.service';
+import { LogoutGuard } from '@guards/logout.guard';
 import { MyDocsComponent } from './components/my-docs/my-docs.component';
 
 const routes: Routes = [
-  { path: '', component: MyDocsComponent, canActivate: [LogoutGuardService] },
+  { path: '', component: MyDocsComponent, canActivate: [LogoutGuard] },
 ];
 
 @NgModule({

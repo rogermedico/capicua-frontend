@@ -6,8 +6,9 @@ import { Store } from '@ngrx/store';
 import { AppState } from '@store/root.state';
 import * as AuthActions from '../../store/auth.action';
 import * as RouterSelectors from '@store/router/router.selector';
+import * as AuthSelectors from '@modules/auth/store/auth.selector';
 import { Observable, Subscription } from 'rxjs';
-import { delay, map, skipWhile } from 'rxjs/operators';
+import { delay, map, skipWhile, take } from 'rxjs/operators';
 import { UserState } from '@modules/user/store/user.state';
 import { AuthState } from "@modules/auth/store/auth.state";
 import { VerifyEmail } from "@models/verify-email.model";
@@ -21,18 +22,23 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
 
   public RouteParams$: Observable<Params> = this.store$.select(RouterSelectors.selectParams);
   public routeParamsSubscription: Subscription;
+  public authState$: Observable<AuthState> = this.store$.select(AuthSelectors.selectAuthState);
+  private authStateSubscription: Subscription;
   public verifyEmail: VerifyEmail;
 
-  constructor(private store$: Store<AppState>, private fb: FormBuilder) { }
+  constructor(private store$: Store<AppState>) { }
 
   ngOnInit(): void {
-    this.routeParamsSubscription = this.RouteParams$.subscribe(routeParams => {
-      this.verifyEmail = {
-        id: routeParams.params.id,
-        hash: routeParams.params.hash
-      };
-      this.store$.dispatch(AuthActions.AuthVerifyEmail({ verifyEmail: this.verifyEmail }));
-    });
+    this.routeParamsSubscription = this.RouteParams$.pipe(
+      take(1),
+      map(routeParams => {
+        this.verifyEmail = {
+          id: routeParams.params.id,
+          hash: routeParams.params.hash
+        };
+        this.store$.dispatch(AuthActions.AuthVerifyEmail({ verifyEmail: this.verifyEmail }));
+      })
+    ).subscribe();
   }
 
   ngOnDestroy(): void {

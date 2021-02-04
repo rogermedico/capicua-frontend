@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LoginGuardService } from '@guards/login-guard.service';
-import { LogoutGuardService } from '@guards/logout-guard.service';
+import { LoginGuard } from '@guards/login.guard';
+import { LogoutGuard } from '@guards/logout.guard';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
@@ -10,11 +10,11 @@ import { VerifyEmailComponent } from './components/verify-email/verify-email.com
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: "full" },
-  { path: 'login', component: LoginComponent, canActivate: [LoginGuardService] },
+  { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
   // { path: "register", component: RegisterComponent, canActivate: [LoginGuardService] },
-  { path: 'logout', component: LogoutComponent, canActivate: [LogoutGuardService] },
-  { path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [LoginGuardService] },
-  { path: 'reset-password/:token', component: ResetPasswordComponent, canActivate: [LoginGuardService] },
+  { path: 'logout', component: LogoutComponent, canActivate: [LogoutGuard] },
+  { path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [LoginGuard] },
+  { path: 'reset-password/:token', component: ResetPasswordComponent, canActivate: [LoginGuard] },
   { path: 'verify-email/:id/:hash', component: VerifyEmailComponent },
 
 ];

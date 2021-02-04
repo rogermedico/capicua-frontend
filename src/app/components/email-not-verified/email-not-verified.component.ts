@@ -10,11 +10,11 @@ import { SnackBarService } from '@services/snack-bar.service';
 
 
 @Component({
-  selector: 'app-verify-email',
-  templateUrl: './verify-email.component.html',
-  styleUrls: ['./verify-email.component.scss']
+  selector: 'app-email-not-verified',
+  templateUrl: './email-not-verified.component.html',
+  styleUrls: ['./email-not-verified.component.scss']
 })
-export class VerifyEmailComponent implements OnInit, OnDestroy {
+export class EmailNotVerifiedComponent implements OnInit, OnDestroy {
 
   public buttonText: string;
   public authState$: Observable<AuthState> = this.store$.select(AuthSelectors.selectAuthState);

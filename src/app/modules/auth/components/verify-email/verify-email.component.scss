@@ -1,8 +1,12 @@
-.login__container {
-margin: 2rem auto;
+.container {
+  margin: 0 auto;
+  margin-top: 64px;
+  @media(max-width: 599px) {
+    margin-top: 56px;
+  }
 }
-
-.login__image {
+  
+.logo {
   display:block;
   max-width: 200px;
   width: 100%;
@@ -10,74 +14,11 @@ margin: 2rem auto;
   margin: 2rem auto;
 }
 
-.form__group {
-  max-width: 400px;
-  width: 100%;
-  margin: 2rem auto;
+.caption {
+  font-size: 1.2rem;
+  text-align: center;
 }
 
-.login__form__input {
-  display: block;
+.button {
+  margin-top: 2rem;
 }
-
-.login__form__button__forgot {
-  margin-left: 1rem;
-}
-
-.login__form__button__signin {
-  margin-right: 1rem;
-}
-
-input:-webkit-autofill {
-  box-shadow: 0 0 0px 1000px white inset !important;
-  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
-}
-
-// .section-title {
-//     font-size: 1.1rem;
-// }
-
-// .username,
-// .password {
-//     margin: 15px;
-//     position:relative;
-// }
-
-// .username-input,
-// .password-input {
-//     margin:0;
-//     padding: 10px;
-//     width: 25vw;
-// }
-
-// .login-button {
-//     padding: 10px;
-//     width: 15vw;
-//     margin-bottom: 50px;
-// }
-
-// .error {
-//     color: #a94442;
-//     background-color: #f2dede;
-//     padding: 10px;
-//     border: 1px solid #ebccd1;
-//     border-radius: 4px;
-//     margin-right: auto;
-//     margin-left: auto;
-//     font-size: 0.8rem;
-//     position: absolute;
-//     top:0;
-//     left: 62vw;
-// }
-
-// .error-form {
-//     color: #a94442;
-//     background-color: #f2dede;
-//     padding: 10px;
-//     border: 1px solid #ebccd1;
-//     border-radius: 4px;
-//     margin: 15px auto;
-//     font-size: 0.8rem;
-//     padding: 10px;
-//     width: 25vw;
-// }

@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 /* core components */
 import { AppComponent } from './app.component';
-import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
+import { EmailNotVerifiedComponent } from './components/email-not-verified/email-not-verified.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 
@@ -44,7 +44,7 @@ import { AccessTokenInterceptor } from './shared/interceptors/access-token.inter
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    VerifyEmailComponent
+    EmailNotVerifiedComponent
   ],
   imports: [
     BrowserModule,

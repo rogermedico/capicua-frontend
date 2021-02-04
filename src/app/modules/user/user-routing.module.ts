@@ -1,7 +1,7 @@
 import { RouterModule, Routes } from "@angular/router";
 import { NgModule } from "@angular/core";
 
-import { LogoutGuardService } from '@guards/logout-guard.service';
+import { LogoutGuard } from '@guards/logout.guard';
 import { PersonalDataGuard } from '@guards/personal-data-guard.service';
 
 import { UserComponent } from './components/user/user.component';
@@ -9,7 +9,7 @@ import { UserComponent } from './components/user/user.component';
 
 
 const routes: Routes = [
-  { path: '', component: UserComponent, canActivate: [LogoutGuardService] }
+  { path: '', component: UserComponent, canActivate: [LogoutGuard] }
 ];
 
 @NgModule({
