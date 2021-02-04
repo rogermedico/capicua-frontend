@@ -21,12 +21,13 @@ export class PersonalDataGuard implements CanDeactivate<UserComponent> {
     return this.userState$.pipe(
       take(1),
       map(us => {
-        if (us.edited === true) {
-          const userResponse = confirm('Profile data not saved. If you continue all canges will be lost. Do you really want to continue?');
-          //if (userResponse) this.store$.dispatch(UserActions.UserDiscardPersonalDataChanges());
-          return userResponse;
-        }
-        else return true;
+        // if (us.edited === true) {
+        //   const userResponse = confirm('Profile data not saved. If you continue all canges will be lost. Do you really want to continue?');
+        //   //if (userResponse) this.store$.dispatch(UserActions.UserDiscardPersonalDataChanges());
+        //   return userResponse;
+        // }
+        // else return true;
+        return true;
       })
     );
 

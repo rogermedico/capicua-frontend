@@ -9,6 +9,7 @@ import { Language } from '@models/language.model';
 import { Education } from '@models/education.model';
 import { ActivitiesFavoritesService } from '@services/activities-favorites.service';
 import { Login } from '@models/login.model';
+import { ChangePassword } from '@models/change-password.model';
 
 @Injectable()
 export class UserEffects {
@@ -38,6 +39,17 @@ export class UserEffects {
       return { type: UserActions.UserActionTypes.USER_RESET_DATA_SUCCESS };
     }),
     catchError(err => of({ type: UserActions.UserActionTypes.USER_RESET_DATA_ERROR, err: err }))
+  ));
+
+  /* change password  */
+  changePassword$ = createEffect(() => this.actions$.pipe(
+    ofType(UserActions.UserActionTypes.USER_CHANGE_PASSWORD),
+    mergeMap((action: { type: string, changePassword: ChangePassword }) => this.us.changePassword(action.changePassword).pipe(
+      map(() => {
+        return { type: UserActions.UserActionTypes.USER_CHANGE_PASSWORD_SUCCESS };
+      }),
+      catchError(err => of({ type: UserActions.UserActionTypes.USER_CHANGE_PASSWORD_ERROR, err: err }))
+    ))
   ));
 
   // /* login */

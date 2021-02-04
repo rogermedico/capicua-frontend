@@ -5,10 +5,8 @@ import { Action, createReducer, on } from '@ngrx/store';
 /* the auth state starts with no one logged in */
 const defaultUserState: UserState = {
   user: null,
-  loginErrors: 0,
   loading: false,
   loaded: true,
-  edited: false,
   error: null
 };
 
@@ -29,7 +27,6 @@ const _userReducer = createReducer(defaultUserState,
     return {
       ...state,
       user: user,
-      loginErrors: 0,
       loading: false,
       loaded: true,
       error: null
@@ -40,7 +37,6 @@ const _userReducer = createReducer(defaultUserState,
   on(UserActions.UserGetDataError, (state, { err }) => {
     return {
       ...state,
-      loginErrors: state.loginErrors + 1,
       loading: false,
       loaded: true,
       error: err
@@ -70,6 +66,36 @@ const _userReducer = createReducer(defaultUserState,
 
   /* reset data error */
   on(UserActions.UserResetDataError, (state, { err }) => {
+    return {
+      ...state,
+      loading: false,
+      loaded: true,
+      error: err
+    }
+  }),
+
+  /* change password */
+  on(UserActions.UserChangePassword, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* change password success */
+  on(UserActions.UserChangePasswordSuccess, state => {
+    return {
+      ...state,
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* change password error */
+  on(UserActions.UserChangePasswordError, (state, { err }) => {
     return {
       ...state,
       loading: false,

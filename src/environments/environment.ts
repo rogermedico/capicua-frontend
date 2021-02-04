@@ -13,7 +13,8 @@ export const environment = {
     logoutEndpoint: 'auth/logout',
 
     /* user */
-    user: 'user',
+    userEndpoint: 'user',
+    changePasswordEndpoint: 'user/password',
 
     /* email */
     verifyEmailEndpoint: 'email/verify',

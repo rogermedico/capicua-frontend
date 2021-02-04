@@ -3,6 +3,7 @@ import { User } from '@models/user.model';
 import { Login } from '@models/login.model';
 import { Language } from '@models/language.model';
 import { Education } from '@models/education.model';
+import { ChangePassword } from '@models/change-password.model';
 
 export enum UserActionTypes {
   USER_GET_DATA = '[User] USER_GET_DATA',
@@ -13,9 +14,9 @@ export enum UserActionTypes {
   USER_RESET_DATA_SUCCESS = '[User] USER_RESET_DATA_SUCCESS',
   USER_RESET_DATA_ERROR = '[User] USER_RESET_DATA_ERROR',
 
-  USER_VERIFY_EMAIL = '[User] USER_VERIFY_EMAIL',
-  USER_VERIFY_EMAIL_SUCCESS = '[User] USER_VERIFY_EMAIL_SUCCESS',
-  USER_VERIFY_EMAIL_ERROR = '[User] USER_VERIFY_EMAIL_ERROR',
+  USER_CHANGE_PASSWORD = '[User] USER_CHANGE_PASSWORD',
+  USER_CHANGE_PASSWORD_SUCCESS = '[User] USER_CHANGE_PASSWORD_SUCCESS',
+  USER_CHANGE_PASSWORD_ERROR = '[User] USER_CHANGE_PASSWORD_ERROR',
 
   // USER_REGISTER = '[User] USER_REGISTER',
   // USER_REGISTER_SUCCESS = '[User] USER_REGISTER_SUCCESS',
@@ -76,6 +77,10 @@ export const UserResetData = createAction(UserActionTypes.USER_RESET_DATA);
 export const UserResetDataSuccess = createAction(UserActionTypes.USER_RESET_DATA_SUCCESS);
 export const UserResetDataError = createAction(UserActionTypes.USER_RESET_DATA_ERROR, props<{ err: String }>());
 
+/* reset data */
+export const UserChangePassword = createAction(UserActionTypes.USER_CHANGE_PASSWORD, props<{ changePassword: ChangePassword }>());
+export const UserChangePasswordSuccess = createAction(UserActionTypes.USER_CHANGE_PASSWORD_SUCCESS);
+export const UserChangePasswordError = createAction(UserActionTypes.USER_CHANGE_PASSWORD_ERROR, props<{ err: String }>());
 
 // /* register */
 // export const UserRegister = createAction(UserActionTypes.USER_REGISTER, props<{ user: User }>());

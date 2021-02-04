@@ -6,6 +6,7 @@ import { User, UserBackend } from '@models/user.model';
 import { environment } from '@environments/environment';
 import { Login } from '@models/login.model';
 import { UserParserService } from "./user-parser.service";
+import { ChangePassword } from "@models/change-password.model";
 
 @Injectable({
   providedIn: "root",
@@ -23,9 +24,20 @@ export class UserService {
   // }
 
   getUser(): Observable<User> {
-    return this.http.get<UserBackend>(environment.backend.api + environment.backend.user).pipe(
+    return this.http.get<UserBackend>(environment.backend.api + environment.backend.userEndpoint).pipe(
       map(userBackend => this.userParserService.parse(userBackend)),
       catchError(this.handleError<User>('getUser'))
+    );
+  }
+
+  changePassword(changePassword: ChangePassword): Observable<any> {
+    const body = {
+      old_password: changePassword.oldPassword,
+      password: changePassword.password,
+      password_confirmation: changePassword.passwordConfirmation,
+    }
+    return this.http.post(environment.backend.api + environment.backend.changePasswordEndpoint, body).pipe(
+      catchError(this.handleError<any>('changePassword'))
     );
   }
 

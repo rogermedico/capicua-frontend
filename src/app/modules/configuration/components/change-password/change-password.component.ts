@@ -1,27 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthState } from '@modules/auth/store/auth.state';
 import { Store } from '@ngrx/store';
 import { AppState } from '@store/root.state';
 import { passwordsEqualityValidator } from '@validators/passwords-equality.validator';
 import { Observable, Subscription } from 'rxjs';
-import * as AuthSelectors from '@modules/auth/store/auth.selector';
+import * as UserSelectors from '@modules/user/store/user.selector';
+import * as UserActions from '@modules/user/store/user.action';
+import { ChangePassword } from '@models/change-password.model';
+import { UserState } from '@modules/user/store/user.state';
+import { map, skipWhile, take } from 'rxjs/operators';
+import { SnackBarService } from '@services/snack-bar.service';
 
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
   styleUrls: ['./change-password.component.scss']
 })
-export class ChangePasswordComponent implements OnInit {
+export class ChangePasswordComponent implements OnInit, OnDestroy {
 
   changePasswordForm: FormGroup;
-  public authState$: Observable<AuthState> = this.store$.select(AuthSelectors.selectAuthState);
-  public authStateSubscription: Subscription;
+  public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
+  public userStateSubscription: Subscription;
 
-  constructor(private store$: Store<AppState>, private fb: FormBuilder) { }
+  constructor(private store$: Store<AppState>, private fb: FormBuilder, private snackBarService: SnackBarService) { }
 
   ngOnInit(): void {
     this.createForm();
+  }
+
+  ngOnDestroy(): void {
+    if (this.userStateSubscription) this.userStateSubscription.unsubscribe();
   }
 
   createForm() {
@@ -44,10 +52,23 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   changePassword() {
-    console.log(this.changePasswordForm)
+    const changePassword: ChangePassword = {
+      oldPassword: this.oldPassword.value,
+      password: this.password.value,
+      passwordConfirmation: this.passwordConfirmation.value,
+    }
+    this.store$.dispatch(UserActions.UserChangePassword({ changePassword: changePassword }));
+    this.userStateSubscription = this.userState$.pipe(
+      skipWhile(as => as.loading),
+      take(1),
+      map(() => {
+        this.snackBarService.openSnackBar('Password changed', 'OK');
+      })
+    ).subscribe()
+    this.changePasswordForm.reset();
   }
 
-  get oldPassword() { return this.changePasswordForm.get('password'); }
+  get oldPassword() { return this.changePasswordForm.get('oldPassword'); }
 
   get password() { return this.changePasswordForm.get('password'); }
 
