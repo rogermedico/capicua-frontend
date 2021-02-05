@@ -25,8 +25,7 @@ export class UserService {
 
   getUser(): Observable<User> {
     return this.http.get<UserBackend>(environment.backend.api + environment.backend.userEndpoint).pipe(
-      map(userBackend => this.userParserService.parse(userBackend)),
-      catchError(this.handleError<User>('getUser'))
+      map(userBackend => this.userParserService.parse(userBackend))
     );
   }
 
@@ -35,18 +34,10 @@ export class UserService {
       old_password: changePassword.oldPassword,
       password: changePassword.password,
       password_confirmation: changePassword.passwordConfirmation,
-    }
-    return this.http.post(environment.backend.api + environment.backend.changePasswordEndpoint, body).pipe(
-      catchError(this.handleError<any>('changePassword'))
-    );
+    };
+    return this.http.post(environment.backend.api + environment.backend.changePasswordEndpoint, body);
   }
 
-  private handleError<T>(operation: string = 'operation', result?: T) {
-    return (error: any) => {
-      //do something with operation, maybe log somewhere? console.log?
-      return of(result as T);
-    }
-  }
 
   // getUserByEmail(email: string): Observable<User> {
   //   return this.http.get<User>(`${environment.backend.api}/?email=${encodeURIComponent(email)}`).pipe(

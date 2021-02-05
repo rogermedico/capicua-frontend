@@ -26,17 +26,14 @@ export class AccessTokenInterceptor implements HttpInterceptor {
       take(1),
       mergeMap(as => {
         if (!as.authInfo) {
-          console.log('authinterceptor no auth req:', request);
           return next.handle(request);
         }
         else {
-          console.log(as.authInfo)
           const accessTokenRequest = request.clone({
             setHeaders: {
               Authorization: `Bearer ${as.authInfo.accessToken}`,
             },
           });
-          console.log('authinterceptor auth req:', accessTokenRequest);
           return next.handle(accessTokenRequest);
         }
       })

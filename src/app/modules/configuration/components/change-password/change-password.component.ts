@@ -9,7 +9,7 @@ import * as UserActions from '@modules/user/store/user.action';
 import { ChangePassword } from '@models/change-password.model';
 import { UserState } from '@modules/user/store/user.state';
 import { map, skipWhile, take } from 'rxjs/operators';
-import { SnackBarService } from '@services/snack-bar.service';
+import { NotificationService } from '@services/notification.service';
 
 @Component({
   selector: 'app-change-password',
@@ -22,7 +22,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
   public userStateSubscription: Subscription;
 
-  constructor(private store$: Store<AppState>, private fb: FormBuilder, private snackBarService: SnackBarService) { }
+  constructor(private store$: Store<AppState>, private fb: FormBuilder, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.createForm();
@@ -59,10 +59,10 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
     }
     this.store$.dispatch(UserActions.UserChangePassword({ changePassword: changePassword }));
     this.userStateSubscription = this.userState$.pipe(
-      skipWhile(as => as.loading),
+      skipWhile(as => as.loading || (as.error != null)),
       take(1),
       map(() => {
-        this.snackBarService.openSnackBar('Password changed', 'OK');
+        this.notificationService.showMessage('Password changed', 'OK');
       })
     ).subscribe()
     this.changePasswordForm.reset();

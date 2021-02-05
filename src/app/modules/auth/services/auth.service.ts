@@ -21,24 +21,18 @@ export class AuthService {
       password: loginInfo.password
     }
 
-    return this.http.post<Auth>(environment.backend.api + environment.backend.loginEndpoint, body).pipe(
-      catchError(this.handleError<Auth>())
-    );
+    return this.http.post<Auth>(environment.backend.api + environment.backend.loginEndpoint, body);
   }
 
   logout(): Observable<any> {
-    return this.http.post(environment.backend.api + environment.backend.logoutEndpoint, null).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.post(environment.backend.api + environment.backend.logoutEndpoint, null);
   }
 
   sendResetPasswordEmail(email: string): Observable<any> {
     const body = {
       email: email
     }
-    return this.http.post(environment.backend.api + environment.backend.forgotPasswordEndpoint, body).pipe(
-      catchError(this.handleError)
-    )
+    return this.http.post(environment.backend.api + environment.backend.forgotPasswordEndpoint, body);
   }
 
   resetPassword(resetPassword: ResetPassword): Observable<any> {
@@ -49,30 +43,15 @@ export class AuthService {
       token: resetPassword.token
 
     }
-    return this.http.post(environment.backend.api + environment.backend.resetPasswordEndpoint, body).pipe(
-      catchError(this.handleError)
-    )
+    return this.http.post(environment.backend.api + environment.backend.resetPasswordEndpoint, body);
   }
 
   sendVerificationEmail() {
-    return this.http.get(`${environment.backend.api}${environment.backend.verifyEmailEndpoint}`).pipe(
-      catchError(this.handleError)
-    )
+    return this.http.get(`${environment.backend.api}${environment.backend.verifyEmailEndpoint}`);
   }
 
   verifyEmail(verifyEmail: VerifyEmail): Observable<any> {
-    return this.http.get(`${environment.backend.api}${environment.backend.verifyEmailEndpoint}/${verifyEmail.id}/${verifyEmail.hash}`).pipe(
-      catchError(this.handleError)
-    )
-  }
-
-  private handleError<T>(operation: string = 'operation', result?: T) {
-    return (error: any) => {
-      //do something with operation and error, maybe log somewhere? console.log?
-      //console.log(`${operation} failed: ${error.message}`)
-
-      return of(result as T);
-    }
+    return this.http.get(`${environment.backend.api}${environment.backend.verifyEmailEndpoint}/${verifyEmail.id}/${verifyEmail.hash}`);
   }
 
 }

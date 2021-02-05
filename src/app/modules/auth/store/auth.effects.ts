@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { of } from 'rxjs';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { EMPTY, Observable, of } from 'rxjs';
+import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import * as AuthActions from './auth.action';
 import * as UserActions from '@modules/user/store/user.action';
 import { Login } from '@models/login.model';
@@ -9,24 +9,29 @@ import { AuthService } from '../services/auth.service';
 import { Auth } from '@models/auth.model';
 import { ResetPassword } from '@models/reset-password.model';
 import { VerifyEmail } from '@models/verify-email.model';
+import { NotificationService } from '@services/notification.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class AuthEffects {
 
-  constructor(private actions$: Actions, private authService: AuthService) { }
+  constructor(private actions$: Actions, private authService: AuthService, private notificationService: NotificationService) { }
 
   /* login */
   login$ = createEffect(() => this.actions$.pipe(
     ofType(AuthActions.AuthActionTypes.AUTH_LOGIN),
     mergeMap((action: { type: string, loginInfo: Login }) => this.authService.login(action.loginInfo).pipe(
       mergeMap((auth: Auth) => {
-        console.log('auth effects', auth)
         return [
           { type: AuthActions.AuthActionTypes.AUTH_LOGIN_SUCCESS, authInfo: auth },
           { type: UserActions.UserActionTypes.USER_GET_DATA }
         ]
       }),
-      catchError(err => of({ type: AuthActions.AuthActionTypes.AUTH_LOGIN_ERROR, err: err }))
+      catchError(err => of({
+        type: AuthActions.AuthActionTypes.AUTH_ERROR,
+        origin: AuthActions.AuthActionTypes.AUTH_LOGIN,
+        err: err
+      }))
     ))
   ));
 
@@ -40,7 +45,11 @@ export class AuthEffects {
           { type: UserActions.UserActionTypes.USER_RESET_DATA }
         ]
       }),
-      catchError(err => of({ type: AuthActions.AuthActionTypes.AUTH_LOGOUT_ERROR, err: err }))
+      catchError(err => of({
+        type: AuthActions.AuthActionTypes.AUTH_ERROR,
+        origin: AuthActions.AuthActionTypes.AUTH_LOGOUT,
+        err: err
+      }))
     ))
   ));
 
@@ -52,7 +61,11 @@ export class AuthEffects {
         console.log(res);
         return { type: AuthActions.AuthActionTypes.AUTH_SEND_RESET_PASSWORD_EMAIL_SUCCESS };
       }),
-      catchError(err => of({ type: AuthActions.AuthActionTypes.AUTH_SEND_RESET_PASSWORD_EMAIL_ERROR, err: err }))
+      catchError(err => of({
+        type: AuthActions.AuthActionTypes.AUTH_ERROR,
+        origin: AuthActions.AuthActionTypes.AUTH_SEND_RESET_PASSWORD_EMAIL,
+        err: err
+      }))
     ))
   ));
 
@@ -64,7 +77,11 @@ export class AuthEffects {
         console.log(res);
         return { type: AuthActions.AuthActionTypes.AUTH_RESET_PASSWORD_SUCCESS };
       }),
-      catchError(err => of({ type: AuthActions.AuthActionTypes.AUTH_RESET_PASSWORD_ERROR, err: err }))
+      catchError(err => of({
+        type: AuthActions.AuthActionTypes.AUTH_ERROR,
+        origin: AuthActions.AuthActionTypes.AUTH_RESET_PASSWORD,
+        err: err
+      }))
     ))
   ));
 
@@ -75,7 +92,11 @@ export class AuthEffects {
       map((res) => {
         return { type: AuthActions.AuthActionTypes.AUTH_SEND_VERIFICATION_EMAIL_SUCCESS };
       }),
-      catchError(err => of({ type: AuthActions.AuthActionTypes.AUTH_SEND_VERIFICATION_EMAIL_ERROR, err: err }))
+      catchError(err => of({
+        type: AuthActions.AuthActionTypes.AUTH_ERROR,
+        origin: AuthActions.AuthActionTypes.AUTH_SEND_VERIFICATION_EMAIL,
+        err: err
+      }))
     ))
   ));
 
@@ -83,19 +104,42 @@ export class AuthEffects {
   verifyEmail$ = createEffect(() => this.actions$.pipe(
     ofType(AuthActions.AuthActionTypes.AUTH_VERIFY_EMAIL),
     mergeMap((action: { type: string, verifyEmail: VerifyEmail }) => this.authService.verifyEmail(action.verifyEmail).pipe(
-      // mergeMap(() => {
-      //   return [
-      //     { type: AuthActions.AuthActionTypes.AUTH_VERIFY_EMAIL_SUCCESS },
-      //     { type: AuthActions.AuthActionTypes.AUTH_LOGOUT }
-      //   ];
-      // }),
       map((res) => {
         console.log(res)
         return { type: AuthActions.AuthActionTypes.AUTH_VERIFY_EMAIL_SUCCESS };
       }),
-      catchError(err => of({ type: AuthActions.AuthActionTypes.AUTH_VERIFY_EMAIL_ERROR, err: err }))
+      catchError(err => of({
+        type: AuthActions.AuthActionTypes.AUTH_ERROR,
+        origin: AuthActions.AuthActionTypes.AUTH_VERIFY_EMAIL,
+        err: err
+      }))
     ))
   ));
+
+  error$ = createEffect(() => this.actions$.pipe(
+    ofType(AuthActions.AuthActionTypes.AUTH_ERROR),
+    tap((action: { type: string, origin: AuthActions.AuthActionTypes, err: HttpErrorResponse }) => {
+      switch (action.err.status) {
+        case 401:
+          this.notificationService.showError('Unauthorized', 'OK');
+          break;
+        case 404:
+          this.notificationService.showError('Server not found', 'OK');
+          break;
+        case 422:
+          this.notificationService.showError('Unprocessable entity', 'OK');
+          break;
+        default:
+          this.notificationService.showError('Undefined error', 'OK');
+      }
+      console.log('AUTH ERROR: ', {
+        origin: action.origin,
+        error: action.err
+      });
+    })
+  ),
+    { dispatch: false }
+  );
 
   // login$ = createEffect(() => this.actions$.pipe(
   //   ofType(AuthActions.AuthActionTypes.AUTH_LOGIN),

@@ -8,15 +8,17 @@ import { ChangePassword } from '@models/change-password.model';
 export enum UserActionTypes {
   USER_GET_DATA = '[User] USER_GET_DATA',
   USER_GET_DATA_SUCCESS = '[User] USER_GET_DATA_SUCCESS',
-  USER_GET_DATA_ERROR = '[User] USER_GET_DATA_ERROR',
+  // USER_GET_DATA_ERROR = '[User] USER_GET_DATA_ERROR',
 
   USER_RESET_DATA = '[User] USER_RESET_DATA',
   USER_RESET_DATA_SUCCESS = '[User] USER_RESET_DATA_SUCCESS',
-  USER_RESET_DATA_ERROR = '[User] USER_RESET_DATA_ERROR',
+  // USER_RESET_DATA_ERROR = '[User] USER_RESET_DATA_ERROR',
 
   USER_CHANGE_PASSWORD = '[User] USER_CHANGE_PASSWORD',
   USER_CHANGE_PASSWORD_SUCCESS = '[User] USER_CHANGE_PASSWORD_SUCCESS',
-  USER_CHANGE_PASSWORD_ERROR = '[User] USER_CHANGE_PASSWORD_ERROR',
+  // USER_CHANGE_PASSWORD_ERROR = '[User] USER_CHANGE_PASSWORD_ERROR',
+
+  USER_ERROR = '[User] USER_ERROR',
 
   // USER_REGISTER = '[User] USER_REGISTER',
   // USER_REGISTER_SUCCESS = '[User] USER_REGISTER_SUCCESS',
@@ -70,17 +72,20 @@ export enum UserActionTypes {
 /* get data */
 export const UserGetData = createAction(UserActionTypes.USER_GET_DATA);
 export const UserGetDataSuccess = createAction(UserActionTypes.USER_GET_DATA_SUCCESS, props<{ user: User }>());
-export const UserGetDataError = createAction(UserActionTypes.USER_GET_DATA_ERROR, props<{ err: String }>());
+// export const UserGetDataError = createAction(UserActionTypes.USER_GET_DATA_ERROR, props<{ err: String }>());
 
 /* reset data */
 export const UserResetData = createAction(UserActionTypes.USER_RESET_DATA);
 export const UserResetDataSuccess = createAction(UserActionTypes.USER_RESET_DATA_SUCCESS);
-export const UserResetDataError = createAction(UserActionTypes.USER_RESET_DATA_ERROR, props<{ err: String }>());
+// export const UserResetDataError = createAction(UserActionTypes.USER_RESET_DATA_ERROR, props<{ err: String }>());
 
 /* reset data */
 export const UserChangePassword = createAction(UserActionTypes.USER_CHANGE_PASSWORD, props<{ changePassword: ChangePassword }>());
 export const UserChangePasswordSuccess = createAction(UserActionTypes.USER_CHANGE_PASSWORD_SUCCESS);
-export const UserChangePasswordError = createAction(UserActionTypes.USER_CHANGE_PASSWORD_ERROR, props<{ err: String }>());
+// export const UserChangePasswordError = createAction(UserActionTypes.USER_CHANGE_PASSWORD_ERROR, props<{ err: String }>());
+
+/* error */
+export const UserError = createAction(UserActionTypes.USER_ERROR, props<{ origin: UserActionTypes, err: Error }>());
 
 // /* register */
 // export const UserRegister = createAction(UserActionTypes.USER_REGISTER, props<{ user: User }>());

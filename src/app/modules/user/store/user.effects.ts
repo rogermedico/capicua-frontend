@@ -10,11 +10,13 @@ import { Education } from '@models/education.model';
 import { ActivitiesFavoritesService } from '@services/activities-favorites.service';
 import { Login } from '@models/login.model';
 import { ChangePassword } from '@models/change-password.model';
+import { NotificationService } from '@services/notification.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class UserEffects {
 
-  constructor(private actions$: Actions, private us: UserService, private favService: ActivitiesFavoritesService) { }
+  constructor(private actions$: Actions, private us: UserService, private notificationService: NotificationService) { }
 
   /* get data */
   getData$ = createEffect(() => this.actions$.pipe(
@@ -26,7 +28,11 @@ export class UserEffects {
           map(user => {
             return { type: UserActions.UserActionTypes.USER_GET_DATA_SUCCESS, user: user };
           }),
-          catchError(err => of({ type: UserActions.UserActionTypes.USER_GET_DATA_ERROR, err: err }))
+          catchError(err => of({
+            type: UserActions.UserActionTypes.USER_ERROR,
+            origin: UserActions.UserActionTypes.USER_GET_DATA,
+            err: err
+          }))
         )
       }
     })
@@ -38,7 +44,11 @@ export class UserEffects {
     map(() => {
       return { type: UserActions.UserActionTypes.USER_RESET_DATA_SUCCESS };
     }),
-    catchError(err => of({ type: UserActions.UserActionTypes.USER_RESET_DATA_ERROR, err: err }))
+    catchError(err => of({
+      type: UserActions.UserActionTypes.USER_ERROR,
+      origin: UserActions.UserActionTypes.USER_RESET_DATA,
+      err: err
+    }))
   ));
 
   /* change password  */
@@ -48,9 +58,38 @@ export class UserEffects {
       map(() => {
         return { type: UserActions.UserActionTypes.USER_CHANGE_PASSWORD_SUCCESS };
       }),
-      catchError(err => of({ type: UserActions.UserActionTypes.USER_CHANGE_PASSWORD_ERROR, err: err }))
+      catchError(err => of({
+        type: UserActions.UserActionTypes.USER_ERROR,
+        origin: UserActions.UserActionTypes.USER_CHANGE_PASSWORD,
+        err: err
+      }))
     ))
   ));
+
+  error$ = createEffect(() => this.actions$.pipe(
+    ofType(UserActions.UserActionTypes.USER_ERROR),
+    tap((action: { type: string, origin: UserActions.UserActionTypes, err: HttpErrorResponse }) => {
+      switch (action.err.status) {
+        case 401:
+          this.notificationService.showError('Unauthorized', 'OK');
+          break;
+        case 404:
+          this.notificationService.showError('Server not found', 'OK');
+          break;
+        case 422:
+          this.notificationService.showError('Unprocessable entity', 'OK');
+          break;
+        default:
+          this.notificationService.showError('Undefined error', 'OK');
+      }
+      console.log('USER ERROR: ', {
+        origin: action.origin,
+        error: action.err
+      });
+    })
+  ),
+    { dispatch: false }
+  );
 
   // /* login */
   // login$ = createEffect(() => this.actions$.pipe(

@@ -44,8 +44,14 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
 
   createForm() {
     this.resetPasswordForm = this.fb.group({
-      password: [null, [Validators.required, Validators.minLength(8)]],
-      passwordConfirmation: [null, [Validators.required, Validators.minLength(8)]]
+      password: [null, [
+        Validators.required,
+        Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!¡?¿"·$%&\/\(\)\\\\<>+*=\'_\-]).{8,}')
+      ]],
+      passwordConfirmation: [null, [
+        Validators.required,
+        Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!¡?¿"·$%&\/\(\)\\\\<>+*=\'_\-]).{8,}')
+      ]]
     }, {
       validators: passwordsEqualityValidator
     });

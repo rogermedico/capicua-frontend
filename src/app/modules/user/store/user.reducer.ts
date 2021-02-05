@@ -34,14 +34,14 @@ const _userReducer = createReducer(defaultUserState,
   }),
 
   /* get data error */
-  on(UserActions.UserGetDataError, (state, { err }) => {
-    return {
-      ...state,
-      loading: false,
-      loaded: true,
-      error: err
-    }
-  }),
+  // on(UserActions.UserGetDataError, (state, { err }) => {
+  //   return {
+  //     ...state,
+  //     loading: false,
+  //     loaded: true,
+  //     error: err
+  //   }
+  // }),
 
   /* reset data */
   on(UserActions.UserResetData, state => {
@@ -65,14 +65,14 @@ const _userReducer = createReducer(defaultUserState,
   }),
 
   /* reset data error */
-  on(UserActions.UserResetDataError, (state, { err }) => {
-    return {
-      ...state,
-      loading: false,
-      loaded: true,
-      error: err
-    }
-  }),
+  // on(UserActions.UserResetDataError, (state, { err }) => {
+  //   return {
+  //     ...state,
+  //     loading: false,
+  //     loaded: true,
+  //     error: err
+  //   }
+  // }),
 
   /* change password */
   on(UserActions.UserChangePassword, state => {
@@ -95,7 +95,17 @@ const _userReducer = createReducer(defaultUserState,
   }),
 
   /* change password error */
-  on(UserActions.UserChangePasswordError, (state, { err }) => {
+  // on(UserActions.UserChangePasswordError, (state, { err }) => {
+  //   return {
+  //     ...state,
+  //     loading: false,
+  //     loaded: true,
+  //     error: err
+  //   }
+  // }),
+
+  /* error */
+  on(UserActions.UserError, (state, { err }) => {
     return {
       ...state,
       loading: false,

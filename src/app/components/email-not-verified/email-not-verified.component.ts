@@ -6,7 +6,7 @@ import * as AuthSelectors from '@modules/auth/store/auth.selector';
 import { Observable, Subscription } from 'rxjs';
 import { AuthState } from '@modules/auth/store/auth.state';
 import { map, skip, skipWhile, take } from 'rxjs/operators';
-import { SnackBarService } from '@services/snack-bar.service';
+import { NotificationService } from '@services/notification.service';
 
 
 @Component({
@@ -20,7 +20,7 @@ export class EmailNotVerifiedComponent implements OnInit, OnDestroy {
   public authState$: Observable<AuthState> = this.store$.select(AuthSelectors.selectAuthState);
   private authStateSubscription: Subscription;
 
-  constructor(private store$: Store<AppState>, private snackBarService: SnackBarService) { }
+  constructor(private store$: Store<AppState>, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.buttonText = 'Send reset password email';
@@ -36,7 +36,7 @@ export class EmailNotVerifiedComponent implements OnInit, OnDestroy {
       skipWhile(as => as.loading),
       take(1),
       map(() => {
-        this.snackBarService.openSnackBar('Reset password email sent', 'OK');
+        this.notificationService.showMessage('Reset password email sent', 'OK');
         this.buttonText = 'Resend password email';
       })
     ).subscribe()

@@ -1,6 +1,6 @@
 /* default */
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 
 /* routing */
 import { AppRoutingModule } from './app-routing.module';
@@ -77,7 +77,7 @@ import { AccessTokenInterceptor } from './shared/interceptors/access-token.inter
       provide: HTTP_INTERCEPTORS,
       useClass: AccessTokenInterceptor,
       multi: true
-    }
+    },
   ],
   bootstrap: [AppComponent]
 })

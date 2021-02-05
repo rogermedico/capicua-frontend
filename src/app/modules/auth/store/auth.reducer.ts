@@ -35,15 +35,15 @@ const _authReducer = createReducer(defaultAuthState,
   }),
 
   /* login error */
-  on(AuthActions.AuthLoginError, (state, { err }) => {
-    return {
-      ...state,
-      authInfo: null,
-      loading: false,
-      loaded: true,
-      error: err
-    }
-  }),
+  // on(AuthActions.AuthLoginError, (state, { err }) => {
+  //   return {
+  //     ...state,
+  //     authInfo: null,
+  //     loading: false,
+  //     loaded: true,
+  //     error: err
+  //   }
+  // }),
 
   /* logout */
   on(AuthActions.AuthLogout, state => {
@@ -67,14 +67,14 @@ const _authReducer = createReducer(defaultAuthState,
   }),
 
   /* logout error */
-  on(AuthActions.AuthLogoutError, (state, { err }) => {
-    return {
-      ...state,
-      loading: false,
-      loaded: true,
-      error: err
-    }
-  }),
+  // on(AuthActions.AuthLogoutError, (state, { err }) => {
+  //   return {
+  //     ...state,
+  //     loading: false,
+  //     loaded: true,
+  //     error: err
+  //   }
+  // }),
 
   /* send reset password email */
   on(AuthActions.AuthSendResetPasswordEmail, state => {
@@ -97,14 +97,14 @@ const _authReducer = createReducer(defaultAuthState,
   }),
 
   /* send reset password email error */
-  on(AuthActions.AuthSendResetPasswordEmailError, (state, { err }) => {
-    return {
-      ...state,
-      loading: false,
-      loaded: true,
-      error: err
-    }
-  }),
+  // on(AuthActions.AuthSendResetPasswordEmailError, (state, { err }) => {
+  //   return {
+  //     ...state,
+  //     loading: false,
+  //     loaded: true,
+  //     error: err
+  //   }
+  // }),
 
   /* reset password */
   on(AuthActions.AuthResetPassword, state => {
@@ -127,14 +127,14 @@ const _authReducer = createReducer(defaultAuthState,
   }),
 
   /* reset password error */
-  on(AuthActions.AuthResetPasswordError, (state, { err }) => {
-    return {
-      ...state,
-      loading: false,
-      loaded: true,
-      error: err
-    }
-  }),
+  // on(AuthActions.AuthResetPasswordError, (state, { err }) => {
+  //   return {
+  //     ...state,
+  //     loading: false,
+  //     loaded: true,
+  //     error: err
+  //   }
+  // }),
 
   /* send verification email */
   on(AuthActions.AuthSendVerificationEmail, state => {
@@ -157,14 +157,14 @@ const _authReducer = createReducer(defaultAuthState,
   }),
 
   /* send verification email error */
-  on(AuthActions.AuthSendVerificationEmailError, (state, { err }) => {
-    return {
-      ...state,
-      loading: false,
-      loaded: true,
-      error: err
-    }
-  }),
+  // on(AuthActions.AuthSendVerificationEmailError, (state, { err }) => {
+  //   return {
+  //     ...state,
+  //     loading: false,
+  //     loaded: true,
+  //     error: err
+  //   }
+  // }),
 
   /* verify email */
   on(AuthActions.AuthVerifyEmail, state => {
@@ -187,7 +187,17 @@ const _authReducer = createReducer(defaultAuthState,
   }),
 
   /* verify email error */
-  on(AuthActions.AuthVerifyEmailError, (state, { err }) => {
+  // on(AuthActions.AuthVerifyEmailError, (state, { err }) => {
+  //   return {
+  //     ...state,
+  //     loading: false,
+  //     loaded: true,
+  //     error: err
+  //   }
+  // }),
+
+  /* error */
+  on(AuthActions.AuthError, (state, { err }) => {
     return {
       ...state,
       loading: false,
