@@ -1,16 +1,11 @@
 @import '../../../../../themes/responsive.theme.scss';
 
-.profile-container {
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
-  // flex-direction: column;
-  padding: 30px;
+.container {
+  width: 100%;
 }
 
 .mat-card {
   margin: 16px 32px;
-  width: 90%;
   box-sizing: border-box;
 }
 

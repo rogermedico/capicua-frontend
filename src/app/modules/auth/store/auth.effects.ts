@@ -11,6 +11,7 @@ import { ResetPassword } from '@models/reset-password.model';
 import { VerifyEmail } from '@models/verify-email.model';
 import { NotificationService } from '@services/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import * as UsersActions from '@modules/users/store/users.action';
 
 @Injectable()
 export class AuthEffects {
@@ -42,7 +43,8 @@ export class AuthEffects {
       mergeMap(() => {
         return [
           { type: AuthActions.AuthActionTypes.AUTH_LOGOUT_SUCCESS },
-          { type: UserActions.UserActionTypes.USER_RESET_DATA }
+          { type: UserActions.UserActionTypes.USER_RESET_DATA },
+          { type: UsersActions.UsersActionTypes.USERS_RESET }
         ]
       }),
       catchError(err => of({

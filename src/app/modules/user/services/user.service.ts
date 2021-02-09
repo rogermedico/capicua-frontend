@@ -5,7 +5,7 @@ import { catchError, map, mergeMap, tap } from "rxjs/operators";
 import { User, UserBackend } from '@models/user.model';
 import { environment } from '@environments/environment';
 import { Login } from '@models/login.model';
-import { UserParserService } from "./user-parser.service";
+import { UserParserService } from "../../../shared/services/user-parser.service";
 import { ChangePassword } from "@models/change-password.model";
 
 @Injectable({

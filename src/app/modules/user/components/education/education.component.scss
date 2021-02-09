@@ -1,16 +1,9 @@
-@import '../../../../../themes/responsive.theme.scss';
-
-.profile-container {
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
-  // flex-direction: column;
-  padding: 30px;
+.container {
+  width: 100%;
 }
 
 .mat-card {
   margin: 16px 32px;
-  width: 90%;
   box-sizing: border-box;
 }
 
@@ -45,13 +38,4 @@
 
 .user-detail-row {
   margin-bottom: 1rem;
-}
-
-.avatar {
-  width: auto;
-  max-height: 200px;
-
-  @include screen('lg'){
-    max-height: 300px;
-  }
 }
