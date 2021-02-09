@@ -6,12 +6,20 @@ import { UsersComponent } from './components/users/users.component';
 import { MaterialModule } from '@modules/material/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatSortModule } from '@angular/material/sort';
+import { NewUserComponent } from './components/new-user/new-user.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
-  declarations: [UsersComponent],
+  declarations: [
+    UsersComponent,
+    NewUserComponent,
+    NewUserComponent
+  ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     UsersRoutingModule,
     MaterialModule,
     MatSortModule,

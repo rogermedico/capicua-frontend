@@ -1,4 +1,4 @@
-import { FormGroup, ValidationErrors, ValidatorFn } from "@angular/forms";
+import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 
 function checkLetter(nif: string): boolean {
   const letter: string = nif.slice(-1);
@@ -14,10 +14,6 @@ function checkLetter(nif: string): boolean {
   else return true;
 }
 
-export const nifValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
-  const nationality = control.get('nationality').value;
-  if (nationality != 'ES') return null;
-  const nif = control.get('nif').value;
-  if (nif == null || nif == '') return null;
-  return checkLetter(nif) ? { nifValidationResult: true } : null;
+export const dniValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  return checkLetter(control.value) ? { nifValidationResult: true } : null;
 }

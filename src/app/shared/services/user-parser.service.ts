@@ -21,6 +21,7 @@ export class UserParserService {
       surname: user.surname,
       email: user.email,
       userType: {
+        id: user.user_type.id,
         name: user.user_type.name,
         rank: user.user_type.rank
       },
