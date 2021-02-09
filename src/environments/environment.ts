@@ -16,6 +16,7 @@ export const environment = {
     userEndpoint: 'user',
     changePasswordEndpoint: 'user/password',
     usersEndpoint: 'users',
+    userTypesEndpoint: 'usertypes',
 
     /* email */
     verifyEmailEndpoint: 'email/verify',

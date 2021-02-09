@@ -17,7 +17,7 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class UsersComponent implements OnInit, OnDestroy {
 
-  public usersDisplayedColumns: string[] = ['name', 'surname', 'rank', 'actions'];
+  public usersDisplayedColumns: string[] = ['name', 'surname', 'actions'];
   public usersState$: Observable<UsersState> = this.store$.select(UsersSelectors.selectUsersState);
   public usersStateSubscriptor: Subscription;
   public dataSource: MatTableDataSource<User>;
@@ -32,13 +32,23 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.store$.dispatch(UsersActions.UsersGetAll());
     this.usersStateSubscriptor = this.usersState$.pipe(
       tap(us => {
-        this.dataSource = new MatTableDataSource(us.users)
-        this.dataSource.sortingDataAccessor = (item, property) => {
-          switch (property) {
-            case 'rank': return item.userType.name;
-            default: return item[property]
-          }
-        };
+        this.dataSource = new MatTableDataSource(us.users);
+        /* allow filter ignoring accents and diacritics */
+        this.dataSource.filterPredicate = (data: User, filter: string): boolean => {
+          const dataStr = Object.keys(data).reduce((currentTerm: string, key: string) => {
+            return (currentTerm + (data as { [key: string]: any })[key] + '◬');
+          }, '').normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+          const transformedFilter = filter.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+          return dataStr.indexOf(transformedFilter) != -1;
+        }
+
+        // to sort no first properties
+        // this.dataSource.sortingDataAccessor = (item, property) => {
+        //   switch (property) {
+        //     case 'rank': return item.userType.name;
+        //     default: return item[property]
+        //   }
+        // };
         // this.dataSource.sort = this.sort;
       })
     ).subscribe();
@@ -48,6 +58,9 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.usersStateSubscriptor.unsubscribe();
   }
 
-
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 
 }

@@ -1,8 +1,7 @@
 import { UserType } from '@models/user-type.model';
-import { User } from '@models/user.model';
 
-export interface UserState {
-  user: User;
+export interface UserTypesState {
+  userTypes: UserType[];
   loading: boolean;
   loaded: boolean;
   error: Error;

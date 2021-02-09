@@ -12,6 +12,7 @@ import { VerifyEmail } from '@models/verify-email.model';
 import { NotificationService } from '@services/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import * as UsersActions from '@modules/users/store/users.action';
+import * as UserTypesActions from '@store/user-types/user-types.action';
 
 @Injectable()
 export class AuthEffects {
@@ -25,7 +26,8 @@ export class AuthEffects {
       mergeMap((auth: Auth) => {
         return [
           { type: AuthActions.AuthActionTypes.AUTH_LOGIN_SUCCESS, authInfo: auth },
-          { type: UserActions.UserActionTypes.USER_GET_DATA }
+          { type: UserActions.UserActionTypes.USER_GET_DATA },
+          { type: UserTypesActions.UserTypesActionTypes.USER_TYPES_GET_ALL },
         ]
       }),
       catchError(err => of({
@@ -44,7 +46,8 @@ export class AuthEffects {
         return [
           { type: AuthActions.AuthActionTypes.AUTH_LOGOUT_SUCCESS },
           { type: UserActions.UserActionTypes.USER_RESET_DATA },
-          { type: UsersActions.UsersActionTypes.USERS_RESET }
+          { type: UsersActions.UsersActionTypes.USERS_RESET },
+          { type: UserTypesActions.UserTypesActionTypes.USER_TYPES_RESET },
         ]
       }),
       catchError(err => of({

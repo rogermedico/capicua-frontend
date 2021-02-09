@@ -3,13 +3,15 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, OnDes
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '@store/root.state';
-import { Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import * as UserSelectors from '@modules/user/store/user.selector';
 import * as AuthSelectors from '@modules/auth/store/auth.selector';
 import { filter, map, skipWhile, take, tap } from 'rxjs/operators';
 import { UserState } from '@modules/user/store/user.state';
 import { Meta } from '@angular/platform-browser';
 import { AuthState } from '@modules/auth/store/auth.state';
+import { UserTypesState } from '@store/user-types/user-types.state';
+import * as UserTypesSelectors from '@store/user-types/user-types.selector';
 
 @Component({
   selector: 'app-root',
@@ -25,6 +27,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public authState$: Observable<AuthState> = this.store$.select(AuthSelectors.selectAuthState);
   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
+  public userTypesState$: Observable<UserTypesState> = this.store$.select(UserTypesSelectors.selectUserTypesState);
 
   public sidenavOpened: boolean;
   public sidenavMode: string;
@@ -34,7 +37,10 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   public XSmallBreakpointSubscriber: Subscription;
   public smallBreakpointSubscriber: Subscription;
   public largeBreakpointSubscriber: Subscription;
-  public userStateSubscriber: Subscription;
+  public authStateSubscriber: Subscription;
+  public userTypesStateSubscriber: Subscription;
+
+  public allowedToUsers: Observable<boolean>;
 
   constructor(private meta: Meta, private store$: Store<AppState>, private bpo: BreakpointObserver/*, private router: Router*/) { }
 
@@ -63,11 +69,25 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         this.sidenavMarginTop = 64;
       }
     });
+
+    const combinedUserUserTypes = combineLatest([this.userState$, this.userTypesState$]);
+    this.allowedToUsers = combinedUserUserTypes.pipe(
+      // skipWhile(([user, userTypes]) => {
+      //   return user.user == null || user.loading || userTypes.userTypes == null || userTypes.loading;
+      // }),
+      filter(([user, userTypes]) => {
+        return user.user != null && userTypes.userTypes != null;
+      }),
+      map(([user, userTypes]) => {
+        const userRanks = userTypes.userTypes.map(ut => ut.rank);
+        return user.user.userType.rank < Math.max(...userRanks);
+      })
+    );
   }
 
   ngAfterViewInit() {
-    this.userStateSubscriber = this.userState$.pipe(
-      filter(us => us.user !== null),
+    this.authStateSubscriber = this.authState$.pipe(
+      filter(as => as.authInfo !== null),
       take(1),
       tap(() => {
         const primaryColor = getComputedStyle(this.getStylesElement.nativeElement).color;
@@ -91,7 +111,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.XSmallBreakpointSubscriber.unsubscribe();
     this.smallBreakpointSubscriber.unsubscribe();
     this.largeBreakpointSubscriber.unsubscribe();
-    this.userStateSubscriber.unsubscribe();
+    this.authStateSubscriber.unsubscribe();
+    this.userTypesStateSubscriber.unsubscribe();
   }
 
 }
