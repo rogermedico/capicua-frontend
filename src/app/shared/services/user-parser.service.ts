@@ -15,7 +15,7 @@ export class UserParserService {
   constructor() { }
 
   parse(user: UserBackend): User {
-    const parsedUser = {
+    const parsedUser: User = {
       id: user.id,
       name: user.name,
       surname: user.surname,

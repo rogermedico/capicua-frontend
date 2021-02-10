@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
-import { User, UserBackend } from '@models/user.model';
+import { NewUser, User, UserBackend } from '@models/user.model';
 import { UserParserService } from '@services/user-parser.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -20,4 +20,12 @@ export class UsersService {
       })
     );
   }
+
+  newUser(newUser: NewUser): Observable<User> {
+    console.log('users service, newUser')
+    return this.http.post<UserBackend>(environment.backend.api + environment.backend.userEndpoint, newUser).pipe(
+      map(userBackend => this.userParserService.parse(userBackend))
+    );
+  }
+
 }

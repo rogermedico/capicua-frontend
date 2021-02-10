@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import * as UsersActions from './users.action';
 import { UsersService } from '@modules/users/services/users.service';
-import { User } from '@models/user.model';
+import { NewUser, User } from '@models/user.model';
 import { Language } from '@models/language.model';
 import { Education } from '@models/education.model';
 import { ActivitiesFavoritesService } from '@services/activities-favorites.service';
@@ -45,6 +45,23 @@ export class UsersEffects {
       err: err
     }))
   ));
+
+  /* create new user */
+  createadfUser$ = createEffect(() => this.actions$.pipe(
+    ofType(UsersActions.UsersActionTypes.USERS_CREATE),
+    mergeMap((action: { type: string, newUser: NewUser }) => this.us.newUser(action.newUser).pipe(
+      map((user: User) => {
+        console.log('user', user);
+        return { type: UsersActions.UsersActionTypes.USERS_CREATE_SUCCESS, user: user };
+      }),
+      catchError(err => of({
+        type: UsersActions.UsersActionTypes.USERS_ERROR,
+        origin: UsersActions.UsersActionTypes.USERS_CREATE,
+        err: err
+      }))
+    ))
+  ),
+    { dispatch: false });
 
   // /* reset data */
   // resetData$ = createEffect(() => this.actions$.pipe(

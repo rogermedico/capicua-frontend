@@ -1,6 +1,10 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 
 function checkLetter(nif: string): boolean {
+
+  /* no value, no error */
+  if (!nif) return false;
+
   const letter: string = nif.slice(-1);
   const number: number = parseInt(nif.slice(0, nif.length - 1));
 

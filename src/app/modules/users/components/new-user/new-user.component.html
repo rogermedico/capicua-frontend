@@ -7,25 +7,110 @@
 
       <form [formGroup]="newUserForm" (ngSubmit)="createNewUser()">
         <mat-card-content>
-          <section>
-            <mat-form-field appearance="outline">
-              <mat-label for="name">Enter your name:</mat-label>
-              <input matInput type="text" placeholder="Name" name="name" formControlName="name">
-              <mat-error *ngIf="name.invalid && name.dirty && name.value ===''">
-                Username is Mandatory
-              </mat-error>
-              <mat-error *ngIf="name.dirty && name.invalid && name.value.length<3 && name.value.length>0">
-                Username has to be greater than 2 characters
-              </mat-error>
-              <mat-error *ngIf="name.dirty && name.invalid && name.value.length>55">
-                Username has to be lesser than 56 characters
-              </mat-error>
-              <mat-error *ngIf="name.dirty && name.invalid && name.value.length>=3 && name.value.length<=55">
-                Username has to be alphabetic without begining nor ending spaces
-              </mat-error>
+          <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-md="row" fxLayoutGap.gt-md="16px">
+            <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+              <mat-label>Name</mat-label>
+              <input matInput type="text" placeholder="Rodolf" name="name" formControlName="name">
+            </mat-form-field>
+            <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+              <mat-label>Surname</mat-label>
+              <input matInput type="text" placeholder="Roigé Galceran" name="surname" formControlName="surname">
             </mat-form-field>
           </section>
-          <section>
+          <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-md="row" fxLayoutGap.gt-md="16px">
+            <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+              <mat-label>Email</mat-label>
+              <input matInput type="email" placeholder="rroige@capicua.cat" name="email" formControlName="email">
+            </mat-form-field>
+            <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+              <mat-label>User type</mat-label>
+              <mat-select formControlName="userTypeId">
+                <mat-option *ngFor="let userType of userTypes" [value]="userType.id">
+                  {{userType.name}} ({{userType.rank}})
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </section>
+          <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-md="row" fxLayoutGap.gt-md="16px">
+            <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+              <mat-label>Phone</mat-label>
+              <input matInput type="text" placeholder="690123123" name="phone" formControlName="phone">
+            </mat-form-field>
+            <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+              <mat-label>DNI</mat-label>
+              <input matInput type="text" placeholder="DNI" name="dni" formControlName="dni">
+            </mat-form-field>
+            <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+              <mat-label>Birth date</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="birthDate">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </section>
+          <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-md="row" fxLayoutGap.gt-md="16px">
+            <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="1 1 auto">
+              <mat-label>Address number</mat-label>
+              <input matInput type="text" placeholder="Number" name="addressNumber" formControlName="addressNumber">
+            </mat-form-field>
+            <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="3 3auto">
+              <mat-label>Address street</mat-label>
+              <input matInput type="text" placeholder="Street" name="addressStreet" formControlName="addressStreet">
+            </mat-form-field>
+
+            <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="1 1 auto">
+              <mat-label>Address CP</mat-label>
+              <input matInput type="text" placeholder="CP" name="addressCp" formControlName="addressCp">
+            </mat-form-field>
+          </section>
+          <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-md="row" fxLayoutGap.gt-md="16px">
+            <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+              <mat-label>Address city</mat-label>
+              <input matInput type="text" placeholder="City" name="addressCity" formControlName="addressCity">
+            </mat-form-field>
+            <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+              <mat-label>Address country</mat-label>
+              <input matInput type="text" placeholder="Country" name="addressCountry" formControlName="addressCountry">
+            </mat-form-field>
+          </section>
+          <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-md="row" fxLayoutGap.gt-md="16px">
+            <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+              <mat-label>Actual position</mat-label>
+              <input matInput type="text" placeholder="Monitor de menjador" name="actualPosition"
+                formControlName="actualPosition">
+            </mat-form-field>
+          </section>
+
+        </mat-card-content>
+        <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
+          <button mat-raised-button color="accent" type="submit" [disabled]="!newUserForm.valid">
+            Create user
+          </button>
+        </mat-card-actions>
+      </form>
+
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<ng-template #loading>
+  <div fxLayout fxLayoutAlign="center center" class="spinner">
+    <mat-spinner color="accent"></mat-spinner>
+  </div>
+</ng-template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <section>
             <mat-form-field appearance="outline">
               <mat-label for="surname">Enter your surname:</mat-label>
               <input matInput type="text" placeholder="Surname" name="surname" formControlName="surname">
@@ -113,21 +198,4 @@
               <mat-label for="cif">Enter your CIF:</mat-label>
               <input matInput type="text" placeholder="CIF" name="cif" formControlName="cif">
             </mat-form-field>
-          </section>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-raised-button color="primary" type="submit" [disabled]="!profileForm.valid">
-            Update Profile
-          </button>
-        </mat-card-actions>
-      </form>
-
-    </mat-card-content>
-  </mat-card>
-</div>
-
-<ng-template #loading>
-  <div fxLayout fxLayoutAlign="center center" class="spinner">
-    <mat-spinner color="accent"></mat-spinner>
-  </div>
-</ng-template>
+          </section> -->

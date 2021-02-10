@@ -8,6 +8,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatSortModule } from '@angular/material/sort';
 import { NewUserComponent } from './components/new-user/new-user.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     UsersRoutingModule,
     MaterialModule,
     MatSortModule,
+    MatNativeDateModule,
     FlexLayoutModule
   ]
 })

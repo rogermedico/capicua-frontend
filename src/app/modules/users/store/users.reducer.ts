@@ -54,6 +54,28 @@ const _usersReducer = createReducer(defaultUsersState,
     }
   }),
 
+  /* create user */
+  on(UsersActions.UsersCreate, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* create user success */
+  on(UsersActions.UsersCreateSuccess, (state, { user }) => {
+    console.log('reducer usercreatesuccess', user)
+    return {
+      ...state,
+      users: [...state.users, user],
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
   /* error */
   on(UsersActions.UsersError, (state, { err }) => {
     return {

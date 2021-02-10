@@ -1,19 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsersState } from '@modules/users/store/users.state';
 import { Store } from '@ngrx/store';
 import { AppState } from '@store/root.state';
 import * as UsersSelectors from '@modules/users/store/users.selector';
-import { Observable } from 'rxjs';
+import * as UserSelectors from '@modules/user/store/user.selector';
+import * as UserTypesSelectors from '@store/user-types/user-types.selector';
+import { combineLatest, Observable, Subscriber, Subscription } from 'rxjs';
 import { dniValidator } from '@validators/dni.validator';
 import { userTypeValidator } from '@validators/userType.validator';
+import { UserState } from '@modules/user/store/user.state';
+import { UserTypesState } from '@store/user-types/user-types.state';
+import { filter, map, take } from 'rxjs/operators';
+import { UserType } from '@models/user-type.model';
+import { NewUser, User, UserBackend } from '@models/user.model';
+import { PasswordGeneratorService } from '@services/password-generator.service';
+import * as UsersActions from '@modules/users/store/users.action';
 
 @Component({
   selector: 'app-new-user',
   templateUrl: './new-user.component.html',
   styleUrls: ['./new-user.component.scss']
 })
-export class NewUserComponent implements OnInit {
+export class NewUserComponent implements OnInit, OnDestroy {
 
   // public nationalities = Object.values(NATIONALITIES);
   // public userTypes = USER_TYPES;
@@ -26,10 +35,33 @@ export class NewUserComponent implements OnInit {
   public newUserForm: FormGroup;
   // public newUserFormValueChangesSubscriber: Subscription;
   public usersState$: Observable<UsersState> = this.store$.select(UsersSelectors.selectUsersState);
+  public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
+  public userTypesState$: Observable<UserTypesState> = this.store$.select(UserTypesSelectors.selectUserTypesState);
+  public combinedUserUserTypesStateSubscription: Subscription;
+  public userTypes: UserType[];
 
-  constructor(private store$: Store<AppState>, private fb: FormBuilder) { }
+  constructor(private store$: Store<AppState>, private fb: FormBuilder, private passwordGenerator: PasswordGeneratorService) { }
 
   ngOnInit(): void {
+
+    this.combinedUserUserTypesStateSubscription = combineLatest([this.userState$, this.userTypesState$]).pipe(
+      filter(([userState, userTypesState]) => {
+        return userState.user != null && userTypesState.userTypes != null;
+      }),
+      take(1),
+      map(([userState, userTypesState]) => {
+        if (userState.user.userType.rank == 1) {
+          this.userTypes = userTypesState.userTypes;
+        }
+        else {
+          this.userTypes = userTypesState.userTypes.filter(ut => {
+            if (userState.user.userType.rank != ut.rank) return ut;
+          })
+          console.log(this.userTypes)
+        }
+
+      })
+    ).subscribe();
 
     // this.userSubscriber = this.userLoggedIn$.pipe(
     //   take(1),
@@ -61,7 +93,7 @@ export class NewUserComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    // this.userSubscriber.unsubscribe();
+    this.combinedUserUserTypesStateSubscription.unsubscribe();
     // if (this.userStateSubscriber) this.userStateSubscriber.unsubscribe();
     // this.newUserFormValueChangesSubscriber.unsubscribe();
     // this.snackBarSubscription.unsubscribe();
@@ -79,39 +111,42 @@ export class NewUserComponent implements OnInit {
         Validators.maxLength(55)
       ]],
       email: [null, [
-        Validators.required, Validators.email
-      ]],
-      password: [null, [
         Validators.required,
-        Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!¡?¿"·$%&\/\(\)\\\\<>+*=\'_\-]).{8,}')
+        Validators.email,
+        Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')
       ]],
-      birthDate: [null, [
-        Validators.pattern('^(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/]\\d{4}$')
-      ]],
+      // password: [null, [
+      //   Validators.required,
+      //   Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!¡?¿"·$%&\/\(\)\\\\<>+*=\'_\-]).{8,}')
+      // ]],
+      birthDate: [null],
       phone: [null, [
         Validators.minLength(9),
         Validators.maxLength(15),
       ]],
-      address_number: [null, [
+      addressNumber: [null, [
         Validators.maxLength(50)
       ]],
-      address_street: [null, [
+      addressStreet: [null, [
         Validators.maxLength(70)
       ]],
-      address_city: [null, [
+      addressCity: [null, [
         Validators.maxLength(50)
       ]],
-      address_cp: [null, [
+      addressCp: [null, [
         Validators.maxLength(10)
       ]],
-      address_country: [null, [
+      addressCountry: [null, [
         Validators.maxLength(50)
       ]],
       dni: [null, [
         dniValidator
       ]],
-      user_type_id: [null, [
+      userTypeId: [null, [
         userTypeValidator
+      ]],
+      actualPosition: [null, [
+        Validators.maxLength(100),
       ]]
     });
 
@@ -119,7 +154,31 @@ export class NewUserComponent implements OnInit {
 
   createNewUser() {
 
+    if (this.newUserForm.valid) {
+      const newUser: NewUser = {
+        name: this.name.value,
+        surname: this.surname.value,
+        email: this.email.value,
+        user_type_id: this.userTypeId.value,
+        password: this.passwordGenerator.generate(),
+        dni: this.dni.value,
+        birth_date: this.birthDate.value,
+        address_street: this.addressStreet.value,
+        address_number: this.addressNumber.value,
+        address_city: this.addressCity.value,
+        address_cp: this.addressCp.value,
+        address_country: this.addressCountry.value,
+        phone: this.phone.value,
+        actual_position: this.actualPosition.value,
+      }
+
+      this.store$.dispatch(UsersActions.UsersCreate({ newUser: newUser }));
+
+    }
+
   }
+
+
 
   // updateProfile() {
   //   if (this.newUserForm.valid) {
@@ -155,19 +214,26 @@ export class NewUserComponent implements OnInit {
 
   get surname() { return this.newUserForm.get('surname'); }
 
-  get birthDate() { return this.newUserForm.get('birthDate'); }
+  get email() { return this.newUserForm.get('email'); }
+
+  get userTypeId() { return this.newUserForm.get('userTypeId'); }
 
   get phone() { return this.newUserForm.get('phone'); }
 
-  get nationality() { return this.newUserForm.get('nationality'); }
+  get dni() { return this.newUserForm.get('dni'); }
 
-  get nif() { return this.newUserForm.get('nif'); }
+  get birthDate() { return this.newUserForm.get('birthDate'); }
 
-  get aboutMe() { return this.newUserForm.get('aboutMe'); }
+  get addressNumber() { return this.newUserForm.get('addressNumber'); }
 
-  get companyName() { return this.newUserForm.get('companyName'); }
+  get addressStreet() { return this.newUserForm.get('addressStreet'); }
 
-  get companyDescription() { return this.newUserForm.get('companyDescription'); }
+  get addressCp() { return this.newUserForm.get('addressCp'); }
 
-  get cif() { return this.newUserForm.get('cif'); }
+  get addressCity() { return this.newUserForm.get('addressCity'); }
+
+  get addressCountry() { return this.newUserForm.get('addressCountry'); }
+
+  get actualPosition() { return this.newUserForm.get('actualPosition'); }
+
 }
