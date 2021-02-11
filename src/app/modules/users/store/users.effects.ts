@@ -52,6 +52,7 @@ export class UsersEffects {
     mergeMap((action: { type: string, newUser: NewUser }) => this.us.newUser(action.newUser).pipe(
       map((user: User) => {
         console.log('user', user);
+        //es crida dues vegades nose perque!!!!!
         return { type: UsersActions.UsersActionTypes.USERS_CREATE_SUCCESS, user: user };
       }),
       catchError(err => of({
@@ -60,8 +61,7 @@ export class UsersEffects {
         err: err
       }))
     ))
-  ),
-    { dispatch: false });
+  ));
 
   // /* reset data */
   // resetData$ = createEffect(() => this.actions$.pipe(
@@ -95,6 +95,9 @@ export class UsersEffects {
     ofType(UsersActions.UsersActionTypes.USERS_ERROR),
     tap((action: { type: string, origin: UsersActions.UsersActionTypes, err: HttpErrorResponse }) => {
       switch (action.err.status) {
+        case 400:
+          this.notificationService.showError('Email address already in use', 'OK');
+          break;
         case 401:
           this.notificationService.showError('Unauthorized', 'OK');
           break;
