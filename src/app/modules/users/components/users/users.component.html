@@ -1,6 +1,6 @@
 <div class="container" *ngIf="(usersState$ | async).users != null; else loading">
   <mat-card class="mat-elevation-z4">
-    <mat-card-header>
+    <mat-card-header class="mat-card-header">
       <mat-card-title>Users</mat-card-title>
     </mat-card-header>
 
@@ -20,9 +20,18 @@
           <mat-header-cell *matHeaderCellDef mat-sort-header>Surname</mat-header-cell>
           <mat-cell *matCellDef="let element">{{element.surname}}</mat-cell>
         </ng-container>
+
+
         <ng-container matColumnDef="actions">
           <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
-          <mat-cell *matCellDef="let element">asdf</mat-cell>
+          <mat-cell *matCellDef="let element; let i = index">
+            <a class="action-link" [routerLink]="" (click)="updateUser(element)">
+              <mat-icon class="action-icon">edit</mat-icon>
+            </a>
+            <a class="action-link" [routerLink]="" (click)="deleteUser(element)">
+              <mat-icon class="action-icon">delete</mat-icon>
+            </a>
+          </mat-cell>
         </ng-container>
 
 

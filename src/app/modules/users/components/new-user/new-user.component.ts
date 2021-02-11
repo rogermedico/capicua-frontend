@@ -11,11 +11,13 @@ import { dniValidator } from '@validators/dni.validator';
 import { userTypeValidator } from '@validators/userType.validator';
 import { UserState } from '@modules/user/store/user.state';
 import { UserTypesState } from '@store/user-types/user-types.state';
-import { filter, map, take } from 'rxjs/operators';
+import { filter, map, skipWhile, take } from 'rxjs/operators';
 import { UserType } from '@models/user-type.model';
 import { NewUser, User, UserBackend } from '@models/user.model';
 import { PasswordGeneratorService } from '@services/password-generator.service';
 import * as UsersActions from '@modules/users/store/users.action';
+import { Router } from '@angular/router';
+import { NotificationService } from '@services/notification.service';
 
 @Component({
   selector: 'app-new-user',
@@ -38,9 +40,16 @@ export class NewUserComponent implements OnInit, OnDestroy {
   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
   public userTypesState$: Observable<UserTypesState> = this.store$.select(UserTypesSelectors.selectUserTypesState);
   public combinedUserUserTypesStateSubscription: Subscription;
+  public usersStateSubscription: Subscription;
   public userTypes: UserType[];
 
-  constructor(private store$: Store<AppState>, private fb: FormBuilder, private passwordGenerator: PasswordGeneratorService) { }
+  constructor(
+    private store$: Store<AppState>,
+    private fb: FormBuilder,
+    private passwordGenerator: PasswordGeneratorService,
+    private router: Router,
+    private notificationService: NotificationService
+  ) { }
 
   ngOnInit(): void {
 
@@ -94,6 +103,7 @@ export class NewUserComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.combinedUserUserTypesStateSubscription.unsubscribe();
+    if (this.usersStateSubscription) this.usersStateSubscription.unsubscribe();
     // if (this.userStateSubscriber) this.userStateSubscriber.unsubscribe();
     // this.newUserFormValueChangesSubscriber.unsubscribe();
     // this.snackBarSubscription.unsubscribe();
@@ -173,6 +183,13 @@ export class NewUserComponent implements OnInit, OnDestroy {
       }
 
       this.store$.dispatch(UsersActions.UsersCreate({ newUser: newUser }));
+      this.usersStateSubscription = this.usersState$.pipe(
+        skipWhile(usersState => usersState.loading),
+        map(() => {
+          this.router.navigateByUrl('/users');
+          this.notificationService.showMessage('New user created successfully', 'OK');
+        })
+      ).subscribe()
 
     }
 

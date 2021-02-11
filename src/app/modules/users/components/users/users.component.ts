@@ -7,7 +7,7 @@ import * as UsersSelectors from '@modules/users/store/users.selector';
 import * as UsersActions from '@modules/users/store/users.action';
 import { MatSort } from '@angular/material/sort';
 import { User } from '@models/user.model';
-import { take, tap } from 'rxjs/operators';
+import { skipWhile, take, tap } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -20,7 +20,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   public usersDisplayedColumns: string[] = ['name', 'surname', 'actions'];
   public usersState$: Observable<UsersState> = this.store$.select(UsersSelectors.selectUsersState);
   public usersStateSubscriptor: Subscription;
-  public dataSource: MatTableDataSource<User>;
+  public dataSource: MatTableDataSource<User> = new MatTableDataSource();
 
   constructor(private store$: Store<AppState>) { }
 
@@ -31,8 +31,9 @@ export class UsersComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.store$.dispatch(UsersActions.UsersGetAll());
     this.usersStateSubscriptor = this.usersState$.pipe(
+      skipWhile(us => us.users == null),
       tap(us => {
-        this.dataSource = new MatTableDataSource(us.users);
+        this.dataSource = new MatTableDataSource(us.users.filter(user => !user.deleted));
         /* allow filter ignoring accents and diacritics */
         this.dataSource.filterPredicate = (data: User, filter: string): boolean => {
           const dataStr = Object.keys(data).reduce((currentTerm: string, key: string) => {
@@ -61,6 +62,14 @@ export class UsersComponent implements OnInit, OnDestroy {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  updateUser(element: User) {
+    console.log(element);
+  }
+
+  deleteUser() {
+
   }
 
 }

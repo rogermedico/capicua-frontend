@@ -125,6 +125,9 @@ export class AuthEffects {
     ofType(AuthActions.AuthActionTypes.AUTH_ERROR),
     tap((action: { type: string, origin: AuthActions.AuthActionTypes, err: HttpErrorResponse }) => {
       switch (action.err.status) {
+        case 400:
+          this.notificationService.showError(action.err.error.message, 'OK');
+          break;
         case 401:
           this.notificationService.showError('Unauthorized', 'OK');
           break;

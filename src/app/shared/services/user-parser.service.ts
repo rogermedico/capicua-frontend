@@ -69,7 +69,8 @@ export class UserParserService {
         }
         return parsedLanguage;
       }),
-      emailVerified: user.email_verified_at ? true : false
+      emailVerified: user.email_verified_at ? true : false,
+      deleted: user.deleted,
     }
 
     return parsedUser;

@@ -12,9 +12,10 @@
   // Define any styles affected by the theme.
   .active-sidenav-item {
     .nav-caption{
-    color: mat-color($primary);
+      color: mat-color($primary);
+    }
   }
-  }
+
 }
 
 @mixin app-typography($config-or-theme) {
