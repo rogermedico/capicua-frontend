@@ -21,7 +21,7 @@ export interface User {
   educations: Education[];
   languages: Language[];
   emailVerified: boolean;
-  deleted: boolean;
+  deactivated: boolean;
 }
 
 export interface UserBackend {
@@ -44,7 +44,7 @@ export interface UserBackend {
   educations: EducationBackend[];
   languages: LanguageBackend[];
   email_verified_at: string;
-  deleted: boolean;
+  deactivated: boolean;
 }
 
 export interface NewUser {

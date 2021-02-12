@@ -1,0 +1,60 @@
+<div class="container">
+  <mat-card fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px" fxLayout.gt-md="row"
+    fxLayoutAlign.gt-md="start start" class="mat-elevation-z4">
+    <div flex-item>
+      <img class="avatar" src="../../../../../assets/images/generic-avatar.png">
+    </div>
+    <div flex-item>
+      <mat-card-header>
+        <mat-card-title>{{user.name}} {{user.surname}}
+          <a class="action-link" [routerLink]="" (click)="editNameSurnameField({name:user.name,surname:user.surname})">
+            <mat-icon class="action-icon">edit</mat-icon>
+          </a>
+        </mat-card-title>
+
+      </mat-card-header>
+      <mat-card-content>
+        <div class="user-detail-row">
+          <span class="user-tooltip">Actual position:</span>
+          <span class="user-item"> {{user.actualPosition}}</span>
+        </div>
+        <div class="user-detail-row">
+          <span class="user-tooltip">DNI:</span>
+          <span class="user-item"> {{user.dni}}</span>
+        </div>
+        <div class="user-detail-row">
+          <span class="user-tooltip">Birth date:</span>
+          <span class="user-item"> {{user.birthDate | date:'d/MM/yyyy'}}</span>
+        </div>
+        <div class="user-detail-row">
+          <span class="user-tooltip">Phone:</span>
+          <span class="user-item"> {{user.phone}}</span>
+        </div>
+        <div class="user-detail-row">
+          <span class="user-tooltip">Address:</span>
+          <span class="user-item"> {{user.address.street}}, {{user.address.number}}</span>
+        </div>
+        <div class="user-detail-row">
+          <span class="user-tooltip">City:</span>
+          <span class="user-item"> {{user.address.city}}</span>
+        </div>
+        <div class="user-detail-row">
+          <span class="user-tooltip">CP:</span>
+          <span class="user-item"> {{user.address.cp}}</span>
+        </div>
+        <div class="user-detail-row">
+          <span class="user-tooltip">Country:</span>
+          <span class="user-item"> {{user.address.country}}</span>
+        </div>
+        <div class="user-detail-row">
+          <span class="user-tooltip">Driving Licences:</span>
+          <span class="user-item"> {{drivingLicences}}</span>
+        </div>
+        <div class="user-detail-row">
+          <span class="user-tooltip">Email:</span>
+          <span class="user-item"> {{user.email}}</span>
+        </div>
+      </mat-card-content>
+    </div>
+  </mat-card>
+</div>

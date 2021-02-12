@@ -5,10 +5,14 @@ import { AppState } from '@store/root.state';
 import { Observable, Subscription } from 'rxjs';
 import * as UsersSelectors from '@modules/users/store/users.selector';
 import * as UsersActions from '@modules/users/store/users.action';
+import * as UserSelectors from '@modules/user/store/user.selector';
 import { MatSort } from '@angular/material/sort';
 import { User } from '@models/user.model';
 import { skipWhile, take, tap } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
+import { DeactivateUserDialogComponent } from '../deactivate-user-dialog/deactivate-user-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { UserState } from '@modules/user/store/user.state';
 
 @Component({
   selector: 'app-users',
@@ -18,11 +22,12 @@ import { MatTableDataSource } from '@angular/material/table';
 export class UsersComponent implements OnInit, OnDestroy {
 
   public usersDisplayedColumns: string[] = ['name', 'surname', 'actions'];
+  public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
   public usersState$: Observable<UsersState> = this.store$.select(UsersSelectors.selectUsersState);
   public usersStateSubscriptor: Subscription;
   public dataSource: MatTableDataSource<User> = new MatTableDataSource();
 
-  constructor(private store$: Store<AppState>) { }
+  constructor(private store$: Store<AppState>, private dialog: MatDialog) { }
 
   @ViewChild(MatSort, { static: false }) set content(sort: MatSort) {
     this.dataSource.sort = sort;
@@ -33,7 +38,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.usersStateSubscriptor = this.usersState$.pipe(
       skipWhile(us => us.users == null),
       tap(us => {
-        this.dataSource = new MatTableDataSource(us.users.filter(user => !user.deleted));
+        this.dataSource = new MatTableDataSource(us.users.filter(user => !user.deactivated));
         /* allow filter ignoring accents and diacritics */
         this.dataSource.filterPredicate = (data: User, filter: string): boolean => {
           const dataStr = Object.keys(data).reduce((currentTerm: string, key: string) => {
@@ -64,12 +69,24 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  updateUser(element: User) {
-    console.log(element);
-  }
+  deleteUser(user: User): void {
+    const dialogRef = this.dialog.open(DeactivateUserDialogComponent, {
+      data: {
+        name: user.name,
+        surname: user.surname
+      },
+      width: '400px'
+    });
 
-  deleteUser() {
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        const updatedProperties = {
+          deactivated: result
+        };
 
+        this.store$.dispatch(UsersActions.UsersUpdate({ id: user.id, updatedProperties: updatedProperties }));
+      }
+    });
   }
 
 }

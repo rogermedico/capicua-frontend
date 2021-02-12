@@ -10,6 +10,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { CoursesComponent } from './components/courses/courses.component';
 import { EducationComponent } from './components/education/education.component';
 import { LanguagesComponent } from './components/languages/languages.component';
+import { NameDialogComponent } from "@modules/users/components/edit/dialogs/name-dialog/name-dialog.component";
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { LanguagesComponent } from './components/languages/languages.component';
     ProfileComponent,
     CoursesComponent,
     EducationComponent,
-    LanguagesComponent
+    LanguagesComponent,
+    NameDialogComponent,
   ],
   imports: [
     CommonModule,

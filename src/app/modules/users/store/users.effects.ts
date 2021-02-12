@@ -47,17 +47,30 @@ export class UsersEffects {
   ));
 
   /* create new user */
-  createadfUser$ = createEffect(() => this.actions$.pipe(
+  createUser$ = createEffect(() => this.actions$.pipe(
     ofType(UsersActions.UsersActionTypes.USERS_CREATE),
     mergeMap((action: { type: string, newUser: NewUser }) => this.us.newUser(action.newUser).pipe(
       map((user: User) => {
-        console.log('user', user);
-        //es crida dues vegades nose perque!!!!!
         return { type: UsersActions.UsersActionTypes.USERS_CREATE_SUCCESS, user: user };
       }),
       catchError(err => of({
         type: UsersActions.UsersActionTypes.USERS_ERROR,
         origin: UsersActions.UsersActionTypes.USERS_CREATE,
+        err: err
+      }))
+    ))
+  ));
+
+  /* create new user */
+  updateUser$ = createEffect(() => this.actions$.pipe(
+    ofType(UsersActions.UsersActionTypes.USERS_UPDATE),
+    mergeMap((action: { type: string, id: number, updatedProperties: { [key: string]: string | number | Date | boolean } }) => this.us.editUser(action.id, action.updatedProperties).pipe(
+      map((updatedUser: User) => {
+        return { type: UsersActions.UsersActionTypes.USERS_UPDATE_SUCCESS, updatedUser: updatedUser };
+      }),
+      catchError(err => of({
+        type: UsersActions.UsersActionTypes.USERS_ERROR,
+        origin: UsersActions.UsersActionTypes.USERS_UPDATE,
         err: err
       }))
     ))

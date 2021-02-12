@@ -1,14 +1,12 @@
+@import '../../../../../../themes/responsive.theme.scss';
+
 .container {
-  padding: 30px;
+  width: 100%;
 }
 
 .mat-card {
   margin: 16px 32px;
   box-sizing: border-box;
-}
-
-.mat-card>:first-child {
-  margin: 1rem 0 1.5rem !important;
 }
 
 .mat-card-header{
@@ -44,23 +42,13 @@
   margin-bottom: 1rem;
 }
 
-.spinner {
-  height: 100%;
-}
+.avatar {
+  width: auto;
+  max-height: 200px;
 
-.filter {
-  width: 100%;
-}
-
-input:-webkit-autofill {
-  box-shadow: 0 0 0px 1000px white inset !important;
-  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
-}
-
-.new-user-button {
-  position:fixed;
-  bottom:40px;
-  right: 50px;
+  @include screen('lg'){
+    max-height: 300px;
+  }
 }
 
 .action-icon {

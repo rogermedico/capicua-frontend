@@ -14,7 +14,7 @@ export class UserParserService {
 
   constructor() { }
 
-  parse(user: UserBackend): User {
+  userBackendToUser(user: UserBackend): User {
     const parsedUser: User = {
       id: user.id,
       name: user.name,
@@ -70,10 +70,16 @@ export class UserParserService {
         return parsedLanguage;
       }),
       emailVerified: user.email_verified_at ? true : false,
-      deleted: user.deleted,
+      deactivated: user.deactivated,
     }
 
     return parsedUser;
+  }
+
+  userToBackendUser(user: User): UserBackend {
+
+    return null
+
   }
 
 }

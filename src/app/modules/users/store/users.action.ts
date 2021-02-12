@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { NewUser, User } from '@models/user.model';
+import { NewUser, User, UserBackend } from '@models/user.model';
 import { ChangePassword } from '@models/change-password.model';
 
 
@@ -12,6 +12,9 @@ export enum UsersActionTypes {
 
   USERS_CREATE = '[Users] USERS_CREATE',
   USERS_CREATE_SUCCESS = '[Users] USERS_CREATE_SUCCESS',
+
+  USERS_UPDATE = '[Users] USERS_UPDATE',
+  USERS_UPDATE_SUCCESS = '[Users] USERS_UPDATE_SUCCESS',
 
   USERS_ERROR = '[Users] USERS_ERROR',
 }
@@ -27,6 +30,10 @@ export const UsersResetSuccess = createAction(UsersActionTypes.USERS_RESET_SUCCE
 /* create user */
 export const UsersCreate = createAction(UsersActionTypes.USERS_CREATE, props<{ newUser: NewUser }>());
 export const UsersCreateSuccess = createAction(UsersActionTypes.USERS_CREATE_SUCCESS, props<{ user: User }>());
+
+/* update user */
+export const UsersUpdate = createAction(UsersActionTypes.USERS_UPDATE, props<{ id: number, updatedProperties: { [key: string]: string | number | Date | boolean } }>());
+export const UsersUpdateSuccess = createAction(UsersActionTypes.USERS_UPDATE_SUCCESS, props<{ updatedUser: User }>());
 
 /* error */
 export const UsersError = createAction(UsersActionTypes.USERS_ERROR, props<{ origin: UsersActionTypes, err: Error }>());

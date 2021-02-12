@@ -16,16 +16,22 @@ export class UsersService {
   getUsers(): Observable<User[]> {
     return this.http.get<UserBackend[]>(environment.backend.api + environment.backend.usersEndpoint).pipe(
       map(usersBackend => {
-        return usersBackend.map(userBackend => this.userParserService.parse(userBackend))
+        return usersBackend.map(userBackend => this.userParserService.userBackendToUser(userBackend))
       })
     );
   }
 
   newUser(newUser: NewUser): Observable<User> {
-    console.log('users service, newUser')
     return this.http.post<UserBackend>(environment.backend.api + environment.backend.userEndpoint, newUser).pipe(
-      map(userBackend => this.userParserService.parse(userBackend))
+      map(userBackend => this.userParserService.userBackendToUser(userBackend))
     );
   }
+
+  editUser(id: number, updatedProperties: { [key: string]: string | number | Date | boolean }): Observable<User> {
+    return this.http.post<UserBackend>(environment.backend.api + environment.backend.userEndpoint + '/' + id, updatedProperties).pipe(
+      map(userBackend => this.userParserService.userBackendToUser(userBackend))
+    );
+  }
+
 
 }

@@ -1,6 +1,7 @@
 import { UsersState } from './users.state';
 import * as UsersActions from './users.action';
 import { Action, createReducer, on } from '@ngrx/store';
+import { User } from '@models/user.model';
 
 /* the auth state starts with no one logged in */
 const defaultUsersState: UsersState = {
@@ -70,6 +71,31 @@ const _usersReducer = createReducer(defaultUsersState,
     return {
       ...state,
       users: [...state.users, user],
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* update user */
+  on(UsersActions.UsersUpdate, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* update user success */
+  on(UsersActions.UsersUpdateSuccess, (state, { updatedUser }) => {
+
+    return {
+      ...state,
+      users: state.users.map((u: User) => {
+        if (u.id != updatedUser.id) return u;
+        else return updatedUser;
+      }),
       loading: false,
       loaded: true,
       error: null

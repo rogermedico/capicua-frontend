@@ -25,7 +25,7 @@ export class UserService {
 
   getUser(): Observable<User> {
     return this.http.get<UserBackend>(environment.backend.api + environment.backend.userEndpoint).pipe(
-      map(userBackend => this.userParserService.parse(userBackend))
+      map(userBackend => this.userParserService.userBackendToUser(userBackend))
     );
   }
 
