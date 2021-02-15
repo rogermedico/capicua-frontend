@@ -4,10 +4,12 @@ import { LogoutGuard } from '@guards/logout.guard';
 import { EditUserComponent } from './components/edit/edit-user/edit-user.component';
 import { NewUserComponent } from './components/new-user/new-user.component';
 import { UsersComponent } from './components/users/users.component';
+import { ViewUserComponent } from './components/view/view-user/view-user.component';
 
 const routes: Routes = [
   { path: '', component: UsersComponent, canActivate: [LogoutGuard] },
   { path: 'new', component: NewUserComponent, canActivate: [LogoutGuard] },
+  { path: ':id', component: ViewUserComponent, canActivate: [LogoutGuard] },
   { path: 'edit/:id', component: EditUserComponent, canActivate: [LogoutGuard] }
 ];
 

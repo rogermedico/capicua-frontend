@@ -35,7 +35,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
           this.drivingLicences = this.drivingLicences + drivingLicences[drivingLicences.length - 2].type + ' and ' + drivingLicences[drivingLicences.length - 1].type;
         }
         else if (drivingLicences.length == 2) {
-          this.drivingLicences = this.drivingLicences + drivingLicences[0].type + ' and ' + drivingLicences[1].type;
+          this.drivingLicences = drivingLicences[0].type + ' and ' + drivingLicences[1].type;
         }
         else if (drivingLicences.length == 1) {
           this.drivingLicences = drivingLicences[0].type;

@@ -1,11 +1,16 @@
 @import '../../../../../../themes/responsive.theme.scss';
 
-.container {
-  width: 100%;
+.profile-container {
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+  // flex-direction: column;
+  padding: 30px;
 }
 
 .mat-card {
   margin: 16px 32px;
+  width: 90%;
   box-sizing: border-box;
 }
 
@@ -49,27 +54,4 @@
   @include screen('lg'){
     max-height: 300px;
   }
-}
-
-.action-icon {
-  color: rgba(0,0,0,0.87);
-  &:hover {
-    color: rgba(0, 0, 0, 0.54);
-  }
-}
-
-.action-link {
-  text-decoration: none;
-  margin: 0 8px 0 0;
-
-  &:last-child {
-    margin: 0;
-  }
-
-}
-
-.edit-user-button {
-  position:relative;
-  bottom:90px;
-  right: 50px;
 }

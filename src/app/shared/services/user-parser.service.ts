@@ -82,4 +82,17 @@ export class UserParserService {
 
   }
 
+  translateToBackend(userProperty: string) {
+    switch (userProperty) {
+      case 'actualPosition': return 'actual_position';
+      case 'number': return 'address_number';
+      case 'street': return 'address_street';
+      case 'city': return 'address_city';
+      case 'cp': return 'address_cp';
+      case 'country': return 'address_country';
+      case 'birthDate': return 'birth_date';
+      default: return userProperty;
+    }
+  }
+
 }

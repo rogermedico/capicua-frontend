@@ -7,44 +7,101 @@
     <div flex-item>
       <mat-card-header>
         <mat-card-title>{{user.name}} {{user.surname}}
-          <a class="action-link" [routerLink]="" (click)="editNameSurnameField({name:user.name,surname:user.surname})">
-            <mat-icon class="action-icon">edit</mat-icon>
-          </a>
+          <ng-container *ngIf="editable">
+            <a class="action-link" [routerLink]=""
+              (click)="editNameSurnameField({name:user.name,surname:user.surname})">
+              <mat-icon class="action-icon">edit</mat-icon>
+            </a>
+          </ng-container>
         </mat-card-title>
 
       </mat-card-header>
       <mat-card-content>
         <div class="user-detail-row">
           <span class="user-tooltip">Actual position:</span>
-          <span class="user-item"> {{user.actualPosition}}</span>
+          <span class="user-item"> {{user.actualPosition}}
+            <ng-container *ngIf="editable">
+              <a class="action-link" [routerLink]=""
+                (click)="editTextField({name:'Actual position',placeholder:'Monitor de menjador',currentText:user.actualPosition},'actualPosition')">
+                <mat-icon class="action-icon">edit</mat-icon>
+              </a>
+            </ng-container>
+          </span>
         </div>
         <div class="user-detail-row">
           <span class="user-tooltip">DNI:</span>
-          <span class="user-item"> {{user.dni}}</span>
+          <span class="user-item"> {{ user.dni | uppercase }}
+            <ng-container *ngIf="editable">
+              <a class="action-link" [routerLink]="" (click)="editDniField({dni:user.dni})">
+                <mat-icon class="action-icon">edit</mat-icon>
+              </a>
+            </ng-container>
+          </span>
         </div>
         <div class="user-detail-row">
           <span class="user-tooltip">Birth date:</span>
-          <span class="user-item"> {{user.birthDate | date:'d/MM/yyyy'}}</span>
+          <span class="user-item"> {{user.birthDate | date:'d/MM/yyyy'}}
+            <ng-container *ngIf="editable">
+              <a class="action-link" [routerLink]="" (click)="editBirthDateField({birthDate:user.birthDate})">
+                <mat-icon class="action-icon">edit</mat-icon>
+              </a>
+            </ng-container>
+          </span>
         </div>
         <div class="user-detail-row">
           <span class="user-tooltip">Phone:</span>
-          <span class="user-item"> {{user.phone}}</span>
+          <span class="user-item"> {{user.phone}}
+            <ng-container *ngIf="editable">
+              <a class="action-link" [routerLink]=""
+                (click)="editTextField({name:'Phone',placeholder:'690123123',currentText:user.phone},'phone')">
+                <mat-icon class="action-icon">edit</mat-icon>
+              </a>
+            </ng-container>
+          </span>
         </div>
         <div class="user-detail-row">
           <span class="user-tooltip">Address:</span>
-          <span class="user-item"> {{user.address.street}}, {{user.address.number}}</span>
+          <span class="user-item"> {{user.address.street}}, {{user.address.number}}
+            <ng-container *ngIf="editable">
+              <a class="action-link" [routerLink]=""
+                (click)="editAddressField({number:user.address.number,street:user.address.street})">
+                <mat-icon class="action-icon">edit</mat-icon>
+              </a>
+            </ng-container>
+          </span>
         </div>
         <div class="user-detail-row">
           <span class="user-tooltip">City:</span>
-          <span class="user-item"> {{user.address.city}}</span>
+          <span class="user-item"> {{user.address.city}}
+            <ng-container *ngIf="editable">
+              <a class="action-link" [routerLink]=""
+                (click)="editTextField({name:'City',placeholder:'Montbrió del Camp',currentText:user.address.city},'city')">
+                <mat-icon class="action-icon">edit</mat-icon>
+              </a>
+            </ng-container>
+          </span>
         </div>
         <div class="user-detail-row">
           <span class="user-tooltip">CP:</span>
-          <span class="user-item"> {{user.address.cp}}</span>
+          <span class="user-item"> {{user.address.cp}}
+            <ng-container *ngIf="editable">
+              <a class="action-link" [routerLink]=""
+                (click)="editTextField({name:'CP',placeholder:'43340',currentText:user.address.cp},'cp')">
+                <mat-icon class="action-icon">edit</mat-icon>
+              </a>
+            </ng-container>
+          </span>
         </div>
         <div class="user-detail-row">
           <span class="user-tooltip">Country:</span>
-          <span class="user-item"> {{user.address.country}}</span>
+          <span class="user-item"> {{user.address.country}}
+            <ng-container *ngIf="editable">
+              <a class="action-link" [routerLink]=""
+                (click)="editTextField({name:'Country',placeholder:'Catalunya',currentText:user.address.country},'country')">
+                <mat-icon class="action-icon">edit</mat-icon>
+              </a>
+            </ng-container>
+          </span>
         </div>
         <div class="user-detail-row">
           <span class="user-tooltip">Driving Licences:</span>
@@ -52,9 +109,22 @@
         </div>
         <div class="user-detail-row">
           <span class="user-tooltip">Email:</span>
-          <span class="user-item"> {{user.email}}</span>
+          <span class="user-item"> {{user.email}}
+            <ng-container *ngIf="editable">
+              <a class="action-link" [routerLink]="" (click)="editEmailField({email:user.email})">
+                <mat-icon class="action-icon">edit</mat-icon>
+              </a>
+            </ng-container>
+          </span>
         </div>
       </mat-card-content>
     </div>
   </mat-card>
+  <div class="edit-user-button" fxLayout="row" fxLayoutAlign="end center">
+    <a routerLink="/users/new">
+      <button mat-fab color="accent" aria-label="New user">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </a>
+  </div>
 </div>

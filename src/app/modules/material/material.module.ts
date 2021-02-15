@@ -30,10 +30,13 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 @NgModule({
   imports: [],
-  providers: [],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+  ],
   declarations: [],
   bootstrap: [],
   exports: [

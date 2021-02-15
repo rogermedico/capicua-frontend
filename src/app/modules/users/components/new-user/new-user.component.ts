@@ -59,15 +59,15 @@ export class NewUserComponent implements OnInit, OnDestroy {
       }),
       take(1),
       map(([userState, userTypesState]) => {
-        if (userState.user.userType.rank == 1) {
-          this.userTypes = userTypesState.userTypes;
-        }
-        else {
-          this.userTypes = userTypesState.userTypes.filter(ut => {
-            if (userState.user.userType.rank != ut.rank) return ut;
-          })
-          console.log(this.userTypes)
-        }
+        // if (userState.user.userType.rank == 1) {
+        //   this.userTypes = userTypesState.userTypes;
+        // }
+        // else {
+        this.userTypes = userTypesState.userTypes.filter(ut => {
+          if (userState.user.userType.rank != ut.rank) return ut;
+        })
+        console.log(this.userTypes)
+        // }
 
       })
     ).subscribe();
@@ -164,6 +164,8 @@ export class NewUserComponent implements OnInit, OnDestroy {
 
   createNewUser() {
 
+    const parsedDate = `${this.birthDate.value.getFullYear()}-${this.birthDate.value.getMonth() + 1}-${this.birthDate.value.getDate()}`;
+
     if (this.newUserForm.valid) {
       const newUser: NewUser = {
         name: this.name.value,
@@ -172,7 +174,7 @@ export class NewUserComponent implements OnInit, OnDestroy {
         user_type_id: this.userTypeId.value,
         password: this.passwordGenerator.generate(),
         dni: this.dni.value,
-        birth_date: this.birthDate.value,
+        birth_date: parsedDate,
         address_street: this.addressStreet.value,
         address_number: this.addressNumber.value,
         address_city: this.addressCity.value,

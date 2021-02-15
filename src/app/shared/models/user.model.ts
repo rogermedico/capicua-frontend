@@ -54,7 +54,7 @@ export interface NewUser {
   user_type_id: number;
   password: string;
   dni: string;
-  birth_date: Date;
+  birth_date: string;
   address_street: string;
   address_number: string;
   address_city: string;
