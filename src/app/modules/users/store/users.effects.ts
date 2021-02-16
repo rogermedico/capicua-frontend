@@ -64,7 +64,7 @@ export class UsersEffects {
   /* create new user */
   updateUser$ = createEffect(() => this.actions$.pipe(
     ofType(UsersActions.UsersActionTypes.USERS_UPDATE),
-    mergeMap((action: { type: string, id: number, updatedProperties: { [key: string]: string | number | Date | boolean } }) => this.us.editUser(action.id, action.updatedProperties).pipe(
+    mergeMap((action: { type: string, id: number, updatedProperties: { [key: string]: any } }) => this.us.editUser(action.id, action.updatedProperties).pipe(
       map((updatedUser: User) => {
         return { type: UsersActions.UsersActionTypes.USERS_UPDATE_SUCCESS, updatedUser: updatedUser };
       }),

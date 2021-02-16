@@ -32,7 +32,7 @@ export const UsersCreate = createAction(UsersActionTypes.USERS_CREATE, props<{ n
 export const UsersCreateSuccess = createAction(UsersActionTypes.USERS_CREATE_SUCCESS, props<{ user: User }>());
 
 /* update user */
-export const UsersUpdate = createAction(UsersActionTypes.USERS_UPDATE, props<{ id: number, updatedProperties: { [key: string]: string | number | Date | boolean } }>());
+export const UsersUpdate = createAction(UsersActionTypes.USERS_UPDATE, props<{ id: number, updatedProperties: { [key: string]: any } }>());
 export const UsersUpdateSuccess = createAction(UsersActionTypes.USERS_UPDATE_SUCCESS, props<{ updatedUser: User }>());
 
 /* error */

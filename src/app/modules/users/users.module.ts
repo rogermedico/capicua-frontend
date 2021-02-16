@@ -26,6 +26,7 @@ import { BirthDateDialogComponent } from './components/edit/dialogs/birth-date-d
 import { DniDialogComponent } from './components/edit/dialogs/dni-dialog/dni-dialog.component';
 import { DrivingLicencesDialogComponent } from './components/edit/dialogs/driving-licences-dialog/driving-licences-dialog.component';
 import { AddressDialogComponent } from './components/edit/dialogs/address-dialog/address-dialog.component';
+import { EditProfileDialogComponent } from './components/edit/dialogs/edit-profile-dialog/edit-profile-dialog.component';
 
 
 @NgModule({
@@ -49,6 +50,7 @@ import { AddressDialogComponent } from './components/edit/dialogs/address-dialog
     DniDialogComponent,
     DrivingLicencesDialogComponent,
     AddressDialogComponent,
+    EditProfileDialogComponent,
   ],
   imports: [
     CommonModule,

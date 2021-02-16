@@ -62,5 +62,6 @@ export interface NewUser {
   address_country: string;
   phone: string;
   actual_position: string;
+  driving_licences: string;
 }
 

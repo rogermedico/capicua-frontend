@@ -27,7 +27,8 @@ export class UsersService {
     );
   }
 
-  editUser(id: number, updatedProperties: { [key: string]: string | number | Date | boolean }): Observable<User> {
+  editUser(id: number, updatedProperties: { [key: string]: any }): Observable<User> {
+    console.log(updatedProperties)
     return this.http.post<UserBackend>(environment.backend.api + environment.backend.userEndpoint + '/' + id, updatedProperties).pipe(
       map(userBackend => this.userParserService.userBackendToUser(userBackend))
     );

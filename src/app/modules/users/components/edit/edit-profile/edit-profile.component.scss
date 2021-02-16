@@ -68,8 +68,16 @@
 
 }
 
-.edit-user-button {
+.profile-info {
   position:relative;
-  bottom:90px;
-  right: 50px;
+}
+
+.profile-container {
+  width: 100%;
+}
+
+.edit-user-button {
+  position:absolute;
+  bottom:0;
+  right: 0;
 }

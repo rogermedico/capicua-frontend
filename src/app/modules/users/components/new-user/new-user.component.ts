@@ -18,6 +18,7 @@ import { PasswordGeneratorService } from '@services/password-generator.service';
 import * as UsersActions from '@modules/users/store/users.action';
 import { Router } from '@angular/router';
 import { NotificationService } from '@services/notification.service';
+import { drivingLicencesValidator } from '@validators/driving-licences.validator';
 
 @Component({
   selector: 'app-new-user',
@@ -155,6 +156,10 @@ export class NewUserComponent implements OnInit, OnDestroy {
       userTypeId: [null, [
         userTypeValidator
       ]],
+      drivingLicences: [null, [
+        Validators.maxLength(100),
+        drivingLicencesValidator
+      ]],
       actualPosition: [null, [
         Validators.maxLength(100),
       ]]
@@ -164,8 +169,6 @@ export class NewUserComponent implements OnInit, OnDestroy {
 
   createNewUser() {
 
-    const parsedDate = `${this.birthDate.value.getFullYear()}-${this.birthDate.value.getMonth() + 1}-${this.birthDate.value.getDate()}`;
-
     if (this.newUserForm.valid) {
       const newUser: NewUser = {
         name: this.name.value,
@@ -174,13 +177,14 @@ export class NewUserComponent implements OnInit, OnDestroy {
         user_type_id: this.userTypeId.value,
         password: this.passwordGenerator.generate(),
         dni: this.dni.value,
-        birth_date: parsedDate,
+        birth_date: this.birthDate.value ? `${this.birthDate.value.getFullYear()}-${this.birthDate.value.getMonth() + 1}-${this.birthDate.value.getDate()}` : null,
         address_street: this.addressStreet.value,
         address_number: this.addressNumber.value,
         address_city: this.addressCity.value,
         address_cp: this.addressCp.value,
         address_country: this.addressCountry.value,
         phone: this.phone.value,
+        driving_licences: this.drivingLicences.value,
         actual_position: this.actualPosition.value,
       }
 
@@ -254,5 +258,7 @@ export class NewUserComponent implements OnInit, OnDestroy {
   get addressCountry() { return this.newUserForm.get('addressCountry'); }
 
   get actualPosition() { return this.newUserForm.get('actualPosition'); }
+
+  get drivingLicences() { return this.newUserForm.get('drivingLicences'); }
 
 }
