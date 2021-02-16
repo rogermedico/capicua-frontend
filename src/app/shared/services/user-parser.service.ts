@@ -38,6 +38,7 @@ export class UserParserService {
       phone: user.phone,
       courses: user.courses.map(course => {
         const parsedCourse: Course = {
+          id: course.id,
           name: course.name,
           number: course.number,
           expeditionDate: course.expedition_date ? new Date(course.expedition_date) : null,
@@ -55,6 +56,7 @@ export class UserParserService {
       }),
       educations: user.educations.map(education => {
         const parsededucation: Education = {
+          id: education.id,
           name: education.name,
           finishDate: education.finish_date ? new Date(education.finish_date) : null,
           finished: education.finished
@@ -63,6 +65,7 @@ export class UserParserService {
       }),
       languages: user.languages.map(language => {
         const parsedLanguage: Language = {
+          id: language.id,
           name: language.name as LANGUAGE_NAMES,
           level: language.level as LANGUAGE_LEVELS,
           finishDate: language.finish_date ? new Date(language.finish_date) : null

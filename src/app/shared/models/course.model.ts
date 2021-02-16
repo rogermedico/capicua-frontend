@@ -1,4 +1,5 @@
 export interface Course {
+  id: number;
   name: string;
   number: string;
   expeditionDate: Date;
@@ -6,6 +7,7 @@ export interface Course {
 }
 
 export interface CourseBackend {
+  id: number;
   name: string;
   number: string;
   expedition_date: string;

@@ -12,14 +12,7 @@ import { map, take, tap } from 'rxjs/operators';
 import { Params } from '@angular/router';
 import { UsersState } from '@modules/users/store/users.state';
 import { MatDialog } from '@angular/material/dialog';
-import { NameDialogComponent } from '../dialogs/name-dialog/name-dialog.component';
-import { TextInputDialogComponent } from '../dialogs/text-input-dialog/text-input-dialog.component';
 import { UserParserService } from '@services/user-parser.service';
-import { DniDialogComponent } from '../dialogs/dni-dialog/dni-dialog.component';
-import { BirthDateDialogComponent } from '../dialogs/birth-date-dialog/birth-date-dialog.component';
-import { AddressDialogComponent } from '../dialogs/address-dialog/address-dialog.component';
-import { EmailDialogComponent } from '../dialogs/email-dialog/email-dialog.component';
-import { ITS_JUST_ANGULAR } from '@angular/core/src/r3_symbols';
 import { EditProfileDialogComponent } from '../dialogs/edit-profile-dialog/edit-profile-dialog.component';
 
 @Component({

@@ -20,12 +20,6 @@ import { ViewProfileComponent } from './components/view/view-profile/view-profil
 import { ViewCoursesComponent } from './components/view/view-courses/view-courses.component';
 import { ViewEducationComponent } from './components/view/view-education/view-education.component';
 import { ViewLanguagesComponent } from './components/view/view-languages/view-languages.component';
-import { TextInputDialogComponent } from './components/edit/dialogs/text-input-dialog/text-input-dialog.component';
-import { EmailDialogComponent } from './components/edit/dialogs/email-dialog/email-dialog.component';
-import { BirthDateDialogComponent } from './components/edit/dialogs/birth-date-dialog/birth-date-dialog.component';
-import { DniDialogComponent } from './components/edit/dialogs/dni-dialog/dni-dialog.component';
-import { DrivingLicencesDialogComponent } from './components/edit/dialogs/driving-licences-dialog/driving-licences-dialog.component';
-import { AddressDialogComponent } from './components/edit/dialogs/address-dialog/address-dialog.component';
 import { EditProfileDialogComponent } from './components/edit/dialogs/edit-profile-dialog/edit-profile-dialog.component';
 
 
@@ -44,12 +38,6 @@ import { EditProfileDialogComponent } from './components/edit/dialogs/edit-profi
     EditEducationComponent,
     EditLanguagesComponent,
     DeactivateUserDialogComponent,
-    TextInputDialogComponent,
-    EmailDialogComponent,
-    BirthDateDialogComponent,
-    DniDialogComponent,
-    DrivingLicencesDialogComponent,
-    AddressDialogComponent,
     EditProfileDialogComponent,
   ],
   imports: [
