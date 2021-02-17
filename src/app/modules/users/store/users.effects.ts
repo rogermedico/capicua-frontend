@@ -80,9 +80,9 @@ export class UsersEffects {
   /* create course */
   usersCourseCreate$ = createEffect(() => this.actions$.pipe(
     ofType(UsersActions.UsersActionTypes.USERS_CREATE_COURSE),
-    mergeMap((action: { type: string, id: number, course: Course }) => this.us.createCourse(action.id, action.course).pipe(
-      map((updatedUser: User) => {
-        return { type: UsersActions.UsersActionTypes.USERS_CREATE_COURSE_SUCCESS, updatedUser: updatedUser };
+    mergeMap((action: { type: string, userId: number, course: Course }) => this.us.createCourse(action.userId, action.course).pipe(
+      map((data: { userId: number, course: Course }) => {
+        return { type: UsersActions.UsersActionTypes.USERS_CREATE_COURSE_SUCCESS, userId: data.userId, course: data.course };
       }),
       catchError(err => of({
         type: UsersActions.UsersActionTypes.USERS_ERROR,
@@ -92,6 +92,37 @@ export class UsersEffects {
     ))
   ));
 
+  /* update course */
+  usersCourseUpdate$ = createEffect(() => this.actions$.pipe(
+    ofType(UsersActions.UsersActionTypes.USERS_UPDATE_COURSE),
+    mergeMap((action: { type: string, userId: number, course: Course }) => this.us.updateCourse(action.userId, action.course).pipe(
+      map((data: { userId: number, course: Course }) => {
+        return { type: UsersActions.UsersActionTypes.USERS_UPDATE_COURSE_SUCCESS, userId: data.userId, course: data.course };
+      }),
+      catchError(err => of({
+        type: UsersActions.UsersActionTypes.USERS_ERROR,
+        origin: UsersActions.UsersActionTypes.USERS_UPDATE_COURSE,
+        err: err
+      }))
+    ))
+  ));
+
+  /* delete course */
+  usersCourseDelete$ = createEffect(() => this.actions$.pipe(
+    ofType(UsersActions.UsersActionTypes.USERS_DELETE_COURSE),
+    mergeMap((action: { type: string, userId: number, courseId: number }) => this.us.deleteCourse(action.userId, action.courseId).pipe(
+      map((ids: { userId: number, courseId: number }) => {
+        return { type: UsersActions.UsersActionTypes.USERS_DELETE_COURSE_SUCCESS, userId: ids.userId, courseId: ids.courseId };
+      }),
+      catchError(err => of({
+        type: UsersActions.UsersActionTypes.USERS_ERROR,
+        origin: UsersActions.UsersActionTypes.USERS_DELETE_COURSE,
+        err: err
+      }))
+    ))
+  ));
+
+  /* error */
   error$ = createEffect(() => this.actions$.pipe(
     ofType(UsersActions.UsersActionTypes.USERS_ERROR),
     tap((action: { type: string, origin: UsersActions.UsersActionTypes, err: HttpErrorResponse }) => {

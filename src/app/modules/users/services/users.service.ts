@@ -35,11 +35,32 @@ export class UsersService {
     );
   }
 
-  createCourse(id: number, course: Course): Observable<User> {
-    const courseBackend: CourseBackendSent = this.parser.courseToBackendCourse(id, course);
-    return this.http.post<UserBackend>(environment.backend.api + environment.backend.courseEndpoint, courseBackend).pipe(
-      map(userBackend => this.parser.userBackendToUser(userBackend))
-    );
+  createCourse(userId: number, course: Course): Observable<{ userId: number, course: Course }> {
+    const courseBackend: CourseBackendSent = this.parser.courseToBackendCourse(userId, course);
+    console.log(courseBackend)
+    return this.http.post<CourseBackend>(environment.backend.api + environment.backend.courseEndpoint, courseBackend).pipe(
+      map((cb: CourseBackend) => {
+        return { userId: userId, course: this.parser.courseBackendToCourse(cb) };
+      })
+    )
+  }
+
+  updateCourse(userId: number, course: Course): Observable<{ userId: number, course: Course }> {
+    const courseBackend: CourseBackendSent = this.parser.courseToBackendCourse(userId, course);
+    console.log(courseBackend)
+    return this.http.put<CourseBackend>(environment.backend.api + environment.backend.courseEndpoint, courseBackend).pipe(
+      map((cb: CourseBackend) => {
+        return { userId: userId, course: this.parser.courseBackendToCourse(cb) };
+      })
+    )
+  }
+
+  deleteCourse(userId: number, courseId: number): Observable<{ userId: number, courseId: number }> {
+    return this.http.delete(`${environment.backend.api}${environment.backend.courseEndpoint}/${userId}/${courseId}`).pipe(
+      map(() => {
+        return { userId: userId, courseId: courseId }
+      })
+    )
   }
 
 

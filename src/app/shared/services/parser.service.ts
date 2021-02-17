@@ -95,6 +95,16 @@ export class ParserService {
     }
   }
 
+  courseBackendToCourse(courseBackend: CourseBackend): Course {
+    return {
+      id: courseBackend.id,
+      name: courseBackend.name,
+      number: courseBackend.number,
+      expeditionDate: courseBackend.expedition_date ? new Date(courseBackend.expedition_date) : null,
+      validUntil: courseBackend.valid_until ? new Date(courseBackend.valid_until) : null,
+    }
+  }
+
   translateToBackend(userProperty: string) {
     switch (userProperty) {
       case 'actualPosition': return 'actual_position';
@@ -105,7 +115,9 @@ export class ParserService {
       case 'addressCountry': return 'address_country';
       case 'birthDate': return 'birth_date';
       case 'userTypeId': return 'user_type_id';
-      case 'drivingLicences': return 'driving_licences';
+      case 'courseId': return 'course_id';
+      case 'expeditionDate': return 'expedition_date';
+      case 'validUntil': return 'valid_until';
       default: return userProperty;
     }
   }

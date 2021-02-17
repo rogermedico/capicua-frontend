@@ -2,6 +2,7 @@ import { UsersState } from './users.state';
 import * as UsersActions from './users.action';
 import { Action, createReducer, on } from '@ngrx/store';
 import { User } from '@models/user.model';
+import { Course } from '@models/course.model';
 
 /* the auth state starts with no one logged in */
 const defaultUsersState: UsersState = {
@@ -113,13 +114,89 @@ const _usersReducer = createReducer(defaultUsersState,
   }),
 
   /* create course success */
-  on(UsersActions.UsersCourseCreateSuccess, (state, { updatedUser }) => {
+  on(UsersActions.UsersCourseCreateSuccess, (state, { userId, course }) => {
 
     return {
       ...state,
       users: state.users.map((u: User) => {
-        if (u.id != updatedUser.id) return u;
-        else return updatedUser;
+        if (u.id != userId) {
+          return u;
+        }
+        else {
+          return {
+            ...u,
+            courses: [
+              ...u.courses,
+              course]
+          }
+        }
+      }),
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* edit course */
+  on(UsersActions.UsersCourseUpdate, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* edit course success */
+  on(UsersActions.UsersCourseUpdateSuccess, (state, { userId, course }) => {
+
+    return {
+      ...state,
+      users: state.users.map((u: User) => {
+        if (u.id != userId) {
+          return u;
+        }
+        else {
+          return {
+            ...u,
+            courses: u.courses.map(c => {
+              if (c.id != course.id) return c;
+              else return course;
+            })
+          }
+        }
+      }),
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* delete course */
+  on(UsersActions.UsersCourseDelete, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* delete course success */
+  on(UsersActions.UsersCourseDeleteSuccess, (state, { userId, courseId }) => {
+
+    return {
+      ...state,
+      users: state.users.map((u: User) => {
+        if (u.id != userId) {
+          return u;
+        }
+        else {
+          return {
+            ...u,
+            courses: u.courses.filter((c: Course) => c.id != courseId)
+          }
+        }
       }),
       loading: false,
       loaded: true,

@@ -46,16 +46,16 @@ export const UsersProfileUpdate = createAction(UsersActionTypes.USERS_PROFILE_UP
 export const UsersProfileUpdateSuccess = createAction(UsersActionTypes.USERS_PROFILE_UPDATE_SUCCESS, props<{ updatedUser: User }>());
 
 /* create course */
-export const UsersCourseCreate = createAction(UsersActionTypes.USERS_CREATE_COURSE, props<{ id: number, course: Course }>());
-export const UsersCourseCreateSuccess = createAction(UsersActionTypes.USERS_CREATE_COURSE_SUCCESS, props<{ updatedUser: User }>());
+export const UsersCourseCreate = createAction(UsersActionTypes.USERS_CREATE_COURSE, props<{ userId: number, course: Course }>());
+export const UsersCourseCreateSuccess = createAction(UsersActionTypes.USERS_CREATE_COURSE_SUCCESS, props<{ userId: number, course: Course }>());
 
 /* update course */
-export const UsersCourseUpdate = createAction(UsersActionTypes.USERS_UPDATE_COURSE, props<{ id: number, updatedCourse: Course }>());
-export const UsersCourseUpdateSuccess = createAction(UsersActionTypes.USERS_UPDATE_COURSE_SUCCESS, props<{ updatedUser: User }>());
+export const UsersCourseUpdate = createAction(UsersActionTypes.USERS_UPDATE_COURSE, props<{ userId: number, course: Course }>());
+export const UsersCourseUpdateSuccess = createAction(UsersActionTypes.USERS_UPDATE_COURSE_SUCCESS, props<{ userId: number, course: Course }>());
 
 /* delete course */
-export const UsersCourseDelete = createAction(UsersActionTypes.USERS_DELETE_COURSE, props<{ id: number, courseId: number }>());
-export const UsersCourseDeleteSuccess = createAction(UsersActionTypes.USERS_DELETE_COURSE_SUCCESS, props<{ updatedUser: User }>());
+export const UsersCourseDelete = createAction(UsersActionTypes.USERS_DELETE_COURSE, props<{ userId: number, courseId: number }>());
+export const UsersCourseDeleteSuccess = createAction(UsersActionTypes.USERS_DELETE_COURSE_SUCCESS, props<{ userId: number, courseId: number }>());
 
 
 /* error */
