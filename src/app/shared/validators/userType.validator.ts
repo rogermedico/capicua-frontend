@@ -15,7 +15,7 @@ export function userTypeValidator(store$: Store<AppState>): AsyncValidatorFn {
 
     return user$.pipe(
       map(user => {
-        return user.userType.rank < control.value ? { nifValidationResult: true } : null;
+        return user.userType.rank < control.value ? { userTypeValidationResult: true } : null;
       })
     )
   }

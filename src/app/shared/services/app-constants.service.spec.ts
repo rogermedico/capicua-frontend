@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { UserTypesService } from './user-types.service';
+import { AppConstantsService } from './app-constants.service';
 
-describe('UserTypesService', () => {
-  let service: UserTypesService;
+describe('AppConstantsService', () => {
+  let service: AppConstantsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(UserTypesService);
+    service = TestBed.inject(AppConstantsService);
   });
 
   it('should be created', () => {

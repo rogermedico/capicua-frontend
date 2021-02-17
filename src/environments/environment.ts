@@ -16,7 +16,10 @@ export const environment = {
     userEndpoint: 'user',
     changePasswordEndpoint: 'user/password',
     usersEndpoint: 'users',
-    userTypesEndpoint: 'usertypes',
+
+    /* constants */
+    userTypesEndpoint: 'constants/usertypes',
+    courseTypesEndpoint: 'constants/coursetypes',
 
     /* course */
     courseEndpoint: 'course',

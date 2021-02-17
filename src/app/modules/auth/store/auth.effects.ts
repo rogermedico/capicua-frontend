@@ -12,7 +12,7 @@ import { VerifyEmail } from '@models/verify-email.model';
 import { NotificationService } from '@services/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import * as UsersActions from '@modules/users/store/users.action';
-import * as UserTypesActions from '@store/user-types/user-types.action';
+import * as AppConstantsActions from '@store/app-constants/app-constants.action';
 
 @Injectable()
 export class AuthEffects {
@@ -27,7 +27,8 @@ export class AuthEffects {
         return [
           { type: AuthActions.AuthActionTypes.AUTH_LOGIN_SUCCESS, authInfo: auth },
           { type: UserActions.UserActionTypes.USER_GET_DATA },
-          { type: UserTypesActions.UserTypesActionTypes.USER_TYPES_GET_ALL },
+          { type: AppConstantsActions.AppConstantsActionTypes.USER_TYPES_GET_ALL },
+          { type: AppConstantsActions.AppConstantsActionTypes.COURSE_TYPES_GET_ALL },
         ]
       }),
       catchError(err => of({
@@ -47,7 +48,7 @@ export class AuthEffects {
           { type: AuthActions.AuthActionTypes.AUTH_LOGOUT_SUCCESS },
           { type: UserActions.UserActionTypes.USER_RESET_DATA },
           { type: UsersActions.UsersActionTypes.USERS_RESET },
-          { type: UserTypesActions.UserTypesActionTypes.USER_TYPES_RESET },
+          { type: AppConstantsActions.AppConstantsActionTypes.APP_CONSTANTS_RESET }
         ]
       }),
       catchError(err => of({

@@ -6,13 +6,13 @@ import { NewUser } from '@models/user.model';
 import { UserState } from '@modules/user/store/user.state';
 import { Store } from '@ngrx/store';
 import { AppState } from '@store/root.state';
-import { UserTypesState } from '@store/user-types/user-types.state';
+import { AppConstantsState } from '@store/app-constants/app-constants.state';
 import { dniValidator } from '@validators/dni.validator';
 import { drivingLicencesValidator } from '@validators/driving-licences.validator';
 import { userTypeValidator } from '@validators/userType.validator';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import * as UserSelectors from '@modules/user/store/user.selector';
-import * as UserTypesSelectors from '@store/user-types/user-types.selector';
+import * as AppConstantsSelectors from '@store/app-constants/app-constants.selector';
 import { filter, map, take } from 'rxjs/operators';
 
 @Component({
@@ -22,7 +22,7 @@ import { filter, map, take } from 'rxjs/operators';
 })
 export class EditProfileDialogComponent implements OnInit, OnDestroy {
   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
-  public userTypesState$: Observable<UserTypesState> = this.store$.select(UserTypesSelectors.selectUserTypesState);
+  public userTypes$: Observable<UserType[]> = this.store$.select(AppConstantsSelectors.selectUserTypes);
   public combinedUserUserTypesStateSubscription: Subscription;
   public userTypes: UserType[];
   public editUserDialogForm: FormGroup;
@@ -51,17 +51,17 @@ export class EditProfileDialogComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.combinedUserUserTypesStateSubscription = combineLatest([this.userState$, this.userTypesState$]).pipe(
-      filter(([userState, userTypesState]) => {
-        return userState.user != null && userTypesState.userTypes != null;
+    this.combinedUserUserTypesStateSubscription = combineLatest([this.userState$, this.userTypes$]).pipe(
+      filter(([userState, userTypes]) => {
+        return userState.user != null && userTypes != null;
       }),
       take(1),
-      map(([userState, userTypesState]) => {
+      map(([userState, userTypes]) => {
         // if (userState.user.userType.rank == 1) {
         //   this.userTypes = userTypesState.userTypes;
         // }
         // else {
-        this.userTypes = userTypesState.userTypes.filter(ut => {
+        this.userTypes = userTypes.filter(ut => {
           if (userState.user.userType.rank != ut.rank) return ut;
         })
         console.log(this.userTypes)

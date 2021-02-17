@@ -10,8 +10,9 @@ import { filter, map, skipWhile, take, tap } from 'rxjs/operators';
 import { UserState } from '@modules/user/store/user.state';
 import { Meta } from '@angular/platform-browser';
 import { AuthState } from '@modules/auth/store/auth.state';
-import { UserTypesState } from '@store/user-types/user-types.state';
-import * as UserTypesSelectors from '@store/user-types/user-types.selector';
+import { AppConstantsState } from '@store/app-constants/app-constants.state';
+import * as AppConstantsSelectors from '@store/app-constants/app-constants.selector';
+import { UserType } from '@models/user-type.model';
 
 @Component({
   selector: 'app-root',
@@ -27,7 +28,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public authState$: Observable<AuthState> = this.store$.select(AuthSelectors.selectAuthState);
   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
-  public userTypesState$: Observable<UserTypesState> = this.store$.select(UserTypesSelectors.selectUserTypesState);
+  public userTypes$: Observable<UserType[]> = this.store$.select(AppConstantsSelectors.selectUserTypes);
 
   public sidenavOpened: boolean;
   public sidenavMode: string;
@@ -70,16 +71,16 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     });
 
-    const combinedUserUserTypes = combineLatest([this.userState$, this.userTypesState$]);
+    const combinedUserUserTypes = combineLatest([this.userState$, this.userTypes$]);
     this.allowedToUsers = combinedUserUserTypes.pipe(
       // skipWhile(([user, userTypes]) => {
       //   return user.user == null || user.loading || userTypes.userTypes == null || userTypes.loading;
       // }),
       filter(([user, userTypes]) => {
-        return user.user != null && userTypes.userTypes != null;
+        return user.user != null && userTypes != null;
       }),
       map(([user, userTypes]) => {
-        const userRanks = userTypes.userTypes.map(ut => ut.rank);
+        const userRanks = userTypes.map(ut => ut.rank);
         return user.user.userType.rank < Math.max(...userRanks);
       })
     );

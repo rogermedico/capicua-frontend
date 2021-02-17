@@ -21,3 +21,8 @@ export interface CourseBackendSent {
   expedition_date: string;
   valid_until: string;
 }
+
+export interface CourseType {
+  id: number,
+  name: string
+}

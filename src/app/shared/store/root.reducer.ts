@@ -4,12 +4,12 @@ import { ActionReducerMap } from '@ngrx/store';
 import { userReducer } from '../../modules/user/store/user.reducer';
 import { authReducer } from '@modules/auth/store/auth.reducer';
 import { usersReducer } from '@modules/users/store/users.reducer';
-import { userTypesReducer } from './user-types/user-types.reducer';
+import { appConstantsReducer } from './app-constants/app-constants.reducer';
 
 export const reducers: ActionReducerMap<AppState> = {
   authState: authReducer,
   userState: userReducer,
   usersState: usersReducer,
-  userTypesState: userTypesReducer,
+  appConstantsState: appConstantsReducer,
   routerReducer: fromRouter.routerReducer,
 };
