@@ -80,6 +80,18 @@ export class CourseDialogComponent implements OnInit {
   }
 
   submit(): void {
-    this.dialogRef.close(this.courseDialogForm.value);
+
+    this.dialogRef.close({
+      courseId: this.courseId.value ? this.courseId.value : this.data.courseId,
+      number: this.number.value,
+      expeditionDate: this.expeditionDate.value,
+      validUntil: this.validUntil.value
+    });
   }
+
+  get courseId() { return this.courseDialogForm.get('courseId') }
+  get number() { return this.courseDialogForm.get('number') }
+  get expeditionDate() { return this.courseDialogForm.get('expeditionDate') }
+  get validUntil() { return this.courseDialogForm.get('validUntil') }
+
 }

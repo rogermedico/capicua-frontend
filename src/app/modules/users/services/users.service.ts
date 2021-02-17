@@ -37,7 +37,6 @@ export class UsersService {
 
   createCourse(userId: number, course: Course): Observable<{ userId: number, course: Course }> {
     const courseBackend: CourseBackendSent = this.parser.courseToBackendCourse(userId, course);
-    console.log(courseBackend)
     return this.http.post<CourseBackend>(environment.backend.api + environment.backend.courseEndpoint, courseBackend).pipe(
       map((cb: CourseBackend) => {
         return { userId: userId, course: this.parser.courseBackendToCourse(cb) };
@@ -47,7 +46,6 @@ export class UsersService {
 
   updateCourse(userId: number, course: Course): Observable<{ userId: number, course: Course }> {
     const courseBackend: CourseBackendSent = this.parser.courseToBackendCourse(userId, course);
-    console.log(courseBackend)
     return this.http.put<CourseBackend>(environment.backend.api + environment.backend.courseEndpoint, courseBackend).pipe(
       map((cb: CourseBackend) => {
         return { userId: userId, course: this.parser.courseBackendToCourse(cb) };
