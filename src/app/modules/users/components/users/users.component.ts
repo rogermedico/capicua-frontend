@@ -10,9 +10,10 @@ import { MatSort } from '@angular/material/sort';
 import { User } from '@models/user.model';
 import { skipWhile, take, tap } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
-import { DeactivateUserDialogComponent } from '../deactivate-user-dialog/deactivate-user-dialog.component';
+import { ConfirmDialogComponent } from '../dialogs/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { UserState } from '@modules/user/store/user.state';
+import { ParserService } from '@services/parser.service';
 
 @Component({
   selector: 'app-users',
@@ -27,7 +28,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   public usersStateSubscriptor: Subscription;
   public dataSource: MatTableDataSource<User> = new MatTableDataSource();
 
-  constructor(private store$: Store<AppState>, private dialog: MatDialog) { }
+  constructor(private store$: Store<AppState>, private dialog: MatDialog, private parser: ParserService) { }
 
   @ViewChild(MatSort, { static: false }) set content(sort: MatSort) {
     this.dataSource.sort = sort;
@@ -70,23 +71,40 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   deleteUser(user: User): void {
-    const dialogRef = this.dialog.open(DeactivateUserDialogComponent, {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
-        name: user.name,
-        surname: user.surname
+        question: 'Are you sure you want to deactivate the following user:',
+        element: `${user.name} ${user.surname}`
       },
       width: '400px'
     });
 
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result) {
-        const updatedProperties = {
-          deactivated: result
-        };
+    // dialogRef.afterClosed().subscribe((result: boolean) => {
+    //   if (result) {
+    //     const updatedProperties = {
+    //       deactivated: result
+    //     };
 
-        this.store$.dispatch(UsersActions.UsersUpdate({ id: user.id, updatedProperties: updatedProperties }));
-      }
-    });
+    //     this.store$.dispatch(UsersActions.UsersUpdate({ id: user.id, updatedProperties: updatedProperties }));
+    //   }
+    // });
+
+    dialogRef.afterClosed().pipe(
+      take(1),
+      tap((result: boolean) => {
+        if (result) {
+          const modifiedUser = {
+            [this.parser.translateToBackend('deactivated')]: result,
+          };
+
+          this.store$.dispatch(UsersActions.UsersProfileUpdate({ id: user.id, updatedProperties: modifiedUser }));
+        }
+      })
+    ).subscribe();
+
+
+
+
   }
 
 }

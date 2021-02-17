@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { NewUser, User, UserBackend } from '@models/user.model';
 import { ChangePassword } from '@models/change-password.model';
+import { Course } from '@models/course.model';
 
 
 export enum UsersActionTypes {
@@ -13,8 +14,17 @@ export enum UsersActionTypes {
   USERS_CREATE = '[Users] USERS_CREATE',
   USERS_CREATE_SUCCESS = '[Users] USERS_CREATE_SUCCESS',
 
-  USERS_UPDATE = '[Users] USERS_UPDATE',
-  USERS_UPDATE_SUCCESS = '[Users] USERS_UPDATE_SUCCESS',
+  USERS_PROFILE_UPDATE = '[Users] USERS_PROFILE_UPDATE',
+  USERS_PROFILE_UPDATE_SUCCESS = '[Users] USERS_PROFILE_UPDATE_SUCCESS',
+
+  USERS_CREATE_COURSE = '[Users] USERS_CREATE_COURSE',
+  USERS_CREATE_COURSE_SUCCESS = '[Users] USERS_CREATE_COURSE_SUCCESS',
+
+  USERS_UPDATE_COURSE = '[Users] USERS_UPDATE_COURSE',
+  USERS_UPDATE_COURSE_SUCCESS = '[Users] USERS_UPDATE_COURSE_SUCCESS',
+
+  USERS_DELETE_COURSE = '[Users] USERS_DELETE_COURSE',
+  USERS_DELETE_COURSE_SUCCESS = '[Users] USERS_DELETE_COURSE_SUCCESS',
 
   USERS_ERROR = '[Users] USERS_ERROR',
 }
@@ -32,8 +42,21 @@ export const UsersCreate = createAction(UsersActionTypes.USERS_CREATE, props<{ n
 export const UsersCreateSuccess = createAction(UsersActionTypes.USERS_CREATE_SUCCESS, props<{ user: User }>());
 
 /* update user */
-export const UsersUpdate = createAction(UsersActionTypes.USERS_UPDATE, props<{ id: number, updatedProperties: { [key: string]: any } }>());
-export const UsersUpdateSuccess = createAction(UsersActionTypes.USERS_UPDATE_SUCCESS, props<{ updatedUser: User }>());
+export const UsersProfileUpdate = createAction(UsersActionTypes.USERS_PROFILE_UPDATE, props<{ id: number, updatedProperties: { [key: string]: any } }>());
+export const UsersProfileUpdateSuccess = createAction(UsersActionTypes.USERS_PROFILE_UPDATE_SUCCESS, props<{ updatedUser: User }>());
+
+/* create course */
+export const UsersCourseCreate = createAction(UsersActionTypes.USERS_CREATE_COURSE, props<{ id: number, course: Course }>());
+export const UsersCourseCreateSuccess = createAction(UsersActionTypes.USERS_CREATE_COURSE_SUCCESS, props<{ updatedUser: User }>());
+
+/* update course */
+export const UsersCourseUpdate = createAction(UsersActionTypes.USERS_UPDATE_COURSE, props<{ id: number, updatedCourse: Course }>());
+export const UsersCourseUpdateSuccess = createAction(UsersActionTypes.USERS_UPDATE_COURSE_SUCCESS, props<{ updatedUser: User }>());
+
+/* delete course */
+export const UsersCourseDelete = createAction(UsersActionTypes.USERS_DELETE_COURSE, props<{ id: number, courseId: number }>());
+export const UsersCourseDeleteSuccess = createAction(UsersActionTypes.USERS_DELETE_COURSE_SUCCESS, props<{ updatedUser: User }>());
+
 
 /* error */
 export const UsersError = createAction(UsersActionTypes.USERS_ERROR, props<{ origin: UsersActionTypes, err: Error }>());

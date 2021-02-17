@@ -5,7 +5,7 @@ import { catchError, map, mergeMap, tap } from "rxjs/operators";
 import { User, UserBackend } from '@models/user.model';
 import { environment } from '@environments/environment';
 import { Login } from '@models/login.model';
-import { UserParserService } from "../../../shared/services/user-parser.service";
+import { ParserService } from "../../../shared/services/parser.service";
 import { ChangePassword } from "@models/change-password.model";
 
 @Injectable({
@@ -17,7 +17,7 @@ export class UserService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  constructor(private http: HttpClient, private userParserService: UserParserService) { }
+  constructor(private http: HttpClient, private parser: ParserService) { }
 
   // getUsers(): Observable<User[]> {
   //   return this.http.get<User[]>(environment.backend.api);
@@ -25,7 +25,7 @@ export class UserService {
 
   getUser(): Observable<User> {
     return this.http.get<UserBackend>(environment.backend.api + environment.backend.userEndpoint).pipe(
-      map(userBackend => this.userParserService.userBackendToUser(userBackend))
+      map(userBackend => this.parser.userBackendToUser(userBackend))
     );
   }
 

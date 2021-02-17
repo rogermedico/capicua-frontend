@@ -12,6 +12,7 @@ import { Login } from '@models/login.model';
 import { ChangePassword } from '@models/change-password.model';
 import { NotificationService } from '@services/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Course } from '@models/course.model';
 
 @Injectable()
 export class UsersEffects {
@@ -61,48 +62,35 @@ export class UsersEffects {
     ))
   ));
 
-  /* create new user */
-  updateUser$ = createEffect(() => this.actions$.pipe(
-    ofType(UsersActions.UsersActionTypes.USERS_UPDATE),
-    mergeMap((action: { type: string, id: number, updatedProperties: { [key: string]: any } }) => this.us.editUser(action.id, action.updatedProperties).pipe(
+  /* update profile */
+  updateProfileUser$ = createEffect(() => this.actions$.pipe(
+    ofType(UsersActions.UsersActionTypes.USERS_PROFILE_UPDATE),
+    mergeMap((action: { type: string, id: number, updatedProperties: { [key: string]: any } }) => this.us.editProfile(action.id, action.updatedProperties).pipe(
       map((updatedUser: User) => {
-        return { type: UsersActions.UsersActionTypes.USERS_UPDATE_SUCCESS, updatedUser: updatedUser };
+        return { type: UsersActions.UsersActionTypes.USERS_PROFILE_UPDATE_SUCCESS, updatedUser: updatedUser };
       }),
       catchError(err => of({
         type: UsersActions.UsersActionTypes.USERS_ERROR,
-        origin: UsersActions.UsersActionTypes.USERS_UPDATE,
+        origin: UsersActions.UsersActionTypes.USERS_PROFILE_UPDATE,
         err: err
       }))
     ))
   ));
 
-  // /* reset data */
-  // resetData$ = createEffect(() => this.actions$.pipe(
-  //   ofType(UserActions.UserActionTypes.USER_RESET_DATA),
-  //   map(() => {
-  //     return { type: UserActions.UserActionTypes.USER_RESET_DATA_SUCCESS };
-  //   }),
-  //   catchError(err => of({
-  //     type: UserActions.UserActionTypes.USER_ERROR,
-  //     origin: UserActions.UserActionTypes.USER_RESET_DATA,
-  //     err: err
-  //   }))
-  // ));
-
-  // /* change password  */
-  // changePassword$ = createEffect(() => this.actions$.pipe(
-  //   ofType(UserActions.UserActionTypes.USER_CHANGE_PASSWORD),
-  //   mergeMap((action: { type: string, changePassword: ChangePassword }) => this.us.changePassword(action.changePassword).pipe(
-  //     map(() => {
-  //       return { type: UserActions.UserActionTypes.USER_CHANGE_PASSWORD_SUCCESS };
-  //     }),
-  //     catchError(err => of({
-  //       type: UserActions.UserActionTypes.USER_ERROR,
-  //       origin: UserActions.UserActionTypes.USER_CHANGE_PASSWORD,
-  //       err: err
-  //     }))
-  //   ))
-  // ));
+  /* create course */
+  usersCourseCreate$ = createEffect(() => this.actions$.pipe(
+    ofType(UsersActions.UsersActionTypes.USERS_CREATE_COURSE),
+    mergeMap((action: { type: string, id: number, course: Course }) => this.us.createCourse(action.id, action.course).pipe(
+      map((updatedUser: User) => {
+        return { type: UsersActions.UsersActionTypes.USERS_CREATE_COURSE_SUCCESS, updatedUser: updatedUser };
+      }),
+      catchError(err => of({
+        type: UsersActions.UsersActionTypes.USERS_ERROR,
+        origin: UsersActions.UsersActionTypes.USERS_CREATE_COURSE,
+        err: err
+      }))
+    ))
+  ));
 
   error$ = createEffect(() => this.actions$.pipe(
     ofType(UsersActions.UsersActionTypes.USERS_ERROR),

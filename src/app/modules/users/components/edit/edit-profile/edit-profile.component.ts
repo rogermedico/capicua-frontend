@@ -12,8 +12,8 @@ import { map, take, tap } from 'rxjs/operators';
 import { Params } from '@angular/router';
 import { UsersState } from '@modules/users/store/users.state';
 import { MatDialog } from '@angular/material/dialog';
-import { UserParserService } from '@services/user-parser.service';
-import { EditProfileDialogComponent } from '../dialogs/edit-profile-dialog/edit-profile-dialog.component';
+import { ParserService } from '@services/parser.service';
+import { EditProfileDialogComponent } from '../../dialogs/edit-profile-dialog/edit-profile-dialog.component';
 
 @Component({
   selector: 'app-edit-profile',
@@ -30,7 +30,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   public routeParamsUsersStateSubscription: Subscription;
   public editable: boolean;
 
-  constructor(private store$: Store<AppState>, private dialog: MatDialog, private userParserService: UserParserService) { }
+  constructor(private store$: Store<AppState>, private dialog: MatDialog, private userParserService: ParserService) { }
 
   ngOnInit(): void {
 
@@ -111,7 +111,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
             [this.userParserService.translateToBackend('drivingLicences')]: result.drivingLicences,
           };
 
-          this.store$.dispatch(UsersActions.UsersUpdate({ id: this.user.id, updatedProperties: modifiedUser }));
+          this.store$.dispatch(UsersActions.UsersProfileUpdate({ id: this.user.id, updatedProperties: modifiedUser }));
         }
       })
     ).subscribe();

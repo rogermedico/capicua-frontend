@@ -18,6 +18,9 @@ export const environment = {
     usersEndpoint: 'users',
     userTypesEndpoint: 'usertypes',
 
+    /* course */
+    courseEndpoint: 'course',
+
     /* email */
     verifyEmailEndpoint: 'email/verify',
 

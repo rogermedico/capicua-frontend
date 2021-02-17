@@ -14,13 +14,14 @@ import { EditProfileComponent } from './components/edit/edit-profile/edit-profil
 import { EditCoursesComponent } from './components/edit/edit-courses/edit-courses.component';
 import { EditEducationComponent } from './components/edit/edit-education/edit-education.component';
 import { EditLanguagesComponent } from './components/edit/edit-languages/edit-languages.component';
-import { DeactivateUserDialogComponent } from './components/deactivate-user-dialog/deactivate-user-dialog.component';
+import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
 import { ViewUserComponent } from './components/view/view-user/view-user.component';
 import { ViewProfileComponent } from './components/view/view-profile/view-profile.component';
 import { ViewCoursesComponent } from './components/view/view-courses/view-courses.component';
 import { ViewEducationComponent } from './components/view/view-education/view-education.component';
 import { ViewLanguagesComponent } from './components/view/view-languages/view-languages.component';
-import { EditProfileDialogComponent } from './components/edit/dialogs/edit-profile-dialog/edit-profile-dialog.component';
+import { EditProfileDialogComponent } from './components/dialogs/edit-profile-dialog/edit-profile-dialog.component';
+import { EditCourseDialogComponent } from './components/dialogs/edit-course-dialog/edit-course-dialog.component';
 
 
 @NgModule({
@@ -37,8 +38,9 @@ import { EditProfileDialogComponent } from './components/edit/dialogs/edit-profi
     EditCoursesComponent,
     EditEducationComponent,
     EditLanguagesComponent,
-    DeactivateUserDialogComponent,
+    ConfirmDialogComponent,
     EditProfileDialogComponent,
+    EditCourseDialogComponent,
   ],
   imports: [
     CommonModule,

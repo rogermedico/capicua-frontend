@@ -13,3 +13,11 @@ export interface CourseBackend {
   expedition_date: string;
   valid_until: string;
 }
+
+export interface CourseBackendSent {
+  user_id: number;
+  course_id: number;
+  number: string;
+  expedition_date: string;
+  valid_until: string;
+}

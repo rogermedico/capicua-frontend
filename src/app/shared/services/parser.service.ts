@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LANGUAGE_LEVELS, LANGUAGE_NAMES } from '@constants/language.constant';
-import { Course } from '@models/course.model';
+import { Course, CourseBackend, CourseBackendSent } from '@models/course.model';
 import { DrivingLicence } from '@models/driving-licence.model';
 import { Education } from '@models/education.model';
 import { Language } from '@models/language.model';
@@ -10,7 +10,7 @@ import { User } from '@models/user.model';
 @Injectable({
   providedIn: 'root'
 })
-export class UserParserService {
+export class ParserService {
 
   constructor() { }
 
@@ -83,6 +83,16 @@ export class UserParserService {
 
     return null
 
+  }
+
+  courseToBackendCourse(userId: number, course: Course): CourseBackendSent {
+    return {
+      user_id: userId,
+      course_id: course.id,
+      number: course.number,
+      expedition_date: course.expeditionDate ? `${course.expeditionDate.getFullYear()}-${course.expeditionDate.getMonth() + 1}-${course.expeditionDate.getDate()}` : null,
+      valid_until: course.validUntil ? `${course.validUntil.getFullYear()}-${course.validUntil.getMonth() + 1}-${course.validUntil.getDate()}` : null,
+    }
   }
 
   translateToBackend(userProperty: string) {

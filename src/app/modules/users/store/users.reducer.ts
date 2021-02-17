@@ -78,7 +78,7 @@ const _usersReducer = createReducer(defaultUsersState,
   }),
 
   /* update user */
-  on(UsersActions.UsersUpdate, state => {
+  on(UsersActions.UsersProfileUpdate, state => {
     return {
       ...state,
       loading: true,
@@ -88,7 +88,32 @@ const _usersReducer = createReducer(defaultUsersState,
   }),
 
   /* update user success */
-  on(UsersActions.UsersUpdateSuccess, (state, { updatedUser }) => {
+  on(UsersActions.UsersProfileUpdateSuccess, (state, { updatedUser }) => {
+
+    return {
+      ...state,
+      users: state.users.map((u: User) => {
+        if (u.id != updatedUser.id) return u;
+        else return updatedUser;
+      }),
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* create course */
+  on(UsersActions.UsersCourseCreate, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* create course success */
+  on(UsersActions.UsersCourseCreateSuccess, (state, { updatedUser }) => {
 
     return {
       ...state,
