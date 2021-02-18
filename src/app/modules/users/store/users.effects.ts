@@ -123,6 +123,51 @@ export class UsersEffects {
     ))
   ));
 
+  /* create education */
+  usersEducationCreate$ = createEffect(() => this.actions$.pipe(
+    ofType(UsersActions.UsersActionTypes.USERS_CREATE_EDUCATION),
+    mergeMap((action: { type: string, userId: number, education: Education }) => this.us.createEducation(action.userId, action.education).pipe(
+      map((data: { userId: number, education: Education }) => {
+        return { type: UsersActions.UsersActionTypes.USERS_CREATE_EDUCATION_SUCCESS, userId: data.userId, education: data.education };
+      }),
+      catchError(err => of({
+        type: UsersActions.UsersActionTypes.USERS_ERROR,
+        origin: UsersActions.UsersActionTypes.USERS_CREATE_EDUCATION,
+        err: err
+      }))
+    ))
+  ));
+
+  /* update education */
+  usersEducationUpdate$ = createEffect(() => this.actions$.pipe(
+    ofType(UsersActions.UsersActionTypes.USERS_UPDATE_EDUCATION),
+    mergeMap((action: { type: string, userId: number, education: Education }) => this.us.updateEducation(action.userId, action.education).pipe(
+      map((data: { userId: number, education: Education }) => {
+        return { type: UsersActions.UsersActionTypes.USERS_UPDATE_EDUCATION_SUCCESS, userId: data.userId, education: data.education };
+      }),
+      catchError(err => of({
+        type: UsersActions.UsersActionTypes.USERS_ERROR,
+        origin: UsersActions.UsersActionTypes.USERS_UPDATE_EDUCATION,
+        err: err
+      }))
+    ))
+  ));
+
+  /* delete education */
+  usersEducationDelete$ = createEffect(() => this.actions$.pipe(
+    ofType(UsersActions.UsersActionTypes.USERS_DELETE_EDUCATION),
+    mergeMap((action: { type: string, userId: number, educationId: number }) => this.us.deleteEducation(action.userId, action.educationId).pipe(
+      map((ids: { userId: number, educationId: number }) => {
+        return { type: UsersActions.UsersActionTypes.USERS_DELETE_EDUCATION_SUCCESS, userId: ids.userId, educationId: ids.educationId };
+      }),
+      catchError(err => of({
+        type: UsersActions.UsersActionTypes.USERS_ERROR,
+        origin: UsersActions.UsersActionTypes.USERS_DELETE_EDUCATION,
+        err: err
+      }))
+    ))
+  ));
+
   /* error */
   error$ = createEffect(() => this.actions$.pipe(
     ofType(UsersActions.UsersActionTypes.USERS_ERROR),

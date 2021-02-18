@@ -3,6 +3,7 @@ import * as UsersActions from './users.action';
 import { Action, createReducer, on } from '@ngrx/store';
 import { User } from '@models/user.model';
 import { Course } from '@models/course.model';
+import { Education } from '@models/education.model';
 
 /* the auth state starts with no one logged in */
 const defaultUsersState: UsersState = {
@@ -195,6 +196,107 @@ const _usersReducer = createReducer(defaultUsersState,
           return {
             ...u,
             courses: u.courses.filter((c: Course) => c.id != courseId)
+          }
+        }
+      }),
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* create education */
+  on(UsersActions.UsersEducationCreate, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* create education success */
+  on(UsersActions.UsersEducationCreateSuccess, (state, { userId, education }) => {
+
+    return {
+      ...state,
+      users: state.users.map((u: User) => {
+        if (u.id != userId) {
+          return u;
+        }
+        else {
+          return {
+            ...u,
+            educations: [
+              ...u.educations,
+              education]
+          }
+        }
+      }),
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* edit education */
+  on(UsersActions.UsersEducationUpdate, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* edit education success */
+  on(UsersActions.UsersEducationUpdateSuccess, (state, { userId, education }) => {
+
+    return {
+      ...state,
+      users: state.users.map((u: User) => {
+        if (u.id != userId) {
+          return u;
+        }
+        else {
+          return {
+            ...u,
+            educations: u.educations.map(e => {
+              if (e.id != education.id) return e;
+              else return education;
+            })
+          }
+        }
+      }),
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* delete education */
+  on(UsersActions.UsersEducationDelete, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* delete education success */
+  on(UsersActions.UsersEducationDeleteSuccess, (state, { userId, educationId }) => {
+
+    return {
+      ...state,
+      users: state.users.map((u: User) => {
+        if (u.id != userId) {
+          return u;
+        }
+        else {
+          return {
+            ...u,
+            educations: u.educations.filter((e: Education) => e.id != educationId)
           }
         }
       }),

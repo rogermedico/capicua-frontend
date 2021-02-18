@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { LANGUAGE_LEVELS, LANGUAGE_NAMES } from '@constants/language.constant';
 import { Course, CourseBackend, CourseBackendSent } from '@models/course.model';
 import { DrivingLicence } from '@models/driving-licence.model';
-import { Education } from '@models/education.model';
+import { Education, EducationBackend, EducationBackendSent } from '@models/education.model';
 import { Language } from '@models/language.model';
 import { UserBackend } from '@models/user.model';
 import { User } from '@models/user.model';
@@ -102,6 +102,25 @@ export class ParserService {
       number: courseBackend.number,
       expeditionDate: courseBackend.expedition_date ? new Date(courseBackend.expedition_date) : null,
       validUntil: courseBackend.valid_until ? new Date(courseBackend.valid_until) : null,
+    }
+  }
+
+  educationToEducationBackend(userId: number, education: Education): EducationBackend {
+    return {
+      id: education.id,
+      user_id: userId,
+      name: education.name,
+      finish_date: education.finishDate ? `${education.finishDate.getFullYear()}-${education.finishDate.getMonth() + 1}-${education.finishDate.getDate()}` : null,
+      finished: education.finished,
+    }
+  }
+
+  educationBackendToEducation(educationBackend: EducationBackend): Education {
+    return {
+      id: educationBackend.id,
+      name: educationBackend.name,
+      finishDate: educationBackend.finish_date ? new Date(educationBackend.finish_date) : null,
+      finished: educationBackend.finished,
     }
   }
 

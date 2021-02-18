@@ -2,6 +2,7 @@ import { createAction, props } from '@ngrx/store';
 import { NewUser, User, UserBackend } from '@models/user.model';
 import { ChangePassword } from '@models/change-password.model';
 import { Course } from '@models/course.model';
+import { Education } from '@models/education.model';
 
 
 export enum UsersActionTypes {
@@ -25,6 +26,15 @@ export enum UsersActionTypes {
 
   USERS_DELETE_COURSE = '[Users] USERS_DELETE_COURSE',
   USERS_DELETE_COURSE_SUCCESS = '[Users] USERS_DELETE_COURSE_SUCCESS',
+
+  USERS_CREATE_EDUCATION = '[Users] USERS_CREATE_EDUCATION',
+  USERS_CREATE_EDUCATION_SUCCESS = '[Users] USERS_CREATE_EDUCATION_SUCCESS',
+
+  USERS_UPDATE_EDUCATION = '[Users] USERS_UPDATE_EDUCATION',
+  USERS_UPDATE_EDUCATION_SUCCESS = '[Users] USERS_UPDATE_EDUCATION_SUCCESS',
+
+  USERS_DELETE_EDUCATION = '[Users] USERS_DELETE_EDUCATION',
+  USERS_DELETE_EDUCATION_SUCCESS = '[Users] USERS_DELETE_EDUCATION_SUCCESS',
 
   USERS_ERROR = '[Users] USERS_ERROR',
 }
@@ -56,6 +66,18 @@ export const UsersCourseUpdateSuccess = createAction(UsersActionTypes.USERS_UPDA
 /* delete course */
 export const UsersCourseDelete = createAction(UsersActionTypes.USERS_DELETE_COURSE, props<{ userId: number, courseId: number }>());
 export const UsersCourseDeleteSuccess = createAction(UsersActionTypes.USERS_DELETE_COURSE_SUCCESS, props<{ userId: number, courseId: number }>());
+
+/* create education */
+export const UsersEducationCreate = createAction(UsersActionTypes.USERS_CREATE_EDUCATION, props<{ userId: number, education: Education }>());
+export const UsersEducationCreateSuccess = createAction(UsersActionTypes.USERS_CREATE_EDUCATION_SUCCESS, props<{ userId: number, education: Education }>());
+
+/* update education */
+export const UsersEducationUpdate = createAction(UsersActionTypes.USERS_UPDATE_EDUCATION, props<{ userId: number, education: Education }>());
+export const UsersEducationUpdateSuccess = createAction(UsersActionTypes.USERS_UPDATE_EDUCATION_SUCCESS, props<{ userId: number, education: Education }>());
+
+/* delete education */
+export const UsersEducationDelete = createAction(UsersActionTypes.USERS_DELETE_EDUCATION, props<{ userId: number, educationId: number }>());
+export const UsersEducationDeleteSuccess = createAction(UsersActionTypes.USERS_DELETE_EDUCATION_SUCCESS, props<{ userId: number, educationId: number }>());
 
 
 /* error */

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { Course, CourseBackend, CourseBackendSent } from '@models/course.model';
+import { Education, EducationBackend, EducationBackendSent } from '@models/education.model';
 import { NewUser, User, UserBackend } from '@models/user.model';
 import { ParserService } from '@services/parser.service';
 import { Observable } from 'rxjs';
@@ -57,6 +58,32 @@ export class UsersService {
     return this.http.delete(`${environment.backend.api}${environment.backend.courseEndpoint}/${userId}/${courseId}`).pipe(
       map(() => {
         return { userId: userId, courseId: courseId }
+      })
+    )
+  }
+
+  createEducation(userId: number, education: Education): Observable<{ userId: number, education: Education }> {
+    const educationBackend: EducationBackendSent = this.parser.educationToEducationBackend(userId, education);
+    return this.http.post<EducationBackend>(environment.backend.api + environment.backend.educationEndpoint, educationBackend).pipe(
+      map((eb: EducationBackend) => {
+        return { userId: userId, education: this.parser.educationBackendToEducation(eb) };
+      })
+    )
+  }
+
+  updateEducation(userId: number, education: Education): Observable<{ userId: number, education: Education }> {
+    const educationBackend: EducationBackendSent = this.parser.educationToEducationBackend(userId, education);
+    return this.http.put<EducationBackend>(environment.backend.api + environment.backend.educationEndpoint, educationBackend).pipe(
+      map((eb: EducationBackend) => {
+        return { userId: userId, education: this.parser.educationBackendToEducation(eb) };
+      })
+    )
+  }
+
+  deleteEducation(userId: number, educationId: number): Observable<{ userId: number, educationId: number }> {
+    return this.http.delete(`${environment.backend.api}${environment.backend.educationEndpoint}/${educationId}`).pipe(
+      map(() => {
+        return { userId: userId, educationId: educationId }
       })
     )
   }

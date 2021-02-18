@@ -22,6 +22,7 @@ import { ViewEducationComponent } from './components/view/view-education/view-ed
 import { ViewLanguagesComponent } from './components/view/view-languages/view-languages.component';
 import { EditProfileDialogComponent } from './components/dialogs/edit-profile-dialog/edit-profile-dialog.component';
 import { CourseDialogComponent } from './components/dialogs/course-dialog/course-dialog.component';
+import { EducationDialogComponent } from './components/dialogs/education-dialog/education-dialog.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { CourseDialogComponent } from './components/dialogs/course-dialog/course
     ConfirmDialogComponent,
     EditProfileDialogComponent,
     CourseDialogComponent,
+    EducationDialogComponent,
   ],
   imports: [
     CommonModule,

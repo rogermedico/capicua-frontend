@@ -5,6 +5,7 @@
 .mat-card {
   margin: 16px 32px;
   box-sizing: border-box;
+  min-height: 100px;
 }
 
 .mat-card-header{
@@ -25,6 +26,9 @@
 
 .mat-card-content {
   margin: 0 16px;
+  &:last-child {
+    margin-bottom: inherit;
+  }
 }
 
 .user-tooltip {
@@ -38,4 +42,32 @@
 
 .user-detail-row {
   margin-bottom: 1rem;
+}
+
+.educations-info {
+  position:relative;
+}
+
+.edit-user-button {
+  position:absolute;
+  bottom:0;
+  right: 0;
+  margin-bottom: 16px;
+}
+
+.action-icon {
+  color: rgba(0,0,0,0.87);
+  &:hover {
+    color: rgba(0, 0, 0, 0.54);
+  }
+}
+
+.action-link {
+  text-decoration: none;
+  margin: 0 8px 0 0;
+
+  &:last-child {
+    margin: 0;
+  }
+
 }

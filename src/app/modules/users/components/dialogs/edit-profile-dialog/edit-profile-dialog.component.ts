@@ -25,6 +25,7 @@ export class EditProfileDialogComponent implements OnInit, OnDestroy {
   public userTypes$: Observable<UserType[]> = this.store$.select(AppConstantsSelectors.selectUserTypes);
   public combinedUserUserTypesStateSubscription: Subscription;
   public userTypes: UserType[];
+  public unableTochangeUserType: boolean;
   public editUserDialogForm: FormGroup;
 
   constructor(
@@ -62,9 +63,11 @@ export class EditProfileDialogComponent implements OnInit, OnDestroy {
         // }
         // else {
         this.userTypes = userTypes.filter(ut => {
-          if (userState.user.userType.rank != ut.rank) return ut;
+          if (userState.user.userType.rank < ut.rank) return ut;
         })
         console.log(this.userTypes)
+        this.unableTochangeUserType = (userState.user.userType.rank == 1 && userTypes.find(ut => ut.id == this.data.userTypeId).rank == 1);
+        console.log(this.unableTochangeUserType)
         // }
 
       })
@@ -109,7 +112,10 @@ export class EditProfileDialogComponent implements OnInit, OnDestroy {
       dni: [this.data.dni, [
         dniValidator
       ]],
-      userTypeId: [this.data.userTypeId, [
+      userTypeId: [{
+        value: this.data.userTypeId,
+        disabled: this.unableTochangeUserType
+      }, [
         userTypeValidator
       ]],
       drivingLicences: [this.data.drivingLicences, [
