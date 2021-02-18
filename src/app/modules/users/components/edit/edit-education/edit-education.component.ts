@@ -15,6 +15,7 @@ import { ParserService } from '@services/parser.service';
 import { filter, take, tap } from 'rxjs/operators';
 import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
 import { Education } from '@models/education.model';
+import { EducationDialogComponent } from '../../dialogs/education-dialog/education-dialog.component';
 
 @Component({
   selector: 'app-edit-education',
@@ -53,11 +54,52 @@ export class EditEducationComponent implements OnInit, OnDestroy {
   }
 
   createEducation() {
+    const dialogRef = this.dialog.open(EducationDialogComponent, {
+      data: null,
+      // width: '400px'
+    });
 
+    dialogRef.afterClosed().pipe(
+      take(1),
+      tap((result) => {
+        if (result) {
+          const education: Education = {
+            name: result.name,
+            finishDate: result.finishDate,//')]: result.expeditionDate ? `${result.expeditionDate.getFullYear()}-${result.expeditionDate.getMonth() + 1}-${result.expeditionDate.getDate()}` : null,
+            finished: result.finished ? true : false
+          };
+          console.log(education)
+          this.store$.dispatch(UsersActions.UsersEducationCreate({ userId: this.userEdited.id, education: education }));
+        }
+      })
+    ).subscribe();
   }
 
-  updateEducation() {
+  editEducation(education: Education) {
+    const dialogRef = this.dialog.open(EducationDialogComponent, {
+      data: {
+        name: education.name,
+        finishDate: education.finishDate,
+        finished: education.finished,
+      },
+      // width: '400px'
+    });
 
+    dialogRef.afterClosed().pipe(
+      take(1),
+      tap((result) => {
+        if (result) {
+          const editedEducation: Education = {
+            id: education.id,
+            name: result.name,
+            finishDate: result.finishDate,
+            finished: result.finished ? true : false
+          };
+          console.log(education)
+          this.store$.dispatch(UsersActions.UsersEducationUpdate({ userId: this.userEdited.id, education: editedEducation }));
+        }
+      })
+    ).subscribe();
   }
 
   deleteEducation(education: Education) {

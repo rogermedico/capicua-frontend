@@ -29,7 +29,7 @@ export class CourseDialogComponent implements OnInit {
   constructor(
     private store$: Store<AppState>,
     private formBuilder: FormBuilder,
-    public dialogRef: MatDialogRef<EditProfileDialogComponent>,
+    public dialogRef: MatDialogRef<CourseDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
       courseId: number;
       number: string;
