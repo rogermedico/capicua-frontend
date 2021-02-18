@@ -47,7 +47,8 @@
         <mat-row *matRowDef="let row; columns: coursesDisplayedColumns;"></mat-row>
 
       </mat-table>
-      <div class="edit-user-button" fxLayout="row" fxLayoutAlign="end center" *ngIf="editable && !allCoursesDone">
+      <div [ngClass]="{'edit-user-button': userEdited.courses.length != 0}" fxLayout="row" fxLayoutAlign="end center"
+        *ngIf="editable && !allCoursesDone">
         <a [routerLink]="" (click)="createCourse()">
           <button mat-fab color="accent" aria-label="Add Course">
             <mat-icon>add</mat-icon>

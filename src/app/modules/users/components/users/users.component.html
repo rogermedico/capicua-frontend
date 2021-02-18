@@ -25,12 +25,10 @@
         <ng-container matColumnDef="actions">
           <mat-header-cell class="actions-header" *matHeaderCellDef>Actions</mat-header-cell>
           <mat-cell *matCellDef="let element; let i = index">
-            <ng-container *ngIf="element.userType.rank > (userState$ | async).user.userType.rank; else view">
+            <ng-container
+              *ngIf="(element.userType.rank > (userState$ | async).user.userType.rank) || ((userState$ | async).user.userType.rank == 1) ; else view">
               <a class="action-link" routerLink="/users/edit/{{element.id}}">
                 <mat-icon class="action-icon">edit</mat-icon>
-              </a>
-              <a class="action-link" [routerLink]="" (click)="deleteUser(element)">
-                <mat-icon class="action-icon">delete</mat-icon>
               </a>
             </ng-container>
             <ng-template #view>
@@ -38,6 +36,10 @@
                 <mat-icon class="action-icon">visibility</mat-icon>
               </a>
             </ng-template>
+            <a *ngIf="element.userType.rank > (userState$ | async).user.userType.rank" class="action-link"
+              [routerLink]="" (click)="deleteUser(element)">
+              <mat-icon class="action-icon">delete</mat-icon>
+            </a>
           </mat-cell>
         </ng-container>
 

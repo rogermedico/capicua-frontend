@@ -108,7 +108,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
             [this.userParserService.translateToBackend('addressCountry')]: result.addressCountry,
             [this.userParserService.translateToBackend('phone')]: result.phone,
             [this.userParserService.translateToBackend('actualPosition')]: result.actualPosition,
-            [this.userParserService.translateToBackend('drivingLicences')]: result.drivingLicences,
+            [this.userParserService.translateToBackend('drivingLicences')]: result.drivingLicences.toUpperCase(),
           };
 
           this.store$.dispatch(UsersActions.UsersProfileUpdate({ id: this.user.id, updatedProperties: modifiedUser }));

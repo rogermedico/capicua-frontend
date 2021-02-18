@@ -118,6 +118,7 @@ export class ParserService {
       case 'courseId': return 'course_id';
       case 'expeditionDate': return 'expedition_date';
       case 'validUntil': return 'valid_until';
+      case 'drivingLicences': return 'driving_licences';
       default: return userProperty;
     }
   }

@@ -26,6 +26,9 @@
 
 .mat-card-content {
   margin: 0 16px;
+  &:last-child {
+    margin-bottom: inherit;
+  }
 }
 
 .user-tooltip {
@@ -49,6 +52,7 @@
   position:absolute;
   bottom:0;
   right: 0;
+  margin-bottom: 16px;
 }
 
 .action-icon {
