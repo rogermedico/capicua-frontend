@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { Course, CourseBackend, CourseBackendSent } from '@models/course.model';
 import { Education, EducationBackend, EducationBackendSent } from '@models/education.model';
+import { Language, LanguageBackend, LanguageBackendSent } from '@models/language.model';
 import { NewUser, User, UserBackend } from '@models/user.model';
 import { ParserService } from '@services/parser.service';
 import { Observable } from 'rxjs';
@@ -84,6 +85,32 @@ export class UsersService {
     return this.http.delete(`${environment.backend.api}${environment.backend.educationEndpoint}/${educationId}`).pipe(
       map(() => {
         return { userId: userId, educationId: educationId }
+      })
+    )
+  }
+
+  createLanguage(userId: number, language: Language): Observable<{ userId: number, language: Language }> {
+    const languageBackend: LanguageBackendSent = this.parser.languageToLanguageBackend(userId, language);
+    return this.http.post<LanguageBackend>(environment.backend.api + environment.backend.languageEndpoint, languageBackend).pipe(
+      map((lb: LanguageBackend) => {
+        return { userId: userId, language: this.parser.languageBackendToLanguage(lb) };
+      })
+    )
+  }
+
+  updateLanguage(userId: number, language: Language): Observable<{ userId: number, language: Language }> {
+    const languageBackend: LanguageBackendSent = this.parser.languageToLanguageBackend(userId, language);
+    return this.http.put<LanguageBackend>(environment.backend.api + environment.backend.languageEndpoint, languageBackend).pipe(
+      map((lb: LanguageBackend) => {
+        return { userId: userId, language: this.parser.languageBackendToLanguage(lb) };
+      })
+    )
+  }
+
+  deleteLanguage(userId: number, languageId: number): Observable<{ userId: number, languageId: number }> {
+    return this.http.delete(`${environment.backend.api}${environment.backend.languageEndpoint}/${languageId}`).pipe(
+      map(() => {
+        return { userId: userId, languageId: languageId }
       })
     )
   }

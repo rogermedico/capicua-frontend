@@ -3,7 +3,7 @@ import { LANGUAGE_LEVELS, LANGUAGE_NAMES } from '@constants/language.constant';
 import { Course, CourseBackend, CourseBackendSent } from '@models/course.model';
 import { DrivingLicence } from '@models/driving-licence.model';
 import { Education, EducationBackend, EducationBackendSent } from '@models/education.model';
-import { Language } from '@models/language.model';
+import { Language, LanguageBackend } from '@models/language.model';
 import { UserBackend } from '@models/user.model';
 import { User } from '@models/user.model';
 
@@ -121,6 +121,25 @@ export class ParserService {
       name: educationBackend.name,
       finishDate: educationBackend.finish_date ? new Date(educationBackend.finish_date) : null,
       finished: educationBackend.finished,
+    }
+  }
+
+  languageToLanguageBackend(userId: number, language: Language): LanguageBackend {
+    return {
+      id: language.id,
+      user_id: userId,
+      name: language.name,
+      level: language.level,
+      finish_date: language.finishDate ? `${language.finishDate.getFullYear()}-${language.finishDate.getMonth() + 1}-${language.finishDate.getDate()}` : null,
+    }
+  }
+
+  languageBackendToLanguage(languageBackend: LanguageBackend): Language {
+    return {
+      id: languageBackend.id,
+      name: languageBackend.name as LANGUAGE_NAMES,
+      level: languageBackend.level as LANGUAGE_LEVELS,
+      finishDate: languageBackend.finish_date ? new Date(languageBackend.finish_date) : null,
     }
   }
 

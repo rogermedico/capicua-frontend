@@ -27,6 +27,9 @@ export const environment = {
     /* education */
     educationEndpoint: 'education',
 
+    /* language */
+    languageEndpoint: 'language',
+
     /* email */
     verifyEmailEndpoint: 'email/verify',
 

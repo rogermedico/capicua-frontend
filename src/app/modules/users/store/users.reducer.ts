@@ -4,6 +4,7 @@ import { Action, createReducer, on } from '@ngrx/store';
 import { User } from '@models/user.model';
 import { Course } from '@models/course.model';
 import { Education } from '@models/education.model';
+import { Language } from '@models/language.model';
 
 /* the auth state starts with no one logged in */
 const defaultUsersState: UsersState = {
@@ -297,6 +298,107 @@ const _usersReducer = createReducer(defaultUsersState,
           return {
             ...u,
             educations: u.educations.filter((e: Education) => e.id != educationId)
+          }
+        }
+      }),
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* create language */
+  on(UsersActions.UsersLanguageCreate, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* create language success */
+  on(UsersActions.UsersLanguageCreateSuccess, (state, { userId, language }) => {
+
+    return {
+      ...state,
+      users: state.users.map((u: User) => {
+        if (u.id != userId) {
+          return u;
+        }
+        else {
+          return {
+            ...u,
+            languages: [
+              ...u.languages,
+              language]
+          }
+        }
+      }),
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* edit language */
+  on(UsersActions.UsersLanguageUpdate, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* edit language success */
+  on(UsersActions.UsersLanguageUpdateSuccess, (state, { userId, language }) => {
+
+    return {
+      ...state,
+      users: state.users.map((u: User) => {
+        if (u.id != userId) {
+          return u;
+        }
+        else {
+          return {
+            ...u,
+            languages: u.languages.map(e => {
+              if (e.id != language.id) return e;
+              else return language;
+            })
+          }
+        }
+      }),
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* delete language */
+  on(UsersActions.UsersLanguageDelete, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* delete language success */
+  on(UsersActions.UsersLanguageDeleteSuccess, (state, { userId, languageId }) => {
+
+    return {
+      ...state,
+      users: state.users.map((u: User) => {
+        if (u.id != userId) {
+          return u;
+        }
+        else {
+          return {
+            ...u,
+            languages: u.languages.filter((l: Language) => l.id != languageId)
           }
         }
       }),

@@ -3,6 +3,7 @@ import { NewUser, User, UserBackend } from '@models/user.model';
 import { ChangePassword } from '@models/change-password.model';
 import { Course } from '@models/course.model';
 import { Education } from '@models/education.model';
+import { Language } from '@models/language.model';
 
 
 export enum UsersActionTypes {
@@ -35,6 +36,15 @@ export enum UsersActionTypes {
 
   USERS_DELETE_EDUCATION = '[Users] USERS_DELETE_EDUCATION',
   USERS_DELETE_EDUCATION_SUCCESS = '[Users] USERS_DELETE_EDUCATION_SUCCESS',
+
+  USERS_CREATE_LANGUAGE = '[Users] USERS_CREATE_LANGUAGE',
+  USERS_CREATE_LANGUAGE_SUCCESS = '[Users] USERS_CREATE_LANGUAGE_SUCCESS',
+
+  USERS_UPDATE_LANGUAGE = '[Users] USERS_UPDATE_LANGUAGE',
+  USERS_UPDATE_LANGUAGE_SUCCESS = '[Users] USERS_UPDATE_LANGUAGE_SUCCESS',
+
+  USERS_DELETE_LANGUAGE = '[Users] USERS_DELETE_LANGUAGE',
+  USERS_DELETE_LANGUAGE_SUCCESS = '[Users] USERS_DELETE_LANGUAGE_SUCCESS',
 
   USERS_ERROR = '[Users] USERS_ERROR',
 }
@@ -79,6 +89,17 @@ export const UsersEducationUpdateSuccess = createAction(UsersActionTypes.USERS_U
 export const UsersEducationDelete = createAction(UsersActionTypes.USERS_DELETE_EDUCATION, props<{ userId: number, educationId: number }>());
 export const UsersEducationDeleteSuccess = createAction(UsersActionTypes.USERS_DELETE_EDUCATION_SUCCESS, props<{ userId: number, educationId: number }>());
 
+/* create language */
+export const UsersLanguageCreate = createAction(UsersActionTypes.USERS_CREATE_LANGUAGE, props<{ userId: number, language: Language }>());
+export const UsersLanguageCreateSuccess = createAction(UsersActionTypes.USERS_CREATE_LANGUAGE_SUCCESS, props<{ userId: number, language: Language }>());
+
+/* update language */
+export const UsersLanguageUpdate = createAction(UsersActionTypes.USERS_UPDATE_LANGUAGE, props<{ userId: number, language: Language }>());
+export const UsersLanguageUpdateSuccess = createAction(UsersActionTypes.USERS_UPDATE_LANGUAGE_SUCCESS, props<{ userId: number, language: Language }>());
+
+/* delete language */
+export const UsersLanguageDelete = createAction(UsersActionTypes.USERS_DELETE_LANGUAGE, props<{ userId: number, languageId: number }>());
+export const UsersLanguageDeleteSuccess = createAction(UsersActionTypes.USERS_DELETE_LANGUAGE_SUCCESS, props<{ userId: number, languageId: number }>());
 
 /* error */
 export const UsersError = createAction(UsersActionTypes.USERS_ERROR, props<{ origin: UsersActionTypes, err: Error }>());
