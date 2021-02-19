@@ -2,13 +2,13 @@
   <mat-card fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px" fxLayout.gt-md="row"
     fxLayoutAlign.gt-md="start start" class="mat-elevation-z4">
     <div fxflex="none">
-      <img class="avatar" src="../../../../../assets/images/generic-avatar.png">
+      <img class="avatar" [src]="avatar">
     </div>
-    <div class="profile-container" fxFlex="grow">
-      <mat-card-header>
+    <div class="profile-container" fxFlex="grow" fxLayout="column">
+      <mat-card-header fxFlex="none">
         <mat-card-title>{{user.name}} {{user.surname}}</mat-card-title>
       </mat-card-header>
-      <mat-card-content class="profile-info">
+      <mat-card-content class="profile-info" fxFlex="grow">
         <div *ngIf="user.actualPosition" class="user-detail-row">
           <span class="user-tooltip">Actual position:</span>
           <span class="user-item"> {{user.actualPosition}}</span>

@@ -22,6 +22,7 @@ export interface User {
   languages: Language[];
   emailVerified: boolean;
   deactivated: boolean;
+  avatar: string | boolean;
 }
 
 export interface UserBackend {
@@ -45,6 +46,7 @@ export interface UserBackend {
   languages: LanguageBackend[];
   email_verified_at: string;
   deactivated: boolean;
+  avatar: boolean;
 }
 
 export interface NewUser {

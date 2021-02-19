@@ -14,6 +14,8 @@ import { UsersState } from '@modules/users/store/users.state';
 import { MatDialog } from '@angular/material/dialog';
 import { ParserService } from '@services/parser.service';
 import { EditProfileDialogComponent } from '../../dialogs/edit-profile-dialog/edit-profile-dialog.component';
+import { UsersService } from '@modules/users/services/users.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-edit-profile',
@@ -23,6 +25,7 @@ import { EditProfileDialogComponent } from '../../dialogs/edit-profile-dialog/ed
 export class EditProfileComponent implements OnInit, OnDestroy {
 
   public user: User;
+  public avatar: SafeResourceUrl | string = '../../../../../assets/images/generic-avatar.png';
   public drivingLicences: string;
   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
   public usersState$: Observable<UsersState> = this.store$.select(UsersSelectors.selectUsersState);
@@ -30,7 +33,13 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   public routeParamsUsersStateSubscription: Subscription;
   public editable: boolean;
 
-  constructor(private store$: Store<AppState>, private dialog: MatDialog, private userParserService: ParserService) { }
+  constructor(
+    private store$: Store<AppState>,
+    private dialog: MatDialog,
+    private userParserService: ParserService,
+    private usersService: UsersService,
+    private sanitizer: DomSanitizer
+  ) { }
 
   ngOnInit(): void {
 
@@ -53,6 +62,16 @@ export class EditProfileComponent implements OnInit, OnDestroy {
             this.drivingLicences = drivingLicences[0].type;
           }
           this.editable = this.user.userType.rank > userState.user.userType.rank || this.user.userType.id == userState.user.id;
+
+          if (this.user.avatar) {
+            this.usersService.getAvatar(this.user.id).pipe(
+              map(img => {
+                console.log(img)
+                this.avatar = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/${img.extension};base64,${img.avatar}`);
+                console.log(this.avatar)
+              })
+            ).subscribe();
+          }
         }
       })
     ).subscribe();

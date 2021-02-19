@@ -74,6 +74,7 @@ export class ParserService {
       }),
       emailVerified: user.email_verified_at ? true : false,
       deactivated: user.deactivated,
+      avatar: user.avatar,
     }
 
     return parsedUser;

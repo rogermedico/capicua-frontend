@@ -43,11 +43,12 @@
 }
 
 .avatar {
-  width: auto;
-  max-height: 200px;
+  width: 200px;
+  height: auto;
 
   @include screen('lg'){
-    max-height: 300px;
+    width: 300px;
+    height: auto;
   }
 }
 

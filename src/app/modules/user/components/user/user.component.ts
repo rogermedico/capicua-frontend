@@ -2,7 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '@store/root.state';
 import { Observable } from 'rxjs';
-import * as UserSelectors from '@modules/user/store/user.selector'
+import * as UserSelectors from '@modules/user/store/user.selector';
+import * as UserActions from '@modules/user/store/user.action';
 import { UserState } from '@modules/user/store/user.state';
 
 @Component({
@@ -17,6 +18,7 @@ export class UserComponent implements OnInit {
   constructor(private store$: Store<AppState>) { }
 
   ngOnInit(): void {
+    this.store$.dispatch(UserActions.UserGetData());
   }
 
 }

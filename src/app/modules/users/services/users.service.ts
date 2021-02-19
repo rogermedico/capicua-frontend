@@ -115,5 +115,8 @@ export class UsersService {
     )
   }
 
+  getAvatar(userId: number): Observable<{ avatar: string, extension: string }> {
+    return this.http.get<{ avatar: string, extension: string }>(`${environment.backend.api}${environment.backend.avatarEndpoint}/${userId}`);
+  }
 
 }

@@ -16,6 +16,7 @@ export const environment = {
     userEndpoint: 'user',
     changePasswordEndpoint: 'user/password',
     usersEndpoint: 'users',
+    avatarEndpoint: 'user/avatar',
 
     /* constants */
     userTypesEndpoint: 'constants/usertypes',
