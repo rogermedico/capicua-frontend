@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { environment } from '@environments/environment';
 import { Course, CourseBackend, CourseBackendSent } from '@models/course.model';
 import { Education, EducationBackend, EducationBackendSent } from '@models/education.model';
@@ -14,7 +15,7 @@ import { map } from 'rxjs/operators';
 })
 export class UsersService {
 
-  constructor(private http: HttpClient, private parser: ParserService) { }
+  constructor(private http: HttpClient, private parser: ParserService, private sanitizer: DomSanitizer) { }
 
   getUsers(): Observable<User[]> {
     return this.http.get<UserBackend[]>(environment.backend.api + environment.backend.usersEndpoint).pipe(
@@ -115,8 +116,50 @@ export class UsersService {
     )
   }
 
-  getAvatar(userId: number): Observable<{ avatar: string, extension: string }> {
-    return this.http.get<{ avatar: string, extension: string }>(`${environment.backend.api}${environment.backend.avatarEndpoint}/${userId}`);
+  updateAvatar(userId: number, avatar: File): Observable<{ userId: number, avatar: SafeResourceUrl }> {
+    const formData: FormData = new FormData();
+    formData.append('avatar', avatar, avatar.name);
+    return this.http.post<{ avatar: string, extension: string }>(`${environment.backend.api}${environment.backend.avatarEndpoint}/${userId}`, formData).pipe(
+      map(response => {
+        return {
+          userId: userId,
+          avatar: this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/${response.extension};base64,${response.avatar}`)
+        }
+      })
+    )
+  }
+
+  getAvatar(userId: number): Observable<{ userId: number, avatar: SafeResourceUrl }> {
+    return this.http.get<{ avatar: string, extension: string }>(`${environment.backend.api}${environment.backend.avatarEndpoint}/${userId}`).pipe(
+      map(response => {
+        const a = {
+          userId: userId,
+          avatar: this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/${response.extension};base64,${response.avatar}`)
+        }
+        console.log(a);
+        return a
+      })
+    );
+    // return this.http.get<{ avatar: string, extension: string }>(`${environment.backend.api}${environment.backend.avatarEndpoint}/${userId}`).pipe(
+    //   map(response => {
+    //     const a = {
+    //       userId: userId,
+    //       avatar: this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/${response.extension};base64,${response.avatar}`)
+    //     }
+    //     console.log(a);
+    //     return null
+    //   })
+    // );
+  }
+
+  deleteAvatar(userId: number): Observable<{ userId: number }> {
+    return this.http.delete(`${environment.backend.api}${environment.backend.avatarEndpoint}/${userId}`).pipe(
+      map(() => {
+        return {
+          userId: userId
+        }
+      })
+    )
   }
 
 }

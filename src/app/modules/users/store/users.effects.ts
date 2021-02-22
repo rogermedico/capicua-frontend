@@ -13,6 +13,7 @@ import { ChangePassword } from '@models/change-password.model';
 import { NotificationService } from '@services/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Course } from '@models/course.model';
+import { SafeResourceUrl } from '@angular/platform-browser';
 
 @Injectable()
 export class UsersEffects {
@@ -208,6 +209,57 @@ export class UsersEffects {
       catchError(err => of({
         type: UsersActions.UsersActionTypes.USERS_ERROR,
         origin: UsersActions.UsersActionTypes.USERS_DELETE_LANGUAGE,
+        err: err
+      }))
+    ))
+  ));
+
+
+
+  /* update avatar */
+  usersAvatarUpdate$ = createEffect(() => this.actions$.pipe(
+    ofType(UsersActions.UsersActionTypes.USERS_UPDATE_AVATAR),
+    mergeMap((action: { type: string, userId: number, avatar: File }) => this.us.updateAvatar(action.userId, action.avatar).pipe(
+      map((data: { userId: number, avatar: SafeResourceUrl }) => {
+        return { type: UsersActions.UsersActionTypes.USERS_UPDATE_AVATAR_SUCCESS, userId: data.userId, avatar: data.avatar };
+      }),
+      catchError(err => of({
+        type: UsersActions.UsersActionTypes.USERS_ERROR,
+        origin: UsersActions.UsersActionTypes.USERS_UPDATE_AVATAR,
+        err: err
+      }))
+    ))
+  ));
+
+  /* get avatar */
+  usersAvatarGet$ = createEffect(() => this.actions$.pipe(
+    ofType(UsersActions.UsersActionTypes.USERS_GET_AVATAR),
+    mergeMap((action: { type: string, userId: number }) => {
+      return this.us.getAvatar(action.userId).pipe(
+        // map(a => { console.log(a); return null })
+        map((data: { userId: number, avatar: SafeResourceUrl }) => {
+          console.log(data);
+          return { type: UsersActions.UsersActionTypes.USERS_GET_AVATAR_SUCCESS, userId: data.userId, avatar: data.avatar };
+        }),
+        catchError(err => of({
+          type: UsersActions.UsersActionTypes.USERS_ERROR,
+          origin: UsersActions.UsersActionTypes.USERS_GET_AVATAR,
+          err: err
+        }))
+      )
+    })
+  ));
+
+  /* delete language */
+  usersAvatarDelete$ = createEffect(() => this.actions$.pipe(
+    ofType(UsersActions.UsersActionTypes.USERS_DELETE_AVATAR),
+    mergeMap((action: { type: string, userId: number }) => this.us.deleteAvatar(action.userId).pipe(
+      map((ids: { userId: number }) => {
+        return { type: UsersActions.UsersActionTypes.USERS_DELETE_AVATAR_SUCCESS, userId: ids.userId };
+      }),
+      catchError(err => of({
+        type: UsersActions.UsersActionTypes.USERS_ERROR,
+        origin: UsersActions.UsersActionTypes.USERS_DELETE_AVATAR,
         err: err
       }))
     ))

@@ -4,6 +4,7 @@ import { Course, CourseBackend } from './course.model';
 import { DrivingLicence, DrivingLicenceBackend } from './driving-licence.model';
 import { Education, EducationBackend } from './education.model';
 import { Language, LanguageBackend } from './language.model';
+import { SafeResourceUrl } from '@angular/platform-browser';
 
 export interface User {
   id: number;
@@ -22,7 +23,7 @@ export interface User {
   languages: Language[];
   emailVerified: boolean;
   deactivated: boolean;
-  avatar: string | boolean;
+  avatar: SafeResourceUrl | boolean;
 }
 
 export interface UserBackend {

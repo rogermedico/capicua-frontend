@@ -45,6 +45,7 @@
 .avatar {
   width: 200px;
   height: auto;
+  border-radius: 50%;
 
   @include screen('lg'){
     width: 300px;
@@ -81,4 +82,14 @@
   position:absolute;
   bottom:0;
   right: 0;
+}
+
+.avatar-container {
+  position:relative
+}
+
+.edit-avatar-button {
+  position:absolute;
+  bottom:0;
+  right: -8px;
 }

@@ -1,0 +1,19 @@
+<form [formGroup]="avatarDialogForm" (ngSubmit)="submit()">
+  <div mat-dialog-content>
+    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-md="row" fxLayoutGap.gt-md="16px">
+      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+        <mat-label>Avatar</mat-label>
+        <input matInput type="file" placeholder="New avatar" name="newAvatar" formControlName="newAvatar">
+      </mat-form-field>
+    </section>
+    <section>
+      <div class="checkbox-wrapper" fxFlex.gt-md="auto">
+        <mat-checkbox formControlName="deleteAvatar">Delete avatar</mat-checkbox>
+      </div>
+    </section>
+  </div>
+  <div mat-dialog-content fxLayout="row" fxLayoutAlign="space-between center">
+    <button mat-button mat-stroked-button color="accent" type="button" (click)="onCloseDialog()">Cancel</button>
+    <button mat-button mat-raised-button color="accent" type="submit" [disabled]="!avatarDialogForm.valid">Ok</button>
+  </div>
+</form>

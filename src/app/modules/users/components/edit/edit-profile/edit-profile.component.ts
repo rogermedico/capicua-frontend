@@ -8,7 +8,7 @@ import * as UserSelectors from '@modules/user/store/user.selector';
 import * as RouterSelectors from '@store/router/router.selector';
 import * as UsersActions from '@modules/users/store/users.action';
 import { NewUser, User, UserBackend } from '@models/user.model';
-import { map, take, tap } from 'rxjs/operators';
+import { map, skipWhile, take, tap } from 'rxjs/operators';
 import { Params } from '@angular/router';
 import { UsersState } from '@modules/users/store/users.state';
 import { MatDialog } from '@angular/material/dialog';
@@ -16,6 +16,8 @@ import { ParserService } from '@services/parser.service';
 import { EditProfileDialogComponent } from '../../dialogs/edit-profile-dialog/edit-profile-dialog.component';
 import { UsersService } from '@modules/users/services/users.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { DrivingLicence } from '@models/driving-licence.model';
+import { AvatarDialogComponent } from '../../dialogs/avatar-dialog/avatar-dialog.component';
 
 @Component({
   selector: 'app-edit-profile',
@@ -28,9 +30,10 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   public avatar: SafeResourceUrl | string = '../../../../../assets/images/generic-avatar.png';
   public drivingLicences: string;
   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
+  public userStateSubscription: Subscription;
   public usersState$: Observable<UsersState> = this.store$.select(UsersSelectors.selectUsersState);
   public routeParams$: Observable<Params> = this.store$.select(RouterSelectors.selectParams);
-  public routeParamsUsersStateSubscription: Subscription;
+  public combinedSubscription: Subscription;
   public editable: boolean;
 
   constructor(
@@ -43,43 +46,38 @@ export class EditProfileComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.routeParamsUsersStateSubscription = combineLatest([this.routeParams$, this.usersState$, this.userState$]).pipe(
+    /* search the user in usersState and fill the fields */
+    this.combinedSubscription = combineLatest([this.routeParams$, this.usersState$, this.userState$]).pipe(
+      take(1),
       tap(([routeParams, usersState, userState]) => {
         this.user = usersState.users.find(user => user.id == routeParams.params.id);
         if (this.user) {
-          const drivingLicences = this.user.drivingLicences;
-          this.drivingLicences = "";
-          if (drivingLicences.length > 2) {
-            for (let i = 0; i < drivingLicences.length - 2; i++) {
-              this.drivingLicences = this.drivingLicences + drivingLicences[i].type + ', ';
-            }
-            this.drivingLicences = this.drivingLicences + drivingLicences[drivingLicences.length - 2].type + ' and ' + drivingLicences[drivingLicences.length - 1].type;
-          }
-          else if (drivingLicences.length == 2) {
-            this.drivingLicences = drivingLicences[0].type + ' and ' + drivingLicences[1].type;
-          }
-          else if (drivingLicences.length == 1) {
-            this.drivingLicences = drivingLicences[0].type;
-          }
+          this.drivingLicences = this.parseDrivingLicences(this.user.drivingLicences);
           this.editable = this.user.userType.rank > userState.user.userType.rank || this.user.userType.id == userState.user.id;
 
-          if (this.user.avatar) {
-            this.usersService.getAvatar(this.user.id).pipe(
-              map(img => {
-                console.log(img)
-                this.avatar = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/${img.extension};base64,${img.avatar}`);
-                console.log(this.avatar)
-              })
-            ).subscribe();
+          if (this.user.avatar === true) {
+            this.store$.dispatch(UsersActions.UsersAvatarGet({ userId: this.user.id }));
+            this.avatar = this.user.avatar;
           }
         }
       })
     ).subscribe();
 
+    /* every time user is updated somehow, update params */
+    this.userStateSubscription = this.usersState$.pipe(
+      skipWhile(() => !this.user),
+      tap(usersState => {
+        this.user = usersState.users.find(user => user.id == this.user.id);
+        this.drivingLicences = this.parseDrivingLicences(this.user.drivingLicences);
+        if (this.user.avatar) this.avatar = this.user.avatar
+      })
+    ).subscribe()
+
   }
 
   ngOnDestroy(): void {
-    this.routeParamsUsersStateSubscription.unsubscribe();
+    this.combinedSubscription.unsubscribe();
+    this.userStateSubscription.unsubscribe();
   }
 
   editProfile(): void {
@@ -134,6 +132,39 @@ export class EditProfileComponent implements OnInit, OnDestroy {
         }
       })
     ).subscribe();
+  }
+
+  parseDrivingLicences(drivingLicences: DrivingLicence[]): string {
+    let parsedDrivingLicences = '';
+    if (drivingLicences.length > 2) {
+      for (let i = 0; i < drivingLicences.length - 2; i++) {
+        parsedDrivingLicences = parsedDrivingLicences + drivingLicences[i].type + ', ';
+      }
+      parsedDrivingLicences = parsedDrivingLicences + drivingLicences[drivingLicences.length - 2].type + ' and ' + drivingLicences[drivingLicences.length - 1].type;
+    }
+    else if (drivingLicences.length == 2) {
+      parsedDrivingLicences = drivingLicences[0].type + ' and ' + drivingLicences[1].type;
+    }
+    else if (drivingLicences.length == 1) {
+      parsedDrivingLicences = drivingLicences[0].type;
+    }
+    return parsedDrivingLicences;
+  }
+
+  editAvatar(fileInputEvent: any): void {
+    const avatar = fileInputEvent.target.files[0];
+    this.store$.dispatch(UsersActions.UsersAvatarUpdate({ userId: this.user.id, avatar: avatar }));
+    // const dialogRef = this.dialog.open(AvatarDialogComponent);
+
+    // dialogRef.afterClosed().pipe(
+    //   take(1),
+    //   tap((result) => {
+    //     if (result) {
+    //       console.log(result)
+    //       //this.store$.dispatch(UsersActions.UsersAvatarUpdate({ userId: this.user.id, avatar: result.avatar }));
+    //     }
+    //   })
+    // ).subscribe();
   }
 
 }

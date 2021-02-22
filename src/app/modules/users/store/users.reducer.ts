@@ -97,7 +97,10 @@ const _usersReducer = createReducer(defaultUsersState,
       ...state,
       users: state.users.map((u: User) => {
         if (u.id != updatedUser.id) return u;
-        else return updatedUser;
+        else return {
+          ...updatedUser,
+          avatar: u.avatar
+        };
       }),
       loading: false,
       loaded: true,
@@ -399,6 +402,102 @@ const _usersReducer = createReducer(defaultUsersState,
           return {
             ...u,
             languages: u.languages.filter((l: Language) => l.id != languageId)
+          }
+        }
+      }),
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* get avatar */
+  on(UsersActions.UsersAvatarGet, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* get avatar success */
+  on(UsersActions.UsersAvatarGetSuccess, (state, { userId, avatar }) => {
+
+    return {
+      ...state,
+      users: state.users.map((u: User) => {
+        if (u.id != userId) {
+          return u;
+        }
+        else {
+          return {
+            ...u,
+            avatar: avatar
+          }
+        }
+      }),
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* update avatar */
+  on(UsersActions.UsersAvatarUpdate, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* update avatar success */
+  on(UsersActions.UsersAvatarUpdateSuccess, (state, { userId, avatar }) => {
+
+    return {
+      ...state,
+      users: state.users.map((u: User) => {
+        if (u.id != userId) {
+          return u;
+        }
+        else {
+          return {
+            ...u,
+            avatar: avatar
+          }
+        }
+      }),
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* delete avatar */
+  on(UsersActions.UsersAvatarDelete, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* delete avatar success */
+  on(UsersActions.UsersAvatarDeleteSuccess, (state, { userId }) => {
+
+    return {
+      ...state,
+      users: state.users.map((u: User) => {
+        if (u.id != userId) {
+          return u;
+        }
+        else {
+          return {
+            ...u,
+            avatar: false
           }
         }
       }),

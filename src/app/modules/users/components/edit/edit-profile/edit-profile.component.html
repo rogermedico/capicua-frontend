@@ -2,7 +2,16 @@
   <mat-card fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px" fxLayout.gt-md="row"
     fxLayoutAlign.gt-md="start start" class="mat-elevation-z4">
     <div fxflex="none">
-      <img class="avatar" [src]="avatar">
+      <div class="avatar-container">
+        <img *ngIf="avatar != true " class="avatar" [src]="avatar">
+        <div class="edit-avatar-button" fxLayout="row" fxLayoutAlign="end center" *ngIf="editable">
+          <button mat-fab color="accent" aria-label="Edit profile" (click)="avatar.click()">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <input #avatar hidden type="file" onclick="this.value=null" (change)="editAvatar($event)"
+            accept="image/x-png,image/jpeg">
+        </div>
+      </div>
     </div>
     <div class="profile-container" fxFlex="grow" fxLayout="column">
       <mat-card-header fxFlex="none">

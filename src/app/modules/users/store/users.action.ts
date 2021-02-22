@@ -4,6 +4,7 @@ import { ChangePassword } from '@models/change-password.model';
 import { Course } from '@models/course.model';
 import { Education } from '@models/education.model';
 import { Language } from '@models/language.model';
+import { SafeResourceUrl } from '@angular/platform-browser';
 
 
 export enum UsersActionTypes {
@@ -45,6 +46,15 @@ export enum UsersActionTypes {
 
   USERS_DELETE_LANGUAGE = '[Users] USERS_DELETE_LANGUAGE',
   USERS_DELETE_LANGUAGE_SUCCESS = '[Users] USERS_DELETE_LANGUAGE_SUCCESS',
+
+  USERS_UPDATE_AVATAR = '[Users] USERS_UPDATE_AVATAR',
+  USERS_UPDATE_AVATAR_SUCCESS = '[Users] USERS_UPDATE_AVATAR_SUCCESS',
+
+  USERS_GET_AVATAR = '[Users] USERS_GET_AVATAR',
+  USERS_GET_AVATAR_SUCCESS = '[Users] USERS_GET_AVATAR_SUCCESS',
+
+  USERS_DELETE_AVATAR = '[Users] USERS_DELETE_AVATAR',
+  USERS_DELETE_AVATAR_SUCCESS = '[Users] USERS_DELETE_AVATAR_SUCCESS',
 
   USERS_ERROR = '[Users] USERS_ERROR',
 }
@@ -100,6 +110,18 @@ export const UsersLanguageUpdateSuccess = createAction(UsersActionTypes.USERS_UP
 /* delete language */
 export const UsersLanguageDelete = createAction(UsersActionTypes.USERS_DELETE_LANGUAGE, props<{ userId: number, languageId: number }>());
 export const UsersLanguageDeleteSuccess = createAction(UsersActionTypes.USERS_DELETE_LANGUAGE_SUCCESS, props<{ userId: number, languageId: number }>());
+
+/* update avatar */
+export const UsersAvatarUpdate = createAction(UsersActionTypes.USERS_UPDATE_AVATAR, props<{ userId: number, avatar: File }>());
+export const UsersAvatarUpdateSuccess = createAction(UsersActionTypes.USERS_UPDATE_AVATAR_SUCCESS, props<{ userId: number, avatar: SafeResourceUrl }>());
+
+/* get avatar */
+export const UsersAvatarGet = createAction(UsersActionTypes.USERS_GET_AVATAR, props<{ userId: number }>());
+export const UsersAvatarGetSuccess = createAction(UsersActionTypes.USERS_GET_AVATAR_SUCCESS, props<{ userId: number, avatar: SafeResourceUrl }>());
+
+/* delete avatar */
+export const UsersAvatarDelete = createAction(UsersActionTypes.USERS_DELETE_AVATAR, props<{ userId: number }>());
+export const UsersAvatarDeleteSuccess = createAction(UsersActionTypes.USERS_DELETE_AVATAR_SUCCESS, props<{ userId: number }>());
 
 /* error */
 export const UsersError = createAction(UsersActionTypes.USERS_ERROR, props<{ origin: UsersActionTypes, err: Error }>());
