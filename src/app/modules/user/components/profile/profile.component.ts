@@ -6,6 +6,9 @@ import { Observable, Subscription } from 'rxjs';
 import * as UserSelectors from '@modules/user/store/user.selector';
 import { User } from '@models/user.model';
 import { take, tap } from 'rxjs/operators';
+import { ParserService } from '@services/parser.service';
+import { SafeResourceUrl } from '@angular/platform-browser';
+import * as UsersActions from '@modules/users/store/users.action';
 
 @Component({
   selector: 'app-profile',
@@ -15,32 +18,20 @@ import { take, tap } from 'rxjs/operators';
 export class ProfileComponent implements OnInit, OnDestroy {
 
   public user: User;
+  public avatar: SafeResourceUrl | string = '../../../../../assets/images/generic-avatar.png';
   public drivingLicences: string;
   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
   public userStateSubscriber: Subscription;
 
-  constructor(private store$: Store<AppState>) { }
+  constructor(private store$: Store<AppState>, private parser: ParserService) { }
 
   ngOnInit(): void {
     this.userStateSubscriber = this.userState$.pipe(
       take(1),
       tap(userState => {
         this.user = userState.user;
-        const drivingLicences = userState.user.drivingLicences;
-        if (drivingLicences.length > 2) {
-          this.drivingLicences = "";
-          for (let i = 0; i < drivingLicences.length - 2; i++) {
-            this.drivingLicences = this.drivingLicences + drivingLicences[i].type + ', ';
-          }
-          this.drivingLicences = this.drivingLicences + drivingLicences[drivingLicences.length - 2].type + ' and ' + drivingLicences[drivingLicences.length - 1].type;
-        }
-        else if (drivingLicences.length == 2) {
-          this.drivingLicences = drivingLicences[0].type + ' and ' + drivingLicences[1].type;
-        }
-        else if (drivingLicences.length == 1) {
-          this.drivingLicences = drivingLicences[0].type;
-        }
-
+        this.drivingLicences = this.parser.parseDrivingLicences(userState.user);
+        if (this.user.avatar) this.avatar = this.user.avatar;
       }),
       tap(us => console.log('user', us.user))
     ).subscribe();

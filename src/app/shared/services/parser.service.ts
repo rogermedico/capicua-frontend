@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { LANGUAGE_LEVELS, LANGUAGE_NAMES } from '@constants/language.constant';
 import { Course, CourseBackend, CourseBackendSent } from '@models/course.model';
 import { DrivingLicence } from '@models/driving-licence.model';
@@ -12,7 +13,7 @@ import { User } from '@models/user.model';
 })
 export class ParserService {
 
-  constructor() { }
+  constructor(private sanitizer: DomSanitizer) { }
 
   userBackendToUser(user: UserBackend): User {
     const parsedUser: User = {
@@ -74,7 +75,7 @@ export class ParserService {
       }),
       emailVerified: user.email_verified_at ? true : false,
       deactivated: user.deactivated,
-      avatar: user.avatar,
+      avatar: user.avatar === false ? user.avatar : this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/${user.avatar['extension']};base64,${user.avatar['avatar']}`),
     }
 
     return parsedUser;
@@ -160,6 +161,24 @@ export class ParserService {
       case 'drivingLicences': return 'driving_licences';
       default: return userProperty;
     }
+  }
+
+  parseDrivingLicences(user: User): string {
+    const drivingLicences = user.drivingLicences;
+    let parsedDrivingLicences = '';
+    if (drivingLicences.length > 2) {
+      for (let i = 0; i < drivingLicences.length - 2; i++) {
+        parsedDrivingLicences = parsedDrivingLicences + drivingLicences[i].type + ', ';
+      }
+      parsedDrivingLicences = parsedDrivingLicences + drivingLicences[drivingLicences.length - 2].type + ' and ' + drivingLicences[drivingLicences.length - 1].type;
+    }
+    else if (drivingLicences.length == 2) {
+      parsedDrivingLicences = drivingLicences[0].type + ' and ' + drivingLicences[1].type;
+    }
+    else if (drivingLicences.length == 1) {
+      parsedDrivingLicences = drivingLicences[0].type;
+    }
+    return parsedDrivingLicences;
   }
 
 }

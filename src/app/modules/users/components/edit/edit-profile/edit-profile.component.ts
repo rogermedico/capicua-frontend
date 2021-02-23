@@ -41,7 +41,8 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private userParserService: ParserService,
     private usersService: UsersService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private parser: ParserService
   ) { }
 
   ngOnInit(): void {
@@ -52,7 +53,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
       tap(([routeParams, usersState, userState]) => {
         this.user = usersState.users.find(user => user.id == routeParams.params.id);
         if (this.user) {
-          this.drivingLicences = this.parseDrivingLicences(this.user.drivingLicences);
+          this.drivingLicences = this.parser.parseDrivingLicences(this.user);
           this.editable = this.user.userType.rank > userState.user.userType.rank || this.user.userType.id == userState.user.id;
 
           if (this.user.avatar === true) {
@@ -68,7 +69,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
       skipWhile(() => !this.user),
       tap(usersState => {
         this.user = usersState.users.find(user => user.id == this.user.id);
-        this.drivingLicences = this.parseDrivingLicences(this.user.drivingLicences);
+        this.drivingLicences = this.parser.parseDrivingLicences(this.user);
         if (this.user.avatar) this.avatar = this.user.avatar
       })
     ).subscribe()
@@ -134,22 +135,22 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     ).subscribe();
   }
 
-  parseDrivingLicences(drivingLicences: DrivingLicence[]): string {
-    let parsedDrivingLicences = '';
-    if (drivingLicences.length > 2) {
-      for (let i = 0; i < drivingLicences.length - 2; i++) {
-        parsedDrivingLicences = parsedDrivingLicences + drivingLicences[i].type + ', ';
-      }
-      parsedDrivingLicences = parsedDrivingLicences + drivingLicences[drivingLicences.length - 2].type + ' and ' + drivingLicences[drivingLicences.length - 1].type;
-    }
-    else if (drivingLicences.length == 2) {
-      parsedDrivingLicences = drivingLicences[0].type + ' and ' + drivingLicences[1].type;
-    }
-    else if (drivingLicences.length == 1) {
-      parsedDrivingLicences = drivingLicences[0].type;
-    }
-    return parsedDrivingLicences;
-  }
+  // parseDrivingLicences(drivingLicences: DrivingLicence[]): string {
+  //   let parsedDrivingLicences = '';
+  //   if (drivingLicences.length > 2) {
+  //     for (let i = 0; i < drivingLicences.length - 2; i++) {
+  //       parsedDrivingLicences = parsedDrivingLicences + drivingLicences[i].type + ', ';
+  //     }
+  //     parsedDrivingLicences = parsedDrivingLicences + drivingLicences[drivingLicences.length - 2].type + ' and ' + drivingLicences[drivingLicences.length - 1].type;
+  //   }
+  //   else if (drivingLicences.length == 2) {
+  //     parsedDrivingLicences = drivingLicences[0].type + ' and ' + drivingLicences[1].type;
+  //   }
+  //   else if (drivingLicences.length == 1) {
+  //     parsedDrivingLicences = drivingLicences[0].type;
+  //   }
+  //   return parsedDrivingLicences;
+  // }
 
   editAvatar(fileInputEvent: any): void {
     const avatar = fileInputEvent.target.files[0];
