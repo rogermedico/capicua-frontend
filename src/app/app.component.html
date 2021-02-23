@@ -54,7 +54,7 @@
         </a>
       </mat-nav-list>
     </mat-sidenav>
-    <mat-sidenav-content class="sidenav-content" [style.marginTop.px]="sidenavMarginTop">
+    <mat-sidenav-content #sidenavContent class="sidenav-content" [style.marginTop.px]="sidenavMarginTop">
       <main class="router-outlet-container">
         <router-outlet></router-outlet>
       </main>

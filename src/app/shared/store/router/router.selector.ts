@@ -5,4 +5,5 @@ import { RouterStateUrl } from './router.state';
 
 export const selectRouterState = createFeatureSelector<AppState, fromRouter.RouterReducerState<RouterStateUrl>>('routerReducer');
 
+export const selectRouterReducer = createSelector(selectRouterState, routerReducer => routerReducer);
 export const selectParams = createSelector(selectRouterState, routerReducer => routerReducer.state);

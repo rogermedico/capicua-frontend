@@ -1,6 +1,6 @@
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Params, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '@store/root.state';
 import { combineLatest, Observable, Subscription } from 'rxjs';
@@ -12,7 +12,10 @@ import { Meta } from '@angular/platform-browser';
 import { AuthState } from '@modules/auth/store/auth.state';
 import { AppConstantsState } from '@store/app-constants/app-constants.state';
 import * as AppConstantsSelectors from '@store/app-constants/app-constants.selector';
+import * as RouterSelectors from '@store/router/router.selector';
 import { UserType } from '@models/user-type.model';
+import { MatSidenavContent } from '@angular/material/sidenav';
+import { RouterStateUrl } from '@store/router/router.state';
 
 @Component({
   selector: 'app-root',
@@ -23,12 +26,14 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild('getStylesElement') getStylesElement: ElementRef;
   @ViewChild('sidenav') sidenav: ElementRef;
+  @ViewChild('sidenavContent') sidenavContent: MatSidenavContent;
 
   public title: string = 'capicua-intranet-app';
 
   public authState$: Observable<AuthState> = this.store$.select(AuthSelectors.selectAuthState);
   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
   public userTypes$: Observable<UserType[]> = this.store$.select(AppConstantsSelectors.selectUserTypes);
+  public selectRouterReducer$: Observable<Params> = this.store$.select(RouterSelectors.selectRouterReducer);
 
   public sidenavOpened: boolean;
   public sidenavMode: string;
@@ -40,6 +45,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   public largeBreakpointSubscriber: Subscription;
   public authStateSubscriber: Subscription;
   public userTypesStateSubscriber: Subscription;
+  public routerStateUrlSubscriber: Subscription;
 
   public allowedToUsers: Observable<boolean>;
 
@@ -101,6 +107,13 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       })
     ).subscribe()
 
+    this.routerStateUrlSubscriber = combineLatest([this.selectRouterReducer$, this.authState$]).pipe(
+      skipWhile(([selectRouterReducer, authState]) => authState.authInfo === null || !selectRouterReducer),
+      tap(([selectRouterReducer, authState]) => {
+        if (this.sidenavContent) this.sidenavContent.scrollTo({ top: 0, behavior: 'auto' });
+      })
+    ).subscribe();
+
   }
 
   onsidenavClick() {
@@ -114,6 +127,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.largeBreakpointSubscriber.unsubscribe();
     this.authStateSubscriber.unsubscribe();
     this.userTypesStateSubscriber.unsubscribe();
+    this.routerStateUrlSubscriber.unsubscribe();
   }
 
 }
