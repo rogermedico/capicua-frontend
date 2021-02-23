@@ -75,7 +75,7 @@ export class ParserService {
       }),
       emailVerified: user.email_verified_at ? true : false,
       deactivated: user.deactivated,
-      avatar: user.avatar === false ? user.avatar : this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/${user.avatar['extension']};base64,${user.avatar['avatar']}`),
+      avatar: typeof user.avatar === 'boolean' ? user.avatar : this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/${user.avatar['extension']};base64,${user.avatar['avatar']}`),
     }
 
     return parsedUser;

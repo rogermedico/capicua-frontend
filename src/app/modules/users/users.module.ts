@@ -24,7 +24,6 @@ import { EditProfileDialogComponent } from './components/dialogs/edit-profile-di
 import { CourseDialogComponent } from './components/dialogs/course-dialog/course-dialog.component';
 import { EducationDialogComponent } from './components/dialogs/education-dialog/education-dialog.component';
 import { LanguageDialogComponent } from './components/dialogs/language-dialog/language-dialog.component';
-import { AvatarDialogComponent } from './components/dialogs/avatar-dialog/avatar-dialog.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +44,6 @@ import { AvatarDialogComponent } from './components/dialogs/avatar-dialog/avatar
     CourseDialogComponent,
     EducationDialogComponent,
     LanguageDialogComponent,
-    AvatarDialogComponent,
   ],
   imports: [
     CommonModule,

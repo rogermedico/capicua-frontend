@@ -17,7 +17,6 @@ import { EditProfileDialogComponent } from '../../dialogs/edit-profile-dialog/ed
 import { UsersService } from '@modules/users/services/users.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { DrivingLicence } from '@models/driving-licence.model';
-import { AvatarDialogComponent } from '../../dialogs/avatar-dialog/avatar-dialog.component';
 
 @Component({
   selector: 'app-edit-profile',
