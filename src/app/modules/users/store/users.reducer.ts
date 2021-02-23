@@ -30,7 +30,18 @@ const _usersReducer = createReducer(defaultUsersState,
   on(UsersActions.UsersGetAllSuccess, (state, { users }) => {
     return {
       ...state,
-      users: users,
+      users: state.users === null ? users : users.map(newUser => {
+        const oldUser = state.users.find(oldUser => oldUser.id === newUser.id);
+        if (typeof oldUser.avatar != 'boolean') {
+          return {
+            ...newUser,
+            avatar: oldUser.avatar
+          }
+        }
+        else {
+          return newUser;
+        }
+      }),
       loading: false,
       loaded: true,
       error: null
