@@ -33,7 +33,7 @@
   </ng-template>
 
   <!-- To speed up logins when developing test -->
-  <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="center center">
+  <div *ngIf="!environment.production" fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="center center">
     <button mat-raised-button color="accent" type="button"
       (click)="loginSpecificUser('admin@gmail.com','password')">Signin
       Admin</button>

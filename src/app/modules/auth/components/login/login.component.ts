@@ -10,6 +10,7 @@ import { Observable, Subscription } from 'rxjs';
 import { delay, map, skipWhile } from 'rxjs/operators';
 import { UserState } from '@modules/user/store/user.state';
 import { AuthState } from "@modules/auth/store/auth.state";
+import { environment } from '../../../../../../src/environments/environment';
 
 @Component({
   selector: "app-login",
@@ -23,6 +24,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   public loginForm: FormGroup;
   public authState$: Observable<AuthState> = this.store$.select(AuthSelectors.selectAuthState);
   private authStateSubscription: Subscription;
+  public environment = environment;
 
   constructor(private store$: Store<AppState>, private fb: FormBuilder, private router: Router) { }
 
