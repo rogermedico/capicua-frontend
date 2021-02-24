@@ -2,7 +2,7 @@ export const environment = {
   production: true,
   backend: {
     /* endpoint */
-    api: 'https://capicua-backend.000webhostapp.com/api/',
+    api: 'https://cb.magdapb.com/api/',
 
     /* auth */
     loginEndpoint: 'auth/login',
