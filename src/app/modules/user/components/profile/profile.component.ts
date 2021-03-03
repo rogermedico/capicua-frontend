@@ -123,7 +123,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
             [this.userParserService.translateToBackend('drivingLicences')]: result.drivingLicences.toUpperCase(),
           };
 
-          this.store$.dispatch(UserActions.UserProfileUpdate({ userId: this.user.id, updatedProperties: modifiedUser }));
+          this.store$.dispatch(UserActions.UserProfileUpdate({ updatedProperties: modifiedUser }));
         }
       })
     ).subscribe();

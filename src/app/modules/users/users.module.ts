@@ -9,11 +9,6 @@ import { MatSortModule } from '@angular/material/sort';
 import { NewUserComponent } from './components/new-user/new-user.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
-import { EditUserComponent } from './components/edit/edit-user/edit-user.component';
-import { EditProfileComponent } from './components/edit/edit-profile/edit-profile.component';
-import { EditCoursesComponent } from './components/edit/edit-courses/edit-courses.component';
-import { EditEducationComponent } from './components/edit/edit-education/edit-education.component';
-import { EditLanguagesComponent } from './components/edit/edit-languages/edit-languages.component';
 import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
 import { ViewUserComponent } from './components/view/view-user/view-user.component';
 import { ViewProfileComponent } from './components/view/view-profile/view-profile.component';
@@ -34,11 +29,6 @@ import { LanguageDialogComponent } from './components/dialogs/language-dialog/la
     ViewCoursesComponent,
     ViewEducationComponent,
     ViewLanguagesComponent,
-    EditUserComponent,
-    EditProfileComponent,
-    EditCoursesComponent,
-    EditEducationComponent,
-    EditLanguagesComponent,
     ConfirmDialogComponent,
     EditProfileDialogComponent,
     CourseDialogComponent,

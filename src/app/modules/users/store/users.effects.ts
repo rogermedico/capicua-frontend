@@ -63,10 +63,10 @@ export class UsersEffects {
     ))
   ));
 
-  /* update profile */
-  updateProfileUser$ = createEffect(() => this.actions$.pipe(
+  /* edit user */
+  editUser$ = createEffect(() => this.actions$.pipe(
     ofType(UsersActions.UsersActionTypes.USERS_PROFILE_UPDATE),
-    mergeMap((action: { type: string, id: number, updatedProperties: { [key: string]: any } }) => this.us.editProfile(action.id, action.updatedProperties).pipe(
+    mergeMap((action: { type: string, id: number, updatedProperties: { [key: string]: any } }) => this.us.editUser(action.id, action.updatedProperties).pipe(
       map((updatedUser: User) => {
         console.log(updatedUser)
         return { type: UsersActions.UsersActionTypes.USERS_PROFILE_UPDATE_SUCCESS, updatedUser: updatedUser };
@@ -74,158 +74,6 @@ export class UsersEffects {
       catchError(err => of({
         type: UsersActions.UsersActionTypes.USERS_ERROR,
         origin: UsersActions.UsersActionTypes.USERS_PROFILE_UPDATE,
-        err: err
-      }))
-    ))
-  ));
-
-  /* create course */
-  usersCourseCreate$ = createEffect(() => this.actions$.pipe(
-    ofType(UsersActions.UsersActionTypes.USERS_CREATE_COURSE),
-    mergeMap((action: { type: string, userId: number, course: Course }) => this.us.createCourse(action.userId, action.course).pipe(
-      map((data: { userId: number, course: Course }) => {
-        return { type: UsersActions.UsersActionTypes.USERS_CREATE_COURSE_SUCCESS, userId: data.userId, course: data.course };
-      }),
-      catchError(err => of({
-        type: UsersActions.UsersActionTypes.USERS_ERROR,
-        origin: UsersActions.UsersActionTypes.USERS_CREATE_COURSE,
-        err: err
-      }))
-    ))
-  ));
-
-  /* update course */
-  usersCourseUpdate$ = createEffect(() => this.actions$.pipe(
-    ofType(UsersActions.UsersActionTypes.USERS_UPDATE_COURSE),
-    mergeMap((action: { type: string, userId: number, course: Course }) => this.us.updateCourse(action.userId, action.course).pipe(
-      map((data: { userId: number, course: Course }) => {
-        return { type: UsersActions.UsersActionTypes.USERS_UPDATE_COURSE_SUCCESS, userId: data.userId, course: data.course };
-      }),
-      catchError(err => of({
-        type: UsersActions.UsersActionTypes.USERS_ERROR,
-        origin: UsersActions.UsersActionTypes.USERS_UPDATE_COURSE,
-        err: err
-      }))
-    ))
-  ));
-
-  /* delete course */
-  usersCourseDelete$ = createEffect(() => this.actions$.pipe(
-    ofType(UsersActions.UsersActionTypes.USERS_DELETE_COURSE),
-    mergeMap((action: { type: string, userId: number, courseId: number }) => this.us.deleteCourse(action.userId, action.courseId).pipe(
-      map((ids: { userId: number, courseId: number }) => {
-        return { type: UsersActions.UsersActionTypes.USERS_DELETE_COURSE_SUCCESS, userId: ids.userId, courseId: ids.courseId };
-      }),
-      catchError(err => of({
-        type: UsersActions.UsersActionTypes.USERS_ERROR,
-        origin: UsersActions.UsersActionTypes.USERS_DELETE_COURSE,
-        err: err
-      }))
-    ))
-  ));
-
-  /* create education */
-  usersEducationCreate$ = createEffect(() => this.actions$.pipe(
-    ofType(UsersActions.UsersActionTypes.USERS_CREATE_EDUCATION),
-    mergeMap((action: { type: string, userId: number, education: Education }) => this.us.createEducation(action.userId, action.education).pipe(
-      map((data: { userId: number, education: Education }) => {
-        return { type: UsersActions.UsersActionTypes.USERS_CREATE_EDUCATION_SUCCESS, userId: data.userId, education: data.education };
-      }),
-      catchError(err => of({
-        type: UsersActions.UsersActionTypes.USERS_ERROR,
-        origin: UsersActions.UsersActionTypes.USERS_CREATE_EDUCATION,
-        err: err
-      }))
-    ))
-  ));
-
-  /* update education */
-  usersEducationUpdate$ = createEffect(() => this.actions$.pipe(
-    ofType(UsersActions.UsersActionTypes.USERS_UPDATE_EDUCATION),
-    mergeMap((action: { type: string, userId: number, education: Education }) => this.us.updateEducation(action.userId, action.education).pipe(
-      map((data: { userId: number, education: Education }) => {
-        return { type: UsersActions.UsersActionTypes.USERS_UPDATE_EDUCATION_SUCCESS, userId: data.userId, education: data.education };
-      }),
-      catchError(err => of({
-        type: UsersActions.UsersActionTypes.USERS_ERROR,
-        origin: UsersActions.UsersActionTypes.USERS_UPDATE_EDUCATION,
-        err: err
-      }))
-    ))
-  ));
-
-  /* delete education */
-  usersEducationDelete$ = createEffect(() => this.actions$.pipe(
-    ofType(UsersActions.UsersActionTypes.USERS_DELETE_EDUCATION),
-    mergeMap((action: { type: string, userId: number, educationId: number }) => this.us.deleteEducation(action.userId, action.educationId).pipe(
-      map((ids: { userId: number, educationId: number }) => {
-        return { type: UsersActions.UsersActionTypes.USERS_DELETE_EDUCATION_SUCCESS, userId: ids.userId, educationId: ids.educationId };
-      }),
-      catchError(err => of({
-        type: UsersActions.UsersActionTypes.USERS_ERROR,
-        origin: UsersActions.UsersActionTypes.USERS_DELETE_EDUCATION,
-        err: err
-      }))
-    ))
-  ));
-
-  /* create language */
-  usersLanguageCreate$ = createEffect(() => this.actions$.pipe(
-    ofType(UsersActions.UsersActionTypes.USERS_CREATE_LANGUAGE),
-    mergeMap((action: { type: string, userId: number, language: Language }) => this.us.createLanguage(action.userId, action.language).pipe(
-      map((data: { userId: number, language: Language }) => {
-        return { type: UsersActions.UsersActionTypes.USERS_CREATE_LANGUAGE_SUCCESS, userId: data.userId, language: data.language };
-      }),
-      catchError(err => of({
-        type: UsersActions.UsersActionTypes.USERS_ERROR,
-        origin: UsersActions.UsersActionTypes.USERS_CREATE_LANGUAGE,
-        err: err
-      }))
-    ))
-  ));
-
-  /* update language */
-  usersLanguageUpdate$ = createEffect(() => this.actions$.pipe(
-    ofType(UsersActions.UsersActionTypes.USERS_UPDATE_LANGUAGE),
-    mergeMap((action: { type: string, userId: number, language: Language }) => this.us.updateLanguage(action.userId, action.language).pipe(
-      map((data: { userId: number, language: Language }) => {
-        return { type: UsersActions.UsersActionTypes.USERS_UPDATE_LANGUAGE_SUCCESS, userId: data.userId, language: data.language };
-      }),
-      catchError(err => of({
-        type: UsersActions.UsersActionTypes.USERS_ERROR,
-        origin: UsersActions.UsersActionTypes.USERS_UPDATE_LANGUAGE,
-        err: err
-      }))
-    ))
-  ));
-
-  /* delete language */
-  usersLanguageDelete$ = createEffect(() => this.actions$.pipe(
-    ofType(UsersActions.UsersActionTypes.USERS_DELETE_LANGUAGE),
-    mergeMap((action: { type: string, userId: number, languageId: number }) => this.us.deleteLanguage(action.userId, action.languageId).pipe(
-      map((ids: { userId: number, languageId: number }) => {
-        return { type: UsersActions.UsersActionTypes.USERS_DELETE_LANGUAGE_SUCCESS, userId: ids.userId, languageId: ids.languageId };
-      }),
-      catchError(err => of({
-        type: UsersActions.UsersActionTypes.USERS_ERROR,
-        origin: UsersActions.UsersActionTypes.USERS_DELETE_LANGUAGE,
-        err: err
-      }))
-    ))
-  ));
-
-
-
-  /* update avatar */
-  usersAvatarUpdate$ = createEffect(() => this.actions$.pipe(
-    ofType(UsersActions.UsersActionTypes.USERS_UPDATE_AVATAR),
-    mergeMap((action: { type: string, userId: number, avatar: File }) => this.us.updateAvatar(action.userId, action.avatar).pipe(
-      map((data: { userId: number, avatar: SafeResourceUrl }) => {
-        return { type: UsersActions.UsersActionTypes.USERS_UPDATE_AVATAR_SUCCESS, userId: data.userId, avatar: data.avatar };
-      }),
-      catchError(err => of({
-        type: UsersActions.UsersActionTypes.USERS_ERROR,
-        origin: UsersActions.UsersActionTypes.USERS_UPDATE_AVATAR,
         err: err
       }))
     ))
@@ -250,21 +98,6 @@ export class UsersEffects {
     })
   ));
 
-  /* delete language */
-  usersAvatarDelete$ = createEffect(() => this.actions$.pipe(
-    ofType(UsersActions.UsersActionTypes.USERS_DELETE_AVATAR),
-    mergeMap((action: { type: string, userId: number }) => this.us.deleteAvatar(action.userId).pipe(
-      map((ids: { userId: number }) => {
-        return { type: UsersActions.UsersActionTypes.USERS_DELETE_AVATAR_SUCCESS, userId: ids.userId };
-      }),
-      catchError(err => of({
-        type: UsersActions.UsersActionTypes.USERS_ERROR,
-        origin: UsersActions.UsersActionTypes.USERS_DELETE_AVATAR,
-        err: err
-      }))
-    ))
-  ));
-
   /* error */
   error$ = createEffect(() => this.actions$.pipe(
     ofType(UsersActions.UsersActionTypes.USERS_ERROR),
@@ -285,7 +118,7 @@ export class UsersEffects {
         default:
           this.notificationService.showError('Undefined error', 'OK');
       }
-      console.log('USER ERROR: ', {
+      console.log('USERS ERROR: ', {
         origin: action.origin,
         error: action.err
       });

@@ -118,6 +118,7 @@ export class NewUserComponent implements OnInit, OnDestroy {
         Validators.maxLength(55)
       ]],
       surname: [null, [
+        Validators.required,
         Validators.minLength(3),
         Validators.maxLength(55)
       ]],
@@ -130,39 +131,40 @@ export class NewUserComponent implements OnInit, OnDestroy {
       //   Validators.required,
       //   Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!¡?¿"·$%&\/\(\)\\\\<>+*=\'_\-]).{8,}')
       // ]],
-      birthDate: [null],
-      phone: [null, [
-        Validators.minLength(9),
-        Validators.maxLength(15),
-      ]],
-      addressNumber: [null, [
-        Validators.maxLength(50)
-      ]],
-      addressStreet: [null, [
-        Validators.maxLength(70)
-      ]],
-      addressCity: [null, [
-        Validators.maxLength(50)
-      ]],
-      addressCp: [null, [
-        Validators.maxLength(10)
-      ]],
-      addressCountry: [null, [
-        Validators.maxLength(50)
-      ]],
-      dni: [null, [
-        dniValidator
-      ]],
+      // birthDate: [null],
+      // phone: [null, [
+      //   Validators.minLength(9),
+      //   Validators.maxLength(15),
+      // ]],
+      // addressNumber: [null, [
+      //   Validators.maxLength(50)
+      // ]],
+      // addressStreet: [null, [
+      //   Validators.maxLength(70)
+      // ]],
+      // addressCity: [null, [
+      //   Validators.maxLength(50)
+      // ]],
+      // addressCp: [null, [
+      //   Validators.maxLength(10)
+      // ]],
+      // addressCountry: [null, [
+      //   Validators.maxLength(50)
+      // ]],
+      // dni: [null, [
+      //   dniValidator
+      // ]],
       userTypeId: [null, [
+        Validators.required,
         userTypeValidator
       ]],
-      drivingLicences: [null, [
-        Validators.maxLength(100),
-        drivingLicencesValidator
-      ]],
-      actualPosition: [null, [
-        Validators.maxLength(100),
-      ]]
+      // drivingLicences: [null, [
+      //   Validators.maxLength(100),
+      //   drivingLicencesValidator
+      // ]],
+      // actualPosition: [null, [
+      //   Validators.maxLength(100),
+      // ]]
     });
 
   }
@@ -176,16 +178,16 @@ export class NewUserComponent implements OnInit, OnDestroy {
         email: this.email.value,
         user_type_id: this.userTypeId.value,
         password: this.passwordGenerator.generate(),
-        dni: this.dni.value,
-        birth_date: this.birthDate.value ? `${this.birthDate.value.getFullYear()}-${this.birthDate.value.getMonth() + 1}-${this.birthDate.value.getDate()}` : null,
-        address_street: this.addressStreet.value,
-        address_number: this.addressNumber.value,
-        address_city: this.addressCity.value,
-        address_cp: this.addressCp.value,
-        address_country: this.addressCountry.value,
-        phone: this.phone.value,
-        driving_licences: this.drivingLicences.value,
-        actual_position: this.actualPosition.value,
+        // dni: this.dni.value,
+        // birth_date: this.birthDate.value ? `${this.birthDate.value.getFullYear()}-${this.birthDate.value.getMonth() + 1}-${this.birthDate.value.getDate()}` : null,
+        // address_street: this.addressStreet.value,
+        // address_number: this.addressNumber.value,
+        // address_city: this.addressCity.value,
+        // address_cp: this.addressCp.value,
+        // address_country: this.addressCountry.value,
+        // phone: this.phone.value,
+        // driving_licences: this.drivingLicences.value,
+        // actual_position: this.actualPosition.value,
       }
 
       this.store$.dispatch(UsersActions.UsersCreate({ newUser: newUser }));
@@ -241,24 +243,24 @@ export class NewUserComponent implements OnInit, OnDestroy {
 
   get userTypeId() { return this.newUserForm.get('userTypeId'); }
 
-  get phone() { return this.newUserForm.get('phone'); }
+  // get phone() { return this.newUserForm.get('phone'); }
 
-  get dni() { return this.newUserForm.get('dni'); }
+  // get dni() { return this.newUserForm.get('dni'); }
 
-  get birthDate() { return this.newUserForm.get('birthDate'); }
+  // get birthDate() { return this.newUserForm.get('birthDate'); }
 
-  get addressNumber() { return this.newUserForm.get('addressNumber'); }
+  // get addressNumber() { return this.newUserForm.get('addressNumber'); }
 
-  get addressStreet() { return this.newUserForm.get('addressStreet'); }
+  // get addressStreet() { return this.newUserForm.get('addressStreet'); }
 
-  get addressCp() { return this.newUserForm.get('addressCp'); }
+  // get addressCp() { return this.newUserForm.get('addressCp'); }
 
-  get addressCity() { return this.newUserForm.get('addressCity'); }
+  // get addressCity() { return this.newUserForm.get('addressCity'); }
 
-  get addressCountry() { return this.newUserForm.get('addressCountry'); }
+  // get addressCountry() { return this.newUserForm.get('addressCountry'); }
 
-  get actualPosition() { return this.newUserForm.get('actualPosition'); }
+  // get actualPosition() { return this.newUserForm.get('actualPosition'); }
 
-  get drivingLicences() { return this.newUserForm.get('drivingLicences'); }
+  // get drivingLicences() { return this.newUserForm.get('drivingLicences'); }
 
 }

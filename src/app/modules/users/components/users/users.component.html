@@ -20,22 +20,24 @@
           <mat-header-cell *matHeaderCellDef mat-sort-header>Surname</mat-header-cell>
           <mat-cell *matCellDef="let element">{{element.surname}}</mat-cell>
         </ng-container>
+        <ng-container matColumnDef="rank">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Rank</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.userType.name}}</mat-cell>
+        </ng-container>
 
 
         <ng-container matColumnDef="actions">
           <mat-header-cell class="actions-header" *matHeaderCellDef>Actions</mat-header-cell>
           <mat-cell *matCellDef="let element; let i = index">
+            <a class="action-link" routerLink="/users/{{element.id}}">
+              <mat-icon class="action-icon">visibility</mat-icon>
+            </a>
             <ng-container
-              *ngIf="(element.userType.rank > (userState$ | async).user.userType.rank) || ((userState$ | async).user.userType.rank == 1) ; else view">
+              *ngIf="(element.userType.rank > (userState$ | async).user.userType.rank) || ((userState$ | async).user.userType.rank == 1)">
               <a class="action-link" routerLink="/users/edit/{{element.id}}">
                 <mat-icon class="action-icon">edit</mat-icon>
               </a>
             </ng-container>
-            <ng-template #view>
-              <a class="action-link" routerLink="/users/{{element.id}}">
-                <mat-icon class="action-icon">visibility</mat-icon>
-              </a>
-            </ng-template>
             <a *ngIf="element.userType.rank > (userState$ | async).user.userType.rank" class="action-link"
               [routerLink]="" (click)="deleteUser(element)">
               <mat-icon class="action-icon">delete</mat-icon>

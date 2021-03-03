@@ -22,7 +22,7 @@ import { ParserService } from '@services/parser.service';
 })
 export class UsersComponent implements OnInit, OnDestroy {
 
-  public usersDisplayedColumns: string[] = ['name', 'surname', 'actions'];
+  public usersDisplayedColumns: string[] = ['name', 'surname', 'rank', 'actions'];
   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
   public usersState$: Observable<UsersState> = this.store$.select(UsersSelectors.selectUsersState);
   public usersStateSubscriptor: Subscription;

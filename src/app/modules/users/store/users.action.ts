@@ -20,41 +20,8 @@ export enum UsersActionTypes {
   USERS_PROFILE_UPDATE = '[Users] USERS_PROFILE_UPDATE',
   USERS_PROFILE_UPDATE_SUCCESS = '[Users] USERS_PROFILE_UPDATE_SUCCESS',
 
-  USERS_CREATE_COURSE = '[Users] USERS_CREATE_COURSE',
-  USERS_CREATE_COURSE_SUCCESS = '[Users] USERS_CREATE_COURSE_SUCCESS',
-
-  USERS_UPDATE_COURSE = '[Users] USERS_UPDATE_COURSE',
-  USERS_UPDATE_COURSE_SUCCESS = '[Users] USERS_UPDATE_COURSE_SUCCESS',
-
-  USERS_DELETE_COURSE = '[Users] USERS_DELETE_COURSE',
-  USERS_DELETE_COURSE_SUCCESS = '[Users] USERS_DELETE_COURSE_SUCCESS',
-
-  USERS_CREATE_EDUCATION = '[Users] USERS_CREATE_EDUCATION',
-  USERS_CREATE_EDUCATION_SUCCESS = '[Users] USERS_CREATE_EDUCATION_SUCCESS',
-
-  USERS_UPDATE_EDUCATION = '[Users] USERS_UPDATE_EDUCATION',
-  USERS_UPDATE_EDUCATION_SUCCESS = '[Users] USERS_UPDATE_EDUCATION_SUCCESS',
-
-  USERS_DELETE_EDUCATION = '[Users] USERS_DELETE_EDUCATION',
-  USERS_DELETE_EDUCATION_SUCCESS = '[Users] USERS_DELETE_EDUCATION_SUCCESS',
-
-  USERS_CREATE_LANGUAGE = '[Users] USERS_CREATE_LANGUAGE',
-  USERS_CREATE_LANGUAGE_SUCCESS = '[Users] USERS_CREATE_LANGUAGE_SUCCESS',
-
-  USERS_UPDATE_LANGUAGE = '[Users] USERS_UPDATE_LANGUAGE',
-  USERS_UPDATE_LANGUAGE_SUCCESS = '[Users] USERS_UPDATE_LANGUAGE_SUCCESS',
-
-  USERS_DELETE_LANGUAGE = '[Users] USERS_DELETE_LANGUAGE',
-  USERS_DELETE_LANGUAGE_SUCCESS = '[Users] USERS_DELETE_LANGUAGE_SUCCESS',
-
-  USERS_UPDATE_AVATAR = '[Users] USERS_UPDATE_AVATAR',
-  USERS_UPDATE_AVATAR_SUCCESS = '[Users] USERS_UPDATE_AVATAR_SUCCESS',
-
   USERS_GET_AVATAR = '[Users] USERS_GET_AVATAR',
   USERS_GET_AVATAR_SUCCESS = '[Users] USERS_GET_AVATAR_SUCCESS',
-
-  USERS_DELETE_AVATAR = '[Users] USERS_DELETE_AVATAR',
-  USERS_DELETE_AVATAR_SUCCESS = '[Users] USERS_DELETE_AVATAR_SUCCESS',
 
   USERS_ERROR = '[Users] USERS_ERROR',
 }
@@ -75,53 +42,9 @@ export const UsersCreateSuccess = createAction(UsersActionTypes.USERS_CREATE_SUC
 export const UsersProfileUpdate = createAction(UsersActionTypes.USERS_PROFILE_UPDATE, props<{ id: number, updatedProperties: { [key: string]: any } }>());
 export const UsersProfileUpdateSuccess = createAction(UsersActionTypes.USERS_PROFILE_UPDATE_SUCCESS, props<{ updatedUser: User }>());
 
-/* create course */
-export const UsersCourseCreate = createAction(UsersActionTypes.USERS_CREATE_COURSE, props<{ userId: number, course: Course }>());
-export const UsersCourseCreateSuccess = createAction(UsersActionTypes.USERS_CREATE_COURSE_SUCCESS, props<{ userId: number, course: Course }>());
-
-/* update course */
-export const UsersCourseUpdate = createAction(UsersActionTypes.USERS_UPDATE_COURSE, props<{ userId: number, course: Course }>());
-export const UsersCourseUpdateSuccess = createAction(UsersActionTypes.USERS_UPDATE_COURSE_SUCCESS, props<{ userId: number, course: Course }>());
-
-/* delete course */
-export const UsersCourseDelete = createAction(UsersActionTypes.USERS_DELETE_COURSE, props<{ userId: number, courseId: number }>());
-export const UsersCourseDeleteSuccess = createAction(UsersActionTypes.USERS_DELETE_COURSE_SUCCESS, props<{ userId: number, courseId: number }>());
-
-/* create education */
-export const UsersEducationCreate = createAction(UsersActionTypes.USERS_CREATE_EDUCATION, props<{ userId: number, education: Education }>());
-export const UsersEducationCreateSuccess = createAction(UsersActionTypes.USERS_CREATE_EDUCATION_SUCCESS, props<{ userId: number, education: Education }>());
-
-/* update education */
-export const UsersEducationUpdate = createAction(UsersActionTypes.USERS_UPDATE_EDUCATION, props<{ userId: number, education: Education }>());
-export const UsersEducationUpdateSuccess = createAction(UsersActionTypes.USERS_UPDATE_EDUCATION_SUCCESS, props<{ userId: number, education: Education }>());
-
-/* delete education */
-export const UsersEducationDelete = createAction(UsersActionTypes.USERS_DELETE_EDUCATION, props<{ userId: number, educationId: number }>());
-export const UsersEducationDeleteSuccess = createAction(UsersActionTypes.USERS_DELETE_EDUCATION_SUCCESS, props<{ userId: number, educationId: number }>());
-
-/* create language */
-export const UsersLanguageCreate = createAction(UsersActionTypes.USERS_CREATE_LANGUAGE, props<{ userId: number, language: Language }>());
-export const UsersLanguageCreateSuccess = createAction(UsersActionTypes.USERS_CREATE_LANGUAGE_SUCCESS, props<{ userId: number, language: Language }>());
-
-/* update language */
-export const UsersLanguageUpdate = createAction(UsersActionTypes.USERS_UPDATE_LANGUAGE, props<{ userId: number, language: Language }>());
-export const UsersLanguageUpdateSuccess = createAction(UsersActionTypes.USERS_UPDATE_LANGUAGE_SUCCESS, props<{ userId: number, language: Language }>());
-
-/* delete language */
-export const UsersLanguageDelete = createAction(UsersActionTypes.USERS_DELETE_LANGUAGE, props<{ userId: number, languageId: number }>());
-export const UsersLanguageDeleteSuccess = createAction(UsersActionTypes.USERS_DELETE_LANGUAGE_SUCCESS, props<{ userId: number, languageId: number }>());
-
-/* update avatar */
-export const UsersAvatarUpdate = createAction(UsersActionTypes.USERS_UPDATE_AVATAR, props<{ userId: number, avatar: File }>());
-export const UsersAvatarUpdateSuccess = createAction(UsersActionTypes.USERS_UPDATE_AVATAR_SUCCESS, props<{ userId: number, avatar: SafeResourceUrl }>());
-
 /* get avatar */
 export const UsersAvatarGet = createAction(UsersActionTypes.USERS_GET_AVATAR, props<{ userId: number }>());
 export const UsersAvatarGetSuccess = createAction(UsersActionTypes.USERS_GET_AVATAR_SUCCESS, props<{ userId: number, avatar: SafeResourceUrl }>());
-
-/* delete avatar */
-export const UsersAvatarDelete = createAction(UsersActionTypes.USERS_DELETE_AVATAR, props<{ userId: number }>());
-export const UsersAvatarDeleteSuccess = createAction(UsersActionTypes.USERS_DELETE_AVATAR_SUCCESS, props<{ userId: number }>());
 
 /* error */
 export const UsersError = createAction(UsersActionTypes.USERS_ERROR, props<{ origin: UsersActionTypes, err: Error }>());
