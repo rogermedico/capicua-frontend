@@ -10,6 +10,8 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { CoursesComponent } from './components/courses/courses.component';
 import { EducationComponent } from './components/education/education.component';
 import { LanguagesComponent } from './components/languages/languages.component';
+import { EditProfileDialogComponent } from "@modules/user/components/dialogs/edit-profile-dialog/edit-profile-dialog.component";
+import { MatNativeDateModule } from "@angular/material/core";
 
 @NgModule({
   declarations: [
@@ -17,7 +19,8 @@ import { LanguagesComponent } from './components/languages/languages.component';
     ProfileComponent,
     CoursesComponent,
     EducationComponent,
-    LanguagesComponent
+    LanguagesComponent,
+    EditProfileDialogComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +28,8 @@ import { LanguagesComponent } from './components/languages/languages.component';
     UserRoutingModule,
     ReactiveFormsModule,
     MaterialModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatNativeDateModule
   ]
 })
 export class UserModule { }

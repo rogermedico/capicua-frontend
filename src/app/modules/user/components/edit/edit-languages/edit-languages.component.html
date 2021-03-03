@@ -1,0 +1,51 @@
+<div class="container">
+  <mat-card class="mat-elevation-z4">
+    <mat-card-title>Languages</mat-card-title>
+    <mat-card-content class="languages-info">
+      <mat-table [dataSource]="userEdited.languages" *ngIf="userEdited.languages.length != 0">
+
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef>Language</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="level">
+          <mat-header-cell *matHeaderCellDef>Level</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.level}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="finishDate">
+          <mat-header-cell *matHeaderCellDef>Expedition Date</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <ng-container *ngIf="element.finishDate">{{element.finishDate | date:'d/MM/yyyy'}}</ng-container>
+            <ng-container *ngIf="!element.finishDate">-</ng-container>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <mat-header-cell class="actions-header" *matHeaderCellDef>Actions</mat-header-cell>
+          <mat-cell *matCellDef="let element; let i = index">
+            <ng-container *ngIf="editable">
+              <a class="action-link" [routerLink]="" (click)="editLanguage(element)">
+                <mat-icon class="action-icon">edit</mat-icon>
+              </a>
+              <a class="action-link" [routerLink]="" (click)="deleteLanguage(element)">
+                <mat-icon class="action-icon">delete</mat-icon>
+              </a>
+            </ng-container>
+          </mat-cell>
+        </ng-container>
+
+
+        <mat-header-row *matHeaderRowDef="languagesDisplayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: languagesDisplayedColumns;"></mat-row>
+
+      </mat-table>
+      <div [ngClass]="{'edit-user-button': userEdited.languages.length != 0}" fxLayout="row" fxLayoutAlign="end center"
+        *ngIf="editable">
+        <a [routerLink]="" (click)="createLanguage()">
+          <button mat-fab color="accent" aria-label="Add language">
+            <mat-icon>add</mat-icon>
+          </button>
+        </a>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

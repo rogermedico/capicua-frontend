@@ -63,7 +63,7 @@ export enum UsersActionTypes {
 export const UsersGetAll = createAction(UsersActionTypes.USERS_GET_ALL);
 export const UsersGetAllSuccess = createAction(UsersActionTypes.USERS_GET_ALL_SUCCESS, props<{ users: User[] }>());
 
-/* get all data */
+/* reset data */
 export const UsersReset = createAction(UsersActionTypes.USERS_RESET);
 export const UsersResetSuccess = createAction(UsersActionTypes.USERS_RESET_SUCCESS);
 

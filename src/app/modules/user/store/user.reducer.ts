@@ -1,6 +1,9 @@
 import { UserState } from './user.state';
 import * as UserActions from './user.action';
 import { Action, createReducer, on } from '@ngrx/store';
+import { Course } from '@models/course.model';
+import { Education } from '@models/education.model';
+import { Language } from '@models/language.model';
 
 /* the auth state starts with no one logged in */
 const defaultUserState: UserState = {
@@ -33,16 +36,6 @@ const _userReducer = createReducer(defaultUserState,
     }
   }),
 
-  /* get data error */
-  // on(UserActions.UserGetDataError, (state, { err }) => {
-  //   return {
-  //     ...state,
-  //     loading: false,
-  //     loaded: true,
-  //     error: err
-  //   }
-  // }),
-
   /* reset data */
   on(UserActions.UserResetData, state => {
     return {
@@ -64,15 +57,318 @@ const _userReducer = createReducer(defaultUserState,
     }
   }),
 
-  /* reset data error */
-  // on(UserActions.UserResetDataError, (state, { err }) => {
-  //   return {
-  //     ...state,
-  //     loading: false,
-  //     loaded: true,
-  //     error: err
-  //   }
-  // }),
+  /* profile update */
+  on(UserActions.UserProfileUpdate, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* profile update success */
+  on(UserActions.UserProfileUpdateSuccess, (state, { updatedUser }) => {
+
+    return {
+      ...state,
+      user: updatedUser,
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* create course */
+  on(UserActions.UserCourseCreate, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* create course success */
+  on(UserActions.UserCourseCreateSuccess, (state, { course }) => {
+
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        courses: [
+          ...state.user.courses,
+          course
+        ]
+      },
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* edit course */
+  on(UserActions.UserCourseUpdate, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* edit course success */
+  on(UserActions.UserCourseUpdateSuccess, (state, { course }) => {
+
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        courses: state.user.courses.map((c: Course) => {
+          if (c.id != course.id) return c;
+          else return course;
+        })
+      },
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* delete course */
+  on(UserActions.UserCourseDelete, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* delete course success */
+  on(UserActions.UserCourseDeleteSuccess, (state, { courseId }) => {
+
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        courses: state.user.courses.filter((c: Course) => c.id != courseId)
+      },
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* create education */
+  on(UserActions.UserEducationCreate, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* create education success */
+  on(UserActions.UserEducationCreateSuccess, (state, { education }) => {
+
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        educations: [
+          ...state.user.educations,
+          education]
+      },
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* edit education */
+  on(UserActions.UserEducationUpdate, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* edit education success */
+  on(UserActions.UserEducationUpdateSuccess, (state, { education }) => {
+
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        educations: state.user.educations.map((e: Education) => {
+          if (e.id != education.id) return e;
+          else return education;
+        })
+      },
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* delete education */
+  on(UserActions.UserEducationDelete, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* delete education success */
+  on(UserActions.UserEducationDeleteSuccess, (state, { educationId }) => {
+
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        educations: state.user.educations.filter((e: Education) => e.id != educationId)
+      },
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* create language */
+  on(UserActions.UserLanguageCreate, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* create language success */
+  on(UserActions.UserLanguageCreateSuccess, (state, { language }) => {
+
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        languages: [
+          ...state.user.languages,
+          language]
+      },
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* edit language */
+  on(UserActions.UserLanguageUpdate, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* edit language success */
+  on(UserActions.UserLanguageUpdateSuccess, (state, { language }) => {
+
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        languages: state.user.languages.map((l: Language) => {
+          if (l.id != language.id) return l;
+          else return language;
+        })
+      },
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* delete language */
+  on(UserActions.UserLanguageDelete, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* delete language success */
+  on(UserActions.UserLanguageDeleteSuccess, (state, { languageId }) => {
+
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        languages: state.user.languages.filter((l: Language) => l.id != languageId)
+      },
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* update avatar */
+  on(UserActions.UserAvatarUpdate, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* update avatar success */
+  on(UserActions.UserAvatarUpdateSuccess, (state, { avatar }) => {
+
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        avatar: avatar
+      },
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* delete avatar */
+  on(UserActions.UserAvatarDelete, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* delete avatar success */
+  on(UserActions.UserAvatarDeleteSuccess, (state) => {
+
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        avatar: false
+      },
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
 
   /* change password */
   on(UserActions.UserChangePassword, state => {
@@ -94,16 +390,6 @@ const _userReducer = createReducer(defaultUserState,
     }
   }),
 
-  /* change password error */
-  // on(UserActions.UserChangePasswordError, (state, { err }) => {
-  //   return {
-  //     ...state,
-  //     loading: false,
-  //     loaded: true,
-  //     error: err
-  //   }
-  // }),
-
   /* error */
   on(UserActions.UserError, (state, { err }) => {
     return {
@@ -113,325 +399,6 @@ const _userReducer = createReducer(defaultUserState,
       error: err
     }
   }),
-
-  // /* modify profile */
-  // on(UserActions.UserModifyPersonalData, state => {
-  //   return {
-  //     ...state,
-  //     loading: true,
-  //     error: null
-  //   }
-  // }),
-
-  // /* modify profile success */
-  // on(UserActions.UserModifyPersonalDataSuccess, state => {
-  //   return {
-  //     ...state,
-  //     loading: false,
-  //     loaded: true,
-  //     edited: true,
-  //     error: null
-  //   }
-  // }),
-
-  // /* modify profile error */
-  // on(UserActions.UserModifyPersonalDataError, (state, { err }) => {
-  //   return {
-  //     ...state,
-  //     loading: false,
-  //     loaded: true,
-  //     error: err
-  //   }
-  // }),
-
-  // /* discard profile changes */
-  // on(UserActions.UserDiscardPersonalDataChanges, state => {
-  //   return {
-  //     ...state,
-  //     loading: true,
-  //     error: null
-  //   }
-  // }),
-
-  // /* discard profile changes success */
-  // on(UserActions.UserDiscardPersonalDataChangesSuccess, state => {
-  //   return {
-  //     ...state,
-  //     loading: false,
-  //     loaded: true,
-  //     edited: false,
-  //     error: null
-  //   }
-  // }),
-
-  // /* discard profile changes error */
-  // on(UserActions.UserDiscardPersonalDataChangesError, (state, { err }) => {
-  //   return {
-  //     ...state,
-  //     loading: false,
-  //     loaded: true,
-  //     error: err
-  //   }
-  // }),
-
-  // /* update profile */
-  // on(UserActions.UserUpdatePersonalData, state => {
-  //   return {
-  //     ...state,
-  //     loading: true,
-  //     error: null
-  //   }
-  // }),
-
-  // /* update profile success */
-  // on(UserActions.UserUpdatePersonalDataSuccess, (state, { user }) => {
-  //   return {
-  //     ...state,
-  //     user: user,
-  //     loading: false,
-  //     edited: false,
-  //     error: null
-  //   }
-  // }),
-
-  // /* update profile error */
-  // on(UserActions.UserUpdatePersonalDataError, (state, { err }) => {
-  //   return {
-  //     ...state,
-  //     loading: false,
-  //     error: err
-  //   }
-  // }),
-
-  // /* create language */
-  // on(UserActions.UserCreateLanguage, state => {
-  //   return {
-  //     ...state,
-  //     loading: true,
-  //     error: null
-  //   }
-  // }),
-
-  // /* create language success */
-  // on(UserActions.UserCreateLanguageSuccess, (state, { user }) => {
-  //   return {
-  //     ...state,
-  //     user: user,
-  //     loading: false,
-  //     error: null
-  //   }
-  // }),
-
-  // /* create language error */
-  // on(UserActions.UserCreateLanguageError, (state, { err }) => {
-  //   return {
-  //     ...state,
-  //     loading: false,
-  //     error: err
-  //   }
-  // }),
-
-  // /* update language */
-  // on(UserActions.UserUpdateLanguage, state => {
-  //   return {
-  //     ...state,
-  //     loading: true,
-  //     error: null
-  //   }
-  // }),
-
-  // /* update language success */
-  // on(UserActions.UserUpdateLanguageSuccess, (state, { user }) => {
-  //   return {
-  //     ...state,
-  //     user: user,
-  //     loading: false,
-  //     error: null
-  //   }
-  // }),
-
-  // /* update language error */
-  // on(UserActions.UserUpdateLanguageError, (state, { err }) => {
-  //   return {
-  //     ...state,
-  //     loading: false,
-  //     error: err
-  //   }
-  // }),
-
-  // /* delete language */
-  // on(UserActions.UserDeleteLanguage, state => {
-  //   return {
-  //     ...state,
-  //     loading: true,
-  //     error: null
-  //   }
-  // }),
-
-  // /* delete language success */
-  // on(UserActions.UserDeleteLanguageSuccess, (state, { user }) => {
-  //   return {
-  //     ...state,
-  //     user: user,
-  //     loading: false,
-  //     error: null
-  //   }
-  // }),
-
-  // /* delete language error */
-  // on(UserActions.UserDeleteLanguageError, (state, { err }) => {
-  //   return {
-  //     ...state,
-  //     loading: false,
-  //     error: err
-  //   }
-  // }),
-
-  // /* create education */
-  // on(UserActions.UserCreateEducation, state => {
-  //   return {
-  //     ...state,
-  //     loading: true,
-  //     error: null
-  //   }
-  // }),
-
-  // /* create education success */
-  // on(UserActions.UserCreateEducationSuccess, (state, { user }) => {
-  //   return {
-  //     ...state,
-  //     user: user,
-  //     loading: false,
-  //     error: null
-  //   }
-  // }),
-
-  // /* create education error */
-  // on(UserActions.UserCreateEducationError, (state, { err }) => {
-  //   return {
-  //     ...state,
-  //     loading: false,
-  //     error: err
-  //   }
-  // }),
-
-  // /* update education */
-  // on(UserActions.UserUpdateEducation, state => {
-  //   return {
-  //     ...state,
-  //     loading: true,
-  //     error: null
-  //   }
-  // }),
-
-  // /* update education success */
-  // on(UserActions.UserUpdateEducationSuccess, (state, { user }) => {
-  //   return {
-  //     ...state,
-  //     user: user,
-  //     loading: false,
-  //     error: null
-  //   }
-  // }),
-
-  // /* update education error */
-  // on(UserActions.UserUpdateEducationError, (state, { err }) => {
-  //   return {
-  //     ...state,
-  //     loading: false,
-  //     error: err
-  //   }
-  // }),
-
-  // /* delete education */
-  // on(UserActions.UserDeleteEducation, state => {
-  //   return {
-  //     ...state,
-  //     loading: true,
-  //     error: null
-  //   }
-  // }),
-
-  // /* delete education success */
-  // on(UserActions.UserDeleteEducationSuccess, (state, { user }) => {
-  //   return {
-  //     ...state,
-  //     user: user,
-  //     loading: false,
-  //     error: null
-  //   }
-  // }),
-
-  // /* delete education error */
-  // on(UserActions.UserDeleteEducationError, (state, { err }) => {
-  //   return {
-  //     ...state,
-  //     loading: false,
-  //     error: err
-  //   }
-  // }),
-
-  // /* load favorite activities */
-  // on(UserActions.UserLoadFavoriteActivities, state => {
-  //   return {
-  //     ...state,
-  //     loading: true,
-  //     error: null
-  //   }
-  // }),
-
-  // /* load favorite activities success */
-  // on(UserActions.UserLoadFavoriteActivitiesSuccess, (state, { favoriteActivities }) => {
-  //   return {
-  //     ...state,
-  //     user: {
-  //       ...state.user,
-  //       favoriteActivities: favoriteActivities
-  //     },
-  //     loading: false,
-  //     error: null
-  //   }
-  // }),
-
-  // /* load favorite activities error */
-  // on(UserActions.UserLoadFavoriteActivitiesError, (state, { err }) => {
-  //   return {
-  //     ...state,
-  //     loading: false,
-  //     error: err
-  //   }
-  // }),
-
-  // /* toggle favorite activity */
-  // on(UserActions.UserToggleFavoriteActivity, state => {
-  //   return {
-  //     ...state,
-  //     loading: true,
-  //     error: null
-  //   }
-  // }),
-
-  // /* toggle favorite activity success */
-  // on(UserActions.UserToggleFavoriteActivitySuccess, (state, { favoriteActivities }) => {
-  //   return {
-  //     ...state,
-  //     user: {
-  //       ...state.user,
-  //       favoriteActivities: favoriteActivities
-  //     },
-  //     loading: false,
-  //     error: null
-  //   }
-  // }),
-
-  // /* toggle favorite activity error */
-  // on(UserActions.UserToggleFavoriteActivityError, (state, { err }) => {
-  //   return {
-  //     ...state,
-  //     loading: false,
-  //     error: err
-  //   }
-  // })
 
 );
 
