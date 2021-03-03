@@ -26,7 +26,7 @@ import { DrivingLicence } from '@models/driving-licence.model';
 export class EditProfileComponent implements OnInit, OnDestroy {
 
   public user: User;
-  public avatar: SafeResourceUrl | string = '../../../../../assets/images/generic-avatar.png';
+  public avatar: SafeResourceUrl | string = 'assets/images/generic-avatar.png';
   public drivingLicences: string;
   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
   public userStateSubscription: Subscription;
@@ -69,7 +69,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
       tap(usersState => {
         this.user = usersState.users.find(user => user.id == this.user.id);
         this.drivingLicences = this.parser.parseDrivingLicences(this.user);
-        if (this.user.avatar) this.avatar = this.user.avatar
+        if (typeof this.user.avatar !== 'boolean') this.avatar = this.user.avatar
       })
     ).subscribe()
 

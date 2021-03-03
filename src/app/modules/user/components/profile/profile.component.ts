@@ -18,7 +18,7 @@ import * as UsersActions from '@modules/users/store/users.action';
 export class ProfileComponent implements OnInit, OnDestroy {
 
   public user: User;
-  public avatar: SafeResourceUrl | string = '../../../../../assets/images/generic-avatar.png';
+  public avatar: SafeResourceUrl | string = 'assets/images/generic-avatar.png';
   public drivingLicences: string;
   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
   public userStateSubscriber: Subscription;

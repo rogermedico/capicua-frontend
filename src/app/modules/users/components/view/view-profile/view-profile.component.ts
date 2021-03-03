@@ -8,10 +8,12 @@ import * as UserSelectors from '@modules/user/store/user.selector';
 import * as RouterSelectors from '@store/router/router.selector';
 import * as UsersActions from '@modules/users/store/users.action';
 import { User, UserBackend } from '@models/user.model';
-import { map, take, tap } from 'rxjs/operators';
+import { map, skipWhile, take, tap } from 'rxjs/operators';
 import { Params } from '@angular/router';
 import { UsersState } from '@modules/users/store/users.state';
 import { MatDialog } from '@angular/material/dialog';
+import { SafeResourceUrl } from '@angular/platform-browser';
+import { ParserService } from '@services/parser.service';
 
 @Component({
   selector: 'app-view-profile',
@@ -21,43 +23,41 @@ import { MatDialog } from '@angular/material/dialog';
 export class ViewProfileComponent implements OnInit, OnDestroy {
 
   public user: User;
+  public avatar: SafeResourceUrl | string = 'assets/images/generic-avatar.png';
   public drivingLicences: string;
   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
   public usersState$: Observable<UsersState> = this.store$.select(UsersSelectors.selectUsersState);
   public userStateSubscription: Subscription;
   public routeParams$: Observable<Params> = this.store$.select(RouterSelectors.selectParams);
   public routeParamsUsersStateSubscription: Subscription;
-  public editable: boolean;
 
-  constructor(private store$: Store<AppState>, private dialog: MatDialog) { }
+  constructor(private store$: Store<AppState>, private parser: ParserService) { }
 
   ngOnInit(): void {
 
-    this.routeParamsUsersStateSubscription = combineLatest([this.routeParams$, this.usersState$, this.userState$]).pipe(
+    this.routeParamsUsersStateSubscription = combineLatest([this.routeParams$, this.usersState$]).pipe(
       take(1),
-      tap(([routeParams, usersState, userState]) => {
+      tap(([routeParams, usersState]) => {
         this.user = usersState.users.find(user => user.id == routeParams.params.id);
-        const drivingLicences = this.user.drivingLicences;
-        if (drivingLicences.length > 2) {
-          this.drivingLicences = "";
-          for (let i = 0; i < drivingLicences.length - 2; i++) {
-            this.drivingLicences = this.drivingLicences + drivingLicences[i].type + ', ';
+        if (this.user) {
+          this.drivingLicences = this.parser.parseDrivingLicences(this.user);
+
+          if (this.user.avatar === true) {
+            this.store$.dispatch(UsersActions.UsersAvatarGet({ userId: this.user.id }));
           }
-          this.drivingLicences = this.drivingLicences + drivingLicences[drivingLicences.length - 2].type + ' and ' + drivingLicences[drivingLicences.length - 1].type;
+
         }
-        else if (drivingLicences.length == 2) {
-          this.drivingLicences = drivingLicences[0].type + ' and ' + drivingLicences[1].type;
-        }
-        else if (drivingLicences.length == 1) {
-          this.drivingLicences = drivingLicences[0].type;
-        }
-        this.editable = this.user.userType.rank > userState.user.userType.rank || this.user.userType.id == userState.user.id;
 
       })
     ).subscribe();
 
     this.userStateSubscription = this.usersState$.pipe(
-      map(us => this.user = us.users.find(user => user.id == this.user.id))
+      skipWhile(() => !this.user),
+      map(us => {
+        this.user = us.users.find(user => user.id == this.user.id)
+        this.drivingLicences = this.parser.parseDrivingLicences(this.user);
+        if (typeof this.user.avatar !== 'boolean') this.avatar = this.user.avatar
+      })
     ).subscribe();
 
   }

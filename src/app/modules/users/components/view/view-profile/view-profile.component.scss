@@ -43,11 +43,13 @@
 }
 
 .avatar {
-  width: auto;
-  max-height: 200px;
+  width: 200px;
+  height: auto;
+  border-radius: 50%;
 
   @include screen('lg'){
-    max-height: 300px;
+    width: 300px;
+    height: auto;
   }
 }
 
@@ -66,4 +68,8 @@
     margin: 0;
   }
 
+}
+
+.profile-container {
+  width: 100%;
 }

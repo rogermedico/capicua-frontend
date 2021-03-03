@@ -39,6 +39,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 /* interceptors */
 import { AccessTokenInterceptor } from './shared/interceptors/access-token.interceptor';
 
+/* to allow direct navigation to nested urls */
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -77,7 +80,7 @@ import { AccessTokenInterceptor } from './shared/interceptors/access-token.inter
       provide: HTTP_INTERCEPTORS,
       useClass: AccessTokenInterceptor,
       multi: true
-    },
+    }
   ],
   bootstrap: [AppComponent]
 })
