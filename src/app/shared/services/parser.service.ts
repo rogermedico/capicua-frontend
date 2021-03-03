@@ -87,9 +87,8 @@ export class ParserService {
 
   }
 
-  courseToBackendCourse(userId: number, course: Course): CourseBackendSent {
+  courseToBackendCourse(course: Course): CourseBackendSent {
     return {
-      user_id: userId,
       course_id: course.id,
       number: course.number,
       expedition_date: course.expeditionDate ? `${course.expeditionDate.getFullYear()}-${course.expeditionDate.getMonth() + 1}-${course.expeditionDate.getDate()}` : null,
@@ -107,10 +106,9 @@ export class ParserService {
     }
   }
 
-  educationToEducationBackend(userId: number, education: Education): EducationBackend {
+  educationToEducationBackend(education: Education): EducationBackend {
     return {
       id: education.id,
-      user_id: userId,
       name: education.name,
       finish_date: education.finishDate ? `${education.finishDate.getFullYear()}-${education.finishDate.getMonth() + 1}-${education.finishDate.getDate()}` : null,
       finished: education.finished,
@@ -126,10 +124,9 @@ export class ParserService {
     }
   }
 
-  languageToLanguageBackend(userId: number, language: Language): LanguageBackend {
+  languageToLanguageBackend(language: Language): LanguageBackend {
     return {
       id: language.id,
-      user_id: userId,
       name: language.name,
       level: language.level,
       finish_date: language.finishDate ? `${language.finishDate.getFullYear()}-${language.finishDate.getMonth() + 1}-${language.finishDate.getDate()}` : null,

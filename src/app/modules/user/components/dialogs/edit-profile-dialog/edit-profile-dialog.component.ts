@@ -57,6 +57,7 @@ export class EditProfileDialogComponent implements OnInit {
         Validators.maxLength(55)
       ]],
       surname: [this.data.surname, [
+        Validators.required,
         Validators.minLength(3),
         Validators.maxLength(55)
       ]],

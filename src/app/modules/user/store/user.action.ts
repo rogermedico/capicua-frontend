@@ -68,7 +68,7 @@ export const UserResetData = createAction(UserActionTypes.USER_RESET_DATA);
 export const UserResetDataSuccess = createAction(UserActionTypes.USER_RESET_DATA_SUCCESS);
 
 /* update user */
-export const UserProfileUpdate = createAction(UserActionTypes.USER_PROFILE_UPDATE, props<{ userId: number, updatedProperties: { [key: string]: any } }>());
+export const UserProfileUpdate = createAction(UserActionTypes.USER_PROFILE_UPDATE, props<{ updatedProperties: { [key: string]: any } }>());
 export const UserProfileUpdateSuccess = createAction(UserActionTypes.USER_PROFILE_UPDATE_SUCCESS, props<{ updatedUser: User }>());
 
 /* create course */
@@ -112,8 +112,8 @@ export const UserAvatarUpdate = createAction(UserActionTypes.USER_UPDATE_AVATAR,
 export const UserAvatarUpdateSuccess = createAction(UserActionTypes.USER_UPDATE_AVATAR_SUCCESS, props<{ avatar: SafeResourceUrl }>());
 
 /* delete avatar */
-export const UserAvatarDelete = createAction(UserActionTypes.USER_DELETE_AVATAR, props<{ userId: number }>());
-export const UserAvatarDeleteSuccess = createAction(UserActionTypes.USER_DELETE_AVATAR_SUCCESS, props<{ userId: number }>());
+export const UserAvatarDelete = createAction(UserActionTypes.USER_DELETE_AVATAR);
+export const UserAvatarDeleteSuccess = createAction(UserActionTypes.USER_DELETE_AVATAR_SUCCESS);
 
 /* change password */
 export const UserChangePassword = createAction(UserActionTypes.USER_CHANGE_PASSWORD, props<{ changePassword: ChangePassword }>());

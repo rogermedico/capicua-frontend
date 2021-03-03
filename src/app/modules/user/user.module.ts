@@ -12,6 +12,10 @@ import { EducationComponent } from './components/education/education.component';
 import { LanguagesComponent } from './components/languages/languages.component';
 import { EditProfileDialogComponent } from "@modules/user/components/dialogs/edit-profile-dialog/edit-profile-dialog.component";
 import { MatNativeDateModule } from "@angular/material/core";
+import { CourseDialogComponent } from "./components/dialogs/course-dialog/course-dialog.component";
+import { ConfirmDialogComponent } from "./components/dialogs/confirm-dialog/confirm-dialog.component";
+import { EducationDialogComponent } from "./components/dialogs/education-dialog/education-dialog.component";
+import { LanguageDialogComponent } from "./components/dialogs/language-dialog/language-dialog.component";
 
 @NgModule({
   declarations: [
@@ -20,7 +24,11 @@ import { MatNativeDateModule } from "@angular/material/core";
     CoursesComponent,
     EducationComponent,
     LanguagesComponent,
-    EditProfileDialogComponent
+    ConfirmDialogComponent,
+    EditProfileDialogComponent,
+    CourseDialogComponent,
+    EducationDialogComponent,
+    LanguageDialogComponent
   ],
   imports: [
     CommonModule,

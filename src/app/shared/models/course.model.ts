@@ -15,7 +15,6 @@ export interface CourseBackend {
 }
 
 export interface CourseBackendSent {
-  user_id: number;
   course_id: number;
   number: string;
   expedition_date: string;

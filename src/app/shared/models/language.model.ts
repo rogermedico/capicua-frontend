@@ -9,7 +9,6 @@ export interface Language {
 
 export interface LanguageBackend {
   id: number;
-  user_id: number;
   name: string;
   level: string;
   finish_date: string;

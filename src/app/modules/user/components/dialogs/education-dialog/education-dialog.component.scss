@@ -1,0 +1,12 @@
+.checkbox-wrapper { //https://github.com/angular/components/issues/8798
+  min-height: 50px;
+}
+
+.form__input {
+  width: 100%;
+}
+
+input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px white inset !important;
+  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+}
