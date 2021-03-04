@@ -22,26 +22,38 @@ import { ParserService } from '@services/parser.service';
 })
 export class UsersComponent implements OnInit, OnDestroy {
 
-  public usersDisplayedColumns: string[] = ['name', 'surname', 'rank', 'actions'];
+  public activeUsersDisplayedColumns: string[] = ['name', 'surname', 'rank', 'actions'];
+  public inactiveUsersDisplayedColumns: string[] = ['name', 'surname', 'actions'];
   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
   public usersState$: Observable<UsersState> = this.store$.select(UsersSelectors.selectUsersState);
   public usersStateSubscriptor: Subscription;
-  public dataSource: MatTableDataSource<User> = new MatTableDataSource();
+  public activeUsers: MatTableDataSource<User> = new MatTableDataSource();
+  public inactiveUsers: MatTableDataSource<User> = new MatTableDataSource();
 
   constructor(private store$: Store<AppState>, private dialog: MatDialog, private parser: ParserService) { }
 
-  @ViewChild(MatSort, { static: false }) set content(sort: MatSort) {
-    this.dataSource.sort = sort;
-  };
+  // @ViewChild(MatSort, { static: false }) set content(sort: MatSort) {
+  //   this.activeUsers.sort = sort;
+  // };
 
   ngOnInit(): void {
     this.store$.dispatch(UsersActions.UsersGetAll());
     this.usersStateSubscriptor = this.usersState$.pipe(
       skipWhile(us => us.users == null),
       tap(us => {
-        this.dataSource = new MatTableDataSource(us.users.filter(user => !user.deactivated));
+        this.activeUsers = new MatTableDataSource(us.users.filter(user => !user.deactivated));
         /* allow filter ignoring accents and diacritics */
-        this.dataSource.filterPredicate = (data: User, filter: string): boolean => {
+        this.activeUsers.filterPredicate = (data: User, filter: string): boolean => {
+          const dataStr = Object.keys(data).reduce((currentTerm: string, key: string) => {
+            return (currentTerm + (data as { [key: string]: any })[key] + '◬');
+          }, '').normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+          const transformedFilter = filter.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+          return dataStr.indexOf(transformedFilter) != -1;
+        };
+
+        this.inactiveUsers = new MatTableDataSource(us.users.filter(user => user.deactivated));
+        /* allow filter ignoring accents and diacritics */
+        this.inactiveUsers.filterPredicate = (data: User, filter: string): boolean => {
           const dataStr = Object.keys(data).reduce((currentTerm: string, key: string) => {
             return (currentTerm + (data as { [key: string]: any })[key] + '◬');
           }, '').normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
@@ -50,13 +62,13 @@ export class UsersComponent implements OnInit, OnDestroy {
         }
 
         // to sort no first properties
-        // this.dataSource.sortingDataAccessor = (item, property) => {
+        // this.activeUsers.sortingDataAccessor = (item, property) => {
         //   switch (property) {
         //     case 'rank': return item.userType.name;
         //     default: return item[property]
         //   }
         // };
-        // this.dataSource.sort = this.sort;
+        // this.activeUsers.sort = this.sort;
       })
     ).subscribe();
   }
@@ -65,12 +77,37 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.usersStateSubscriptor.unsubscribe();
   }
 
-  applyFilter(event: Event) {
+  activeUsersApplyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.activeUsers.filter = filterValue.trim().toLowerCase();
   }
 
-  deleteUser(user: User): void {
+  inactiveUsersApplyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.inactiveUsers.filter = filterValue.trim().toLowerCase();
+  }
+
+  activateUser(user: User): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        question: 'Are you sure you want to reactivate the following user:',
+        element: `${user.name} ${user.surname}`
+      },
+      width: '400px'
+    });
+
+    dialogRef.afterClosed().pipe(
+      take(1),
+      tap((result: boolean) => {
+        if (result) {
+          this.store$.dispatch(UsersActions.UsersActivate({ userId: user.id }));
+        }
+      })
+    ).subscribe();
+
+  }
+
+  deactivateUser(user: User): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
         question: 'Are you sure you want to deactivate the following user:',
@@ -79,31 +116,34 @@ export class UsersComponent implements OnInit, OnDestroy {
       width: '400px'
     });
 
-    // dialogRef.afterClosed().subscribe((result: boolean) => {
-    //   if (result) {
-    //     const updatedProperties = {
-    //       deactivated: result
-    //     };
+    dialogRef.afterClosed().pipe(
+      take(1),
+      tap((result: boolean) => {
+        if (result) {
+          this.store$.dispatch(UsersActions.UsersDeactivate({ userId: user.id }));
+        }
+      })
+    ).subscribe();
 
-    //     this.store$.dispatch(UsersActions.UsersUpdate({ id: user.id, updatedProperties: updatedProperties }));
-    //   }
-    // });
+  }
+
+  deleteUser(user: User): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        question: 'Are you sure you want to permanently delete the following user:',
+        element: `${user.name} ${user.surname}`
+      },
+      width: '400px'
+    });
 
     dialogRef.afterClosed().pipe(
       take(1),
       tap((result: boolean) => {
         if (result) {
-          const modifiedUser = {
-            [this.parser.translateToBackend('deactivated')]: result,
-          };
-
-          this.store$.dispatch(UsersActions.UsersProfileUpdate({ id: user.id, updatedProperties: modifiedUser }));
+          this.store$.dispatch(UsersActions.UsersDelete({ userId: user.id }));
         }
       })
     ).subscribe();
-
-
-
 
   }
 

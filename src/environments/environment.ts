@@ -18,6 +18,10 @@ export const environment = {
     usersEndpoint: 'users',
     avatarEndpoint: 'user/avatar',
 
+    /* admin users */
+    activateEndpoint: 'user/activate',
+    deactivateEndpoint: 'user/deactivate',
+
     /* constants */
     userTypesEndpoint: 'constants/usertypes',
     courseTypesEndpoint: 'constants/coursetypes',

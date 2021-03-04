@@ -151,6 +151,92 @@ const _usersReducer = createReducer(defaultUsersState,
     }
   }),
 
+  /* activate */
+  on(UsersActions.UsersActivate, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* activate success */
+  on(UsersActions.UsersActivateSuccess, (state, { userId }) => {
+
+    return {
+      ...state,
+      users: state.users.map((u: User) => {
+        if (u.id != userId) {
+          return u;
+        }
+        else {
+          return {
+            ...u,
+            deactivated: false
+          }
+        }
+      }),
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* deactivate */
+  on(UsersActions.UsersDeactivate, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* deactivate success */
+  on(UsersActions.UsersDeactivateSuccess, (state, { userId }) => {
+
+    return {
+      ...state,
+      users: state.users.map((u: User) => {
+        if (u.id != userId) {
+          return u;
+        }
+        else {
+          return {
+            ...u,
+            deactivated: true
+          }
+        }
+      }),
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* delete */
+  on(UsersActions.UsersDelete, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* delete success */
+  on(UsersActions.UsersDelete, (state, { userId }) => {
+
+    return {
+      ...state,
+      users: state.users.filter((user: User) => user.id != userId),
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
   /* error */
   on(UsersActions.UsersError, (state, { err }) => {
     return {

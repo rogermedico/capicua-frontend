@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { environment } from '@environments/environment';
+import { BackendResponse } from '@models/backend-response.model';
 import { Course, CourseBackend, CourseBackendSent } from '@models/course.model';
 import { Education, EducationBackend, EducationBackendSent } from '@models/education.model';
 import { Language, LanguageBackend, LanguageBackendSent } from '@models/language.model';
@@ -49,6 +50,36 @@ export class UsersService {
         return a
       })
     );
+  }
+
+  activateUser(id: number): Observable<{ userId: number }> {
+    const body = {
+      user_id: id
+    }
+    return this.http.post<BackendResponse>(environment.backend.api + environment.backend.activateEndpoint, body).pipe(
+      map(() => {
+        return { userId: id }
+      })
+    );
+  }
+
+  deactivateUser(id: number): Observable<{ userId: number }> {
+    const body = {
+      user_id: id
+    }
+    return this.http.post<BackendResponse>(environment.backend.api + environment.backend.deactivateEndpoint, body).pipe(
+      map(() => {
+        return { userId: id }
+      })
+    );;
+  }
+
+  deleteUser(id: number): Observable<{ userId: number }> {
+    return this.http.delete<BackendResponse>(`${environment.backend.api}${environment.backend.userEndpoint}/${id}`).pipe(
+      map(() => {
+        return { userId: id }
+      })
+    );;
   }
 
 }

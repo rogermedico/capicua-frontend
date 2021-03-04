@@ -98,6 +98,60 @@ export class UsersEffects {
     })
   ));
 
+  /* activate user */
+  activateUser$ = createEffect(() => this.actions$.pipe(
+    ofType(UsersActions.UsersActionTypes.USERS_ACTIVATE),
+    mergeMap((action: { type: string, userId: number }) => this.us.activateUser(action.userId).pipe(
+      // map(a => { console.log(a); return null })
+      map((data: { userId: number }) => {
+        console.log(data);
+        return { type: UsersActions.UsersActionTypes.USERS_ACTIVATE_SUCCESS, userId: data.userId };
+      }),
+      catchError(err => of({
+        type: UsersActions.UsersActionTypes.USERS_ERROR,
+        origin: UsersActions.UsersActionTypes.USERS_ACTIVATE,
+        err: err
+      }))
+    )
+    )
+  ));
+
+  /* deactivate user */
+  deactivateUser$ = createEffect(() => this.actions$.pipe(
+    ofType(UsersActions.UsersActionTypes.USERS_DEACTIVATE),
+    mergeMap((action: { type: string, userId: number }) => this.us.deactivateUser(action.userId).pipe(
+      // map(a => { console.log(a); return null })
+      map((data: { userId: number }) => {
+        console.log(data);
+        return { type: UsersActions.UsersActionTypes.USERS_DEACTIVATE_SUCCESS, userId: data.userId };
+      }),
+      catchError(err => of({
+        type: UsersActions.UsersActionTypes.USERS_ERROR,
+        origin: UsersActions.UsersActionTypes.USERS_DEACTIVATE,
+        err: err
+      }))
+    )
+    )
+  ));
+
+  /* delete user */
+  deleteUser$ = createEffect(() => this.actions$.pipe(
+    ofType(UsersActions.UsersActionTypes.USERS_DELETE),
+    mergeMap((action: { type: string, userId: number }) => this.us.deleteUser(action.userId).pipe(
+      // map(a => { console.log(a); return null })
+      map((data: { userId: number }) => {
+        console.log(data);
+        return { type: UsersActions.UsersActionTypes.USERS_DELETE_SUCCESS, userId: data.userId };
+      }),
+      catchError(err => of({
+        type: UsersActions.UsersActionTypes.USERS_ERROR,
+        origin: UsersActions.UsersActionTypes.USERS_DELETE,
+        err: err
+      }))
+    )
+    )
+  ));
+
   /* error */
   error$ = createEffect(() => this.actions$.pipe(
     ofType(UsersActions.UsersActionTypes.USERS_ERROR),
