@@ -32,9 +32,13 @@ export class UsersService {
     );
   }
 
-  editUser(id: number, updatedProperties: { [key: string]: any }): Observable<User> {
-    console.log(updatedProperties)
-    return this.http.post<UserBackend>(environment.backend.api + environment.backend.userEndpoint + '/' + id, updatedProperties).pipe(
+  editUser(id: number, editedProperties: { [key: string]: any }): Observable<User> {
+    const body = {
+      ...editedProperties,
+      user_id: id
+    }
+    console.log(body);
+    return this.http.put<UserBackend>(environment.backend.api + environment.backend.usersEndpoint, body).pipe(
       map(userBackend => this.parser.userBackendToUser(userBackend))
     );
   }

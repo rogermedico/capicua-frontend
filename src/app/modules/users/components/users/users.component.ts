@@ -16,6 +16,7 @@ import { UserState } from '@modules/user/store/user.state';
 import { ParserService } from '@services/parser.service';
 import { NewUserDialogComponent } from '../dialogs/new-user-dialog/new-user-dialog.component';
 import { NotificationService } from '@services/notification.service';
+import { EditUserDialogComponent } from '../dialogs/edit-user-dialog/edit-user-dialog.component';
 
 @Component({
   selector: 'app-users',
@@ -36,6 +37,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   constructor(
     private store$: Store<AppState>,
     private dialog: MatDialog,
+    private parserService: ParserService,
     private notificationService: NotificationService) { }
 
   // @ViewChild(MatSort, { static: false }) set content(sort: MatSort) {
@@ -94,7 +96,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.inactiveUsers.filter = filterValue.trim().toLowerCase();
   }
 
-  newUser(user: User): void {
+  newUser(): void {
     const dialogRef = this.dialog.open(NewUserDialogComponent);
 
     dialogRef.afterClosed().pipe(
@@ -115,7 +117,32 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   editUser(user: User): void {
+    const dialogRef = this.dialog.open(EditUserDialogComponent, {
+      data: {
+        userTypeId: user.userType.id,
+        actualPosition: user.actualPosition
+      },
+    });
 
+    dialogRef.afterClosed().pipe(
+      take(1),
+      tap(editedProperties => {
+        if (editedProperties) {
+          const editedPropertiesSend = {};
+          for (const [k, v] of Object.entries(editedProperties)) {
+            editedPropertiesSend[this.parserService.translateToBackend(k)] = v;
+          };
+          this.store$.dispatch(UsersActions.UsersEdit({ userId: user.id, editedProperties: editedPropertiesSend }));
+          this.notificationSubscription = this.usersState$.pipe(
+            skipWhile(usersState => usersState.loading),
+            take(1),
+            map(() => {
+              this.notificationService.showMessage('User edited successfully', 'OK');
+            })
+          ).subscribe()
+        }
+      })
+    ).subscribe();
   }
 
   activateUser(user: User): void {

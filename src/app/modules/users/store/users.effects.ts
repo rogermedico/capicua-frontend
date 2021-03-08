@@ -65,15 +65,15 @@ export class UsersEffects {
 
   /* edit user */
   editUser$ = createEffect(() => this.actions$.pipe(
-    ofType(UsersActions.UsersActionTypes.USERS_PROFILE_UPDATE),
-    mergeMap((action: { type: string, id: number, updatedProperties: { [key: string]: any } }) => this.us.editUser(action.id, action.updatedProperties).pipe(
-      map((updatedUser: User) => {
-        console.log(updatedUser)
-        return { type: UsersActions.UsersActionTypes.USERS_PROFILE_UPDATE_SUCCESS, updatedUser: updatedUser };
+    ofType(UsersActions.UsersActionTypes.USERS_EDIT),
+    mergeMap((action: { type: string, userId: number, editedProperties: { [key: string]: any } }) => this.us.editUser(action.userId, action.editedProperties).pipe(
+      map((editedUser: User) => {
+        console.log(editedUser)
+        return { type: UsersActions.UsersActionTypes.USERS_EDIT_SUCCESS, editedUser: editedUser };
       }),
       catchError(err => of({
         type: UsersActions.UsersActionTypes.USERS_ERROR,
-        origin: UsersActions.UsersActionTypes.USERS_PROFILE_UPDATE,
+        origin: UsersActions.UsersActionTypes.USERS_EDIT,
         err: err
       }))
     ))

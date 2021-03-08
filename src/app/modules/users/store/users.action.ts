@@ -17,8 +17,8 @@ export enum UsersActionTypes {
   USERS_CREATE = '[Users] USERS_CREATE',
   USERS_CREATE_SUCCESS = '[Users] USERS_CREATE_SUCCESS',
 
-  USERS_PROFILE_UPDATE = '[Users] USERS_PROFILE_UPDATE',
-  USERS_PROFILE_UPDATE_SUCCESS = '[Users] USERS_PROFILE_UPDATE_SUCCESS',
+  USERS_EDIT = '[Users] USERS_EDIT',
+  USERS_EDIT_SUCCESS = '[Users] USERS_EDIT_SUCCESS',
 
   USERS_GET_AVATAR = '[Users] USERS_GET_AVATAR',
   USERS_GET_AVATAR_SUCCESS = '[Users] USERS_GET_AVATAR_SUCCESS',
@@ -47,9 +47,9 @@ export const UsersResetSuccess = createAction(UsersActionTypes.USERS_RESET_SUCCE
 export const UsersCreate = createAction(UsersActionTypes.USERS_CREATE, props<{ newUser: NewUser }>());
 export const UsersCreateSuccess = createAction(UsersActionTypes.USERS_CREATE_SUCCESS, props<{ user: User }>());
 
-/* update user */
-export const UsersProfileUpdate = createAction(UsersActionTypes.USERS_PROFILE_UPDATE, props<{ id: number, updatedProperties: { [key: string]: any } }>());
-export const UsersProfileUpdateSuccess = createAction(UsersActionTypes.USERS_PROFILE_UPDATE_SUCCESS, props<{ updatedUser: User }>());
+/* edit user */
+export const UsersEdit = createAction(UsersActionTypes.USERS_EDIT, props<{ userId: number, editedProperties: { [key: string]: any } }>());
+export const UsersEditSuccess = createAction(UsersActionTypes.USERS_EDIT_SUCCESS, props<{ editedUser: User }>());
 
 /* get avatar */
 export const UsersAvatarGet = createAction(UsersActionTypes.USERS_GET_AVATAR, props<{ userId: number }>());

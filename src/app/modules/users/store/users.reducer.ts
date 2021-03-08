@@ -91,8 +91,8 @@ const _usersReducer = createReducer(defaultUsersState,
     }
   }),
 
-  /* update user */
-  on(UsersActions.UsersProfileUpdate, state => {
+  /* edit */
+  on(UsersActions.UsersEdit, state => {
     return {
       ...state,
       loading: true,
@@ -101,17 +101,17 @@ const _usersReducer = createReducer(defaultUsersState,
     }
   }),
 
-  /* update user success */
-  on(UsersActions.UsersProfileUpdateSuccess, (state, { updatedUser }) => {
+  /* edit success */
+  on(UsersActions.UsersEditSuccess, (state, { editedUser }) => {
 
     return {
       ...state,
-      users: state.users.map((u: User) => {
-        if (u.id != updatedUser.id) return u;
+      users: state.users.map((user: User) => {
+        if (user.id != editedUser.id) return user;
         else return {
-          ...updatedUser,
-          avatar: u.avatar
-        };
+          ...editedUser,
+          avatar: user.avatar
+        }
       }),
       loading: false,
       loaded: true,
@@ -226,7 +226,7 @@ const _usersReducer = createReducer(defaultUsersState,
   }),
 
   /* delete success */
-  on(UsersActions.UsersDelete, (state, { userId }) => {
+  on(UsersActions.UsersDeleteSuccess, (state, { userId }) => {
 
     return {
       ...state,
