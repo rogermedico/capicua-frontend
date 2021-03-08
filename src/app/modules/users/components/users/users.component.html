@@ -39,7 +39,7 @@
                 </a>
                 <ng-container
                   *ngIf="(element.userType.rank > (userState$ | async).user.userType.rank) || ((userState$ | async).user.userType.rank == 1)">
-                  <a class="action-link" routerLink="/users/edit/{{element.id}}">
+                  <a class="action-link" [routerLink]="" (click)="editUser(element)">
                     <mat-icon class="action-icon">edit</mat-icon>
                   </a>
                 </ng-container>
@@ -55,11 +55,11 @@
             <mat-row *matRowDef="let row; columns: activeUsersDisplayedColumns;"></mat-row>
 
           </mat-table>
-          <a routerLink="/users/new">
-            <button class="new-user-button" mat-fab color="accent" aria-label="New user">
-              <mat-icon>add</mat-icon>
-            </button>
-          </a>
+          <!-- <a routerLink="/users/new"> -->
+          <button class="new-user-button" mat-fab color="accent" aria-label="New user" (click)="newUser()">
+            <mat-icon>add</mat-icon>
+          </button>
+          <!-- </a> -->
         </mat-tab>
         <mat-tab label="Inactive users">
           <mat-form-field class="filter">

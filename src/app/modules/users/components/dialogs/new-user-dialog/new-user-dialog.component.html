@@ -1,0 +1,33 @@
+<form [formGroup]="newUserForm" (ngSubmit)="submit()">
+  <div mat-dialog-content>
+    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-md="row" fxLayoutGap.gt-md="16px">
+      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+        <mat-label>Name</mat-label>
+        <input matInput type="text" placeholder="Rodolf" name="name" formControlName="name">
+      </mat-form-field>
+      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+        <mat-label>Surname</mat-label>
+        <input matInput type="text" placeholder="Roigé Galceran" name="surname" formControlName="surname">
+      </mat-form-field>
+    </section>
+    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-md="row" fxLayoutGap.gt-md="16px">
+      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" placeholder="rroige@capicua.cat" name="email" formControlName="email">
+      </mat-form-field>
+      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+        <mat-label>User type</mat-label>
+        <mat-select formControlName="userTypeId">
+          <mat-option *ngFor="let userType of userTypes" [value]="userType.id">
+            {{userType.name}} ({{userType.rank}})
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </section>
+
+  </div>
+  <div mat-dialog-content fxLayout="row" fxLayoutAlign="space-between center">
+    <button mat-button mat-stroked-button color="accent" type="button" (click)="onCloseDialog()">Cancel</button>
+    <button mat-button mat-raised-button color="accent" type="submit" [disabled]="!newUserForm.valid">Ok</button>
+  </div>
+</form>

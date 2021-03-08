@@ -7,13 +7,15 @@ import * as UsersSelectors from '@modules/users/store/users.selector';
 import * as UsersActions from '@modules/users/store/users.action';
 import * as UserSelectors from '@modules/user/store/user.selector';
 import { MatSort } from '@angular/material/sort';
-import { User } from '@models/user.model';
-import { skipWhile, take, tap } from 'rxjs/operators';
+import { NewUser, User } from '@models/user.model';
+import { map, skipWhile, take, tap } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmDialogComponent } from '../dialogs/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { UserState } from '@modules/user/store/user.state';
 import { ParserService } from '@services/parser.service';
+import { NewUserDialogComponent } from '../dialogs/new-user-dialog/new-user-dialog.component';
+import { NotificationService } from '@services/notification.service';
 
 @Component({
   selector: 'app-users',
@@ -26,11 +28,15 @@ export class UsersComponent implements OnInit, OnDestroy {
   public inactiveUsersDisplayedColumns: string[] = ['name', 'surname', 'actions'];
   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
   public usersState$: Observable<UsersState> = this.store$.select(UsersSelectors.selectUsersState);
-  public usersStateSubscriptor: Subscription;
+  public usersStateSubscription: Subscription;
+  public notificationSubscription: Subscription;
   public activeUsers: MatTableDataSource<User> = new MatTableDataSource();
   public inactiveUsers: MatTableDataSource<User> = new MatTableDataSource();
 
-  constructor(private store$: Store<AppState>, private dialog: MatDialog, private parser: ParserService) { }
+  constructor(
+    private store$: Store<AppState>,
+    private dialog: MatDialog,
+    private notificationService: NotificationService) { }
 
   // @ViewChild(MatSort, { static: false }) set content(sort: MatSort) {
   //   this.activeUsers.sort = sort;
@@ -38,7 +44,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store$.dispatch(UsersActions.UsersGetAll());
-    this.usersStateSubscriptor = this.usersState$.pipe(
+    this.usersStateSubscription = this.usersState$.pipe(
       skipWhile(us => us.users == null),
       tap(us => {
         this.activeUsers = new MatTableDataSource(us.users.filter(user => !user.deactivated));
@@ -74,7 +80,8 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.usersStateSubscriptor.unsubscribe();
+    this.usersStateSubscription.unsubscribe();
+    if (this.notificationSubscription) this.notificationSubscription.unsubscribe();
   }
 
   activeUsersApplyFilter(event: Event) {
@@ -85,6 +92,30 @@ export class UsersComponent implements OnInit, OnDestroy {
   inactiveUsersApplyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.inactiveUsers.filter = filterValue.trim().toLowerCase();
+  }
+
+  newUser(user: User): void {
+    const dialogRef = this.dialog.open(NewUserDialogComponent);
+
+    dialogRef.afterClosed().pipe(
+      take(1),
+      tap((newUser: NewUser) => {
+        if (newUser) {
+          this.store$.dispatch(UsersActions.UsersCreate({ newUser: newUser }));
+          this.notificationSubscription = this.usersState$.pipe(
+            skipWhile(usersState => usersState.loading),
+            take(1),
+            map(() => {
+              this.notificationService.showMessage('New user created successfully', 'OK');
+            })
+          ).subscribe()
+        }
+      })
+    ).subscribe();
+  }
+
+  editUser(user: User): void {
+
   }
 
   activateUser(user: User): void {

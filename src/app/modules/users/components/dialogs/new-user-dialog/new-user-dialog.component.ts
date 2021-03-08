@@ -19,13 +19,14 @@ import * as UsersActions from '@modules/users/store/users.action';
 import { Router } from '@angular/router';
 import { NotificationService } from '@services/notification.service';
 import { drivingLicencesValidator } from '@validators/driving-licences.validator';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-new-user',
-  templateUrl: './new-user.component.html',
-  styleUrls: ['./new-user.component.scss']
+  selector: 'app-new-user-dialog',
+  templateUrl: './new-user-dialog.component.html',
+  styleUrls: ['./new-user-dialog.component.scss']
 })
-export class NewUserComponent implements OnInit, OnDestroy {
+export class NewUserDialogComponent implements OnInit, OnDestroy {
 
   // public nationalities = Object.values(NATIONALITIES);
   // public userTypes = USER_TYPES;
@@ -48,8 +49,7 @@ export class NewUserComponent implements OnInit, OnDestroy {
     private store$: Store<AppState>,
     private fb: FormBuilder,
     private passwordGenerator: PasswordGeneratorService,
-    private router: Router,
-    private notificationService: NotificationService
+    public dialogRef: MatDialogRef<NewUserDialogComponent>,
   ) { }
 
   ngOnInit(): void {
@@ -169,39 +169,54 @@ export class NewUserComponent implements OnInit, OnDestroy {
 
   }
 
-  createNewUser() {
-
-    if (this.newUserForm.valid) {
-      const newUser: NewUser = {
-        name: this.name.value,
-        surname: this.surname.value,
-        email: this.email.value,
-        user_type_id: this.userTypeId.value,
-        password: this.passwordGenerator.generate(),
-        // dni: this.dni.value,
-        // birth_date: this.birthDate.value ? `${this.birthDate.value.getFullYear()}-${this.birthDate.value.getMonth() + 1}-${this.birthDate.value.getDate()}` : null,
-        // address_street: this.addressStreet.value,
-        // address_number: this.addressNumber.value,
-        // address_city: this.addressCity.value,
-        // address_cp: this.addressCp.value,
-        // address_country: this.addressCountry.value,
-        // phone: this.phone.value,
-        // driving_licences: this.drivingLicences.value,
-        // actual_position: this.actualPosition.value,
-      }
-
-      this.store$.dispatch(UsersActions.UsersCreate({ newUser: newUser }));
-      this.usersStateSubscription = this.usersState$.pipe(
-        skipWhile(usersState => usersState.loading),
-        map(() => {
-          this.router.navigateByUrl('/users');
-          this.notificationService.showMessage('New user created successfully', 'OK');
-        })
-      ).subscribe()
-
-    }
-
+  onCloseDialog(): void {
+    this.dialogRef.close();
   }
+
+  submit(): void {
+    const newUser: NewUser = {
+      name: this.name.value,
+      surname: this.surname.value,
+      email: this.email.value,
+      user_type_id: this.userTypeId.value,
+      password: this.passwordGenerator.generate(),
+    }
+    this.dialogRef.close(newUser);
+  }
+
+  // createNewUser() {
+
+  //   if (this.newUserForm.valid) {
+  //     const newUser: NewUser = {
+  //       name: this.name.value,
+  //       surname: this.surname.value,
+  //       email: this.email.value,
+  //       user_type_id: this.userTypeId.value,
+  //       password: this.passwordGenerator.generate(),
+  //       // dni: this.dni.value,
+  //       // birth_date: this.birthDate.value ? `${this.birthDate.value.getFullYear()}-${this.birthDate.value.getMonth() + 1}-${this.birthDate.value.getDate()}` : null,
+  //       // address_street: this.addressStreet.value,
+  //       // address_number: this.addressNumber.value,
+  //       // address_city: this.addressCity.value,
+  //       // address_cp: this.addressCp.value,
+  //       // address_country: this.addressCountry.value,
+  //       // phone: this.phone.value,
+  //       // driving_licences: this.drivingLicences.value,
+  //       // actual_position: this.actualPosition.value,
+  //     }
+
+  //     this.store$.dispatch(UsersActions.UsersCreate({ newUser: newUser }));
+  //     this.usersStateSubscription = this.usersState$.pipe(
+  //       skipWhile(usersState => usersState.loading),
+  //       map(() => {
+  //         this.router.navigateByUrl('/users');
+  //         this.notificationService.showMessage('New user created successfully', 'OK');
+  //       })
+  //     ).subscribe()
+
+  //   }
+
+  // }
 
 
 

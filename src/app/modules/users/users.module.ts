@@ -6,7 +6,7 @@ import { UsersComponent } from './components/users/users.component';
 import { MaterialModule } from '@modules/material/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatSortModule } from '@angular/material/sort';
-import { NewUserComponent } from './components/new-user/new-user.component';
+import { NewUserDialogComponent } from './components/dialogs/new-user-dialog/new-user-dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
@@ -15,25 +15,17 @@ import { ViewProfileComponent } from './components/view/view-profile/view-profil
 import { ViewCoursesComponent } from './components/view/view-courses/view-courses.component';
 import { ViewEducationComponent } from './components/view/view-education/view-education.component';
 import { ViewLanguagesComponent } from './components/view/view-languages/view-languages.component';
-import { EditProfileDialogComponent } from './components/dialogs/edit-profile-dialog/edit-profile-dialog.component';
-import { CourseDialogComponent } from './components/dialogs/course-dialog/course-dialog.component';
-import { EducationDialogComponent } from './components/dialogs/education-dialog/education-dialog.component';
-import { LanguageDialogComponent } from './components/dialogs/language-dialog/language-dialog.component';
 
 @NgModule({
   declarations: [
     UsersComponent,
-    NewUserComponent,
     ViewUserComponent,
     ViewProfileComponent,
     ViewCoursesComponent,
     ViewEducationComponent,
     ViewLanguagesComponent,
     ConfirmDialogComponent,
-    EditProfileDialogComponent,
-    CourseDialogComponent,
-    EducationDialogComponent,
-    LanguageDialogComponent,
+    NewUserDialogComponent
   ],
   imports: [
     CommonModule,
