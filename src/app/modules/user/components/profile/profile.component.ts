@@ -69,7 +69,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       tap(userState => {
         this.user = userState.user;
         this.drivingLicences = this.parser.parseDrivingLicences(userState.user);
-        if (this.user.avatar) this.avatar = this.user.avatar;
+        if (this.user.avatarFile) this.avatar = this.user.avatarFile;
       }),
       tap(us => console.log('user', us.user))
     ).subscribe();

@@ -337,7 +337,7 @@ const _userReducer = createReducer(defaultUserState,
       ...state,
       user: {
         ...state.user,
-        avatar: avatar
+        avatarFile: avatar
       },
       loading: false,
       loaded: true,
@@ -362,7 +362,7 @@ const _userReducer = createReducer(defaultUserState,
       ...state,
       user: {
         ...state.user,
-        avatar: false
+        avatarFile: false
       },
       loading: false,
       loaded: true,

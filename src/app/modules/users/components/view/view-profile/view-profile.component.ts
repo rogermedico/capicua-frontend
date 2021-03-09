@@ -42,7 +42,7 @@ export class ViewProfileComponent implements OnInit, OnDestroy {
         if (this.user) {
           this.drivingLicences = this.parser.parseDrivingLicences(this.user);
 
-          if (this.user.avatar === true) {
+          if (this.user.avatarFile === true) {
             this.store$.dispatch(UsersActions.UsersAvatarGet({ userId: this.user.id }));
           }
 
@@ -56,7 +56,7 @@ export class ViewProfileComponent implements OnInit, OnDestroy {
       map(us => {
         this.user = us.users.find(user => user.id == this.user.id)
         this.drivingLicences = this.parser.parseDrivingLicences(this.user);
-        if (typeof this.user.avatar !== 'boolean') this.avatar = this.user.avatar
+        if (typeof this.user.avatarFile !== 'boolean') this.avatar = this.user.avatarFile;
       })
     ).subscribe();
 

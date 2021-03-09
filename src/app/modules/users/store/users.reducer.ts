@@ -32,10 +32,10 @@ const _usersReducer = createReducer(defaultUsersState,
       ...state,
       users: state.users === null ? users : users.map(newUser => {
         const oldUser = state.users.find(oldUser => oldUser.id === newUser.id);
-        if (typeof oldUser.avatar != 'boolean') {
+        if (typeof oldUser.avatarFile != 'boolean') {
           return {
             ...newUser,
-            avatar: oldUser.avatar
+            avatarFile: oldUser.avatarFile
           }
         }
         else {
@@ -110,7 +110,7 @@ const _usersReducer = createReducer(defaultUsersState,
         if (user.id != editedUser.id) return user;
         else return {
           ...editedUser,
-          avatar: user.avatar
+          avatarFile: user.avatarFile
         }
       }),
       loading: false,
@@ -141,7 +141,7 @@ const _usersReducer = createReducer(defaultUsersState,
         else {
           return {
             ...u,
-            avatar: avatar
+            avatarFile: avatar
           }
         }
       }),

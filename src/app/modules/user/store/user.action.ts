@@ -47,11 +47,20 @@ export enum UserActionTypes {
   USER_UPDATE_AVATAR = '[User] USER_UPDATE_AVATAR',
   USER_UPDATE_AVATAR_SUCCESS = '[User] USER_UPDATE_AVATAR_SUCCESS',
 
-  USER_GET_AVATAR = '[User] USER_GET_AVATAR',
-  USER_GET_AVATAR_SUCCESS = '[User] USER_GET_AVATAR_SUCCESS',
-
   USER_DELETE_AVATAR = '[User] USER_DELETE_AVATAR',
   USER_DELETE_AVATAR_SUCCESS = '[User] USER_DELETE_AVATAR_SUCCESS',
+
+  USER_GET_DNI = '[User] USER_GET_DNI',
+  USER_GET_DNI_SUCCESS = '[User] USER_GET_DNI_SUCCESS',
+
+  USER_UPDATE_DNI = '[User] USER_UPDATE_DNI',
+  USER_UPDATE_DNI_SUCCESS = '[User] USER_UPDATE_DNI_SUCCESS',
+
+  USER_GET_OFFENSES = '[User] USER_GET_OFFENSES',
+  USER_GET_OFFENSES_SUCCESS = '[User] USER_GET_OFFENSES_SUCCESS',
+
+  USER_UPDATE_OFFENSES = '[User] USER_UPDATE_OFFENSES',
+  USER_UPDATE_OFFENSES_SUCCESS = '[User] USER_UPDATE_OFFENSES_SUCCESS',
 
   USER_CHANGE_PASSWORD = '[User] USER_CHANGE_PASSWORD',
   USER_CHANGE_PASSWORD_SUCCESS = '[User] USER_CHANGE_PASSWORD_SUCCESS',
@@ -114,6 +123,22 @@ export const UserAvatarUpdateSuccess = createAction(UserActionTypes.USER_UPDATE_
 /* delete avatar */
 export const UserAvatarDelete = createAction(UserActionTypes.USER_DELETE_AVATAR);
 export const UserAvatarDeleteSuccess = createAction(UserActionTypes.USER_DELETE_AVATAR_SUCCESS);
+
+/* dni get */
+export const UserDniGet = createAction(UserActionTypes.USER_GET_DNI);
+export const UserDniGetSuccess = createAction(UserActionTypes.USER_GET_DNI_SUCCESS, props<{ dni: SafeResourceUrl }>());
+
+/* dni update */
+export const UserDniUpdate = createAction(UserActionTypes.USER_UPDATE_DNI, props<{ dni: File }>());
+export const UserDniUpdateSuccess = createAction(UserActionTypes.USER_UPDATE_DNI_SUCCESS, props<{ dni: SafeResourceUrl }>());
+
+/* offenses get */
+export const UserOffensesGet = createAction(UserActionTypes.USER_GET_OFFENSES);
+export const UserOffensesGetSuccess = createAction(UserActionTypes.USER_GET_OFFENSES_SUCCESS, props<{ offenses: SafeResourceUrl }>());
+
+/* offenses update */
+export const UserOffensesUpdate = createAction(UserActionTypes.USER_UPDATE_OFFENSES, props<{ offenses: File }>());
+export const UserOffensesUpdateSuccess = createAction(UserActionTypes.USER_UPDATE_OFFENSES_SUCCESS, props<{ offenses: SafeResourceUrl }>());
 
 /* change password */
 export const UserChangePassword = createAction(UserActionTypes.USER_CHANGE_PASSWORD, props<{ changePassword: ChangePassword }>());

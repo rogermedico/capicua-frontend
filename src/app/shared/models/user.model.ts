@@ -5,6 +5,7 @@ import { DrivingLicence, DrivingLicenceBackend } from './driving-licence.model';
 import { Education, EducationBackend } from './education.model';
 import { Language, LanguageBackend } from './language.model';
 import { SafeResourceUrl } from '@angular/platform-browser';
+import { UserDocument } from './document.model';
 
 export interface User {
   id: number;
@@ -23,7 +24,11 @@ export interface User {
   languages: Language[];
   emailVerified: boolean;
   deactivated: boolean;
-  avatar: SafeResourceUrl | boolean;
+  socialSecurityNumber: string;
+  bankAccount: string;
+  avatarFile: SafeResourceUrl | boolean;
+  documents: UserDocument[];
+
 }
 
 export interface UserBackend {
@@ -47,10 +52,14 @@ export interface UserBackend {
   languages: LanguageBackend[];
   email_verified_at: string;
   deactivated: boolean;
-  avatar: {
+  social_security_number: string;
+  bank_account: string;
+  avatar_file: {
     avatar: string,
     extension: string
   } | boolean;
+  dni_file: boolean;
+  sex_offense_certificate_file: boolean;
 }
 
 export interface NewUser {

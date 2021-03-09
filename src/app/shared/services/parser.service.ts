@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { USER_DOCUMENTS } from '@constants/documents.constant';
 import { LANGUAGE_LEVELS, LANGUAGE_NAMES } from '@constants/language.constant';
 import { Course, CourseBackend, CourseBackendSent } from '@models/course.model';
 import { DrivingLicence } from '@models/driving-licence.model';
@@ -75,7 +76,20 @@ export class ParserService {
       }),
       emailVerified: user.email_verified_at ? true : false,
       deactivated: user.deactivated,
-      avatar: typeof user.avatar === 'boolean' ? user.avatar : this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/${user.avatar['extension']};base64,${user.avatar['avatar']}`),
+      socialSecurityNumber: user.social_security_number,
+      bankAccount: user.bank_account,
+      avatarFile: typeof user.avatar_file === 'boolean' ? user.avatar_file : this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/${user.avatar_file['extension']};base64,${user.avatar_file['avatar']}`),
+      documents: [
+        {
+          name: USER_DOCUMENTS.dni,
+          file: user.dni_file,
+        },
+        {
+          name: USER_DOCUMENTS.sexOffenseCertificate,
+          file: user.sex_offense_certificate_file,
+        }
+      ],
+
     }
 
     return parsedUser;
