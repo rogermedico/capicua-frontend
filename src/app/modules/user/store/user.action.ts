@@ -125,20 +125,20 @@ export const UserAvatarDelete = createAction(UserActionTypes.USER_DELETE_AVATAR)
 export const UserAvatarDeleteSuccess = createAction(UserActionTypes.USER_DELETE_AVATAR_SUCCESS);
 
 /* dni get */
-export const UserDniGet = createAction(UserActionTypes.USER_GET_DNI);
-export const UserDniGetSuccess = createAction(UserActionTypes.USER_GET_DNI_SUCCESS, props<{ dni: SafeResourceUrl }>());
+export const UserDniGet = createAction(UserActionTypes.USER_GET_DNI, props<{ userId: number }>());
+export const UserDniGetSuccess = createAction(UserActionTypes.USER_GET_DNI_SUCCESS, props<{ dni: string }>());
 
 /* dni update */
 export const UserDniUpdate = createAction(UserActionTypes.USER_UPDATE_DNI, props<{ dni: File }>());
-export const UserDniUpdateSuccess = createAction(UserActionTypes.USER_UPDATE_DNI_SUCCESS, props<{ dni: SafeResourceUrl }>());
+export const UserDniUpdateSuccess = createAction(UserActionTypes.USER_UPDATE_DNI_SUCCESS, props<{ dni: string }>());
 
 /* offenses get */
-export const UserOffensesGet = createAction(UserActionTypes.USER_GET_OFFENSES);
-export const UserOffensesGetSuccess = createAction(UserActionTypes.USER_GET_OFFENSES_SUCCESS, props<{ offenses: SafeResourceUrl }>());
+export const UserOffensesGet = createAction(UserActionTypes.USER_GET_OFFENSES, props<{ userId: number }>());
+export const UserOffensesGetSuccess = createAction(UserActionTypes.USER_GET_OFFENSES_SUCCESS, props<{ offenses: string }>());
 
 /* offenses update */
 export const UserOffensesUpdate = createAction(UserActionTypes.USER_UPDATE_OFFENSES, props<{ offenses: File }>());
-export const UserOffensesUpdateSuccess = createAction(UserActionTypes.USER_UPDATE_OFFENSES_SUCCESS, props<{ offenses: SafeResourceUrl }>());
+export const UserOffensesUpdateSuccess = createAction(UserActionTypes.USER_UPDATE_OFFENSES_SUCCESS, props<{ offenses: string }>());
 
 /* change password */
 export const UserChangePassword = createAction(UserActionTypes.USER_CHANGE_PASSWORD, props<{ changePassword: ChangePassword }>());

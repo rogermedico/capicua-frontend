@@ -192,4 +192,14 @@ export class ParserService {
     return parsedDrivingLicences;
   }
 
+  public blobToFile(theBlob: Blob, fileName: string): File {
+    const blob: any = theBlob;
+    //A Blob() is almost a File() - it's just missing the two properties below which we will add
+    blob.lastModifiedDate = new Date();
+    blob.name = fileName;
+
+    //Cast to a File() type
+    return <File>theBlob;
+  }
+
 }

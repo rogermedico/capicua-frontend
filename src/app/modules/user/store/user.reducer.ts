@@ -4,6 +4,8 @@ import { Action, createReducer, on } from '@ngrx/store';
 import { Course } from '@models/course.model';
 import { Education } from '@models/education.model';
 import { Language } from '@models/language.model';
+import { UserDocument } from '@models/document.model';
+import { USER_DOCUMENTS } from '@constants/documents.constant';
 
 /* the auth state starts with no one logged in */
 const defaultUserState: UserState = {
@@ -29,7 +31,10 @@ const _userReducer = createReducer(defaultUserState,
   on(UserActions.UserGetDataSuccess, (state, { user }) => {
     return {
       ...state,
-      user: user,
+      user: {
+        ...user,
+        documents: state.user == null ? user.documents : state.user.documents
+      },
       loading: false,
       loaded: true,
       error: null
@@ -363,6 +368,139 @@ const _userReducer = createReducer(defaultUserState,
       user: {
         ...state.user,
         avatarFile: false
+      },
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* get dni */
+  on(UserActions.UserDniGet, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* get dni success */
+  on(UserActions.UserDniGetSuccess, (state, { dni }) => {
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        documents: state.user.documents.map((document: UserDocument) => {
+          if (document.name != USER_DOCUMENTS.dni) return document;
+          else {
+            if (typeof document.file != 'boolean') window.URL.revokeObjectURL(document.file)
+            return {
+              ...document,
+              file: dni
+            }
+          }
+        })
+      },
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* update dni */
+  on(UserActions.UserDniUpdate, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* update dni success */
+  on(UserActions.UserDniUpdateSuccess, (state, { dni }) => {
+    console.log(dni)
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        documents: state.user.documents.map((document: UserDocument) => {
+          if (document.name != USER_DOCUMENTS.dni) return document;
+          else {
+            if (typeof document.file != 'boolean') window.URL.revokeObjectURL(document.file)
+            return {
+              ...document,
+              file: dni
+            }
+          }
+        })
+      },
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* get offenses */
+  on(UserActions.UserOffensesGet, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* get offenses success */
+  on(UserActions.UserOffensesGetSuccess, (state, { offenses }) => {
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        documents: state.user.documents.map((document: UserDocument) => {
+          if (document.name != USER_DOCUMENTS.sexOffenseCertificate) return document;
+          else {
+            if (typeof document.file != 'boolean') window.URL.revokeObjectURL(document.file)
+            return {
+              ...document,
+              file: offenses
+            }
+          }
+        })
+      },
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* update offenses */
+  on(UserActions.UserOffensesUpdate, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* update offenses success */
+  on(UserActions.UserOffensesUpdateSuccess, (state, { offenses }) => {
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        documents: state.user.documents.map((document: UserDocument) => {
+          if (document.name != USER_DOCUMENTS.sexOffenseCertificate) return document;
+          else {
+            if (typeof document.file != 'boolean') window.URL.revokeObjectURL(document.file)
+            return {
+              ...document,
+              file: offenses
+            }
+          }
+        })
       },
       loading: false,
       loaded: true,

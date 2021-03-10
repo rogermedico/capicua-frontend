@@ -1,6 +1,6 @@
 <div mat-dialog-content>
   <p>{{data.question}}</p>
-  <ul>
+  <ul *ngIf="data.element">
     <li>{{data.element}}</li>
   </ul>
 </div>

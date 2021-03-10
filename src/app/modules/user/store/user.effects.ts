@@ -234,6 +234,66 @@ export class UserEffects {
     ))
   ));
 
+  /* get dni */
+  getDni$ = createEffect(() => this.actions$.pipe(
+    ofType(UserActions.UserActionTypes.USER_GET_DNI),
+    mergeMap((action: { type: string, userId: number }) => this.us.getDni(action.userId).pipe(
+      map((data: { userId: number, dni: string }) => {
+        return { type: UserActions.UserActionTypes.USER_GET_DNI_SUCCESS, dni: data.dni };
+      }),
+      catchError(err => of({
+        type: UserActions.UserActionTypes.USER_ERROR,
+        origin: UserActions.UserActionTypes.USER_GET_DNI,
+        err: err
+      }))
+    ))
+  ));
+
+  /* update dni */
+  updateDni$ = createEffect(() => this.actions$.pipe(
+    ofType(UserActions.UserActionTypes.USER_UPDATE_DNI),
+    mergeMap((action: { type: string, dni: File }) => this.us.updateDni(action.dni).pipe(
+      map((data: string) => {
+        return { type: UserActions.UserActionTypes.USER_UPDATE_DNI_SUCCESS, dni: data };
+      }),
+      catchError(err => of({
+        type: UserActions.UserActionTypes.USER_ERROR,
+        origin: UserActions.UserActionTypes.USER_UPDATE_DNI,
+        err: err
+      }))
+    ))
+  ));
+
+  /* get offenses */
+  getOffenses$ = createEffect(() => this.actions$.pipe(
+    ofType(UserActions.UserActionTypes.USER_GET_OFFENSES),
+    mergeMap((action: { type: string, userId: number }) => this.us.getOffenses(action.userId).pipe(
+      map((data: { userId: number, offenses: string }) => {
+        return { type: UserActions.UserActionTypes.USER_GET_OFFENSES_SUCCESS, offenses: data.offenses };
+      }),
+      catchError(err => of({
+        type: UserActions.UserActionTypes.USER_ERROR,
+        origin: UserActions.UserActionTypes.USER_GET_OFFENSES,
+        err: err
+      }))
+    ))
+  ));
+
+  /* update offenses */
+  updateOffenses$ = createEffect(() => this.actions$.pipe(
+    ofType(UserActions.UserActionTypes.USER_UPDATE_OFFENSES),
+    mergeMap((action: { type: string, offenses: File }) => this.us.updateDni(action.offenses).pipe(
+      map((data: string) => {
+        return { type: UserActions.UserActionTypes.USER_UPDATE_OFFENSES_SUCCESS, offenses: data };
+      }),
+      catchError(err => of({
+        type: UserActions.UserActionTypes.USER_ERROR,
+        origin: UserActions.UserActionTypes.USER_UPDATE_OFFENSES,
+        err: err
+      }))
+    ))
+  ));
+
   /* change password  */
   changePassword$ = createEffect(() => this.actions$.pipe(
     ofType(UserActions.UserActionTypes.USER_CHANGE_PASSWORD),

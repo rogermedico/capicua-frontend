@@ -15,9 +15,17 @@
               <a *ngIf="element.file" class="action-link" [routerLink]="" (click)="viewDocument(element)">
                 <mat-icon class="action-icon">visibility</mat-icon>
               </a>
-              <a class="action-link" [routerLink]="" (click)="updateDocument(element)">
+              <!-- <a class="action-link" [routerLink]="" (click)="updateDocument(element)">
+                <mat-icon class="action-icon">upload</mat-icon>
+              </a> -->
+              <!-- <button mat-fab color="accent" aria-label="Edit profile" (click)="avatar.click()">
+                <mat-icon>edit</mat-icon>
+              </button> -->
+              <a class="action-link" [routerLink]="" (click)="uploadDocument.click()">
                 <mat-icon class="action-icon">upload</mat-icon>
               </a>
+              <input #uploadDocument hidden type="file" onclick="this.value=null"
+                (change)="updateDocument(element,$event)" accept="application/pdf">
             </ng-container>
           </mat-cell>
         </ng-container>

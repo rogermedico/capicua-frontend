@@ -17,6 +17,8 @@ export const environment = {
     changePasswordEndpoint: 'user/password',
     usersEndpoint: 'users',
     avatarEndpoint: 'user/avatar',
+    dniEndpoint: 'user/dni',
+    offensesEndpoint: 'user/offenses',
 
     /* admin users */
     activateEndpoint: 'user/activate',
