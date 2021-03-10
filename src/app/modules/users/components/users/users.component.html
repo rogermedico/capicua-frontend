@@ -6,7 +6,7 @@
     </mat-card-header>
 
     <mat-card-content>
-      <mat-tab-group mat-stretch-tabs>
+      <mat-tab-group *ngIf="inactiveUsers.data.length != 0;else noInacitveUsers" mat-stretch-tabs color="accent">
         <mat-tab label="Active users">
           <mat-form-field class="filter">
             <mat-label>Filter</mat-label>
@@ -61,7 +61,7 @@
           </button>
           <!-- </a> -->
         </mat-tab>
-        <mat-tab label="Inactive users">
+        <mat-tab *ngIf="inactiveUsers.data.length != 0" label="Inactive users">
           <mat-form-field class="filter">
             <mat-label>Filter</mat-label>
             <input matInput (keyup)="inactiveUsersApplyFilter($event)" placeholder="Ex. Roger" #input>
@@ -99,6 +99,61 @@
           </mat-table>
         </mat-tab>
       </mat-tab-group>
+      <ng-template #noInacitveUsers>
+        <mat-form-field class="filter">
+          <mat-label>Filter</mat-label>
+          <input matInput (keyup)="activeUsersApplyFilter($event)" placeholder="Ex. Roger" #input>
+        </mat-form-field>
+
+        <!-- <mat-table [dataSource]="dataSource" matSort> -->
+        <mat-table [dataSource]="activeUsers">
+
+          <ng-container matColumnDef="name">
+            <!-- <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell> -->
+            <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="surname">
+            <mat-header-cell *matHeaderCellDef>Surname</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.surname}}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="rank">
+            <mat-header-cell *matHeaderCellDef>Rank</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.userType.name}}</mat-cell>
+          </ng-container>
+
+
+          <ng-container matColumnDef="actions">
+            <mat-header-cell class="actions-header" *matHeaderCellDef>Actions</mat-header-cell>
+            <mat-cell *matCellDef="let element; let i = index">
+              <a class="action-link" routerLink="/users/{{element.id}}">
+                <mat-icon class="action-icon">visibility</mat-icon>
+              </a>
+              <ng-container
+                *ngIf="(element.userType.rank > (userState$ | async).user.userType.rank) || ((userState$ | async).user.userType.rank == 1)">
+                <a class="action-link" [routerLink]="" (click)="editUser(element)">
+                  <mat-icon class="action-icon">edit</mat-icon>
+                </a>
+              </ng-container>
+              <a *ngIf="element.userType.rank > (userState$ | async).user.userType.rank" class="action-link"
+                [routerLink]="" (click)="deactivateUser(element)">
+                <mat-icon class="action-icon">delete</mat-icon>
+              </a>
+            </mat-cell>
+          </ng-container>
+
+
+          <mat-header-row *matHeaderRowDef="activeUsersDisplayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: activeUsersDisplayedColumns;"></mat-row>
+
+        </mat-table>
+        <!-- <a routerLink="/users/new"> -->
+        <button class="new-user-button" mat-fab color="accent" aria-label="New user" (click)="newUser()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </ng-template>
+
+
     </mat-card-content>
   </mat-card>
 
