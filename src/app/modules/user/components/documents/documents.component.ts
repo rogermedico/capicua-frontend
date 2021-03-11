@@ -34,9 +34,7 @@ export class DocumentsComponent implements OnInit {
 
   constructor(
     private store$: Store<AppState>,
-    private sanitizer: DomSanitizer,
     private dialog: MatDialog,
-    private parser: ParserService,
     private notificationService: NotificationService) { }
 
   ngOnInit(): void {

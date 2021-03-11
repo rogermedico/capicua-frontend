@@ -56,6 +56,26 @@ export class UsersService {
     );
   }
 
+  getDni(userId: number): Observable<{ userId: number, dni: string }> {
+    return this.http.get(`${environment.backend.api}${environment.backend.dniEndpoint}/${userId}`).pipe(
+      map((response: { dni: string, extension: string }) => {
+        const byteArray = new Uint8Array(atob(response.dni).split('').map(char => char.charCodeAt(0)));
+        const dni = new Blob([byteArray], { type: 'application/pdf' });
+        return { userId: userId, dni: window.URL.createObjectURL(dni) };
+      })
+    )
+  }
+
+  getOffenses(userId: number): Observable<{ userId: number, offenses: string }> {
+    return this.http.get(`${environment.backend.api}${environment.backend.offensesEndpoint}/${userId}`).pipe(
+      map((response: { offenses: string, extension: string }) => {
+        const byteArray = new Uint8Array(atob(response.offenses).split('').map(char => char.charCodeAt(0)));
+        const offenses = new Blob([byteArray], { type: 'application/pdf' });
+        return { userId: userId, offenses: window.URL.createObjectURL(offenses) };
+      })
+    )
+  }
+
   activateUser(id: number): Observable<{ userId: number }> {
     const body = {
       user_id: id

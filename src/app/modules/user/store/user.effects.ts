@@ -282,7 +282,7 @@ export class UserEffects {
   /* update offenses */
   updateOffenses$ = createEffect(() => this.actions$.pipe(
     ofType(UserActions.UserActionTypes.USER_UPDATE_OFFENSES),
-    mergeMap((action: { type: string, offenses: File }) => this.us.updateDni(action.offenses).pipe(
+    mergeMap((action: { type: string, offenses: File }) => this.us.updateOffenses(action.offenses).pipe(
       map((data: string) => {
         return { type: UserActions.UserActionTypes.USER_UPDATE_OFFENSES_SUCCESS, offenses: data };
       }),

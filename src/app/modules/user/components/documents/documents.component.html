@@ -34,14 +34,6 @@
         <mat-row *matRowDef="let row; columns: documentsDisplayedColumns;"></mat-row>
 
       </mat-table>
-      <div [ngClass]="{'edit-user-button': user.educations.length != 0}" fxLayout="row" fxLayoutAlign="end center"
-        *ngIf="editable">
-        <a [routerLink]="" (click)="createEducation()">
-          <button mat-fab color="accent" aria-label="Add Course">
-            <mat-icon>add</mat-icon>
-          </button>
-        </a>
-      </div>
     </mat-card-content>
   </mat-card>
 </div>

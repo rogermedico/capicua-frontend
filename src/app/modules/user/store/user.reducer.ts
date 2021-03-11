@@ -394,7 +394,6 @@ const _userReducer = createReducer(defaultUserState,
         documents: state.user.documents.map((document: UserDocument) => {
           if (document.name != USER_DOCUMENTS.dni) return document;
           else {
-            if (typeof document.file != 'boolean') window.URL.revokeObjectURL(document.file)
             return {
               ...document,
               file: dni
@@ -461,7 +460,6 @@ const _userReducer = createReducer(defaultUserState,
         documents: state.user.documents.map((document: UserDocument) => {
           if (document.name != USER_DOCUMENTS.sexOffenseCertificate) return document;
           else {
-            if (typeof document.file != 'boolean') window.URL.revokeObjectURL(document.file)
             return {
               ...document,
               file: offenses

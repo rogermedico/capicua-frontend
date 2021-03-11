@@ -23,6 +23,12 @@ export enum UsersActionTypes {
   USERS_GET_AVATAR = '[Users] USERS_GET_AVATAR',
   USERS_GET_AVATAR_SUCCESS = '[Users] USERS_GET_AVATAR_SUCCESS',
 
+  USERS_GET_DNI = '[Users] USERS_GET_DNI',
+  USERS_GET_DNI_SUCCESS = '[Users] USERS_GET_DNI_SUCCESS',
+
+  USERS_GET_OFFENSES = '[Users] USERS_GET_OFFENSES',
+  USERS_GET_OFFENSES_SUCCESS = '[Users] USERS_GET_OFFENSES_SUCCESS',
+
   USERS_ACTIVATE = '[Users] USERS_ACTIVATE',
   USERS_ACTIVATE_SUCCESS = '[Users] USERS_ACTIVATE_SUCCESS',
 
@@ -54,6 +60,14 @@ export const UsersEditSuccess = createAction(UsersActionTypes.USERS_EDIT_SUCCESS
 /* get avatar */
 export const UsersAvatarGet = createAction(UsersActionTypes.USERS_GET_AVATAR, props<{ userId: number }>());
 export const UsersAvatarGetSuccess = createAction(UsersActionTypes.USERS_GET_AVATAR_SUCCESS, props<{ userId: number, avatar: SafeResourceUrl }>());
+
+/* dni get */
+export const UsersDniGet = createAction(UsersActionTypes.USERS_GET_DNI, props<{ userId: number }>());
+export const UsersDniGetSuccess = createAction(UsersActionTypes.USERS_GET_DNI_SUCCESS, props<{ userId: number, dni: string }>());
+
+/* offenses get */
+export const UsersOffensesGet = createAction(UsersActionTypes.USERS_GET_OFFENSES, props<{ userId: number }>());
+export const UsersOffensesGetSuccess = createAction(UsersActionTypes.USERS_GET_OFFENSES_SUCCESS, props<{ userId: number, offenses: string }>());
 
 /* activate */
 export const UsersActivate = createAction(UsersActionTypes.USERS_ACTIVATE, props<{ userId: number }>());

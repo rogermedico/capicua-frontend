@@ -158,7 +158,7 @@ export class UserService {
   updateOffenses(offenses: File): Observable<string> {
     const formData: FormData = new FormData();
     formData.append('offenses', offenses, offenses.name);
-    return this.http.post(`${environment.backend.api}${environment.backend.dniEndpoint}`, formData).pipe(
+    return this.http.post(`${environment.backend.api}${environment.backend.offensesEndpoint}`, formData).pipe(
       map(() => {
         return window.URL.createObjectURL(offenses);
       })

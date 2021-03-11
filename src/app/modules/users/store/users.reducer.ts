@@ -5,6 +5,8 @@ import { User } from '@models/user.model';
 import { Course } from '@models/course.model';
 import { Education } from '@models/education.model';
 import { Language } from '@models/language.model';
+import { UserDocument } from '@models/document.model';
+import { USER_DOCUMENTS } from '@constants/documents.constant';
 
 /* the auth state starts with no one logged in */
 const defaultUsersState: UsersState = {
@@ -32,15 +34,13 @@ const _usersReducer = createReducer(defaultUsersState,
       ...state,
       users: state.users === null ? users : users.map(newUser => {
         const oldUser = state.users.find(oldUser => oldUser.id === newUser.id);
-        if (typeof oldUser.avatarFile != 'boolean') {
-          return {
-            ...newUser,
-            avatarFile: oldUser.avatarFile
-          }
+
+        return {
+          ...newUser,
+          avatarFile: oldUser.avatarFile,
+          documents: oldUser.documents
         }
-        else {
-          return newUser;
-        }
+
       }),
       loading: false,
       loaded: true,
@@ -142,6 +142,84 @@ const _usersReducer = createReducer(defaultUsersState,
           return {
             ...u,
             avatarFile: avatar
+          }
+        }
+      }),
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* get dni */
+  on(UsersActions.UsersDniGet, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* get dni success */
+  on(UsersActions.UsersDniGetSuccess, (state, { userId, dni }) => {
+    return {
+      ...state,
+      users: state.users.map((u: User) => {
+        if (u.id != userId) {
+          return u;
+        }
+        else {
+          return {
+            ...u,
+            documents: u.documents.map((document: UserDocument) => {
+              if (document.name != USER_DOCUMENTS.dni) return document;
+              else {
+                return {
+                  ...document,
+                  file: dni
+                }
+              }
+            })
+          }
+        }
+      }),
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* get offenses */
+  on(UsersActions.UsersOffensesGet, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* get offenses success */
+  on(UsersActions.UsersOffensesGetSuccess, (state, { userId, offenses }) => {
+    return {
+      ...state,
+      users: state.users.map((u: User) => {
+        if (u.id != userId) {
+          return u;
+        }
+        else {
+          return {
+            ...u,
+            documents: u.documents.map((document: UserDocument) => {
+              if (document.name != USER_DOCUMENTS.sexOffenseCertificate) return document;
+              else {
+                return {
+                  ...document,
+                  file: offenses
+                }
+              }
+            })
           }
         }
       }),

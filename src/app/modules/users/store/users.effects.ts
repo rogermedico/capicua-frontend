@@ -98,6 +98,36 @@ export class UsersEffects {
     })
   ));
 
+  /* get dni */
+  getDni$ = createEffect(() => this.actions$.pipe(
+    ofType(UsersActions.UsersActionTypes.USERS_GET_DNI),
+    mergeMap((action: { type: string, userId: number }) => this.us.getDni(action.userId).pipe(
+      map((data: { userId: number, dni: string }) => {
+        return { type: UsersActions.UsersActionTypes.USERS_GET_DNI_SUCCESS, userId: data.userId, dni: data.dni };
+      }),
+      catchError(err => of({
+        type: UsersActions.UsersActionTypes.USERS_ERROR,
+        origin: UsersActions.UsersActionTypes.USERS_GET_DNI,
+        err: err
+      }))
+    ))
+  ));
+
+  /* get offenses */
+  getOffenses$ = createEffect(() => this.actions$.pipe(
+    ofType(UsersActions.UsersActionTypes.USERS_GET_OFFENSES),
+    mergeMap((action: { type: string, userId: number }) => this.us.getOffenses(action.userId).pipe(
+      map((data: { userId: number, offenses: string }) => {
+        return { type: UsersActions.UsersActionTypes.USERS_GET_OFFENSES_SUCCESS, userId: data.userId, offenses: data.offenses };
+      }),
+      catchError(err => of({
+        type: UsersActions.UsersActionTypes.USERS_ERROR,
+        origin: UsersActions.UsersActionTypes.USERS_GET_OFFENSES,
+        err: err
+      }))
+    ))
+  ));
+
   /* activate user */
   activateUser$ = createEffect(() => this.actions$.pipe(
     ofType(UsersActions.UsersActionTypes.USERS_ACTIVATE),
