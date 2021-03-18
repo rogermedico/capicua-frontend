@@ -11,6 +11,7 @@ export const environment = {
     /* auth */
     loginEndpoint: 'auth/login',
     logoutEndpoint: 'auth/logout',
+    renewTokenEndpoint: 'auth/refresh',
 
     /* user */
     userEndpoint: 'user',

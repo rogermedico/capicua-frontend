@@ -1,0 +1,11 @@
+<div mat-dialog-content>
+  <p>{{data.question}}</p>
+  <ul *ngIf="data.element">
+    <li>{{data.element}}</li>
+  </ul>
+</div>
+<div mat-dialog-content fxLayout="row" fxLayoutAlign="space-between center">
+  <button mat-button mat-stroked-button color="accent" type="button" [mat-dialog-close]="false">Cancel</button>
+  <button mat-button mat-raised-button color="accent" type="submit" [mat-dialog-close]="true"
+    cdkFocusInitial>Ok</button>
+</div>

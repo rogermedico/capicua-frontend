@@ -8,6 +8,7 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
 
 /* angular material */
 import { MaterialModule } from '@modules/material/material.module';
@@ -16,13 +17,15 @@ import { MaterialModule } from '@modules/material/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 
+
 @NgModule({
   declarations: [
     LoginComponent,
     LogoutComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
-    VerifyEmailComponent
+    VerifyEmailComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     CommonModule,

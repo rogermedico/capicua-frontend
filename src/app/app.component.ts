@@ -1,6 +1,6 @@
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
-import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { Params, Router } from '@angular/router';
+import { AfterViewInit, Attribute, Component, ElementRef, EventEmitter, HostListener, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { NavigationEnd, Params, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '@store/root.state';
 import { combineLatest, Observable, Subscription } from 'rxjs';
@@ -16,6 +16,8 @@ import * as RouterSelectors from '@store/router/router.selector';
 import { UserType } from '@models/user-type.model';
 import { MatSidenavContent } from '@angular/material/sidenav';
 import { RouterStateUrl } from '@store/router/router.state';
+import * as AuthActions from '@modules/auth/store/auth.action';
+import { Auth } from '@models/auth.model';
 
 @Component({
   selector: 'app-root',
@@ -46,10 +48,18 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   public authStateSubscriber: Subscription;
   public userTypesStateSubscriber: Subscription;
   public routerStateUrlSubscriber: Subscription;
+  public renewToken: Subscription;
 
   public allowedToUsers: Observable<boolean>;
 
-  constructor(private meta: Meta, private store$: Store<AppState>, private bpo: BreakpointObserver/*, private router: Router*/) { }
+  // public tokenExpiresAt: Date = null;
+  // public authInfo: Auth;
+
+  constructor(
+    private meta: Meta,
+    private store$: Store<AppState>,
+    private bpo: BreakpointObserver,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.XSmallBreakpointSubscriber = this.bpo.observe([Breakpoints.XSmall]).subscribe((state: BreakpointState) => {
@@ -77,8 +87,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     });
 
-    const combinedUserUserTypes = combineLatest([this.userState$, this.userTypes$]);
-    this.allowedToUsers = combinedUserUserTypes.pipe(
+    this.allowedToUsers = combineLatest([this.userState$, this.userTypes$]).pipe(
       // skipWhile(([user, userTypes]) => {
       //   return user.user == null || user.loading || userTypes.userTypes == null || userTypes.loading;
       // }),
@@ -90,20 +99,49 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         return user.user.userType.rank < Math.max(...userRanks);
       })
     );
+
+    // this.renewToken = this.router.events.pipe(
+    //   filter(re => re instanceof NavigationEnd),
+    //   map(routerEvent => {
+    //     if (this.authInfo != null) {
+    //       this.tokenExpiresAt = new Date(this.authInfo.accessGarantedAt);
+    //       console.log(this.tokenExpiresAt.toUTCString())
+    //       this.tokenExpiresAt.setSeconds(this.tokenExpiresAt.getSeconds() + this.authInfo.expiresIn)
+
+    //       console.log('renew token at:', this.tokenExpiresAt.toUTCString());
+
+    //       this.store$.dispatch(AuthActions.AuthRenewToken());
+
+    //     }
+    //     else {
+    //       this.tokenExpiresAt = null;
+    //     }
+    //   })
+    // ).subscribe();
+
   }
 
   ngAfterViewInit() {
     this.authStateSubscriber = this.authState$.pipe(
-      filter(as => as.authInfo !== null),
-      take(1),
-      tap(() => {
-        const primaryColor = getComputedStyle(this.getStylesElement.nativeElement).color;
-        console.log('color:', primaryColor);
-        this.meta.addTags([
-          { name: 'theme-color', content: primaryColor }, //firefox,chrome,opera
-          { name: 'msapplication-navbutton-color', content: primaryColor }, //windows phone
-          { name: 'apple-mobile-web-app-status-bar-style', content: primaryColor }, // ios safary
-        ])
+      // filter(as => as.authInfo !== null),
+      // take(1),
+      tap(as => {
+        if (as.authInfo !== null) {
+          // this.authInfo = as.authInfo;
+          const primaryColor = getComputedStyle(this.getStylesElement.nativeElement).color;
+          console.log('color:', primaryColor);
+          this.meta.addTags([
+            { name: 'theme-color', content: primaryColor }, //firefox,chrome,opera
+            { name: 'msapplication-navbutton-color', content: primaryColor }, //windows phone
+            { name: 'apple-mobile-web-app-status-bar-style', content: primaryColor }, // ios safary
+          ])
+        }
+        else {
+          // this.authInfo = null;
+          this.meta.removeTag('theme-color');
+          this.meta.removeTag('msapplication-navbutton-color');
+          this.meta.removeTag('apple-mobile-web-app-status-bar-style');
+        }
       })
     ).subscribe()
 

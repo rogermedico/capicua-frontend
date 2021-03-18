@@ -2,18 +2,41 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { Login } from '@models/login.model';
-import { Observable, of } from 'rxjs';
+import { combineLatest, Observable, of, Subscription, timer } from 'rxjs';
 import { Auth } from '@models/auth.model';
-import { catchError } from 'rxjs/operators';
+import { catchError, filter, map, take, tap } from 'rxjs/operators';
 import { ResetPassword } from '@models/reset-password.model';
 import { VerifyEmail } from '@models/verify-email.model';
+import { NavigationEnd, Router } from '@angular/router';
+import { AuthState } from '../store/auth.state';
+import { AppState } from '@store/root.state';
+import { Store } from '@ngrx/store';
+import * as AuthSelectors from '@modules/auth/store/auth.selector';
+import * as AuthActions from '@modules/auth/store/auth.action';
+import { ConfirmDialogComponent } from '../components/dialogs/confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private http: HttpClient) { }
+  public authState$: Observable<AuthState> = this.store$.select(AuthSelectors.selectAuthState);
+  public accessToken$: Observable<string> = this.store$.select(AuthSelectors.selectAccessToken);
+  public authStateSubscription: Subscription;
+  public renewTokenSubscription: Subscription;
+  public noticeDisconection: Subscription;
+  public authInfo: Auth;
+  public tokenExpiresAt: Date = null;
+  public dialogRef;
+  // public timer: Observable<number> = null;
+
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private store$: Store<AppState>,
+    private dialog: MatDialog
+  ) { }
 
   login(loginInfo: Login): Observable<Auth> {
     const body = {
@@ -21,10 +44,37 @@ export class AuthService {
       password: loginInfo.password
     }
 
+    this.authStateSubscription = this.authState$.pipe(
+      map(as => this.authInfo = as.authInfo)
+    ).subscribe();
+
+    this.renewTokenSubscription = this.router.events.pipe(
+      filter(re => re instanceof NavigationEnd),
+      map(re => {
+        if (this.authInfo != null) {
+          if (this.noticeDisconection) this.noticeDisconection.unsubscribe();
+          // this.tokenExpiresAt = new Date(this.authInfo.accessGarantedAt);
+          // console.log(this.tokenExpiresAt.toUTCString())
+          // this.tokenExpiresAt.setSeconds(this.tokenExpiresAt.getSeconds() + this.authInfo.expiresIn)
+
+          // console.log('renew token at:', this.tokenExpiresAt.toUTCString());
+
+          this.store$.dispatch(AuthActions.AuthRenewToken());
+          this.startTimer();
+        }
+        else {
+          this.tokenExpiresAt = null;
+        }
+      })
+    ).subscribe();
+
     return this.http.post<Auth>(environment.backend.api + environment.backend.loginEndpoint, body);
   }
 
   logout(): Observable<any> {
+    this.authStateSubscription.unsubscribe();
+    this.renewTokenSubscription.unsubscribe();
+    this.noticeDisconection.unsubscribe();
     return this.http.post(environment.backend.api + environment.backend.logoutEndpoint, null);
   }
 
@@ -52,6 +102,38 @@ export class AuthService {
 
   verifyEmail(verifyEmail: VerifyEmail): Observable<any> {
     return this.http.get(`${environment.backend.api}${environment.backend.verifyEmailEndpoint}/${verifyEmail.id}/${verifyEmail.hash}`);
+  }
+
+  renewToken(): Observable<Auth> {
+    return this.http.get<Auth>(environment.backend.api + environment.backend.renewTokenEndpoint);
+  }
+
+  private startTimer() {
+    console.log('timer started')
+    this.noticeDisconection = timer((this.authInfo.expiresIn - 300) * 1000).pipe(
+      // take(1),
+      map(miliseconds => {
+
+        console.log('open dialog', miliseconds)
+        this.dialogRef = this.dialog.open(ConfirmDialogComponent, {
+          data: {
+            question: 'Intranet will automatically disconect in 5 minutes, press OK to stay.',
+          },
+          width: '400px'
+        });
+
+
+        this.dialogRef.afterClosed().pipe(
+          take(1),
+          tap(() => {
+            console.log('on dialog close')
+            this.store$.dispatch(AuthActions.AuthRenewToken());
+            this.startTimer();
+          })
+        ).subscribe();
+
+      })
+    ).subscribe();
   }
 
 }

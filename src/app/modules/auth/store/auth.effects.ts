@@ -122,6 +122,21 @@ export class AuthEffects {
     ))
   ));
 
+  /* renew token */
+  renewToken$ = createEffect(() => this.actions$.pipe(
+    ofType(AuthActions.AuthActionTypes.AUTH_RENEW_TOKEN),
+    mergeMap(() => this.authService.renewToken().pipe(
+      map((auth: Auth) => {
+        return { type: AuthActions.AuthActionTypes.AUTH_RENEW_TOKEN_SUCCESS, authInfo: auth }
+      }),
+      catchError(err => of({
+        type: AuthActions.AuthActionTypes.AUTH_ERROR,
+        origin: AuthActions.AuthActionTypes.AUTH_RENEW_TOKEN,
+        err: err
+      }))
+    ))
+  ));
+
   error$ = createEffect(() => this.actions$.pipe(
     ofType(AuthActions.AuthActionTypes.AUTH_ERROR),
     tap((action: { type: string, origin: AuthActions.AuthActionTypes, err: HttpErrorResponse }) => {
@@ -149,49 +164,5 @@ export class AuthEffects {
   ),
     { dispatch: false }
   );
-
-  // login$ = createEffect(() => this.actions$.pipe(
-  //   ofType(AuthActions.AuthActionTypes.AUTH_LOGIN),
-  //   mergeMap((action: { type: string, loginInfo: Login }) => this.us.login(action.loginInfo).pipe(
-  //     mergeMap(user => {
-  //       const loginInfo: Login = { username: user.email, password: user.password };
-  //       return [
-  //         { type: AuthActions.AuthActionTypes.AUTH_LOGIN_SUCCESS, loginInfo: loginInfo },
-  //         { type: UserActions.UserActionTypes.USER_SIGNIN, user: user }
-  //       ]
-  //     }),
-  //     catchError(err => of({ type: AuthActions.AuthActionTypes.AUTH_LOGIN_ERROR, err: err }))
-  //   ))
-  // ));
-
-  // logout$ = createEffect(() => this.actions$.pipe(
-  //   ofType(AuthActions.AuthActionTypes.AUTH_LOGOUT),
-  //   mergeMap((action: { type: string, user: User }) => this.us.logout(action.user).pipe(
-  //     mergeMap(() => {
-  //       return [
-  //         { type: AuthActions.AuthActionTypes.AUTH_LOGOUT_SUCCESS },
-  //         { type: UserActions.UserActionTypes.USER_SIGNOUT }
-  //       ]
-  //     }),
-  //     catchError(err => of({ type: AuthActions.AuthActionTypes.AUTH_LOGOUT_ERROR, err: err }))
-  //   ))
-  // ));
-
-  /* register */
-  // register$ = createEffect(() => this.actions$.pipe(
-  //   ofType(AuthActions.AuthActionTypes.AUTH_REGISTER),
-  //   mergeMap((action: { type: string, user: User }) => this.us.register(action.user).pipe(
-  //     mergeMap(user => {
-  //       return [
-  //         { type: AuthActions.AuthActionTypes.AUTH_REGISTER_SUCCESS, user: user },
-  //         { type: UserActions.UserActionTypes.USER_SIGNIN, user: user }
-  //       ]
-  //     }),
-  //     catchError(err => of({ type: AuthActions.AuthActionTypes.AUTH_REGISTER_ERROR, err: err }))
-  //   ))
-  // ));
-
-
-
 
 }

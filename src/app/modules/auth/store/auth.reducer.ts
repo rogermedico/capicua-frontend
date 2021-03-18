@@ -16,7 +16,6 @@ const _authReducer = createReducer(defaultAuthState,
   on(AuthActions.AuthLogin, state => {
     return {
       ...state,
-      authInfo: null,
       loading: true,
       loaded: false,
       error: null
@@ -33,17 +32,6 @@ const _authReducer = createReducer(defaultAuthState,
       error: null
     }
   }),
-
-  /* login error */
-  // on(AuthActions.AuthLoginError, (state, { err }) => {
-  //   return {
-  //     ...state,
-  //     authInfo: null,
-  //     loading: false,
-  //     loaded: true,
-  //     error: err
-  //   }
-  // }),
 
   /* logout */
   on(AuthActions.AuthLogout, state => {
@@ -66,16 +54,6 @@ const _authReducer = createReducer(defaultAuthState,
     }
   }),
 
-  /* logout error */
-  // on(AuthActions.AuthLogoutError, (state, { err }) => {
-  //   return {
-  //     ...state,
-  //     loading: false,
-  //     loaded: true,
-  //     error: err
-  //   }
-  // }),
-
   /* send reset password email */
   on(AuthActions.AuthSendResetPasswordEmail, state => {
     return {
@@ -95,16 +73,6 @@ const _authReducer = createReducer(defaultAuthState,
       error: null
     }
   }),
-
-  /* send reset password email error */
-  // on(AuthActions.AuthSendResetPasswordEmailError, (state, { err }) => {
-  //   return {
-  //     ...state,
-  //     loading: false,
-  //     loaded: true,
-  //     error: err
-  //   }
-  // }),
 
   /* reset password */
   on(AuthActions.AuthResetPassword, state => {
@@ -126,16 +94,6 @@ const _authReducer = createReducer(defaultAuthState,
     }
   }),
 
-  /* reset password error */
-  // on(AuthActions.AuthResetPasswordError, (state, { err }) => {
-  //   return {
-  //     ...state,
-  //     loading: false,
-  //     loaded: true,
-  //     error: err
-  //   }
-  // }),
-
   /* send verification email */
   on(AuthActions.AuthSendVerificationEmail, state => {
     return {
@@ -155,16 +113,6 @@ const _authReducer = createReducer(defaultAuthState,
       error: null
     }
   }),
-
-  /* send verification email error */
-  // on(AuthActions.AuthSendVerificationEmailError, (state, { err }) => {
-  //   return {
-  //     ...state,
-  //     loading: false,
-  //     loaded: true,
-  //     error: err
-  //   }
-  // }),
 
   /* verify email */
   on(AuthActions.AuthVerifyEmail, state => {
@@ -186,15 +134,27 @@ const _authReducer = createReducer(defaultAuthState,
     }
   }),
 
-  /* verify email error */
-  // on(AuthActions.AuthVerifyEmailError, (state, { err }) => {
-  //   return {
-  //     ...state,
-  //     loading: false,
-  //     loaded: true,
-  //     error: err
-  //   }
-  // }),
+  /* renew token */
+  on(AuthActions.AuthRenewToken, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* renew token success */
+  on(AuthActions.AuthRenewTokenSuccess, (state, { authInfo }) => {
+    return {
+      ...state,
+      authInfo: authInfo,
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
 
   /* error */
   on(AuthActions.AuthError, (state, { err }) => {
@@ -206,42 +166,6 @@ const _authReducer = createReducer(defaultAuthState,
     }
   }),
 
-  // /* register */
-  // on(AuthActions.AuthRegister, state => {
-  //   return {
-  //     ...state,
-  //     loading: true,
-  //     loaded: false,
-  //     error: null
-  //   }
-  // }),
-
-  // /* register success */
-  // on(AuthActions.AuthRegisterSuccess, (state, { user }) => {
-  //   return {
-  //     ...state,
-  //     loginInfo: {
-  //       username: user.email,
-  //       password: user.password
-  //     },
-  //     wrongCredentials: false,
-  //     loading: false,
-  //     loaded: true,
-  //     error: null
-  //   }
-  // }),
-
-  // /* register error */
-  // on(AuthActions.AuthRegisterError, (state, { err }) => {
-  //   return {
-  //     ...state,
-  //     loginInfo: null,
-  //     wrongCredentials: true,
-  //     loading: false,
-  //     loaded: true,
-  //     error: err
-  //   }
-  // }),
 
 );
 

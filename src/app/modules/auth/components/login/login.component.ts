@@ -1,16 +1,17 @@
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { Login } from '@models/login.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '@store/root.state';
 import * as AuthActions from '../../store/auth.action';
 import * as AuthSelectors from '../../store/auth.selector';
 import { Observable, Subscription } from 'rxjs';
-import { delay, map, skipWhile } from 'rxjs/operators';
+import { delay, filter, map, skipWhile } from 'rxjs/operators';
 import { UserState } from '@modules/user/store/user.state';
 import { AuthState } from "@modules/auth/store/auth.state";
 import { environment } from '../../../../../../src/environments/environment';
+import { Auth } from "@models/auth.model";
 
 @Component({
   selector: "app-login",
@@ -23,10 +24,15 @@ export class LoginComponent implements OnInit, OnDestroy {
   public wrongCredentials: Boolean = false;
   public loginForm: FormGroup;
   public authState$: Observable<AuthState> = this.store$.select(AuthSelectors.selectAuthState);
-  private authStateSubscription: Subscription;
+  public authStateSubscription: Subscription;
+  public renewToken: Subscription;
   public environment = environment;
 
-  constructor(private store$: Store<AppState>, private fb: FormBuilder, private router: Router) { }
+  constructor(
+    private store$: Store<AppState>,
+    private fb: FormBuilder,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.createForm();
