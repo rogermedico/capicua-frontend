@@ -15,7 +15,7 @@ import * as AuthSelectors from '@modules/auth/store/auth.selector';
 import * as AuthActions from '@modules/auth/store/auth.action';
 import { ConfirmDialogComponent } from '../components/dialogs/confirm-dialog/confirm-dialog.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { TIME_BETWEEN_PROMPT_AND_LOGOUT } from '@constants/timers.constants';
+import { MARGIN_TIME_TO_AVOID_TOKEN_EXPIRATION, TIME_BETWEEN_PROMPT_AND_LOGOUT } from '@constants/timers.constants';
 
 @Injectable({
   providedIn: 'root'
@@ -112,7 +112,7 @@ export class AuthService {
 
   private startTimer() {
     console.log('timer started')
-    this.noticeDisconection = timer((this.authInfo.expiresIn - TIME_BETWEEN_PROMPT_AND_LOGOUT) * 1000).pipe(
+    this.noticeDisconection = timer((this.authInfo.expiresIn - TIME_BETWEEN_PROMPT_AND_LOGOUT - MARGIN_TIME_TO_AVOID_TOKEN_EXPIRATION) * 1000).pipe(
       map(miliseconds => {
 
         console.log('open dialog', miliseconds)
