@@ -48,6 +48,10 @@
           (click)="sidenavDisableClose?null:sidenav.close()">
           <span class="nav-caption">Users</span>
         </a>
+        <a *ngIf="(allowedToUsers | async)" mat-list-item routerLink="/documents" routerLinkActive="active-sidenav-item"
+          (click)="sidenavDisableClose?null:sidenav.close()">
+          <span class="nav-caption">Documents</span>
+        </a>
         <a mat-list-item routerLink="/configuration" routerLinkActive="active-sidenav-item"
           (click)="sidenavDisableClose?null:sidenav.close()">
           <span class="nav-caption">Configuration</span>

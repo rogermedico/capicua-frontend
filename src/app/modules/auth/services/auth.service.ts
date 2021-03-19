@@ -14,7 +14,7 @@ import { Store } from '@ngrx/store';
 import * as AuthSelectors from '@modules/auth/store/auth.selector';
 import * as AuthActions from '@modules/auth/store/auth.action';
 import { ConfirmDialogComponent } from '../components/dialogs/confirm-dialog/confirm-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TIME_BETWEEN_PROMPT_AND_LOGOUT } from '@constants/timers.constants';
 
 @Injectable({
@@ -30,7 +30,7 @@ export class AuthService {
   public logoutTimerSubscription: Subscription;
   public authInfo: Auth;
   public tokenExpiresAt: Date = null;
-  public dialogRef;
+  public dialogRef: MatDialogRef<ConfirmDialogComponent>;
   // public timer: Observable<number> = null;
 
   constructor(
