@@ -1,0 +1,1 @@
+export const TIME_BETWEEN_PROMPT_AND_LOGOUT = 300;

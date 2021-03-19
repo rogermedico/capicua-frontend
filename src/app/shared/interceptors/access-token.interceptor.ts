@@ -31,7 +31,7 @@ export class AccessTokenInterceptor implements HttpInterceptor {
         else {
           const accessTokenRequest = request.clone({
             setHeaders: {
-              Authorization: `Bearer ${as.authInfo.accessToken}`,
+              Authorization: `${as.authInfo.tokenType} ${as.authInfo.accessToken}`,
             },
           });
           return next.handle(accessTokenRequest);

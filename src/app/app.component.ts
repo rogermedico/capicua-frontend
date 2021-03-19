@@ -123,24 +123,21 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit() {
     this.authStateSubscriber = this.authState$.pipe(
-      // filter(as => as.authInfo !== null),
-      // take(1),
       tap(as => {
         if (as.authInfo !== null) {
-          // this.authInfo = as.authInfo;
-          const primaryColor = getComputedStyle(this.getStylesElement.nativeElement).color;
-          console.log('color:', primaryColor);
-          this.meta.addTags([
-            { name: 'theme-color', content: primaryColor }, //firefox,chrome,opera
-            { name: 'msapplication-navbutton-color', content: primaryColor }, //windows phone
-            { name: 'apple-mobile-web-app-status-bar-style', content: primaryColor }, // ios safary
-          ])
+          if (!this.meta.getTag('name=theme-color')) {
+            const primaryColor = getComputedStyle(this.getStylesElement.nativeElement).color;
+            this.meta.addTags([
+              { name: 'theme-color', content: primaryColor }, //firefox,chrome,opera
+              { name: 'msapplication-navbutton-color', content: primaryColor }, //windows phone
+              { name: 'apple-mobile-web-app-status-bar-style', content: primaryColor }, // ios safary
+            ])
+          }
         }
         else {
-          // this.authInfo = null;
-          this.meta.removeTag('theme-color');
-          this.meta.removeTag('msapplication-navbutton-color');
-          this.meta.removeTag('apple-mobile-web-app-status-bar-style');
+          this.meta.removeTag('name=theme-color');
+          this.meta.removeTag('name=msapplication-navbutton-color');
+          this.meta.removeTag('name=apple-mobile-web-app-status-bar-style');
         }
       })
     ).subscribe()
