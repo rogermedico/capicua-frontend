@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { USER_DOCUMENTS } from '@constants/documents.constant';
+import { USER_DOCUMENTS } from '@constants/user-documents.constant';
 import { UserDocument } from '@models/document.model';
 import { User } from '@models/user.model';
 import * as UserActions from '@modules/user/store/user.action';
@@ -16,14 +16,14 @@ import { filter, map, skipWhile, take, tap } from 'rxjs/operators';
 import { ConfirmDialogComponent } from '../dialogs/confirm-dialog/confirm-dialog.component';
 
 @Component({
-  selector: 'app-documents',
-  templateUrl: './documents.component.html',
-  styleUrls: ['./documents.component.scss']
+  selector: 'app-user-documents',
+  templateUrl: './user-documents.component.html',
+  styleUrls: ['./user-documents.component.scss']
 })
-export class DocumentsComponent implements OnInit {
+export class UserDocumentsComponent implements OnInit {
 
   public user: User;
-  public documentsDisplayedColumns: string[] = ['name', 'actions'];
+  public userDocumentsDisplayedColumns: string[] = ['name', 'actions'];
   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
   public userStateSubscription: Subscription;
   public getDniSubscription: Subscription;
@@ -62,11 +62,11 @@ export class DocumentsComponent implements OnInit {
     // this.courseTypesSubscription.unsubscribe();
   }
 
-  viewDocument(document: UserDocument) {
+  viewDocument(userDocument: UserDocument) {
 
-    switch (document.name) {
+    switch (userDocument.name) {
       case USER_DOCUMENTS.dni:
-        const dni = this.user.documents.find(document => document.name == USER_DOCUMENTS.dni);
+        const dni = this.user.userDocuments.find(userDocument => userDocument.name == USER_DOCUMENTS.dni);
         if (typeof dni.file != 'boolean') {
           window.open(dni.file, '_blank');
         }
@@ -74,19 +74,19 @@ export class DocumentsComponent implements OnInit {
           this.store$.dispatch(UserActions.UserDniGet({ userId: this.user.id }));
           this.getDniSubscription = this.userState$.pipe(
             filter(us => {
-              const dni = us.user.documents.find(document => document.name == USER_DOCUMENTS.dni);
+              const dni = us.user.userDocuments.find(userDocument => userDocument.name == USER_DOCUMENTS.dni);
               return typeof dni.file != 'boolean';
             }),
             take(1),
             map(us => {
-              const dni = us.user.documents.find(document => document.name == USER_DOCUMENTS.dni);
+              const dni = us.user.userDocuments.find(userDocument => userDocument.name == USER_DOCUMENTS.dni);
               window.open(<string>dni.file, '_blank');
             })
           ).subscribe();
         }
         break;
       case USER_DOCUMENTS.sexOffenseCertificate:
-        const offenses = this.user.documents.find(document => document.name == USER_DOCUMENTS.sexOffenseCertificate);
+        const offenses = this.user.userDocuments.find(userDocument => userDocument.name == USER_DOCUMENTS.sexOffenseCertificate);
         if (typeof offenses.file != 'boolean') {
           window.open(offenses.file, '_blank');
         }
@@ -94,12 +94,12 @@ export class DocumentsComponent implements OnInit {
           this.store$.dispatch(UserActions.UserOffensesGet({ userId: this.user.id }));
           this.getOffensesSubscription = this.userState$.pipe(
             filter(us => {
-              const offenses = us.user.documents.find(document => document.name == USER_DOCUMENTS.sexOffenseCertificate);
+              const offenses = us.user.userDocuments.find(userDocument => userDocument.name == USER_DOCUMENTS.sexOffenseCertificate);
               return typeof offenses.file != 'boolean';
             }),
             take(1),
             map(us => {
-              const offenses = us.user.documents.find(document => document.name == USER_DOCUMENTS.sexOffenseCertificate);
+              const offenses = us.user.userDocuments.find(userDocument => userDocument.name == USER_DOCUMENTS.sexOffenseCertificate);
               window.open(<string>offenses.file, '_blank');
             })
           ).subscribe();
@@ -132,11 +132,11 @@ export class DocumentsComponent implements OnInit {
     // ).subscribe();
   }
 
-  updateDocument(document: UserDocument, fileInputEvent: any) {
-    const documentFile = fileInputEvent.target.files[0];
-    switch (document.name) {
+  updateDocument(userDocument: UserDocument, fileInputEvent: any) {
+    const userDocumentFile = fileInputEvent.target.files[0];
+    switch (userDocument.name) {
       case USER_DOCUMENTS.dni:
-        const dni = this.user.documents.find(document => document.name == USER_DOCUMENTS.dni);
+        const dni = this.user.userDocuments.find(userDocument => userDocument.name == USER_DOCUMENTS.dni);
         if (typeof dni.file == 'boolean' && dni.file == true || typeof dni.file == 'string') {
           const dialogRef = this.dialog.open(ConfirmDialogComponent, {
             data: {
@@ -149,7 +149,7 @@ export class DocumentsComponent implements OnInit {
             take(1),
             tap((result: boolean) => {
               if (result) {
-                this.store$.dispatch(UserActions.UserDniUpdate({ dni: documentFile }));
+                this.store$.dispatch(UserActions.UserDniUpdate({ dni: userDocumentFile }));
                 this.updateDniNotificationSubscription = this.userState$.pipe(
                   skipWhile(userState => userState.loading),
                   take(1),
@@ -171,7 +171,7 @@ export class DocumentsComponent implements OnInit {
           ).subscribe();
         }
         else {
-          this.store$.dispatch(UserActions.UserDniUpdate({ dni: documentFile }));
+          this.store$.dispatch(UserActions.UserDniUpdate({ dni: userDocumentFile }));
           this.updateDniNotificationSubscription = this.userState$.pipe(
             skipWhile(userState => userState.loading),
             take(1),
@@ -182,7 +182,7 @@ export class DocumentsComponent implements OnInit {
         }
         break;
       case USER_DOCUMENTS.sexOffenseCertificate:
-        const offense = this.user.documents.find(document => document.name == USER_DOCUMENTS.sexOffenseCertificate);
+        const offense = this.user.userDocuments.find(userDocument => userDocument.name == USER_DOCUMENTS.sexOffenseCertificate);
         if (typeof offense.file == 'boolean' && offense.file == true || typeof offense.file == 'string') {
           const dialogRef = this.dialog.open(ConfirmDialogComponent, {
             data: {
@@ -195,7 +195,7 @@ export class DocumentsComponent implements OnInit {
             take(1),
             tap((result: boolean) => {
               if (result) {
-                this.store$.dispatch(UserActions.UserOffensesUpdate({ offenses: documentFile }));
+                this.store$.dispatch(UserActions.UserOffensesUpdate({ offenses: userDocumentFile }));
                 this.updateOffensesNotificationSubscription = this.userState$.pipe(
                   skipWhile(userState => userState.loading),
                   take(1),
@@ -217,7 +217,7 @@ export class DocumentsComponent implements OnInit {
           ).subscribe();
         }
         else {
-          this.store$.dispatch(UserActions.UserOffensesUpdate({ offenses: documentFile }));
+          this.store$.dispatch(UserActions.UserOffensesUpdate({ offenses: userDocumentFile }));
           this.updateDniNotificationSubscription = this.userState$.pipe(
             skipWhile(userState => userState.loading),
             take(1),

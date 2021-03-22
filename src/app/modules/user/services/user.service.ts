@@ -12,6 +12,7 @@ import { Course, CourseBackend, CourseBackendSent } from "@models/course.model";
 import { Education, EducationBackend, EducationBackendSent } from "@models/education.model";
 import { Language, LanguageBackend, LanguageBackendSent } from "@models/language.model";
 import { stringify } from "@angular/compiler/src/util";
+import { PersonalDocument, PersonalDocumentBackend } from "@models/document.model";
 
 @Injectable({
   providedIn: "root",
@@ -178,6 +179,33 @@ export class UserService {
     return this.http.post(environment.backend.api + environment.backend.changePasswordEndpoint, body);
   }
 
+  getPersonalDocumentsInfo(userId: number): Observable<PersonalDocument[]> {
+    return this.http.get<PersonalDocumentBackend[]>(`${environment.backend.api}${environment.backend.documentsInfoEndpoint}/${userId}`).pipe(
+      map((pd: PersonalDocumentBackend[]) => {
+        return pd.map(pd => this.parser.personalDocumentBackendToPersonalDocument(pd));
+      })
+    );
+  }
+
+  getPersonalDocument(documentId: number): Observable<{ documentId: number, personalDocument: string }> {
+    return this.http.get(`${environment.backend.api}${environment.backend.documentsEndpoint}/${documentId}`).pipe(
+      map((response: { id: number, user_id: number, name: string, date: string, document: string, extension: string }) => {
+        const byteArray = new Uint8Array(atob(response.document).split('').map(char => char.charCodeAt(0)));
+        const document = new Blob([byteArray], { type: 'application/pdf' });
+        return { documentId: response.id, personalDocument: window.URL.createObjectURL(document) };
+      })
+    );
+  }
+
+  // getOffenses(userId: number): Observable<{ userId: number, offenses: string }> {
+  //   return this.http.get(`${environment.backend.api}${environment.backend.offensesEndpoint}/${userId}`).pipe(
+  //     map((response: { offenses: string, extension: string }) => {
+  //       const byteArray = new Uint8Array(atob(response.offenses).split('').map(char => char.charCodeAt(0)));
+  //       const offenses = new Blob([byteArray], { type: 'application/pdf' });
+  //       return { userId: userId, offenses: window.URL.createObjectURL(offenses) };
+  //     })
+  //   )
+  // }
 
   // getUserByEmail(email: string): Observable<User> {
   //   return this.http.get<User>(`${environment.backend.api}/?email=${encodeURIComponent(email)}`).pipe(

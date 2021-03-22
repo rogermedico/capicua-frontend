@@ -6,6 +6,7 @@ import { Education } from '@models/education.model';
 import { ChangePassword } from '@models/change-password.model';
 import { Course } from '@models/course.model';
 import { SafeResourceUrl } from '@angular/platform-browser';
+import { PersonalDocument } from '@models/document.model';
 
 export enum UserActionTypes {
   USER_GET_DATA = '[User] USER_GET_DATA',
@@ -64,6 +65,12 @@ export enum UserActionTypes {
 
   USER_CHANGE_PASSWORD = '[User] USER_CHANGE_PASSWORD',
   USER_CHANGE_PASSWORD_SUCCESS = '[User] USER_CHANGE_PASSWORD_SUCCESS',
+
+  USER_GET_PERSONAL_DOCUMENTS_INFO = '[User] USER_GET_PERSONAL_DOCUMENTS_INFO',
+  USER_GET_PERSONAL_DOCUMENTS_INFO_SUCCESS = '[User] USER_GET_PERSONAL_DOCUMENTS_INFO_SUCCESS',
+
+  USER_GET_PERSONAL_DOCUMENT = '[User] USER_GET_PERSONAL_DOCUMENT',
+  USER_GET_PERSONAL_DOCUMENT_SUCCESS = '[User] USER_GET_PERSONAL_DOCUMENT_SUCCESS',
 
   USER_ERROR = '[User] USER_ERROR',
 }
@@ -143,6 +150,15 @@ export const UserOffensesUpdateSuccess = createAction(UserActionTypes.USER_UPDAT
 /* change password */
 export const UserChangePassword = createAction(UserActionTypes.USER_CHANGE_PASSWORD, props<{ changePassword: ChangePassword }>());
 export const UserChangePasswordSuccess = createAction(UserActionTypes.USER_CHANGE_PASSWORD_SUCCESS);
+
+/* get personal documents info */
+export const UserGetPersonalDocumentsInfo = createAction(UserActionTypes.USER_GET_PERSONAL_DOCUMENTS_INFO, props<{ userId: number }>());
+export const UserGetPersonalDocumentsInfoSuccess = createAction(UserActionTypes.USER_GET_PERSONAL_DOCUMENTS_INFO_SUCCESS, props<{ personalDocuments: PersonalDocument[] }>());
+
+/* get personal document */
+export const UserGetPersonalDocument = createAction(UserActionTypes.USER_GET_PERSONAL_DOCUMENT, props<{ documentId: number }>());
+export const UserGetPersonalDocumentSuccess = createAction(UserActionTypes.USER_GET_PERSONAL_DOCUMENT_SUCCESS, props<{ documentId: number, personalDocument: string }>());
+
 
 /* error */
 export const UserError = createAction(UserActionTypes.USER_ERROR, props<{ origin: UserActionTypes, err: Error }>());

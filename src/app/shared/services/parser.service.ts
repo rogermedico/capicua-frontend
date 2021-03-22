@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { USER_DOCUMENTS } from '@constants/documents.constant';
+import { USER_DOCUMENTS } from '@constants/user-documents.constant';
 import { LANGUAGE_LEVELS, LANGUAGE_NAMES } from '@constants/language.constant';
 import { Course, CourseBackend, CourseBackendSent } from '@models/course.model';
 import { DrivingLicence } from '@models/driving-licence.model';
@@ -8,6 +8,7 @@ import { Education, EducationBackend, EducationBackendSent } from '@models/educa
 import { Language, LanguageBackend } from '@models/language.model';
 import { UserBackend } from '@models/user.model';
 import { User } from '@models/user.model';
+import { PersonalDocument, PersonalDocumentBackend } from '@models/document.model';
 
 @Injectable({
   providedIn: 'root'
@@ -79,7 +80,7 @@ export class ParserService {
       socialSecurityNumber: user.social_security_number,
       bankAccount: user.bank_account,
       avatarFile: typeof user.avatar_file === 'boolean' ? user.avatar_file : this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/${user.avatar_file['extension']};base64,${user.avatar_file['avatar']}`),
-      documents: [
+      userDocuments: [
         {
           name: USER_DOCUMENTS.dni,
           file: user.dni_file,
@@ -89,6 +90,7 @@ export class ParserService {
           file: user.sex_offense_certificate_file,
         }
       ],
+      personalDocuments: [],
 
     }
 
@@ -200,6 +202,15 @@ export class ParserService {
 
     //Cast to a File() type
     return <File>theBlob;
+  }
+
+  public personalDocumentBackendToPersonalDocument(personalDocumentBackend: PersonalDocumentBackend): PersonalDocument {
+    return {
+      id: personalDocumentBackend.id,
+      name: personalDocumentBackend.original_name,
+      file: null,
+      createdAt: new Date(personalDocumentBackend.created_at)
+    }
   }
 
 }

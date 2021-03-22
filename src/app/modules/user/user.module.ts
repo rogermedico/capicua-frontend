@@ -16,7 +16,7 @@ import { CourseDialogComponent } from "./components/dialogs/course-dialog/course
 import { ConfirmDialogComponent } from "./components/dialogs/confirm-dialog/confirm-dialog.component";
 import { EducationDialogComponent } from "./components/dialogs/education-dialog/education-dialog.component";
 import { LanguageDialogComponent } from "./components/dialogs/language-dialog/language-dialog.component";
-import { DocumentsComponent } from './components/documents/documents.component';
+import { UserDocumentsComponent } from './components/user-documents/user-documents.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +30,7 @@ import { DocumentsComponent } from './components/documents/documents.component';
     CourseDialogComponent,
     EducationDialogComponent,
     LanguageDialogComponent,
-    DocumentsComponent
+    UserDocumentsComponent
   ],
   imports: [
     CommonModule,

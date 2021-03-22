@@ -95,7 +95,7 @@ export class UsersService {
       map(() => {
         return { userId: id }
       })
-    );;
+    );
   }
 
   deleteUser(id: number): Observable<{ userId: number }> {

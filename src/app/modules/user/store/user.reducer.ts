@@ -4,8 +4,8 @@ import { Action, createReducer, on } from '@ngrx/store';
 import { Course } from '@models/course.model';
 import { Education } from '@models/education.model';
 import { Language } from '@models/language.model';
-import { UserDocument } from '@models/document.model';
-import { USER_DOCUMENTS } from '@constants/documents.constant';
+import { PersonalDocument, UserDocument } from '@models/document.model';
+import { USER_DOCUMENTS } from '@constants/user-documents.constant';
 
 /* the auth state starts with no one logged in */
 const defaultUserState: UserState = {
@@ -33,7 +33,8 @@ const _userReducer = createReducer(defaultUserState,
       ...state,
       user: {
         ...user,
-        documents: state.user == null ? user.documents : state.user.documents
+        userDocuments: state.user == null ? user.userDocuments : state.user.userDocuments,
+        personalDocuments: state.user == null ? user.personalDocuments : state.user.personalDocuments,
       },
       loading: false,
       loaded: true,
@@ -391,11 +392,11 @@ const _userReducer = createReducer(defaultUserState,
       ...state,
       user: {
         ...state.user,
-        documents: state.user.documents.map((document: UserDocument) => {
-          if (document.name != USER_DOCUMENTS.dni) return document;
+        userDocuments: state.user.userDocuments.map((userDocument: UserDocument) => {
+          if (userDocument.name != USER_DOCUMENTS.dni) return userDocument;
           else {
             return {
-              ...document,
+              ...userDocument,
               file: dni
             }
           }
@@ -424,12 +425,12 @@ const _userReducer = createReducer(defaultUserState,
       ...state,
       user: {
         ...state.user,
-        documents: state.user.documents.map((document: UserDocument) => {
-          if (document.name != USER_DOCUMENTS.dni) return document;
+        userDocuments: state.user.userDocuments.map((userDocument: UserDocument) => {
+          if (userDocument.name != USER_DOCUMENTS.dni) return userDocument;
           else {
-            if (typeof document.file != 'boolean') window.URL.revokeObjectURL(document.file)
+            if (typeof userDocument.file != 'boolean') window.URL.revokeObjectURL(userDocument.file)
             return {
-              ...document,
+              ...userDocument,
               file: dni
             }
           }
@@ -457,11 +458,11 @@ const _userReducer = createReducer(defaultUserState,
       ...state,
       user: {
         ...state.user,
-        documents: state.user.documents.map((document: UserDocument) => {
-          if (document.name != USER_DOCUMENTS.sexOffenseCertificate) return document;
+        userDocuments: state.user.userDocuments.map((userDocument: UserDocument) => {
+          if (userDocument.name != USER_DOCUMENTS.sexOffenseCertificate) return userDocument;
           else {
             return {
-              ...document,
+              ...userDocument,
               file: offenses
             }
           }
@@ -489,12 +490,12 @@ const _userReducer = createReducer(defaultUserState,
       ...state,
       user: {
         ...state.user,
-        documents: state.user.documents.map((document: UserDocument) => {
-          if (document.name != USER_DOCUMENTS.sexOffenseCertificate) return document;
+        userDocuments: state.user.userDocuments.map((userDocument: UserDocument) => {
+          if (userDocument.name != USER_DOCUMENTS.sexOffenseCertificate) return userDocument;
           else {
-            if (typeof document.file != 'boolean') window.URL.revokeObjectURL(document.file)
+            if (typeof userDocument.file != 'boolean') window.URL.revokeObjectURL(userDocument.file)
             return {
-              ...document,
+              ...userDocument,
               file: offenses
             }
           }
@@ -520,6 +521,72 @@ const _userReducer = createReducer(defaultUserState,
   on(UserActions.UserChangePasswordSuccess, state => {
     return {
       ...state,
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* get personal documents info */
+  on(UserActions.UserGetPersonalDocumentsInfo, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* get personal documents info success */
+  on(UserActions.UserGetPersonalDocumentsInfoSuccess, (state, { personalDocuments }) => {
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        personalDocuments: personalDocuments.map(newPd => {
+          const oldPd = state.user.personalDocuments.find((oldPd: PersonalDocument) => oldPd.id == newPd.id)
+          if (oldPd) {
+            return {
+              ...newPd,
+              file: oldPd.file
+            }
+          }
+          else {
+            return newPd
+          }
+        })
+      },
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* get personal document */
+  on(UserActions.UserGetPersonalDocument, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* get personal document success */
+  on(UserActions.UserGetPersonalDocumentSuccess, (state, { documentId, personalDocument }) => {
+    console.log(documentId, personalDocument)
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        personalDocuments: state.user.personalDocuments.map((pd: PersonalDocument) => {
+          if (pd.id != documentId) return pd;
+          else return {
+            ...pd,
+            file: personalDocument
+          }
+        })
+      },
       loading: false,
       loaded: true,
       error: null

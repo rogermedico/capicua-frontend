@@ -38,8 +38,7 @@ const _usersReducer = createReducer(defaultUsersState,
         return {
           ...newUser,
           avatarFile: oldUser.avatarFile,
-          userDocuments: oldUser.userDocuments,
-          personalDocuments: oldUser.personalDocuments,
+          userDocuments: oldUser.userDocuments
         }
 
       }),

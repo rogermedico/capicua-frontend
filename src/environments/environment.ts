@@ -25,6 +25,10 @@ export const environment = {
     activateEndpoint: 'user/activate',
     deactivateEndpoint: 'user/deactivate',
 
+    /* personal documents */
+    documentsEndpoint: 'documents',
+    documentsInfoEndpoint: 'documents/info',
+
     /* constants */
     userTypesEndpoint: 'constants/usertypes',
     courseTypesEndpoint: 'constants/coursetypes',

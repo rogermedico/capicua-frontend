@@ -7,7 +7,7 @@ import { Auth } from '@models/auth.model';
 import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { ResetPassword } from '@models/reset-password.model';
 import { VerifyEmail } from '@models/verify-email.model';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { AuthState } from '../store/auth.state';
 import { AppState } from '@store/root.state';
 import { Store } from '@ngrx/store';
@@ -51,7 +51,10 @@ export class AuthService {
     ).subscribe();
 
     this.renewTokenSubscription = this.router.events.pipe(
-      filter(re => re instanceof NavigationEnd),
+      filter(re => {
+        console.log(re)
+        return re instanceof NavigationEnd && !re.url.includes('login') && !re.url.includes('logout')
+      }),
       map(re => {
         if (this.authInfo != null) {
           if (this.noticeDisconection) this.noticeDisconection.unsubscribe();

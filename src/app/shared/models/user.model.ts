@@ -5,7 +5,7 @@ import { DrivingLicence, DrivingLicenceBackend } from './driving-licence.model';
 import { Education, EducationBackend } from './education.model';
 import { Language, LanguageBackend } from './language.model';
 import { SafeResourceUrl } from '@angular/platform-browser';
-import { UserDocument } from './document.model';
+import { PersonalDocument, UserDocument } from './document.model';
 
 export interface User {
   id: number;
@@ -27,7 +27,8 @@ export interface User {
   socialSecurityNumber: string;
   bankAccount: string;
   avatarFile: SafeResourceUrl | boolean;
-  documents: UserDocument[];
+  userDocuments: UserDocument[];
+  personalDocuments: PersonalDocument[];
 
 }
 

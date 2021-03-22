@@ -2,7 +2,7 @@
   <mat-card class="mat-elevation-z4">
     <mat-card-title>Documents</mat-card-title>
     <mat-card-content class="educations-info">
-      <mat-table [dataSource]="user.documents">
+      <mat-table [dataSource]="user.userDocuments">
 
         <ng-container matColumnDef="name">
           <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
@@ -30,8 +30,8 @@
           </mat-cell>
         </ng-container>
 
-        <mat-header-row *matHeaderRowDef="documentsDisplayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: documentsDisplayedColumns;"></mat-row>
+        <mat-header-row *matHeaderRowDef="userDocumentsDisplayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: userDocumentsDisplayedColumns;"></mat-row>
 
       </mat-table>
     </mat-card-content>
