@@ -52,7 +52,7 @@ export class AuthService {
 
     this.renewTokenSubscription = this.router.events.pipe(
       filter(re => {
-        console.log(re)
+        // console.log(re)
         return re instanceof NavigationEnd && !re.url.includes('login') && !re.url.includes('logout')
       }),
       map(re => {
