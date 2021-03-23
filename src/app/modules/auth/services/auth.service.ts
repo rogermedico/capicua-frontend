@@ -47,39 +47,46 @@ export class AuthService {
     }
 
     this.authStateSubscription = this.authState$.pipe(
-      map(as => this.authInfo = as.authInfo)
-    ).subscribe();
-
-    this.renewTokenSubscription = this.router.events.pipe(
-      filter(re => {
-        // console.log(re)
-        return re instanceof NavigationEnd && !re.url.includes('login') && !re.url.includes('logout')
-      }),
-      map(re => {
-        if (this.authInfo != null) {
-          if (this.noticeDisconection) this.noticeDisconection.unsubscribe();
-          // this.tokenExpiresAt = new Date(this.authInfo.accessGarantedAt);
-          // console.log(this.tokenExpiresAt.toUTCString())
-          // this.tokenExpiresAt.setSeconds(this.tokenExpiresAt.getSeconds() + this.authInfo.expiresIn)
-
-          // console.log('renew token at:', this.tokenExpiresAt.toUTCString());
-
-          this.store$.dispatch(AuthActions.AuthRenewToken());
-          this.startTimer();
-        }
-        else {
-          this.tokenExpiresAt = null;
-        }
+      filter(as => as.authInfo != null),
+      map(as => {
+        this.authInfo = as.authInfo;
+        if (!this.noticeDisconection) this.startTimer();
       })
     ).subscribe();
+
+    // this.renewTokenSubscription = this.router.events.pipe(
+    //   filter(re => {
+    //     // console.log(re)
+    //     return re instanceof NavigationEnd && !re.url.includes('login') && !re.url.includes('logout')
+    //   }),
+    //   map(re => {
+    //     if (this.authInfo != null) {
+    //       if (this.noticeDisconection) this.noticeDisconection.unsubscribe();
+    //       // this.tokenExpiresAt = new Date(this.authInfo.accessGarantedAt);
+    //       // console.log(this.tokenExpiresAt.toUTCString())
+    //       // this.tokenExpiresAt.setSeconds(this.tokenExpiresAt.getSeconds() + this.authInfo.expiresIn)
+
+    //       // console.log('renew token at:', this.tokenExpiresAt.toUTCString());
+
+    //       this.store$.dispatch(AuthActions.AuthRenewToken());
+    //       this.startTimer();
+    //     }
+    //     else {
+    //       this.tokenExpiresAt = null;
+    //     }
+    //   })
+    // ).subscribe();
 
     return this.http.post<Auth>(environment.backend.api + environment.backend.loginEndpoint, body);
   }
 
   logout(): Observable<any> {
     this.authStateSubscription.unsubscribe();
-    this.renewTokenSubscription.unsubscribe();
-    this.noticeDisconection.unsubscribe();
+    //this.renewTokenSubscription.unsubscribe();
+    if (this.noticeDisconection) {
+      this.noticeDisconection.unsubscribe();
+      this.noticeDisconection = null;
+    }
     return this.http.post(environment.backend.api + environment.backend.logoutEndpoint, null);
   }
 
@@ -123,15 +130,19 @@ export class AuthService {
           data: {
             question: 'Intranet will automatically disconect in 5 minutes, press OK to stay.',
           },
-          width: '400px'
+          width: '400px',
+          disableClose: true,
         });
 
         this.logoutTimerSubscription = timer(TIME_BETWEEN_PROMPT_AND_LOGOUT * 1000).pipe(
           switchMap(() => {
             this.dialogRef.close('CLOSED_BY_AUTOMATICALLY_LOGOUT');
             this.authStateSubscription.unsubscribe();
-            this.renewTokenSubscription.unsubscribe();
-            this.noticeDisconection.unsubscribe();
+            // this.renewTokenSubscription.unsubscribe();
+            if (this.noticeDisconection) {
+              this.noticeDisconection.unsubscribe();
+              this.noticeDisconection = null;
+            }
             this.store$.dispatch(AuthActions.AuthLogout());
             return this.authState$.pipe()
           })
@@ -143,6 +154,7 @@ export class AuthService {
           filter(result => result != 'CLOSED_BY_AUTOMATICALLY_LOGOUT'),
           tap((result) => {
             console.log('on dialog close. result:', result)
+            this.logoutTimerSubscription.unsubscribe();
             this.store$.dispatch(AuthActions.AuthRenewToken());
             this.startTimer();
           })

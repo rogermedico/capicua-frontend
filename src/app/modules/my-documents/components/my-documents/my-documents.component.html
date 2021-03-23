@@ -1,4 +1,4 @@
-<div class="container" *ngIf="(userState$ | async).user.personalDocuments.length != 0; else loading">
+<div class="container" *ngIf="(userState$ | async).loaded; else loading">
 
   <mat-card class="mat-elevation-z4">
     <mat-card-header class="mat-card-header">

@@ -10,7 +10,7 @@ import { AppState } from '@store/root.state';
 import { AuthState } from '@modules/auth/store/auth.state';
 import * as AuthSelectors from '@modules/auth/store/auth.selector';
 import { Store } from '@ngrx/store';
-import { mergeMap, take } from 'rxjs/operators';
+import { map, mergeMap, take, tap } from 'rxjs/operators';
 import { Auth } from '@models/auth.model';
 
 @Injectable()
@@ -21,7 +21,6 @@ export class AccessTokenInterceptor implements HttpInterceptor {
   constructor(private store$: Store<AppState>) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
     return this.authState$.pipe(
       take(1),
       mergeMap(as => {
@@ -34,7 +33,7 @@ export class AccessTokenInterceptor implements HttpInterceptor {
               Authorization: `${as.authInfo.tokenType} ${as.authInfo.accessToken}`,
             },
           });
-          return next.handle(accessTokenRequest);
+          return next.handle(accessTokenRequest)
         }
       })
     )
