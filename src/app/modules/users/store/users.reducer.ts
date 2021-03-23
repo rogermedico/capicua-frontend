@@ -5,7 +5,7 @@ import { User } from '@models/user.model';
 import { Course } from '@models/course.model';
 import { Education } from '@models/education.model';
 import { Language } from '@models/language.model';
-import { UserDocument } from '@models/document.model';
+import { PersonalDocument, UserDocument } from '@models/document.model';
 import { USER_DOCUMENTS } from '@constants/user-documents.constant';
 
 /* the auth state starts with no one logged in */
@@ -310,6 +310,123 @@ const _usersReducer = createReducer(defaultUsersState,
     return {
       ...state,
       users: state.users.filter((user: User) => user.id != userId),
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* get all personal documents info */
+  on(UsersActions.UsersGetAllPersonalDocumentsInfo, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* get personal documents info success */
+  on(UsersActions.UsersGetAllPersonalDocumentsInfoSuccess, (state, { personalDocuments }) => {
+    return {
+      ...state,
+      users: state.users.map((user: User) => {
+        const userDocuments = personalDocuments.filter((pd: PersonalDocument) => pd.userId == user.id);
+        return {
+          ...user,
+          personalDocuments: userDocuments
+        }
+      }),
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* get personal document */
+  on(UsersActions.UsersGetPersonalDocument, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* get personal document success */
+  on(UsersActions.UsersGetPersonalDocumentSuccess, (state, { userId, documentId, personalDocument }) => {
+    return {
+      ...state,
+      users: state.users.map((user: User) => {
+        if (user.id != userId) return user;
+        else return {
+          ...user,
+          personalDocuments: user.personalDocuments.map((pd: PersonalDocument) => {
+            if (pd.id != documentId) return pd;
+            else return {
+              ...pd,
+              file: personalDocument
+            }
+          })
+        }
+      }),
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* add personal document */
+  on(UsersActions.UsersAddPersonalDocument, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* add personal document success */
+  on(UsersActions.UsersAddPersonalDocumentSuccess, (state, { personalDocument }) => {
+    return {
+      ...state,
+      users: state.users.map((user: User) => {
+        if (user.id != personalDocument.userId) return user;
+        else return {
+          ...user,
+          personalDocuments: [
+            ...user.personalDocuments,
+            personalDocument
+          ]
+        }
+      }),
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* delete personal document */
+  on(UsersActions.UsersDeletePersonalDocument, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* delete personal document success */
+  on(UsersActions.UsersDeletePersonalDocumentSuccess, (state, { userId, documentId }) => {
+    return {
+      ...state,
+      users: state.users.map((user: User) => {
+        if (user.id != userId) return user;
+        else return {
+          ...user,
+          personalDocuments: user.personalDocuments.filter((pd: PersonalDocument) => pd.id != documentId)
+        }
+      }),
       loading: false,
       loaded: true,
       error: null

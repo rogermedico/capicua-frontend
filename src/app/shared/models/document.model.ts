@@ -7,6 +7,7 @@ export interface UserDocument {
 
 export interface PersonalDocument {
   id: number,
+  userId: number,
   name: string,
   file: string,
   createdAt: Date

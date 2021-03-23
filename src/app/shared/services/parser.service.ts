@@ -207,6 +207,7 @@ export class ParserService {
   public personalDocumentBackendToPersonalDocument(personalDocumentBackend: PersonalDocumentBackend): PersonalDocument {
     return {
       id: personalDocumentBackend.id,
+      userId: personalDocumentBackend.user_id,
       name: personalDocumentBackend.original_name,
       file: null,
       createdAt: new Date(personalDocumentBackend.created_at)

@@ -5,6 +5,7 @@ import { Course } from '@models/course.model';
 import { Education } from '@models/education.model';
 import { Language } from '@models/language.model';
 import { SafeResourceUrl } from '@angular/platform-browser';
+import { PersonalDocument } from '@models/document.model';
 
 
 export enum UsersActionTypes {
@@ -37,6 +38,18 @@ export enum UsersActionTypes {
 
   USERS_DELETE = '[Users] USERS_DELETE',
   USERS_DELETE_SUCCESS = '[Users] USERS_DELETE_SUCCESS',
+
+  USERS_GET_ALL_PERSONAL_DOCUMENTS_INFO = '[Users] USERS_GET_ALL_PERSONAL_DOCUMENTS_INFO',
+  USERS_GET_ALL_PERSONAL_DOCUMENTS_INFO_SUCCESS = '[Users] USERS_GET_ALL_PERSONAL_DOCUMENTS_INFO_SUCCESS',
+
+  USERS_GET_PERSONAL_DOCUMENT = '[Users] USERS_GET_PERSONAL_DOCUMENT',
+  USERS_GET_PERSONAL_DOCUMENT_SUCCESS = '[Users] USERS_GET_PERSONAL_DOCUMENT_SUCCESS',
+
+  USERS_ADD_PERSONAL_DOCUMENT = '[Users] USERS_ADD_PERSONAL_DOCUMENT',
+  USERS_ADD_PERSONAL_DOCUMENT_SUCCESS = '[Users] USERS_ADD_PERSONAL_DOCUMENT_SUCCESS',
+
+  USERS_DELETE_PERSONAL_DOCUMENT = '[Users] USERS_DELETE_PERSONAL_DOCUMENT',
+  USERS_DELETE_PERSONAL_DOCUMENT_SUCCESS = '[Users] USERS_DELETE_PERSONAL_DOCUMENT_SUCCESS',
 
   USERS_ERROR = '[Users] USERS_ERROR',
 }
@@ -80,6 +93,22 @@ export const UsersDeactivateSuccess = createAction(UsersActionTypes.USERS_DEACTI
 /* delete */
 export const UsersDelete = createAction(UsersActionTypes.USERS_DELETE, props<{ userId: number }>());
 export const UsersDeleteSuccess = createAction(UsersActionTypes.USERS_DELETE_SUCCESS, props<{ userId: number }>());
+
+/* get all personal documents info */
+export const UsersGetAllPersonalDocumentsInfo = createAction(UsersActionTypes.USERS_GET_ALL_PERSONAL_DOCUMENTS_INFO);
+export const UsersGetAllPersonalDocumentsInfoSuccess = createAction(UsersActionTypes.USERS_GET_ALL_PERSONAL_DOCUMENTS_INFO_SUCCESS, props<{ personalDocuments: PersonalDocument[] }>());
+
+/* get personal document */
+export const UsersGetPersonalDocument = createAction(UsersActionTypes.USERS_GET_PERSONAL_DOCUMENT, props<{ documentId: number }>());
+export const UsersGetPersonalDocumentSuccess = createAction(UsersActionTypes.USERS_GET_PERSONAL_DOCUMENT_SUCCESS, props<{ userId: number, documentId: number, personalDocument: string }>());
+
+/* add personal document */
+export const UsersAddPersonalDocument = createAction(UsersActionTypes.USERS_ADD_PERSONAL_DOCUMENT, props<{ userId: number, document: File }>());
+export const UsersAddPersonalDocumentSuccess = createAction(UsersActionTypes.USERS_ADD_PERSONAL_DOCUMENT_SUCCESS, props<{ personalDocument: PersonalDocument }>());
+
+/* delete personal document */
+export const UsersDeletePersonalDocument = createAction(UsersActionTypes.USERS_DELETE_PERSONAL_DOCUMENT, props<{ userId: number, documentId: number }>());
+export const UsersDeletePersonalDocumentSuccess = createAction(UsersActionTypes.USERS_DELETE_PERSONAL_DOCUMENT_SUCCESS, props<{ userId: number, documentId: number }>());
 
 /* error */
 export const UsersError = createAction(UsersActionTypes.USERS_ERROR, props<{ origin: UsersActionTypes, err: Error }>());

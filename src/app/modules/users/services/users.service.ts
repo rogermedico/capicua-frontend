@@ -4,6 +4,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { environment } from '@environments/environment';
 import { BackendResponse } from '@models/backend-response.model';
 import { Course, CourseBackend, CourseBackendSent } from '@models/course.model';
+import { PersonalDocument, PersonalDocumentBackend } from '@models/document.model';
 import { Education, EducationBackend, EducationBackendSent } from '@models/education.model';
 import { Language, LanguageBackend, LanguageBackendSent } from '@models/language.model';
 import { NewUser, User, UserBackend } from '@models/user.model';
@@ -103,7 +104,46 @@ export class UsersService {
       map(() => {
         return { userId: id }
       })
-    );;
+    );
+  }
+
+  getAllPersonalDocumentsInfo(): Observable<PersonalDocument[]> {
+    return this.http.get<PersonalDocumentBackend[]>(`${environment.backend.api}${environment.backend.documentsInfoEndpoint}`).pipe(
+      map((pd: PersonalDocumentBackend[]) => {
+        return pd.map(pd => this.parser.personalDocumentBackendToPersonalDocument(pd));
+      })
+    );
+  }
+
+  getPersonalDocument(documentId: number): Observable<{ userId: number, documentId: number, personalDocument: string }> {
+    return this.http.get(`${environment.backend.api}${environment.backend.documentsEndpoint}/${documentId}`).pipe(
+      map((response: { id: number, user_id: number, name: string, date: string, document: string, extension: string }) => {
+        const byteArray = new Uint8Array(atob(response.document).split('').map(char => char.charCodeAt(0)));
+        const document = new Blob([byteArray], { type: 'application/pdf' });
+        return { userId: response.user_id, documentId: response.id, personalDocument: window.URL.createObjectURL(document) };
+      })
+    );
+  }
+
+  addPersonalDocument(userId: number, document: File): Observable<PersonalDocument> {
+    const formData: FormData = new FormData();
+    formData.append('document', document, document.name);
+    formData.append('user_id', userId.toString());
+    return this.http.post(`${environment.backend.api}${environment.backend.documentsEndpoint}`, formData).pipe(
+      map((pdb: PersonalDocumentBackend) => {
+        const personalDocument: PersonalDocument = this.parser.personalDocumentBackendToPersonalDocument(pdb);
+        personalDocument.file = window.URL.createObjectURL(document);
+        return personalDocument;
+      })
+    )
+  }
+
+  deletePersonalDocument(userId: number, documentId: number): Observable<{ userId: number, documentId: number }> {
+    return this.http.delete(`${environment.backend.api}${environment.backend.documentsEndpoint}/${documentId}`).pipe(
+      map(() => {
+        return { userId: userId, documentId: documentId }
+      })
+    );
   }
 
 }

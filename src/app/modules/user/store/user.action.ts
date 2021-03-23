@@ -159,6 +159,5 @@ export const UserGetPersonalDocumentsInfoSuccess = createAction(UserActionTypes.
 export const UserGetPersonalDocument = createAction(UserActionTypes.USER_GET_PERSONAL_DOCUMENT, props<{ documentId: number }>());
 export const UserGetPersonalDocumentSuccess = createAction(UserActionTypes.USER_GET_PERSONAL_DOCUMENT_SUCCESS, props<{ documentId: number, personalDocument: string }>());
 
-
 /* error */
 export const UserError = createAction(UserActionTypes.USER_ERROR, props<{ origin: UserActionTypes, err: Error }>());

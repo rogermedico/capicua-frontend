@@ -14,6 +14,7 @@ import { NotificationService } from '@services/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Course } from '@models/course.model';
 import { SafeResourceUrl } from '@angular/platform-browser';
+import { PersonalDocument } from '@models/document.model';
 
 @Injectable()
 export class UsersEffects {
@@ -181,6 +182,68 @@ export class UsersEffects {
     )
     )
   ));
+
+  /* get all personal documents info  */
+  getAllPersonalDocumentsInfo$ = createEffect(() => this.actions$.pipe(
+    ofType(UsersActions.UsersActionTypes.USERS_GET_ALL_PERSONAL_DOCUMENTS_INFO),
+    mergeMap(() => this.us.getAllPersonalDocumentsInfo().pipe(
+      map((personalDocuments) => {
+        return { type: UsersActions.UsersActionTypes.USERS_GET_ALL_PERSONAL_DOCUMENTS_INFO_SUCCESS, personalDocuments: personalDocuments };
+      }),
+      catchError(err => of({
+        type: UsersActions.UsersActionTypes.USERS_ERROR,
+        origin: UsersActions.UsersActionTypes.USERS_GET_ALL_PERSONAL_DOCUMENTS_INFO,
+        err: err
+      }))
+    ))
+  ));
+
+  /* get personal document  */
+  getPersonalDocument$ = createEffect(() => this.actions$.pipe(
+    ofType(UsersActions.UsersActionTypes.USERS_GET_PERSONAL_DOCUMENT),
+    mergeMap((action: { type: string, documentId: number }) => this.us.getPersonalDocument(action.documentId).pipe(
+      map(doc => {
+        return { type: UsersActions.UsersActionTypes.USERS_GET_PERSONAL_DOCUMENT_SUCCESS, userId: doc.userId, documentId: doc.documentId, personalDocument: doc.personalDocument };
+      }),
+      catchError(err => of({
+        type: UsersActions.UsersActionTypes.USERS_ERROR,
+        origin: UsersActions.UsersActionTypes.USERS_GET_PERSONAL_DOCUMENT,
+        err: err
+      }))
+    ))
+  ));
+
+  /* add personal document  */
+  addPersonalDocument$ = createEffect(() => this.actions$.pipe(
+    ofType(UsersActions.UsersActionTypes.USERS_ADD_PERSONAL_DOCUMENT),
+    mergeMap((action: { type: string, userId: number, document: File }) => this.us.addPersonalDocument(action.userId, action.document).pipe(
+      map((personalDocument: PersonalDocument) => {
+        return { type: UsersActions.UsersActionTypes.USERS_ADD_PERSONAL_DOCUMENT_SUCCESS, personalDocument: personalDocument };
+      }),
+      catchError(err => of({
+        type: UsersActions.UsersActionTypes.USERS_ERROR,
+        origin: UsersActions.UsersActionTypes.USERS_ADD_PERSONAL_DOCUMENT,
+        err: err
+      }))
+    ))
+  ));
+
+  /* delete personal document  */
+  deletePersonalDocument$ = createEffect(() => this.actions$.pipe(
+    ofType(UsersActions.UsersActionTypes.USERS_DELETE_PERSONAL_DOCUMENT),
+    mergeMap((action: { type: string, userId: number, documentId: number }) => this.us.deletePersonalDocument(action.userId, action.documentId).pipe(
+      map(response => {
+        return { type: UsersActions.UsersActionTypes.USERS_DELETE_PERSONAL_DOCUMENT_SUCCESS, userId: response.userId, documentId: response.documentId };
+      }),
+      catchError(err => of({
+        type: UsersActions.UsersActionTypes.USERS_ERROR,
+        origin: UsersActions.UsersActionTypes.USERS_DELETE_PERSONAL_DOCUMENT,
+        err: err
+      }))
+    ))
+  ));
+
+
 
   /* error */
   error$ = createEffect(() => this.actions$.pipe(
