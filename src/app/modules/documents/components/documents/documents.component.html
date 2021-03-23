@@ -32,8 +32,7 @@
             </a>
             <input #addDocumentId hidden type="file" onclick="this.value=null" (change)="addDocument(element,$event)"
               accept="application/pdf">
-            <a *ngIf="element.personalDocuments.length != 0" class="action-link" [routerLink]=""
-              (click)="deactivateUser(element)">
+            <a *ngIf="element.personalDocuments.length != 0" class="action-link" routerLink="/documents/{{element.id}}">
               <mat-icon class="action-icon">visibility</mat-icon>
             </a>
           </mat-cell>

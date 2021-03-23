@@ -6,10 +6,16 @@ import { DocumentsComponent } from './components/documents/documents.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from '@modules/material/material.module';
 import { MatNativeDateModule } from '@angular/material/core';
+import { ViewDocumentsComponent } from './components/view-documents/view-documents.component';
+import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
 
 
 @NgModule({
-  declarations: [DocumentsComponent],
+  declarations: [
+    DocumentsComponent,
+    ViewDocumentsComponent,
+    ConfirmDialogComponent
+  ],
   imports: [
     CommonModule,
     DocumentsRoutingModule,

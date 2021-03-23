@@ -334,7 +334,11 @@ const _usersReducer = createReducer(defaultUsersState,
         const userDocuments = personalDocuments.filter((pd: PersonalDocument) => pd.userId == user.id);
         return {
           ...user,
-          personalDocuments: userDocuments
+          personalDocuments: userDocuments.map(ud => {
+            const oldDocument = user.personalDocuments.find(oldPd => oldPd.id == ud.id)
+            if (oldDocument) return oldDocument;
+            else return ud;
+          })
         }
       }),
       loading: false,
