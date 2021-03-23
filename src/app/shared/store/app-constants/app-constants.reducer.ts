@@ -70,6 +70,7 @@ const _appConstantsReducer = createReducer(defaultAppConstantsState,
     return {
       ...state,
       userTypes: null,
+      courseTypes: null,
       loading: false,
       loaded: true,
       error: null

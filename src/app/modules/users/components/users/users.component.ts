@@ -8,7 +8,7 @@ import * as UsersActions from '@modules/users/store/users.action';
 import * as UserSelectors from '@modules/user/store/user.selector';
 import { MatSort } from '@angular/material/sort';
 import { NewUser, User } from '@models/user.model';
-import { map, skipWhile, take, tap } from 'rxjs/operators';
+import { filter, map, skipWhile, take, tap } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmDialogComponent } from '../dialogs/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -47,7 +47,8 @@ export class UsersComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.store$.dispatch(UsersActions.UsersGetAll());
     this.usersStateSubscription = this.usersState$.pipe(
-      skipWhile(us => us.users == null),
+      // skipWhile(us => us.users == null),
+      filter(us => us.users != null),
       tap(us => {
         this.activeUsers = new MatTableDataSource(us.users.filter(user => !user.deactivated));
         /* allow filter ignoring accents and diacritics */

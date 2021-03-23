@@ -39,7 +39,8 @@ export class DocumentsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.store$.dispatch(UsersActions.UsersGetAll());
     this.usersStateSubscription = this.usersState$.pipe(
-      skipWhile(us => us.users == null),
+      // skipWhile(us => us.users == null),
+      filter(us => us.users != null),
       tap(us => {
         this.activeUsers = new MatTableDataSource(us.users.filter(user => !user.deactivated));
         /* allow filter ignoring accents and diacritics */
