@@ -1,6 +1,6 @@
 <mat-card class="mat-elevation-z4">
   <mat-card-title>Courses</mat-card-title>
-  <mat-card-content class="courses-info">
+  <mat-card-content>
     <mat-table [dataSource]="user.courses" *ngIf="user.courses.length != 0">
 
       <ng-container matColumnDef="name">
@@ -14,14 +14,14 @@
           <ng-container *ngIf="!element.number">-</ng-container>
         </mat-cell>
       </ng-container>
-      <ng-container matColumnDef="expeditionDate" fxHide fxShow.gt-xs>
+      <ng-container matColumnDef="expeditionDate">
         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-xs>Expedition Date</mat-header-cell>
         <mat-cell *matCellDef="let element" fxHide fxShow.gt-xs>
           <ng-container *ngIf="element.expeditionDate">{{element.expeditionDate | date:'d/MM/yyyy'}}</ng-container>
           <ng-container *ngIf="!element.expeditionDate">-</ng-container>
         </mat-cell>
       </ng-container>
-      <ng-container matColumnDef="validUntil" fxHide fxShow.gt-xs>
+      <ng-container matColumnDef="validUntil">
         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-xs>Valid Until</mat-header-cell>
         <mat-cell *matCellDef="let element" fxHide fxShow.gt-xs>
           <ng-container *ngIf="element.validUntil">{{element.validUntil | date:'d/MM/yyyy'}}</ng-container>
@@ -46,13 +46,14 @@
       <mat-row *matRowDef="let row; columns: coursesDisplayedColumns;"></mat-row>
 
     </mat-table>
-    <div [ngClass]="{'edit-user-button': user.courses.length != 0}" fxLayout="row" fxLayoutAlign="end center"
-      *ngIf="editable && !allCoursesDone">
-      <a [routerLink]="" (click)="createCourse()">
-        <button mat-fab color="accent" aria-label="Add Course">
-          <mat-icon>add</mat-icon>
-        </button>
-      </a>
-    </div>
   </mat-card-content>
+
+  <div class="add-button" fxLayout="row" fxLayoutAlign="end center" *ngIf="editable && !allCoursesDone">
+    <a [routerLink]="" (click)="createCourse()">
+      <button mat-fab color="accent" aria-label="Add Course">
+        <mat-icon>add</mat-icon>
+      </button>
+    </a>
+  </div>
+
 </mat-card>

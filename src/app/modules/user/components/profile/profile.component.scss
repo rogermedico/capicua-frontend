@@ -1,9 +1,5 @@
 @import "../../../../../themes/responsive.theme.scss";
 
-.container {
-  // width: 100%;
-}
-
 .mat-card {
   box-sizing: border-box;
   margin: 16px 8px;
@@ -13,23 +9,21 @@
 }
 
 .mat-card-header {
-  display: block;
+  // display: block;
   margin: 1rem 0 1.5rem;
   & .mat-card-title {
-    font-size: 32px;
+    font-size: 2rem;
+    display: unset;
+    margin-bottom: 1rem;
   }
   & .mat-card-subtitle {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
+    margin-top: 8px;
   }
-}
-
-.mat-card-title {
-  // text-align: center;
-  margin-bottom: 16px;
 }
 
 .mat-card-content {
-  margin: 0 16px;
+  margin-left: 16px;
 }
 
 .user-tooltip {
@@ -42,7 +36,7 @@
 }
 
 .user-detail-row {
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .avatar {

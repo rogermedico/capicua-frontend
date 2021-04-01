@@ -1,17 +1,24 @@
-<div class="container" fxFlex="500px" fxFlex.gt-sm="800px" fxFlex.gt-md="1000px" fxFlex.gt-lg="1140px">
+<div fxLayout="column" fxLayoutAlign="center center">
   <img class="logo" src="assets/images/logo.png">
-  <div class="">
-    <p class="caption">Email successfully verified.</p>
-    <p class="caption">You can start using the app now.</p>
-    <div *ngIf="(authState$ | async).loaded; else loading" class="button" fxLayout="row" fxLayoutAlign="center center">
+  <div *ngIf="(authState$ | async).loaded; else loading">
+    <div *ngIf="!(authState$ | async).error; else error">
+      <p class="caption">Email successfully verified.</p>
+      <p class="caption">You can start using the app now.</p>
+    </div>
+    <ng-template #error>
+      <p class="caption">Email NOT verified.</p>
+      <p class="caption">Try again or contact site administrator.</p>
+    </ng-template>
+    <div class="button" fxLayout="row" fxLayoutAlign="center center">
       <a routerLink="/">
         <button class="form__button__send-email" mat-raised-button color="accent" type="button">Sign in</button>
       </a>
     </div>
-    <ng-template #loading>
-      <div fxLayout fxLayoutAlign="center center">
-        <mat-spinner color="accent"></mat-spinner>
-      </div>
-    </ng-template>
+
   </div>
+  <ng-template #loading>
+    <div fxLayout fxLayoutAlign="center center">
+      <mat-spinner color="accent"></mat-spinner>
+    </div>
+  </ng-template>
 </div>

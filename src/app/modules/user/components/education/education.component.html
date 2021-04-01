@@ -1,13 +1,13 @@
 <mat-card class="mat-elevation-z4">
-  <mat-card-title>Education</mat-card-title>
-  <mat-card-content class="educations-info">
+  <mat-card-title>Educations</mat-card-title>
+  <mat-card-content>
     <mat-table [dataSource]="user.educations" *ngIf="user.educations.length != 0">
 
       <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
         <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
       </ng-container>
-      <ng-container matColumnDef="finishDate" fxHide fxShow.gt-xs>
+      <ng-container matColumnDef="finishDate">
         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-xs>Expedition Date</mat-header-cell>
         <mat-cell *matCellDef="let element" fxHide fxShow.gt-xs>
           <ng-container *ngIf="element.finishDate">{{element.finishDate | date:'d/MM/yyyy'}}</ng-container>
@@ -33,13 +33,14 @@
       <mat-row *matRowDef="let row; columns: educationsDisplayedColumns;"></mat-row>
 
     </mat-table>
-    <div [ngClass]="{'edit-user-button': user.educations.length != 0}" fxLayout="row" fxLayoutAlign="end center"
-      *ngIf="editable">
-      <a [routerLink]="" (click)="createEducation()">
-        <button mat-fab color="accent" aria-label="Add Course">
-          <mat-icon>add</mat-icon>
-        </button>
-      </a>
-    </div>
   </mat-card-content>
+
+  <div class="add-button" fxLayout="row" fxLayoutAlign="end center" *ngIf="editable">
+    <a [routerLink]="" (click)="createEducation()">
+      <button mat-fab color="accent" aria-label="Add Course">
+        <mat-icon>add</mat-icon>
+      </button>
+    </a>
+  </div>
+
 </mat-card>

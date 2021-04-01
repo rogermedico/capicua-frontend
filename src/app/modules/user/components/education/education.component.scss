@@ -3,20 +3,23 @@
 .mat-card {
   box-sizing: border-box;
   margin: 16px 8px;
+  position: relative;
+  min-height: 88px;
   @include screen("sm") {
     margin: 16px 32px;
   }
 }
 
-.educations-info {
-  position: relative;
-}
-
-.edit-user-button {
+.add-button {
   position: absolute;
-  bottom: 0;
-  right: 0;
+  bottom: auto;
+  top: 16px;
+  right: 16px;
   margin-bottom: 16px;
+  @include screen("sm") {
+    bottom: 16px;
+    top: auto;
+  }
 }
 
 .action-icon {

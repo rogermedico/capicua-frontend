@@ -1,6 +1,6 @@
 <mat-card class="mat-elevation-z4">
   <mat-card-title>Languages</mat-card-title>
-  <mat-card-content class="languages-info">
+  <mat-card-content>
     <mat-table [dataSource]="user.languages" *ngIf="user.languages.length != 0">
 
       <ng-container matColumnDef="name">
@@ -11,7 +11,7 @@
         <mat-header-cell *matHeaderCellDef>Level</mat-header-cell>
         <mat-cell *matCellDef="let element">{{element.level}}</mat-cell>
       </ng-container>
-      <ng-container matColumnDef="finishDate" fxHide fxShow.gt-xs>
+      <ng-container matColumnDef="finishDate">
         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-xs>Expedition Date</mat-header-cell>
         <mat-cell *matCellDef="let element" fxHide fxShow.gt-xs>
           <ng-container *ngIf="element.finishDate">{{element.finishDate | date:'d/MM/yyyy'}}</ng-container>
@@ -37,13 +37,14 @@
       <mat-row *matRowDef="let row; columns: languagesDisplayedColumns;"></mat-row>
 
     </mat-table>
-    <div [ngClass]="{'edit-user-button': user.languages.length != 0}" fxLayout="row" fxLayoutAlign="end center"
-      *ngIf="editable">
-      <a [routerLink]="" (click)="createLanguage()">
-        <button mat-fab color="accent" aria-label="Add language">
-          <mat-icon>add</mat-icon>
-        </button>
-      </a>
-    </div>
   </mat-card-content>
+
+  <div class="add-button" fxLayout="row" fxLayoutAlign="end center" *ngIf="editable">
+    <a [routerLink]="" (click)="createLanguage()">
+      <button mat-fab color="accent" aria-label="Add language">
+        <mat-icon>add</mat-icon>
+      </button>
+    </a>
+  </div>
+
 </mat-card>

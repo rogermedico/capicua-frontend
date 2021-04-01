@@ -1,17 +1,10 @@
-.container {
-  margin: 0 auto;
-  margin-top: 64px;
-  @media(max-width: 599px) {
-    margin-top: 56px;
-  }
-}
-  
 .logo {
-  display:block;
+  display: block;
   max-width: 200px;
   width: 100%;
   height: auto;
-  margin: 2rem auto;
+  padding: 2rem;
+  margin: auto;
 }
 
 .caption {
