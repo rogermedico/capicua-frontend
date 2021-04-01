@@ -24,6 +24,19 @@
           [disabled]="!loginForm.valid">Sign in</button>
       </div>
     </form>
+    <!-- To speed up logins when developing test -->
+    <div *ngIf="!environment.production" fxLayout="column" fxLayoutGap="15px" fxLayoutAlign="center end"
+      style="margin-right: 1rem;margin-top: 1rem;">
+      <button mat-raised-button color="accent" type="button"
+        (click)="loginSpecificUser('admin@gmail.com','password')">Signin
+        Admin</button>
+      <button mat-raised-button color="accent" type="button"
+        (click)="loginSpecificUser('moderator@gmail.com','password')">Signin
+        Moderator</button>
+      <button mat-raised-button color="accent" type="button"
+        (click)="loginSpecificUser('worker@gmail.com','password')">Signin
+        Worker</button>
+    </div>
   </div>
 
   <ng-template #loading>
@@ -31,17 +44,4 @@
       <mat-spinner color="accent"></mat-spinner>
     </div>
   </ng-template>
-
-  <!-- To speed up logins when developing test -->
-  <div *ngIf="!environment.production" fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="center center">
-    <button mat-raised-button color="accent" type="button"
-      (click)="loginSpecificUser('admin@gmail.com','password')">Signin
-      Admin</button>
-    <button mat-raised-button color="accent" type="button"
-      (click)="loginSpecificUser('moderator@gmail.com','password')">Signin
-      Moderator</button>
-    <button mat-raised-button color="accent" type="button"
-      (click)="loginSpecificUser('worker@gmail.com','password')">Signin
-      Worker</button>
-  </div>
 </div>

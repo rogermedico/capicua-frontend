@@ -37,7 +37,10 @@
 
   <div class="add-button" fxLayout="row" fxLayoutAlign="end center" *ngIf="editable">
     <a [routerLink]="" (click)="createEducation()">
-      <button mat-fab color="accent" aria-label="Add Course">
+      <button mat-mini-fab color="accent" aria-label="Add Course" fxShow fxHide.gt-xs>
+        <mat-icon>add</mat-icon>
+      </button>
+      <button mat-fab color="accent" aria-label="Add Course" fxHide fxShow.gt-xs>
         <mat-icon>add</mat-icon>
       </button>
     </a>

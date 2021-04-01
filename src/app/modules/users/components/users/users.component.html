@@ -4,6 +4,10 @@
     <mat-card-header class="mat-card-header">
       <mat-card-title>Users</mat-card-title>
     </mat-card-header>
+    <button class="new-user-button-small" mat-mini-fab color="accent" aria-label="New user" (click)="newUser()" fxShow
+      fxHide.gt-xs>
+      <mat-icon>add</mat-icon>
+    </button>
 
     <mat-card-content>
       <mat-tab-group *ngIf="inactiveUsers.data.length != 0;else noInacitveUsers" mat-stretch-tabs color="accent">
@@ -26,8 +30,8 @@
               <mat-cell *matCellDef="let element">{{element.surname}}</mat-cell>
             </ng-container>
             <ng-container matColumnDef="rank">
-              <mat-header-cell *matHeaderCellDef>Rank</mat-header-cell>
-              <mat-cell *matCellDef="let element">{{element.userType.name}}</mat-cell>
+              <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-xs>Rank</mat-header-cell>
+              <mat-cell *matCellDef="let element" fxHide fxShow.gt-xs>{{element.userType.name}}</mat-cell>
             </ng-container>
 
 
@@ -56,7 +60,8 @@
 
           </mat-table>
           <!-- <a routerLink="/users/new"> -->
-          <button class="new-user-button" mat-fab color="accent" aria-label="New user" (click)="newUser()">
+          <button class="new-user-button" mat-fab color="accent" aria-label="New user" (click)="newUser()" fxHide
+            fxShow.gt-xs>
             <mat-icon>add</mat-icon>
           </button>
           <!-- </a> -->
@@ -118,8 +123,8 @@
             <mat-cell *matCellDef="let element">{{element.surname}}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="rank">
-            <mat-header-cell *matHeaderCellDef>Rank</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.userType.name}}</mat-cell>
+            <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-xs>Rank</mat-header-cell>
+            <mat-cell *matCellDef="let element" fxHide fxShow.gt-xs>{{element.userType.name}}</mat-cell>
           </ng-container>
 
 
@@ -148,7 +153,8 @@
 
         </mat-table>
         <!-- <a routerLink="/users/new"> -->
-        <button class="new-user-button" mat-fab color="accent" aria-label="New user" (click)="newUser()">
+        <button class="new-user-button" mat-fab color="accent" aria-label="New user" (click)="newUser()" fxHide
+          fxShow.gt-xs>
           <mat-icon>add</mat-icon>
         </button>
       </ng-template>

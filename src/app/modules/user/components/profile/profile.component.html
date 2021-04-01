@@ -4,7 +4,10 @@
     <div class="avatar-container">
       <img *ngIf="avatar != true " class="avatar" [src]="avatar">
       <div class="edit-avatar-button" fxLayout="row" fxLayoutAlign="end center" *ngIf="editable">
-        <button mat-fab color="accent" aria-label="Edit profile" (click)="avatar.click()">
+        <button mat-mini-fab color="accent" aria-label="Edit profile" (click)="avatar.click()" fxShow fxHide.gt-xs>
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-fab color="accent" aria-label="Edit profile" (click)="avatar.click()" fxHide fxShow.gt-xs>
           <mat-icon>edit</mat-icon>
         </button>
         <input #avatar hidden type="file" onclick="this.value=null" (change)="editAvatar($event)"
@@ -56,7 +59,10 @@
       </div>
       <div class="edit-user-button" fxLayout="row" fxLayoutAlign="end center" *ngIf="editable">
         <a [routerLink]="" (click)="editProfile()">
-          <button mat-fab color="accent" aria-label="Edit profile">
+          <button mat-mini-fab color="accent" aria-label="Edit profile" fxShow fxHide.gt-xs>
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-fab color="accent" aria-label="Edit profile" fxHide fxShow.gt-xs>
             <mat-icon>edit</mat-icon>
           </button>
         </a>

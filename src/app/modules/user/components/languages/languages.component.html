@@ -41,7 +41,10 @@
 
   <div class="add-button" fxLayout="row" fxLayoutAlign="end center" *ngIf="editable">
     <a [routerLink]="" (click)="createLanguage()">
-      <button mat-fab color="accent" aria-label="Add language">
+      <button mat-mini-fab color="accent" aria-label="Add language" fxShow fxHide.gt-xs>
+        <mat-icon>add</mat-icon>
+      </button>
+      <button mat-fab color="accent" aria-label="Add language" fxHide fxShow.gt-xs>
         <mat-icon>add</mat-icon>
       </button>
     </a>
