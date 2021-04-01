@@ -1,15 +1,18 @@
-@import '../../../../../themes/responsive.theme.scss';
+@import "../../../../../themes/responsive.theme.scss";
 
 .container {
-  width: 100%;
+  // width: 100%;
 }
 
 .mat-card {
-  margin: 16px 32px;
   box-sizing: border-box;
+  margin: 16px 8px;
+  @include screen("sm") {
+    margin: 16px 32px;
+  }
 }
 
-.mat-card-header{
+.mat-card-header {
   display: block;
   margin: 1rem 0 1.5rem;
   & .mat-card-title {
@@ -31,7 +34,7 @@
 
 .user-tooltip {
   font-size: 1.1rem;
-  color: rgba(0,0,0,0.54);
+  color: rgba(0, 0, 0, 0.54);
 }
 
 .user-item {
@@ -47,14 +50,14 @@
   height: auto;
   border-radius: 50%;
 
-  @include screen('lg'){
+  @include screen("lg") {
     width: 300px;
     height: auto;
   }
 }
 
 .action-icon {
-  color: rgba(0,0,0,0.87);
+  color: rgba(0, 0, 0, 0.87);
   &:hover {
     color: rgba(0, 0, 0, 0.54);
   }
@@ -67,11 +70,10 @@
   &:last-child {
     margin: 0;
   }
-
 }
 
 .profile-info {
-  position:relative;
+  position: relative;
 }
 
 .profile-container {
@@ -79,17 +81,17 @@
 }
 
 .edit-user-button {
-  position:absolute;
-  bottom:0;
+  position: absolute;
+  bottom: 0;
   right: 0;
 }
 
 .avatar-container {
-  position:relative
+  position: relative;
 }
 
 .edit-avatar-button {
-  position:absolute;
-  bottom:0;
+  position: absolute;
+  bottom: 0;
   right: -8px;
 }

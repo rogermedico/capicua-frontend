@@ -1,17 +1,22 @@
 // @import '../themes/variables.theme.scss';
 // @import '~@angular/material/theming';
+@import "../themes/responsive.theme.scss";
 
 mat-sidenav-container {
   height: 100%;
 }
 
-mat-sidenav-content, mat-sidenav {
-  height: calc(100% - 64px);
+mat-sidenav-content,
+mat-sidenav {
+  // height: calc(100% - 64px);
 
-  @media(max-width: 599px) {
-    height: calc(100% - 56px);
+  // @media(max-width: 599px) {
+  //   height: calc(100% - 56px);
+  // }
+  height: calc(100% - 56px);
+  @include screen("sm") {
+    height: calc(100% - 64px);
   }
-
 }
 
 mat-sidenav {
@@ -38,7 +43,7 @@ mat-sidenav {
 //   color: lightgray;
 // }
 
-.navigation-items{
+.navigation-items {
   list-style-type: none;
   padding: 0;
   margin: 0;
