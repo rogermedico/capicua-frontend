@@ -7,12 +7,23 @@ export const environment = {
     /* auth */
     loginEndpoint: 'auth/login',
     logoutEndpoint: 'auth/logout',
+    renewTokenEndpoint: 'auth/refresh',
 
     /* user */
     userEndpoint: 'user',
     changePasswordEndpoint: 'user/password',
     usersEndpoint: 'users',
     avatarEndpoint: 'user/avatar',
+    dniEndpoint: 'user/dni',
+    offensesEndpoint: 'user/offenses',
+
+    /* admin users */
+    activateEndpoint: 'user/activate',
+    deactivateEndpoint: 'user/deactivate',
+
+    /* personal documents */
+    documentsEndpoint: 'documents',
+    documentsInfoEndpoint: 'documents/info',
 
     /* constants */
     userTypesEndpoint: 'constants/usertypes',

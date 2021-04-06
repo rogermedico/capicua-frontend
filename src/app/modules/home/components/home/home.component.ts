@@ -9,7 +9,7 @@ export class HomeComponent implements OnInit {
 
   public activities = [
     {
-      name: 'Lorem ipsum dolor sit',
+      name: 'Lorem ipsum dolor sit Lorem ipsum dolor sit',
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vel auctor ante. Pellentesque ac magna scelerisque, cursus neque nec, tincidunt risus. Nullam porttitor sem et sodales suscipit. Nunc feugiat eu mi non dictum. Aliquam fringilla molestie consequat. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.'
     },
     {
