@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './components/home/home.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MaterialModule } from '@modules/material/material.module';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 @NgModule({
@@ -11,7 +14,10 @@ import { HomeComponent } from './components/home/home.component';
   ],
   imports: [
     CommonModule,
-    HomeRoutingModule
+    HomeRoutingModule,
+    MaterialModule,
+    MatNativeDateModule,
+    FlexLayoutModule
   ]
 })
 export class HomeModule { }

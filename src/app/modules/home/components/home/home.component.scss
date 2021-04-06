@@ -1,0 +1,33 @@
+@import "../../../../../themes/responsive.theme.scss";
+
+.container {
+  padding: 8px;
+  @include screen("lg") {
+    padding: 32px;
+  }
+}
+
+// .mat-card {
+//   // box-sizing: border-box;
+//   margin: 16px 8px;
+//   // position: relative;
+//   @include screen("sm") {
+//     margin: 16px 32px;
+//   }
+// }
+
+// .mat-card > :first-child {
+//   margin: 1rem 0 0.5rem !important;
+// }
+
+// .mat-card-header {
+//   margin: 1rem 0 1.5rem;
+//   & .mat-card-title {
+//     font-size: 2rem;
+//     margin-bottom: 16px;
+//   }
+// }
+
+.spinner {
+  height: 100%;
+}
