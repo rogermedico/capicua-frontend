@@ -1,7 +1,8 @@
+@import "../../../../../themes/responsive.theme.scss";
+
 .container {
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
-  // flex-direction: column;
-  padding: 30px;
+  padding: 8px 0;
+  @include screen("lg") {
+    padding: 32px;
+  }
 }

@@ -1,57 +1,49 @@
-@import '../../../../../../themes/responsive.theme.scss';
+@import "../../../../../../themes/responsive.theme.scss";
 
 .profile-container {
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
-  // flex-direction: column;
-  padding: 30px;
+  padding: 8px 0;
+  @include screen("lg") {
+    padding: 32px;
+  }
 }
 
-.mat-card {
-  margin: 16px 32px;
-  width: 90%;
+.mat-column-name,
+.mat-column-surname {
   box-sizing: border-box;
-}
+  flex: 0 0 35% !important;
+  width: 35% !important;
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
 
-.mat-card-header{
-  display: block;
-  margin: 1rem 0 1.5rem;
-  & .mat-card-title {
-    font-size: 32px;
+  @include screen("sm") {
+    flex: 1 !important;
+    width: auto !important;
   }
-  & .mat-card-subtitle {
-    font-size: 1.1rem;
-  }
 }
 
-.mat-card-title {
-  // text-align: center;
-  margin-bottom: 16px;
-}
+.mat-column-actions {
+  box-sizing: border-box;
+  flex: 0 0 30% !important;
+  width: 30% !important;
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
 
-.mat-card-content {
-  margin: 0 16px;
-}
-
-.user-tooltip {
-  font-size: 1.1rem;
-  color: rgba(0,0,0,0.54);
-}
-
-.user-item {
-  font-size: 1.2rem;
-}
-
-.user-detail-row {
-  margin-bottom: 1rem;
-}
-
-.avatar {
-  width: auto;
-  max-height: 200px;
-
-  @include screen('lg'){
-    max-height: 300px;
+  @include screen("sm") {
+    flex: 1 !important;
+    width: auto !important;
   }
 }

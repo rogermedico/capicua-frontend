@@ -50,22 +50,6 @@
   }
 }
 
-.action-icon {
-  color: rgba(0, 0, 0, 0.87);
-  &:hover {
-    color: rgba(0, 0, 0, 0.54);
-  }
-}
-
-.action-link {
-  text-decoration: none;
-  margin: 0 8px 0 0;
-
-  &:last-child {
-    margin: 0;
-  }
-}
-
 .profile-info {
   position: relative;
 }
