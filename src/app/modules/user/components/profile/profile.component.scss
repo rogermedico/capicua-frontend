@@ -22,10 +22,6 @@
   }
 }
 
-.mat-card-content {
-  margin-left: 16px;
-}
-
 .user-tooltip {
   font-size: 1.1rem;
   color: rgba(0, 0, 0, 0.54);
@@ -40,13 +36,12 @@
 }
 
 .avatar {
-  width: 200px;
+  width: 250px;
   height: auto;
   border-radius: 50%;
 
   @include screen("lg") {
     width: 300px;
-    height: auto;
   }
 }
 

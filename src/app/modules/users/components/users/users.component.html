@@ -1,16 +1,17 @@
-<div class="container" *ngIf="(usersState$ | async).users != null; else loading">
+<div class="container" *ngIf="(usersState$ | async).loaded; else loading">
 
   <mat-card class="mat-elevation-z4">
     <mat-card-header class="mat-card-header">
       <mat-card-title>Users</mat-card-title>
     </mat-card-header>
-    <button class="new-user-button-small" mat-mini-fab color="accent" aria-label="New user" (click)="newUser()" fxShow
-      fxHide.gt-xs>
+    <button *ngIf="!activeTab==1" class="new-user-button-small" mat-mini-fab color="accent" aria-label="New user"
+      (click)="newUser()" fxShow fxHide.gt-xs>
       <mat-icon>add</mat-icon>
     </button>
 
     <mat-card-content>
-      <mat-tab-group *ngIf="inactiveUsers.data.length != 0;else noInacitveUsers" mat-stretch-tabs color="accent">
+      <mat-tab-group #activeInactiveUsersTab *ngIf="inactiveUsers.data.length != 0;else noInacitveUsers"
+        mat-stretch-tabs color="accent" (selectedTabChange)="activeTab = $event.index" [selectedIndex]="activeTab">
         <mat-tab label="Active users">
           <mat-form-field class="filter">
             <mat-label>Filter</mat-label>

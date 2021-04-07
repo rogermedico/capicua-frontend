@@ -50,7 +50,7 @@ export class ViewDocumentsComponent implements OnInit {
       filter(([usersState, userState]) => usersState.users != null && userState.user != null),
       tap(([usersState, userState]) => {
         this.user = usersState.users.find(user => user.id == this.userId);
-        this.deletable = this.user.userType.rank > userState.user.userType.rank;
+        this.deletable = this.user.userType.rank > userState.user.userType.rank || userState.user.userType.rank == 1;
         this.personalDocuments = this.user.personalDocuments.slice().sort((a, b) => (a.createdAt > b.createdAt) ? -1 : ((b.createdAt > a.createdAt) ? 1 : 0));
       })
     ).subscribe();

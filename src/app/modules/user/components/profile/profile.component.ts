@@ -5,12 +5,13 @@ import { AppState } from '@store/root.state';
 import { Observable, Subscription } from 'rxjs';
 import * as UserSelectors from '@modules/user/store/user.selector';
 import { User } from '@models/user.model';
-import { take, tap } from 'rxjs/operators';
+import { map, skipWhile, take, tap } from 'rxjs/operators';
 import { ParserService } from '@services/parser.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MatDialog } from '@angular/material/dialog';
 import * as UserActions from '@modules/user/store/user.action';
 import { EditProfileDialogComponent } from '../dialogs/edit-profile-dialog/edit-profile-dialog.component';
+import { NotificationService } from '@services/notification.service';
 
 @Component({
   selector: 'app-profile',
@@ -24,6 +25,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   public drivingLicences: string;
   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
   public userStateSubscription: Subscription;
+  public notificationSubscription: Subscription;
   public editable: boolean = true;
 
   //   constructor(private store$: Store<AppState>, private parser: ParserService) { }
@@ -61,7 +63,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private userParserService: ParserService,
     private sanitizer: DomSanitizer,
-    private parser: ParserService
+    private parser: ParserService,
+    private notificationService: NotificationService
   ) { }
 
   ngOnInit(): void {
@@ -124,6 +127,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
           };
 
           this.store$.dispatch(UserActions.UserProfileUpdate({ updatedProperties: modifiedUser }));
+          this.notificationSubscription = this.userState$.pipe(
+            skipWhile(userState => userState.loading),
+            take(1),
+            map(() => {
+              this.notificationService.showMessage('Personal info succesfully updated', 'OK');
+            })
+          ).subscribe()
         }
       })
     ).subscribe();
@@ -149,6 +159,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
   editAvatar(fileInputEvent: any): void {
     const avatar = fileInputEvent.target.files[0];
     this.store$.dispatch(UserActions.UserAvatarUpdate({ avatar: avatar }));
+    this.notificationSubscription = this.userState$.pipe(
+      skipWhile(userState => userState.loading),
+      take(1),
+      map(() => {
+        this.notificationService.showMessage('Avatar succesfully updated', 'OK');
+      })
+    ).subscribe()
     // const dialogRef = this.dialog.open(AvatarDialogComponent);
 
     // dialogRef.afterClosed().pipe(

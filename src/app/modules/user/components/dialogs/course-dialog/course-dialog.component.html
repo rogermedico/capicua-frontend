@@ -1,7 +1,7 @@
 <form [formGroup]="courseDialogForm" (ngSubmit)="submit()">
   <div mat-dialog-content>
-    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-md="row" fxLayoutGap.gt-md="16px">
-      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
+      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-sm="auto">
         <mat-label>Course</mat-label>
         <mat-select formControlName="courseId">
           <mat-option *ngFor="let courseType of courseTypes" [value]="courseType.id">
@@ -10,20 +10,20 @@
         </mat-select>
       </mat-form-field>
     </section>
-    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-md="row" fxLayoutGap.gt-md="16px">
-      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
+      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-sm="auto">
         <mat-label>Number</mat-label>
         <input matInput type="text" placeholder="1234/56" name="number" formControlName="number">
       </mat-form-field>
     </section>
-    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-md="row" fxLayoutGap.gt-md="16px">
-      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
+      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-sm="auto">
         <mat-label>Expedition date</mat-label>
         <input matInput [matDatepicker]="expeditionDate" formControlName="expeditionDate">
         <mat-datepicker-toggle matSuffix [for]="expeditionDate"></mat-datepicker-toggle>
         <mat-datepicker #expeditionDate></mat-datepicker>
       </mat-form-field>
-      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-sm="auto">
         <mat-label>Valid until</mat-label>
         <input matInput [matDatepicker]="validUntil" formControlName="validUntil">
         <mat-datepicker-toggle matSuffix [for]="validUntil"></mat-datepicker-toggle>

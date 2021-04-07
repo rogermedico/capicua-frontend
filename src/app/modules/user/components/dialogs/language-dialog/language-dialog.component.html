@@ -1,7 +1,7 @@
 <form [formGroup]="languageDialogForm" (ngSubmit)="submit()">
   <div mat-dialog-content>
-    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-md="row" fxLayoutGap.gt-md="16px">
-      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
+      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-sm="auto">
         <mat-label>Language</mat-label>
         <mat-select formControlName="name">
           <mat-option *ngFor="let name of names" [value]="name">
@@ -10,8 +10,8 @@
         </mat-select>
       </mat-form-field>
     </section>
-    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-md="row" fxLayoutGap.gt-md="16px">
-      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
+      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-sm="auto">
         <mat-label>Level</mat-label>
         <mat-select formControlName="level">
           <mat-option *ngFor="let level of levels" [value]="level">
@@ -20,8 +20,8 @@
         </mat-select>
       </mat-form-field>
     </section>
-    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-md="row" fxLayoutGap.gt-md="16px">
-      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
+      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-sm="auto">
         <mat-label>Finish date</mat-label>
         <input matInput [matDatepicker]="finishDate" formControlName="finishDate">
         <mat-datepicker-toggle matSuffix [for]="finishDate"></mat-datepicker-toggle>

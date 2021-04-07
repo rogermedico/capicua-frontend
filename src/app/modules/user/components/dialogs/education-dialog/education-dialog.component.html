@@ -1,13 +1,13 @@
 <form [formGroup]="educationDialogForm" (ngSubmit)="submit()">
   <div mat-dialog-content>
-    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-md="row" fxLayoutGap.gt-md="16px">
-      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
+      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-sm="auto">
         <mat-label>Titol</mat-label>
         <input matInput type="text" placeholder="Grau en Enginyeria Informàtica" name="name" formControlName="name">
       </mat-form-field>
     </section>
-    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-md="row" fxLayoutGap.gt-md="16px">
-      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
+      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-sm="auto">
         <mat-label>Finish date</mat-label>
         <input matInput [matDatepicker]="finishDate" formControlName="finishDate">
         <mat-datepicker-toggle matSuffix [for]="finishDate"></mat-datepicker-toggle>
@@ -15,7 +15,7 @@
       </mat-form-field>
     </section>
     <section>
-      <div class="checkbox-wrapper" fxFlex.gt-md="auto">
+      <div class="checkbox-wrapper" fxFlex.gt-sm="auto">
         <mat-checkbox formControlName="finished">Finished</mat-checkbox>
       </div>
     </section>

@@ -17,6 +17,7 @@ import { ParserService } from '@services/parser.service';
 import { NewUserDialogComponent } from '../dialogs/new-user-dialog/new-user-dialog.component';
 import { NotificationService } from '@services/notification.service';
 import { EditUserDialogComponent } from '../dialogs/edit-user-dialog/edit-user-dialog.component';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-users',
@@ -33,6 +34,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   public notificationSubscription: Subscription;
   public activeUsers: MatTableDataSource<User> = new MatTableDataSource();
   public inactiveUsers: MatTableDataSource<User> = new MatTableDataSource();
+  public activeTab: number = 0;
 
   constructor(
     private store$: Store<AppState>,
@@ -152,7 +154,7 @@ export class UsersComponent implements OnInit, OnDestroy {
         question: 'Are you sure you want to reactivate the following user:',
         element: `${user.name} ${user.surname}`
       },
-      width: '400px'
+      // width: '400px'
     });
 
     dialogRef.afterClosed().pipe(
@@ -160,6 +162,13 @@ export class UsersComponent implements OnInit, OnDestroy {
       tap((result: boolean) => {
         if (result) {
           this.store$.dispatch(UsersActions.UsersActivate({ userId: user.id }));
+          this.notificationSubscription = this.usersState$.pipe(
+            skipWhile(usersState => usersState.loading),
+            take(1),
+            map(() => {
+              this.notificationService.showMessage('User successfully reactivated', 'OK');
+            })
+          ).subscribe()
         }
       })
     ).subscribe();
@@ -172,7 +181,7 @@ export class UsersComponent implements OnInit, OnDestroy {
         question: 'Are you sure you want to deactivate the following user:',
         element: `${user.name} ${user.surname}`
       },
-      width: '400px'
+      // width: '400px'
     });
 
     dialogRef.afterClosed().pipe(
@@ -180,6 +189,13 @@ export class UsersComponent implements OnInit, OnDestroy {
       tap((result: boolean) => {
         if (result) {
           this.store$.dispatch(UsersActions.UsersDeactivate({ userId: user.id }));
+          this.notificationSubscription = this.usersState$.pipe(
+            skipWhile(usersState => usersState.loading),
+            take(1),
+            map(() => {
+              this.notificationService.showMessage('User successfully deactivated', 'OK');
+            })
+          ).subscribe()
         }
       })
     ).subscribe();
@@ -192,7 +208,7 @@ export class UsersComponent implements OnInit, OnDestroy {
         question: 'Are you sure you want to permanently delete the following user:',
         element: `${user.name} ${user.surname}`
       },
-      width: '400px'
+      // width: '400px'
     });
 
     dialogRef.afterClosed().pipe(
@@ -200,6 +216,13 @@ export class UsersComponent implements OnInit, OnDestroy {
       tap((result: boolean) => {
         if (result) {
           this.store$.dispatch(UsersActions.UsersDelete({ userId: user.id }));
+          this.notificationSubscription = this.usersState$.pipe(
+            skipWhile(usersState => usersState.loading),
+            take(1),
+            map(() => {
+              this.notificationService.showMessage('User successfully deleted', 'OK');
+            })
+          ).subscribe()
         }
       })
     ).subscribe();

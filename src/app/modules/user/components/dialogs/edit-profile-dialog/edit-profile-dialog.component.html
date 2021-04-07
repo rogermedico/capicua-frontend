@@ -1,64 +1,64 @@
 <form [formGroup]="editUserDialogForm" (ngSubmit)="submit()">
   <div mat-dialog-content>
-    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-md="row" fxLayoutGap.gt-md="16px">
-      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
+      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-sm="auto">
         <mat-label>Name</mat-label>
         <input matInput type="text" placeholder="Rodolf" name="name" formControlName="name">
       </mat-form-field>
-      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-sm="auto">
         <mat-label>Surname</mat-label>
         <input matInput type="text" placeholder="Roigé Galceran" name="surname" formControlName="surname">
       </mat-form-field>
     </section>
-    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-md="row" fxLayoutGap.gt-md="16px">
-      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
+      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-sm="auto">
         <mat-label>Email</mat-label>
         <input matInput type="email" placeholder="rroige@capicua.cat" name="email" formControlName="email">
       </mat-form-field>
     </section>
-    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-md="row" fxLayoutGap.gt-md="16px">
-      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
+      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-sm="auto">
         <mat-label>Phone</mat-label>
         <input matInput type="text" placeholder="690123123" name="phone" formControlName="phone">
       </mat-form-field>
-      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-sm="auto">
         <mat-label>DNI</mat-label>
         <input matInput type="text" placeholder="DNI" name="dni" formControlName="dni">
       </mat-form-field>
-      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-sm="auto">
         <mat-label>Birth date</mat-label>
         <input matInput [matDatepicker]="picker" formControlName="birthDate">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
     </section>
-    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-md="row" fxLayoutGap.gt-md="16px">
-      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="1 1 auto">
+    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
+      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-sm="1 1 auto">
         <mat-label>Address number</mat-label>
         <input matInput type="text" placeholder="Number" name="addressNumber" formControlName="addressNumber">
       </mat-form-field>
-      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="3 3 auto">
+      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-sm="3 3 auto">
         <mat-label>Address street</mat-label>
         <input matInput type="text" placeholder="Street" name="addressStreet" formControlName="addressStreet">
       </mat-form-field>
 
-      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="1 1 auto">
+      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-sm="1 1 auto">
         <mat-label>Address CP</mat-label>
         <input matInput type="text" placeholder="CP" name="addressCp" formControlName="addressCp">
       </mat-form-field>
     </section>
-    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-md="row" fxLayoutGap.gt-md="16px">
-      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
+      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-sm="auto">
         <mat-label>Address city</mat-label>
         <input matInput type="text" placeholder="City" name="addressCity" formControlName="addressCity">
       </mat-form-field>
-      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-sm="auto">
         <mat-label>Address country</mat-label>
         <input matInput type="text" placeholder="Country" name="addressCountry" formControlName="addressCountry">
       </mat-form-field>
     </section>
-    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-md="row" fxLayoutGap.gt-md="16px">
-      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-md="auto">
+    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
+      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-sm="auto">
         <mat-label>Driving Licences</mat-label>
         <input matInput type="text" placeholder="A,B" name="drivingLicences" formControlName="drivingLicences">
       </mat-form-field>

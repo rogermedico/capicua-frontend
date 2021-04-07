@@ -1,7 +1,13 @@
-<div class="profile-container">
+<div class="profile-container" *ngIf="(userState$ | async).loaded; else loading">
   <app-profile></app-profile>
   <app-user-documents></app-user-documents>
   <app-courses></app-courses>
   <app-education></app-education>
   <app-languages></app-languages>
 </div>
+
+<ng-template #loading>
+  <div fxLayout fxLayoutAlign="center center" class="spinner">
+    <mat-spinner color="accent"></mat-spinner>
+  </div>
+</ng-template>
