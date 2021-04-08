@@ -36,6 +36,7 @@ export class HomeComponent implements OnInit {
 
   ]
 
+  public homePostDisplayedColumns = ['name', 'actions'];
   public homeState$: Observable<HomeState> = this.store$.select(HomeSelectors.selectHomeState);
 
   constructor(
