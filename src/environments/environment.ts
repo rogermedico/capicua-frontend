@@ -13,6 +13,10 @@ export const environment = {
     logoutEndpoint: 'auth/logout',
     renewTokenEndpoint: 'auth/refresh',
 
+    /* home */
+    homeEndpoint: 'home',
+    homeDocumentsEndpoint: 'homedocument',
+
     /* user */
     userEndpoint: 'user',
     changePasswordEndpoint: 'user/password',

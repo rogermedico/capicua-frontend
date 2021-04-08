@@ -3,6 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import * as AuthActions from './auth.action';
+import * as HomeActions from '@modules/home/store/home.action';
 import * as UserActions from '@modules/user/store/user.action';
 import { Login } from '@models/login.model';
 import { AuthService } from '../services/auth.service';
@@ -46,6 +47,7 @@ export class AuthEffects {
       mergeMap(() => {
         return [
           { type: AuthActions.AuthActionTypes.AUTH_LOGOUT_SUCCESS },
+          { type: HomeActions.HomeActionTypes.HOME_RESET },
           { type: UserActions.UserActionTypes.USER_RESET_DATA },
           { type: UsersActions.UsersActionTypes.USERS_RESET },
           { type: AppConstantsActions.AppConstantsActionTypes.APP_CONSTANTS_RESET }

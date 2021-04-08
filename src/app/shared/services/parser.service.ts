@@ -8,7 +8,8 @@ import { Education, EducationBackend, EducationBackendSent } from '@models/educa
 import { Language, LanguageBackend } from '@models/language.model';
 import { UserBackend } from '@models/user.model';
 import { User } from '@models/user.model';
-import { PersonalDocument, PersonalDocumentBackend } from '@models/document.model';
+import { HomeDocument, HomeDocumentBackend, PersonalDocument, PersonalDocumentBackend } from '@models/document.model';
+import { HomePost, HomePostBackend } from '@models/home-post.model';
 
 @Injectable({
   providedIn: 'root'
@@ -211,6 +212,26 @@ export class ParserService {
       name: personalDocumentBackend.original_name,
       file: null,
       createdAt: new Date(personalDocumentBackend.created_at)
+    }
+  }
+
+  public homePostBackendToHomePost(homePostBackend: HomePostBackend): HomePost {
+    return {
+      id: homePostBackend.id,
+      title: homePostBackend.title,
+      body: homePostBackend.body,
+      createdAt: new Date(homePostBackend.created_at),
+      documents: homePostBackend.documents.map((homeDocumentBackend: HomeDocumentBackend) => this.homeDocumentBackendToHomeDocument(homeDocumentBackend))
+    }
+  }
+
+  public homeDocumentBackendToHomeDocument(homeDocumentBackend: HomeDocumentBackend): HomeDocument {
+    return {
+      id: homeDocumentBackend.id,
+      homePostId: homeDocumentBackend.home_post_id,
+      name: homeDocumentBackend.original_name,
+      file: null,
+      createdAt: new Date(homeDocumentBackend.created_at)
     }
   }
 

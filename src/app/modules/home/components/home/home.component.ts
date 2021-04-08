@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { HomeState } from '@modules/home/store/home.state';
+import { Store } from '@ngrx/store';
+import { AppState } from '@store/root.state';
+import { Observable } from 'rxjs';
+import * as HomeSelectors from '@modules/home/store/home.selector';
+import * as HomeActions from '@modules/home/store/home.action';
 
 @Component({
   selector: 'app-home-component',
@@ -30,9 +36,14 @@ export class HomeComponent implements OnInit {
 
   ]
 
-  constructor() { }
+  public homeState$: Observable<HomeState> = this.store$.select(HomeSelectors.selectHomeState);
+
+  constructor(
+    private store$: Store<AppState>,
+  ) { }
 
   ngOnInit(): void {
+    this.store$.dispatch(HomeActions.HomeGetAll());
   }
 
 }
