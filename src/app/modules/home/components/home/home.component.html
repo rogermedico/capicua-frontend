@@ -15,12 +15,16 @@
           <!-- <li *ngFor="let document of homePost.documents"> -->
           <mat-list-item role="listitem" *ngFor="let document of homePost.documents">
             <a class="action-link" [routerLink]="" (click)="viewDocument(element)">
-              <mat-icon class="action-icon">delete</mat-icon>
+              <mat-icon class="action-icon">description</mat-icon>
             </a>
             <a class="action-link action-icon" [routerLink]="" (click)="viewDocument(document)">
               <!-- <mat-icon class="action-icon">description</mat-icon> -->
               {{document.name}}
             </a>
+            <!-- <a class="action-link" [routerLink]="" (click)="viewDocument(element)">
+              <mat-icon class="action-icon">delete</mat-icon>
+            </a> -->
+
 
           </mat-list-item>
           <!-- </li> -->
