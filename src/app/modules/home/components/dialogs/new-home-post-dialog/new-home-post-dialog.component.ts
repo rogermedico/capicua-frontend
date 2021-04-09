@@ -14,11 +14,11 @@ import { filter, map, take } from 'rxjs/operators';
 import { userTypeValidator } from '@validators/userType.validator';
 
 @Component({
-  selector: 'app-edit-home-post-dialog',
-  templateUrl: './edit-home-post-dialog.component.html',
-  styleUrls: ['./edit-home-post-dialog.component.scss']
+  selector: 'app-new-home-post-dialog',
+  templateUrl: './new-home-post-dialog.component.html',
+  styleUrls: ['./new-home-post-dialog.component.scss']
 })
-export class EditHomePostDialogComponent implements OnInit {
+export class NewHomePostDialogComponent implements OnInit {
 
   // public nationalities = Object.values(NATIONALITIES);
   // public userTypes = USER_TYPES;
@@ -28,7 +28,7 @@ export class EditHomePostDialogComponent implements OnInit {
   // public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
   // public userStateSubscriber: Subscription;
   // public snackBarSubscription: Subscription;
-  public editHomePostForm: FormGroup;
+  public newHomePostForm: FormGroup;
   // public editUserFormValueChangesSubscriber: Subscription;
   // public usersState$: Observable<UsersState> = this.store$.select(UsersSelectors.selectUsersState);
   // public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
@@ -39,11 +39,11 @@ export class EditHomePostDialogComponent implements OnInit {
   constructor(
     // private store$: Store<AppState>,
     private fb: FormBuilder,
-    public dialogRef: MatDialogRef<EditHomePostDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {
-      title: string;
-      body: string
-    }
+    public dialogRef: MatDialogRef<NewHomePostDialogComponent>,
+    // @Inject(MAT_DIALOG_DATA) public data: {
+    //   title: string;
+    //   body: string
+    // }
   ) { }
 
   ngOnInit(): void {
@@ -68,12 +68,12 @@ export class EditHomePostDialogComponent implements OnInit {
   }
 
   createForm() {
-    this.editHomePostForm = this.fb.group({
-      title: [this.data.title, [
+    this.newHomePostForm = this.fb.group({
+      title: [null, [
         Validators.required,
         Validators.maxLength(200)
       ]],
-      body: [this.data.body, [
+      body: [null, [
         Validators.required,
       ]]
     });
@@ -85,7 +85,7 @@ export class EditHomePostDialogComponent implements OnInit {
   }
 
   submit(): void {
-    this.dialogRef.close(this.editHomePostForm.value);
+    this.dialogRef.close(this.newHomePostForm.value);
   }
 
 }

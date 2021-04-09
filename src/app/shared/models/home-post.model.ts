@@ -17,3 +17,8 @@ export interface HomePostBackend {
   created_at: string;
   documents: HomeDocumentBackend[];
 }
+
+export interface HomePostSend {
+  title: string;
+  body: string;
+}

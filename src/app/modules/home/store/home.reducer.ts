@@ -5,7 +5,7 @@ import { User } from '@models/user.model';
 import { Course } from '@models/course.model';
 import { Education } from '@models/education.model';
 import { Language } from '@models/language.model';
-import { PersonalDocument, UserDocument } from '@models/document.model';
+import { HomeDocument, PersonalDocument, UserDocument } from '@models/document.model';
 import { USER_DOCUMENTS } from '@constants/user-documents.constant';
 import { HomePost } from '@models/home-post.model';
 
@@ -77,27 +77,27 @@ const _homeReducer = createReducer(defaultHomeState,
     }
   }),
 
-  // /* create user */
-  // on(HomeActions.HomeCreate, state => {
-  //   return {
-  //     ...state,
-  //     loading: true,
-  //     loaded: false,
-  //     error: null
-  //   }
-  // }),
+  /* create home post */
+  on(HomeActions.HomeCreatePost, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
 
-  // /* create user success */
-  // on(HomeActions.HomeCreateSuccess, (state, { user }) => {
-  //   console.log('reducer usercreatesuccess', user)
-  //   return {
-  //     ...state,
-  //     users: [...state.users, user],
-  //     loading: false,
-  //     loaded: true,
-  //     error: null
-  //   }
-  // }),
+  /* create user success */
+  on(HomeActions.HomeCreatePostSuccess, (state, { homePost }) => {
+    console.log('reducer new home post', homePost)
+    return {
+      ...state,
+      posts: [...state.posts, homePost],
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
 
   /* update home post */
   on(HomeActions.HomeUpdatePost, state => {
@@ -301,27 +301,57 @@ const _homeReducer = createReducer(defaultHomeState,
   //   }
   // }),
 
-  // /* delete */
-  // on(HomeActions.HomeDelete, state => {
-  //   return {
-  //     ...state,
-  //     loading: true,
-  //     loaded: false,
-  //     error: null
-  //   }
-  // }),
+  /* delete home post */
+  on(HomeActions.HomeDeletePost, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
 
-  // /* delete success */
-  // on(HomeActions.HomeDeleteSuccess, (state, { userId }) => {
+  /* delete home post success */
+  on(HomeActions.HomeDeletePostSuccess, (state, { homePostId }) => {
 
-  //   return {
-  //     ...state,
-  //     users: state.users.filter((user: User) => user.id != userId),
-  //     loading: false,
-  //     loaded: true,
-  //     error: null
-  //   }
-  // }),
+    return {
+      ...state,
+      posts: state.posts.filter((post: HomePost) => post.id != homePostId),
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* add home post document */
+  on(HomeActions.HomeAddPostDocument, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* add home post document success */
+  on(HomeActions.HomeAddPostDocumentSuccess, (state, { homeDocument }) => {
+    return {
+      ...state,
+      posts: state.posts.map((post: HomePost) => {
+        if (post.id != homeDocument.homePostId) return post;
+        else return {
+          ...post,
+          documents: [
+            ...post.documents,
+            homeDocument
+          ]
+        }
+      }),
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
 
   // /* get all personal documents info */
   // on(HomeActions.HomeGetAllPersonalDocumentsInfo, state => {
@@ -354,38 +384,36 @@ const _homeReducer = createReducer(defaultHomeState,
   //   }
   // }),
 
-  // /* get personal document */
-  // on(HomeActions.HomeGetPersonalDocument, state => {
-  //   return {
-  //     ...state,
-  //     loading: true,
-  //     loaded: false,
-  //     error: null
-  //   }
-  // }),
+  /* get home post document */
+  on(HomeActions.HomeGetPostDocument, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
 
-  // /* get personal document success */
-  // on(HomeActions.HomeGetPersonalDocumentSuccess, (state, { userId, documentId, personalDocument }) => {
-  //   return {
-  //     ...state,
-  //     users: state.users.map((user: User) => {
-  //       if (user.id != userId) return user;
-  //       else return {
-  //         ...user,
-  //         personalDocuments: user.personalDocuments.map((pd: PersonalDocument) => {
-  //           if (pd.id != documentId) return pd;
-  //           else return {
-  //             ...pd,
-  //             file: personalDocument
-  //           }
-  //         })
-  //       }
-  //     }),
-  //     loading: false,
-  //     loaded: true,
-  //     error: null
-  //   }
-  // }),
+  /* get home post document success */
+  on(HomeActions.HomeGetPostDocumentSuccess, (state, { homePostDocument }) => {
+    console.log('home reducer get post document success', homePostDocument);
+    return {
+      ...state,
+      posts: state.posts.map((post: HomePost) => {
+        if (post.id != homePostDocument.homePostId) return post;
+        else return {
+          ...post,
+          documents: post.documents.map((hd: HomeDocument) => {
+            if (hd.id != homePostDocument.id) return hd;
+            else return homePostDocument;
+          })
+        }
+      }),
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
 
   // /* add personal document */
   // on(HomeActions.HomeAddPersonalDocument, state => {
@@ -417,32 +445,32 @@ const _homeReducer = createReducer(defaultHomeState,
   //   }
   // }),
 
-  // /* delete personal document */
-  // on(HomeActions.HomeDeletePersonalDocument, state => {
-  //   return {
-  //     ...state,
-  //     loading: true,
-  //     loaded: false,
-  //     error: null
-  //   }
-  // }),
+  /* delete home post document */
+  on(HomeActions.HomeDeletePostDocument, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
 
-  // /* delete personal document success */
-  // on(HomeActions.HomeDeletePersonalDocumentSuccess, (state, { userId, documentId }) => {
-  //   return {
-  //     ...state,
-  //     users: state.users.map((user: User) => {
-  //       if (user.id != userId) return user;
-  //       else return {
-  //         ...user,
-  //         personalDocuments: user.personalDocuments.filter((pd: PersonalDocument) => pd.id != documentId)
-  //       }
-  //     }),
-  //     loading: false,
-  //     loaded: true,
-  //     error: null
-  //   }
-  // }),
+  /* delete personal document success */
+  on(HomeActions.HomeDeletePostDocumentSuccess, (state, { homePostId, homePostDocumentId }) => {
+    return {
+      ...state,
+      posts: state.posts.map((post: HomePost) => {
+        if (post.id != homePostId) return post;
+        else return {
+          ...post,
+          documents: post.documents.filter((homePostDocument: HomeDocument) => homePostDocument.id != homePostDocumentId)
+        }
+      }),
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
 
   /* error */
   on(HomeActions.HomeError, (state, { err }) => {

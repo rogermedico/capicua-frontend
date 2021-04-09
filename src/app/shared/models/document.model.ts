@@ -33,4 +33,6 @@ export interface HomeDocumentBackend {
   home_post_id: number;
   original_name: string;
   created_at: string;
+  document?: string;
+  extension?: string;
 }

@@ -5,8 +5,8 @@ import { Course } from '@models/course.model';
 import { Education } from '@models/education.model';
 import { Language } from '@models/language.model';
 import { SafeResourceUrl } from '@angular/platform-browser';
-import { PersonalDocument } from '@models/document.model';
-import { HomePost } from '@models/home-post.model';
+import { HomeDocument, PersonalDocument } from '@models/document.model';
+import { HomePost, HomePostSend } from '@models/home-post.model';
 
 
 export enum HomeActionTypes {
@@ -46,28 +46,28 @@ export const HomeReset = createAction(HomeActionTypes.HOME_RESET);
 export const HomeResetSuccess = createAction(HomeActionTypes.HOME_RESET_SUCCESS);
 
 /* create post */
-export const HomeCreatePost = createAction(HomeActionTypes.HOME_CREATE_POST, props<{ newHomePost: HomePost }>());
-export const HomeCreatePostSuccess = createAction(HomeActionTypes.HOME_CREATE_POST_SUCCESS, props<{ user: User }>());
+export const HomeCreatePost = createAction(HomeActionTypes.HOME_CREATE_POST, props<{ newHomePost: HomePostSend }>());
+export const HomeCreatePostSuccess = createAction(HomeActionTypes.HOME_CREATE_POST_SUCCESS, props<{ homePost: HomePost }>());
 
 /* update post */
 export const HomeUpdatePost = createAction(HomeActionTypes.HOME_UPDATE_POST, props<{ homePostId: number, updatedHomePostProperties: { [key: string]: any } }>());
 export const HomeUpdatePostSuccess = createAction(HomeActionTypes.HOME_UPDATE_POST_SUCCESS, props<{ updatedHomePost: HomePost }>());
 
 /* delete post */
-export const HomeDeletePost = createAction(HomeActionTypes.HOME_DELETE_POST, props<{ userId: number }>());
-export const HomeDeletePostSuccess = createAction(HomeActionTypes.HOME_DELETE_POST_SUCCESS, props<{ userId: number }>());
+export const HomeDeletePost = createAction(HomeActionTypes.HOME_DELETE_POST, props<{ homePostId: number }>());
+export const HomeDeletePostSuccess = createAction(HomeActionTypes.HOME_DELETE_POST_SUCCESS, props<{ homePostId: number }>());
 
 /* get home document */
 export const HomeGetPostDocument = createAction(HomeActionTypes.HOME_GET_POST_DOCUMENT, props<{ documentId: number }>());
-export const HomeGetPostDocumentSuccess = createAction(HomeActionTypes.HOME_GET_POST_DOCUMENT_SUCCESS, props<{ userId: number, documentId: number, personalDocument: string }>());
+export const HomeGetPostDocumentSuccess = createAction(HomeActionTypes.HOME_GET_POST_DOCUMENT_SUCCESS, props<{ homePostDocument: HomeDocument }>());
 
 /* add home document */
-export const HomeAddPostDocument = createAction(HomeActionTypes.HOME_ADD_POST_DOCUMENT, props<{ userId: number, document: File }>());
-export const HomeAddPostDocumentSuccess = createAction(HomeActionTypes.HOME_ADD_POST_DOCUMENT_SUCCESS, props<{ personalDocument: PersonalDocument }>());
+export const HomeAddPostDocument = createAction(HomeActionTypes.HOME_ADD_POST_DOCUMENT, props<{ homePostId: number, document: File }>());
+export const HomeAddPostDocumentSuccess = createAction(HomeActionTypes.HOME_ADD_POST_DOCUMENT_SUCCESS, props<{ homeDocument: HomeDocument }>());
 
 /* delete home document */
-export const HomeDeletePostDocument = createAction(HomeActionTypes.HOME_DELETE_POST_DOCUMENT, props<{ userId: number, documentId: number }>());
-export const HomeDeletePostDocumentSuccess = createAction(HomeActionTypes.HOME_DELETE_POST_DOCUMENT_SUCCESS, props<{ userId: number, documentId: number }>());
+export const HomeDeletePostDocument = createAction(HomeActionTypes.HOME_DELETE_POST_DOCUMENT, props<{ homePostId: number, homePostDocumentId: number }>());
+export const HomeDeletePostDocumentSuccess = createAction(HomeActionTypes.HOME_DELETE_POST_DOCUMENT_SUCCESS, props<{ homePostId: number, homePostDocumentId: number }>());
 
 /* error */
 export const HomeError = createAction(HomeActionTypes.HOME_ERROR, props<{ origin: HomeActionTypes, err: Error }>());

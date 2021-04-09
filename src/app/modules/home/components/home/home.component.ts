@@ -10,9 +10,12 @@ import { UserState } from '@modules/user/store/user.state';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '@services/notification.service';
 import { ParserService } from '@services/parser.service';
-import { HomePost } from '@models/home-post.model';
+import { HomePost, HomePostSend } from '@models/home-post.model';
 import { EditHomePostDialogComponent } from '../dialogs/edit-home-post-dialog/edit-home-post-dialog.component';
-import { map, skipWhile, take, tap } from 'rxjs/operators';
+import { filter, map, skipWhile, take, tap } from 'rxjs/operators';
+import { ConfirmDialogComponent } from '../dialogs/confirm-dialog/confirm-dialog.component';
+import { NewHomePostDialogComponent } from '../dialogs/new-home-post-dialog/new-home-post-dialog.component';
+import { HomeDocument } from '@models/document.model';
 
 @Component({
   selector: 'app-home-component',
@@ -24,6 +27,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
   public homeState$: Observable<HomeState> = this.store$.select(HomeSelectors.selectHomeState);
   public notificationSubscription: Subscription;
+  public getHomeDocumentSubscription: Subscription;
 
   constructor(
     private store$: Store<AppState>,
@@ -38,6 +42,32 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.notificationSubscription) this.notificationSubscription.unsubscribe();
+    if (this.getHomeDocumentSubscription) this.getHomeDocumentSubscription.unsubscribe();
+  }
+
+  newHomePost(): void {
+
+    const dialogRef = this.dialog.open(NewHomePostDialogComponent);
+
+    dialogRef.afterClosed().pipe(
+      take(1),
+      tap((newPostProperties: HomePostSend) => {
+        if (newPostProperties) {
+          // const newPostPropertiesSend = {};
+          // for (const [k, v] of Object.entries(newPostProperties)) {
+          //   newPostPropertiesSend[this.parserService.translateToBackend(k)] = v;
+          // };
+          this.store$.dispatch(HomeActions.HomeCreatePost({ newHomePost: newPostProperties }));
+          this.notificationSubscription = this.homeState$.pipe(
+            skipWhile(usersState => usersState.loading),
+            take(1),
+            map(() => {
+              this.notificationService.showMessage('New post successfully created', 'OK');
+            })
+          ).subscribe()
+        }
+      })
+    ).subscribe();
   }
 
   editHomePost(homePost: HomePost): void {
@@ -68,6 +98,93 @@ export class HomeComponent implements OnInit, OnDestroy {
         }
       })
     ).subscribe();
+  }
+
+  deleteHomePost(homePost: HomePost): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        question: 'Are you sure you want to delete the following post:',
+        element: homePost.title
+      }
+    });
+
+    dialogRef.afterClosed().pipe(
+      take(1),
+      tap((result: boolean) => {
+        if (result) {
+          this.store$.dispatch(HomeActions.HomeDeletePost({ homePostId: homePost.id }));
+          this.notificationSubscription = this.homeState$.pipe(
+            skipWhile(usersState => usersState.loading),
+            take(1),
+            map(() => {
+              this.notificationService.showMessage('Post successfully deleted', 'OK');
+            })
+          ).subscribe()
+        }
+      })
+    ).subscribe();
+
+  }
+
+  uploadHomePostDocument(homePost: HomePost, fileInputEvent: any) {
+    const homePostDocumentFile = fileInputEvent.target.files[0];
+    this.store$.dispatch(HomeActions.HomeAddPostDocument({ homePostId: homePost.id, document: homePostDocumentFile }));
+    this.notificationSubscription = this.homeState$.pipe(
+      skipWhile(homeState => homeState.loading),
+      take(1),
+      map(() => {
+        this.notificationService.showMessage('File successfully uploaded', 'OK');
+      })
+    ).subscribe()
+  }
+
+  viewHomeDocument(homeDocument: HomeDocument) {
+    console.log(homeDocument);
+    if (homeDocument.file) {
+      window.open(homeDocument.file, '_blank');
+    }
+    else {
+      this.store$.dispatch(HomeActions.HomeGetPostDocument({ documentId: homeDocument.id }));
+      this.getHomeDocumentSubscription = this.homeState$.pipe(
+        filter(hs => {
+          const homePost = hs.posts.find(post => post.id == homeDocument.homePostId);
+          const homePostDocument = homePost.documents.find(hpd => hpd.id == homeDocument.id);
+          return homePostDocument.file != null;
+        }),
+        take(1),
+        map(hs => {
+          const homePost = hs.posts.find(post => post.id == homeDocument.homePostId);
+          const homePostDocument = homePost.documents.find(hpd => hpd.id == homeDocument.id);
+          window.open(<string>homePostDocument.file, '_blank');
+        })
+      ).subscribe();
+    }
+  }
+
+  deleteHomeDocument(homeDocument: HomeDocument): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        question: 'Are you sure you want to permanently delete the following document:',
+        element: homeDocument.name
+      }
+    });
+
+    dialogRef.afterClosed().pipe(
+      take(1),
+      tap((result: boolean) => {
+        if (result) {
+          this.store$.dispatch(HomeActions.HomeDeletePostDocument({ homePostId: homeDocument.homePostId, homePostDocumentId: homeDocument.id }));
+          this.notificationSubscription = this.homeState$.pipe(
+            skipWhile(homeState => homeState.loading),
+            take(1),
+            map(() => {
+              this.notificationService.showMessage('Document successfully deleted', 'OK');
+            })
+          ).subscribe()
+        }
+      })
+    ).subscribe();
+
   }
 
 }

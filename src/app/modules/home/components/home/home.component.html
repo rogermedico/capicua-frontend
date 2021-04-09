@@ -14,16 +14,16 @@
         <mat-list role="list">
           <!-- <li *ngFor="let document of homePost.documents"> -->
           <mat-list-item role="listitem" *ngFor="let document of homePost.documents">
-            <a class="action-link" [routerLink]="" (click)="viewDocument(element)">
+            <a class="action-link" [routerLink]="" (click)="viewHomeDocument(document)">
               <mat-icon class="action-icon">description</mat-icon>
             </a>
-            <a class="action-link action-icon" [routerLink]="" (click)="viewDocument(document)">
+            <a class="action-link action-icon" [routerLink]="" (click)="viewHomeDocument(document)">
               <!-- <mat-icon class="action-icon">description</mat-icon> -->
               {{document.name}}
             </a>
-            <!-- <a class="action-link" [routerLink]="" (click)="viewDocument(element)">
+            <a class="action-link" [routerLink]="" (click)="deleteHomeDocument(document)">
               <mat-icon class="action-icon">delete</mat-icon>
-            </a> -->
+            </a>
 
 
           </mat-list-item>
@@ -53,17 +53,22 @@
       </section>
     </mat-card-content>
     <mat-card-actions class="post-actions" *ngIf="(userState$ | async).user.userType.rank != 3" gdArea="actions">
+      <button class="post-action-button" mat-mini-fab color="accent" (click)="uploadHomePostDocumentInput.click()">
+        <mat-icon>upload</mat-icon>
+      </button>
+      <input #uploadHomePostDocumentInput hidden type="file" onclick="this.value=null"
+        (change)="uploadHomePostDocument(homePost,$event)" accept="application/pdf">
       <button class="post-action-button" mat-mini-fab color="accent" (click)="editHomePost(homePost)">
         <mat-icon>edit</mat-icon>
       </button>
-      <button class="post-action-button" mat-mini-fab color="accent">
+      <button class="post-action-button" mat-mini-fab color="accent" (click)="deleteHomePost(homePost)">
         <mat-icon>delete</mat-icon>
       </button>
     </mat-card-actions>
   </mat-card>
   <div class="home-post" *ngIf="(userState$ | async).user.userType.rank != 3" fxLayout="column"
     fxLayoutAlign="center center">
-    <button class="new-post-button" mat-fab color="accent">
+    <button class="new-post-button" mat-fab color="accent" (click)="newHomePost()">
       <mat-icon>add</mat-icon>
     </button>
   </div>

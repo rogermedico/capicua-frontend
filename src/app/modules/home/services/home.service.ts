@@ -4,9 +4,9 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { environment } from '@environments/environment';
 import { BackendResponse } from '@models/backend-response.model';
 import { Course, CourseBackend, CourseBackendSent } from '@models/course.model';
-import { PersonalDocument, PersonalDocumentBackend } from '@models/document.model';
+import { HomeDocument, HomeDocumentBackend, PersonalDocument, PersonalDocumentBackend } from '@models/document.model';
 import { Education, EducationBackend, EducationBackendSent } from '@models/education.model';
-import { HomePost, HomePostBackend } from '@models/home-post.model';
+import { HomePost, HomePostBackend, HomePostSend } from '@models/home-post.model';
 import { Language, LanguageBackend, LanguageBackendSent } from '@models/language.model';
 import { NewUser, User, UserBackend } from '@models/user.model';
 import { ParserService } from '@services/parser.service';
@@ -28,11 +28,11 @@ export class HomeService {
     );
   }
 
-  // newUser(newUser: NewUser): Observable<User> {
-  //   return this.http.post<UserBackend>(environment.backend.api + environment.backend.userEndpoint, newUser).pipe(
-  //     map(userBackend => this.parser.userBackendToUser(userBackend))
-  //   );
-  // }
+  newHomePost(newHomePost: HomePostSend): Observable<HomePost> {
+    return this.http.post<HomePostBackend>(environment.backend.api + environment.backend.homeEndpoint, newHomePost).pipe(
+      map((homePostBackend: HomePostBackend) => this.parser.homePostBackendToHomePost(homePostBackend))
+    );
+  }
 
   updateHomePost(id: number, updatedHomePostProperties: { [key: string]: any }): Observable<HomePost> {
     const body = {
@@ -43,19 +43,6 @@ export class HomeService {
       map((homePostBackend: HomePostBackend) => this.parser.homePostBackendToHomePost(homePostBackend))
     );
   }
-
-  // getAvatar(userId: number): Observable<{ userId: number, avatar: SafeResourceUrl }> {
-  //   return this.http.get<{ avatar: string, extension: string }>(`${environment.backend.api}${environment.backend.avatarEndpoint}/${userId}`).pipe(
-  //     map(response => {
-  //       const a = {
-  //         userId: userId,
-  //         avatar: this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/${response.extension};base64,${response.avatar}`)
-  //       }
-  //       console.log(a);
-  //       return a
-  //     })
-  //   );
-  // }
 
   // getDni(userId: number): Observable<{ userId: number, dni: string }> {
   //   return this.http.get(`${environment.backend.api}${environment.backend.dniEndpoint}/${userId}`).pipe(
@@ -99,13 +86,13 @@ export class HomeService {
   //   );
   // }
 
-  // deleteUser(id: number): Observable<{ userId: number }> {
-  //   return this.http.delete<BackendResponse>(`${environment.backend.api}${environment.backend.userEndpoint}/${id}`).pipe(
-  //     map(() => {
-  //       return { userId: id }
-  //     })
-  //   );
-  // }
+  deleteHomePost(id: number): Observable<{ homePostId: number }> {
+    return this.http.delete<BackendResponse>(`${environment.backend.api}${environment.backend.homeEndpoint}/${id}`).pipe(
+      map(() => {
+        return { homePostId: id }
+      })
+    );
+  }
 
   // getAllPersonalDocumentsInfo(): Observable<PersonalDocument[]> {
   //   return this.http.get<PersonalDocumentBackend[]>(`${environment.backend.api}${environment.backend.documentsInfoEndpoint}`).pipe(
@@ -125,25 +112,39 @@ export class HomeService {
   //   );
   // }
 
-  // addPersonalDocument(userId: number, document: File): Observable<PersonalDocument> {
-  //   const formData: FormData = new FormData();
-  //   formData.append('document', document, document.name);
-  //   formData.append('user_id', userId.toString());
-  //   return this.http.post(`${environment.backend.api}${environment.backend.documentsEndpoint}`, formData).pipe(
-  //     map((pdb: PersonalDocumentBackend) => {
-  //       const personalDocument: PersonalDocument = this.parser.personalDocumentBackendToPersonalDocument(pdb);
-  //       personalDocument.file = window.URL.createObjectURL(document);
-  //       return personalDocument;
-  //     })
-  //   )
-  // }
+  addHomePostDocument(homePostId: number, document: File): Observable<HomeDocument> {
+    const formData: FormData = new FormData();
+    formData.append('document', document, document.name);
+    formData.append('home_post_id', homePostId.toString());
+    return this.http.post<HomeDocumentBackend>(`${environment.backend.api}${environment.backend.homeDocumentsEndpoint}`, formData).pipe(
+      map((homeDocumentBackend: HomeDocumentBackend) => {
+        const homeDocument: HomeDocument = this.parser.homeDocumentBackendToHomeDocument(homeDocumentBackend);
+        homeDocument.file = window.URL.createObjectURL(document);
+        return homeDocument;
+      })
+    )
+  }
 
-  // deletePersonalDocument(userId: number, documentId: number): Observable<{ userId: number, documentId: number }> {
-  //   return this.http.delete(`${environment.backend.api}${environment.backend.documentsEndpoint}/${documentId}`).pipe(
-  //     map(() => {
-  //       return { userId: userId, documentId: documentId }
-  //     })
-  //   );
-  // }
+  getHomePostDocument(homePostDocumentId: number): Observable<HomeDocument> {
+    console.log('HomeService, getHomePostDocument', homePostDocumentId);
+    return this.http.get(`${environment.backend.api}${environment.backend.homeDocumentsEndpoint}/${homePostDocumentId}`).pipe(
+      map((homeDocumentBackend: HomeDocumentBackend) => {
+        const homeDocument: HomeDocument = this.parser.homeDocumentBackendToHomeDocument(homeDocumentBackend);
+        const byteArray = new Uint8Array(atob(homeDocumentBackend.document).split('').map(char => char.charCodeAt(0)));
+        const document = new Blob([byteArray], { type: 'application/pdf' });
+        homeDocument.file = window.URL.createObjectURL(document);
+        console.log('returned', homeDocument);
+        return homeDocument;
+      })
+    );
+  }
+
+  deleteHomePostDocument(homePostId: number, homePostDocumentId: number): Observable<{ homePostId: number, homePostDocumentId: number }> {
+    return this.http.delete(`${environment.backend.api}${environment.backend.homeDocumentsEndpoint}/${homePostDocumentId}`).pipe(
+      map(() => {
+        return { homePostId: homePostId, homePostDocumentId: homePostDocumentId }
+      })
+    );
+  }
 
 }

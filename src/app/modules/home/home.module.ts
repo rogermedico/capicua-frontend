@@ -8,12 +8,16 @@ import { MaterialModule } from '@modules/material/material.module';
 import { MatNativeDateModule } from '@angular/material/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditHomePostDialogComponent } from './components/dialogs/edit-home-post-dialog/edit-home-post-dialog.component';
+import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
+import { NewHomePostDialogComponent } from './components/dialogs/new-home-post-dialog/new-home-post-dialog.component';
 
 
 @NgModule({
   declarations: [
     HomeComponent,
-    EditHomePostDialogComponent
+    NewHomePostDialogComponent,
+    EditHomePostDialogComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     CommonModule,
