@@ -19,7 +19,7 @@
   max-width: unset;
   min-height: 200px;
   @include screen("lg") {
-    max-width: 350px;
+    // max-width: 350px;
   }
 }
 
