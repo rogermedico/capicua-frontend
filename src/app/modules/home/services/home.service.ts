@@ -34,16 +34,15 @@ export class HomeService {
   //   );
   // }
 
-  // editUser(id: number, editedProperties: { [key: string]: any }): Observable<User> {
-  //   const body = {
-  //     ...editedProperties,
-  //     user_id: id
-  //   }
-  //   console.log(body);
-  //   return this.http.put<UserBackend>(environment.backend.api + environment.backend.usersEndpoint, body).pipe(
-  //     map(userBackend => this.parser.userBackendToUser(userBackend))
-  //   );
-  // }
+  updateHomePost(id: number, updatedHomePostProperties: { [key: string]: any }): Observable<HomePost> {
+    const body = {
+      ...updatedHomePostProperties,
+      id: id
+    }
+    return this.http.put<HomePostBackend>(environment.backend.api + environment.backend.homeEndpoint, body).pipe(
+      map((homePostBackend: HomePostBackend) => this.parser.homePostBackendToHomePost(homePostBackend))
+    );
+  }
 
   // getAvatar(userId: number): Observable<{ userId: number, avatar: SafeResourceUrl }> {
   //   return this.http.get<{ avatar: string, extension: string }>(`${environment.backend.api}${environment.backend.avatarEndpoint}/${userId}`).pipe(

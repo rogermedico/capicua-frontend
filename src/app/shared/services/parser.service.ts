@@ -220,6 +220,7 @@ export class ParserService {
       id: homePostBackend.id,
       title: homePostBackend.title,
       body: homePostBackend.body,
+      position: homePostBackend.position,
       createdAt: new Date(homePostBackend.created_at),
       documents: homePostBackend.documents.map((homeDocumentBackend: HomeDocumentBackend) => this.homeDocumentBackendToHomeDocument(homeDocumentBackend))
     }

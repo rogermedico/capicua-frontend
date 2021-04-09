@@ -17,56 +17,11 @@
 
 .home-post {
   max-width: unset;
+  min-height: 200px;
   @include screen("lg") {
     max-width: 350px;
   }
 }
-
-// .documents-table {
-//   margin-top: 1rem;
-//   & > .mat-row {
-//     border-style: none;
-//     min-height: unset;
-//   }
-// }
-// .name-cell {
-//   justify-content: flex-end;
-//   padding: 0 8px 0 0;
-// }
-
-// .actions-cell {
-//   padding: 0 0 0 8px;
-// }
-
-// .mat-column-name {
-//   box-sizing: border-box;
-//   flex: 1 !important;
-//   width: auto !important;
-//   word-wrap: break-word !important;
-//   white-space: unset !important;
-//   overflow-wrap: break-word;
-//   word-wrap: break-word;
-//   word-break: break-word;
-//   -ms-hyphens: auto;
-//   -moz-hyphens: auto;
-//   -webkit-hyphens: auto;
-//   hyphens: auto;
-// }
-
-// .mat-column-actions {
-//   box-sizing: border-box;
-//   flex: 0 0 80px !important;
-//   width: auto !important;
-//   word-wrap: break-word !important;
-//   white-space: unset !important;
-//   overflow-wrap: break-word;
-//   word-wrap: break-word;
-//   word-break: break-word;
-//   -ms-hyphens: auto;
-//   -moz-hyphens: auto;
-//   -webkit-hyphens: auto;
-//   hyphens: auto;
-// }
 
 .action-icon {
   color: rgba(0, 0, 0, 0.87);
@@ -86,4 +41,17 @@
 
 .mat-list-item {
   height: unset;
+}
+
+.post-actions {
+  padding: 0;
+  margin-left: auto;
+}
+
+.post-action-button {
+  margin: 0 8px 0 0;
+}
+
+.new-post-button {
+  margin-top: 64px;
 }

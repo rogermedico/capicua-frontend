@@ -20,12 +20,12 @@ import { HomePost } from '@models/home-post.model';
 @Injectable()
 export class HomeEffects {
 
-  constructor(private actions$: Actions, private us: HomeService, private notificationService: NotificationService) { }
+  constructor(private actions$: Actions, private hs: HomeService, private notificationService: NotificationService) { }
 
   /* get all posts */
   getAll$ = createEffect(() => this.actions$.pipe(
     ofType(HomeActions.HomeActionTypes.HOME_GET_ALL),
-    mergeMap(() => this.us.getPosts().pipe(
+    mergeMap(() => this.hs.getPosts().pipe(
       map((homePosts: HomePost[]) => {
         return { type: HomeActions.HomeActionTypes.HOME_GET_ALL_SUCCESS, homePosts: homePosts };
       }),
@@ -65,21 +65,21 @@ export class HomeEffects {
   //   ))
   // ));
 
-  // /* edit user */
-  // editUser$ = createEffect(() => this.actions$.pipe(
-  //   ofType(HomeActions.HomeActionTypes.HOME_EDIT),
-  //   mergeMap((action: { type: string, userId: number, editedProperties: { [key: string]: any } }) => this.us.editUser(action.userId, action.editedProperties).pipe(
-  //     map((editedUser: User) => {
-  //       console.log(editedUser)
-  //       return { type: HomeActions.HomeActionTypes.HOME_EDIT_SUCCESS, editedUser: editedUser };
-  //     }),
-  //     catchError(err => of({
-  //       type: HomeActions.HomeActionTypes.HOME_ERROR,
-  //       origin: HomeActions.HomeActionTypes.HOME_EDIT,
-  //       err: err
-  //     }))
-  //   ))
-  // ));
+  /* update home post */
+  updateHomePost$ = createEffect(() => this.actions$.pipe(
+    ofType(HomeActions.HomeActionTypes.HOME_UPDATE_POST),
+    mergeMap((action: { type: string, homePostId: number, updatedHomePostProperties: { [key: string]: any } }) => this.hs.updateHomePost(action.homePostId, action.updatedHomePostProperties).pipe(
+      map((updatedHomePost: HomePost) => {
+        console.log(updatedHomePost)
+        return { type: HomeActions.HomeActionTypes.HOME_UPDATE_POST_SUCCESS, updatedHomePost: updatedHomePost };
+      }),
+      catchError(err => of({
+        type: HomeActions.HomeActionTypes.HOME_ERROR,
+        origin: HomeActions.HomeActionTypes.HOME_UPDATE_POST,
+        err: err
+      }))
+    ))
+  ));
 
   // /* get avatar */
   // usersAvatarGet$ = createEffect(() => this.actions$.pipe(

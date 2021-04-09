@@ -1,50 +1,73 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HomeState } from '@modules/home/store/home.state';
 import { Store } from '@ngrx/store';
 import { AppState } from '@store/root.state';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import * as HomeSelectors from '@modules/home/store/home.selector';
+import * as UserSelectors from '@modules/user/store/user.selector';
 import * as HomeActions from '@modules/home/store/home.action';
+import { UserState } from '@modules/user/store/user.state';
+import { MatDialog } from '@angular/material/dialog';
+import { NotificationService } from '@services/notification.service';
+import { ParserService } from '@services/parser.service';
+import { HomePost } from '@models/home-post.model';
+import { EditHomePostDialogComponent } from '../dialogs/edit-home-post-dialog/edit-home-post-dialog.component';
+import { map, skipWhile, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home-component',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
-  public activities = [
-    {
-      name: 'Lorem ipsum dolor sit Lorem ipsum dolor sit',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vel auctor ante. Pellentesque ac magna scelerisque, cursus neque nec, tincidunt risus. Nullam porttitor sem et sodales suscipit. Nunc feugiat eu mi non dictum. Aliquam fringilla molestie consequat. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.'
-    },
-    {
-      name: 'Lorem ipsum dolor sit amet',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed fermentum maximus nunc, egestas efficitur quam congue sollicitudin. Donec neque risus.'
-    },
-    {
-      name: 'Lorem ipsum dolor sit',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vel auctor ante. Pellentesque ac magna scelerisque, cursus neque nec, tincidunt risus. Nullam porttitor sem et sodales suscipit. Nunc feugiat eu mi non dictum. Aliquam fringilla molestie consequat. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.'
-    },
-    {
-      name: 'Lorem ipsum dolor sit amet',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae erat rutrum, lobortis leo nec, facilisis massa. Aenean accumsan fringilla semper. Sed at mi sapien. Nulla bibendum sem ligula, sit.'
-    }, {
-      name: 'Lorem ipsum dolor',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut bibendum elementum erat, eget tincidunt mauris vestibulum in. Maecenas pretium elit ut ligula semper aliquet. Aliquam erat volutpat. Etiam eleifend justo eros, non tristique leo placerat vitae. Sed efficitur lacinia finibus.'
-    }
-
-  ]
-
-  public homePostDisplayedColumns = ['name', 'actions'];
+  public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
   public homeState$: Observable<HomeState> = this.store$.select(HomeSelectors.selectHomeState);
+  public notificationSubscription: Subscription;
 
   constructor(
     private store$: Store<AppState>,
+    private dialog: MatDialog,
+    private parserService: ParserService,
+    private notificationService: NotificationService
   ) { }
 
   ngOnInit(): void {
     this.store$.dispatch(HomeActions.HomeGetAll());
+  }
+
+  ngOnDestroy(): void {
+    if (this.notificationSubscription) this.notificationSubscription.unsubscribe();
+  }
+
+  editHomePost(homePost: HomePost): void {
+
+    const dialogRef = this.dialog.open(EditHomePostDialogComponent, {
+      data: {
+        title: homePost.title,
+        body: homePost.body
+      },
+    });
+
+    dialogRef.afterClosed().pipe(
+      take(1),
+      tap(updatedProperties => {
+        if (updatedProperties) {
+          const updatedHomePostProperties = {};
+          for (const [k, v] of Object.entries(updatedProperties)) {
+            updatedHomePostProperties[this.parserService.translateToBackend(k)] = v;
+          };
+          this.store$.dispatch(HomeActions.HomeUpdatePost({ homePostId: homePost.id, updatedHomePostProperties: updatedHomePostProperties }));
+          this.notificationSubscription = this.homeState$.pipe(
+            skipWhile(usersState => usersState.loading),
+            take(1),
+            map(() => {
+              this.notificationService.showMessage('Post edited successfully', 'OK');
+            })
+          ).subscribe()
+        }
+      })
+    ).subscribe();
   }
 
 }

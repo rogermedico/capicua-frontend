@@ -1,0 +1,19 @@
+.title {
+  min-width: 400px;
+  width: 100%;
+}
+
+.body {
+  min-height: 200px;
+  max-width: 80vw;
+  min-width: 400px;
+  width: 100%;
+  & .text-area {
+    min-height: 200px;
+  }
+}
+
+input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px white inset !important;
+  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+}

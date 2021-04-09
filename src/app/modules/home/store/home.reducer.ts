@@ -7,6 +7,7 @@ import { Education } from '@models/education.model';
 import { Language } from '@models/language.model';
 import { PersonalDocument, UserDocument } from '@models/document.model';
 import { USER_DOCUMENTS } from '@constants/user-documents.constant';
+import { HomePost } from '@models/home-post.model';
 
 /* the auth state starts with no one logged in */
 const defaultHomeState: HomeState = {
@@ -98,33 +99,33 @@ const _homeReducer = createReducer(defaultHomeState,
   //   }
   // }),
 
-  // /* edit */
-  // on(HomeActions.HomeEdit, state => {
-  //   return {
-  //     ...state,
-  //     loading: true,
-  //     loaded: false,
-  //     error: null
-  //   }
-  // }),
+  /* update home post */
+  on(HomeActions.HomeUpdatePost, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
 
-  // /* edit success */
-  // on(HomeActions.HomeEditSuccess, (state, { editedUser }) => {
+  /* update home post success */
+  on(HomeActions.HomeUpdatePostSuccess, (state, { updatedHomePost }) => {
 
-  //   return {
-  //     ...state,
-  //     users: state.users.map((user: User) => {
-  //       if (user.id != editedUser.id) return user;
-  //       else return {
-  //         ...editedUser,
-  //         avatarFile: user.avatarFile
-  //       }
-  //     }),
-  //     loading: false,
-  //     loaded: true,
-  //     error: null
-  //   }
-  // }),
+    return {
+      ...state,
+      posts: state.posts.map((post: HomePost) => {
+        if (post.id != updatedHomePost.id) return post;
+        else return {
+          ...updatedHomePost,
+          documents: post.documents
+        }
+      }),
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
 
   // /* get avatar */
   // on(HomeActions.HomeAvatarGet, state => {

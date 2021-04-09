@@ -4,6 +4,7 @@ export interface HomePost {
   id: number;
   title: string;
   body: string;
+  position: number;
   createdAt: Date;
   documents: HomeDocument[];
 }
@@ -12,6 +13,7 @@ export interface HomePostBackend {
   id: number;
   title: string;
   body: string;
+  position: number;
   created_at: string;
   documents: HomeDocumentBackend[];
 }

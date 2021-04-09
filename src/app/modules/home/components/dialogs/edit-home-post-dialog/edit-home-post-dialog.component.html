@@ -1,0 +1,22 @@
+<form [formGroup]="editHomePostForm" (ngSubmit)="submit()">
+  <div mat-dialog-content>
+    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-md="row" fxLayoutGap.gt-md="16px">
+      <mat-form-field class="title" appearance="outline">
+        <mat-label>Title</mat-label>
+        <input matInput type="text" placeholder="Títol" name="title" formControlName="title">
+      </mat-form-field>
+    </section>
+    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-md="row" fxLayoutGap.gt-md="16px">
+      <mat-form-field class="body" appearance="outline">
+        <mat-label>Body</mat-label>
+        <textarea class="text-area" matInput placeholder="Cos del missatge" name="body"
+          formControlName="body"></textarea>
+      </mat-form-field>
+    </section>
+
+  </div>
+  <div mat-dialog-content fxLayout="row" fxLayoutAlign="space-between center">
+    <button mat-button mat-stroked-button color="accent" type="button" (click)="onCloseDialog()">Cancel</button>
+    <button mat-button mat-raised-button color="accent" type="submit" [disabled]="!editHomePostForm.valid">Ok</button>
+  </div>
+</form>
