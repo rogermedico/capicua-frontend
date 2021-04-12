@@ -8,7 +8,7 @@ export class PasswordGeneratorService {
   private lowerCharacters: string = 'abcdefghijklmnopqrstuvwxyz';
   private upperCharacters: string = 'ABCDEFGHIJKLMNOPWRSTUVWXYZ';
   private numbers: string = '0123456789';
-  private symbols: string = '!@#$%^&*-_=+:;<>/?';
+  private symbols: string = '!@#$%^&*?';
 
   constructor() { }
 

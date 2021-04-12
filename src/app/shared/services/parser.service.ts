@@ -178,6 +178,7 @@ export class ParserService {
   }
 
   parseDrivingLicences(user: User): string {
+    if (!user.drivingLicences) return '';
     const drivingLicences = user.drivingLicences;
     let parsedDrivingLicences = '';
     if (drivingLicences.length > 2) {

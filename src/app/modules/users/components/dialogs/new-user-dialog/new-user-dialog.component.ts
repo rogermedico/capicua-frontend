@@ -181,6 +181,7 @@ export class NewUserDialogComponent implements OnInit, OnDestroy {
       user_type_id: this.userTypeId.value,
       password: this.passwordGenerator.generate(),
     }
+    console.log('new user: ', newUser);
     this.dialogRef.close(newUser);
   }
 
