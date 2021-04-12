@@ -2,8 +2,12 @@
 
 .container {
   padding: 8px;
+  margin: 0;
   @include screen("lg") {
     padding: 32px;
+    // justify-content: space-around;
+    // justify-items: center;
+    margin: 0 64px;
   }
 }
 
@@ -16,7 +20,7 @@
 }
 
 .home-post {
-  max-width: unset;
+  // max-width: unset;
   min-height: 200px;
   @include screen("lg") {
     // max-width: 350px;

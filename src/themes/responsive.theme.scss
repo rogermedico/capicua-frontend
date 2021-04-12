@@ -1,9 +1,17 @@
+// $breakpoints: (
+//   'xs': 0,
+//   'sm': 600px,
+//   'md': 768px,
+//   'lg': 992px,
+//   'xl': 1200px
+// ) !default;
+
 $breakpoints: (
-  'xs': 0,
-  'sm': 600px,
-  'md': 768px,
-  'lg': 992px,
-  'xl': 1200px
+  "xs": 0,
+  "sm": 600px,
+  "md": 960px,
+  "lg": 1280px,
+  "xl": 1920px,
 ) !default;
 
 @mixin screen($breakpoint) {
@@ -11,8 +19,7 @@ $breakpoints: (
     @media (min-width: map-get($breakpoints, $breakpoint )) {
       @content;
     }
-  }
-  @else {
+  } @else {
     @warn "Unfortuantley, `#{breakpoint}` can not be found. " +
     "Available breakpoints are: #{map-keys($breakpoints)}.";
   }
