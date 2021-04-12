@@ -323,6 +323,35 @@ const _homeReducer = createReducer(defaultHomeState,
     }
   }),
 
+  /* move home post */
+  on(HomeActions.HomeMovePost, state => {
+    return {
+      ...state,
+      // loading: true,
+      // loaded: false,
+      error: null
+    }
+  }),
+
+  /* move home post success */
+  on(HomeActions.HomeMovePostSuccess, (state, { homePostOriginId, homePostDestinationId }) => {
+
+    const newPosts: HomePost[] = [...state.posts];
+    const originPostIndex = newPosts.findIndex(post => homePostOriginId == post.id);
+    const destinationPostIndex = newPosts.findIndex(post => homePostDestinationId == post.id);
+    const tmp: HomePost = newPosts[originPostIndex];
+    newPosts[originPostIndex] = newPosts[destinationPostIndex];
+    newPosts[destinationPostIndex] = tmp;
+
+    return {
+      ...state,
+      posts: newPosts,
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
   /* add home post document */
   on(HomeActions.HomeAddPostDocument, state => {
     return {

@@ -25,6 +25,9 @@ export enum HomeActionTypes {
   HOME_DELETE_POST = '[Home] HOME_DELETE_POST',
   HOME_DELETE_POST_SUCCESS = '[Home] HOME_DELETE_POST_SUCCESS',
 
+  HOME_MOVE_POST = '[Home] HOME_MOVE_POST',
+  HOME_MOVE_POST_SUCCESS = '[Home] HOME_MOVE_POST_SUCCESS',
+
   HOME_GET_POST_DOCUMENT = '[Home] HOME_GET_POST_DOCUMENT',
   HOME_GET_POST_DOCUMENT_SUCCESS = '[Home] HOME_GET_POST_DOCUMENT_SUCCESS',
 
@@ -56,6 +59,10 @@ export const HomeUpdatePostSuccess = createAction(HomeActionTypes.HOME_UPDATE_PO
 /* delete post */
 export const HomeDeletePost = createAction(HomeActionTypes.HOME_DELETE_POST, props<{ homePostId: number }>());
 export const HomeDeletePostSuccess = createAction(HomeActionTypes.HOME_DELETE_POST_SUCCESS, props<{ homePostId: number }>());
+
+/* move home post */
+export const HomeMovePost = createAction(HomeActionTypes.HOME_MOVE_POST, props<{ homePostOriginId: number, homePostDestinationId: number }>());
+export const HomeMovePostSuccess = createAction(HomeActionTypes.HOME_MOVE_POST_SUCCESS, props<{ homePostOriginId: number, homePostDestinationId: number }>());
 
 /* get home document */
 export const HomeGetPostDocument = createAction(HomeActionTypes.HOME_GET_POST_DOCUMENT, props<{ documentId: number }>());

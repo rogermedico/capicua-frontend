@@ -16,6 +16,7 @@ import { filter, map, skipWhile, take, tap } from 'rxjs/operators';
 import { ConfirmDialogComponent } from '../dialogs/confirm-dialog/confirm-dialog.component';
 import { NewHomePostDialogComponent } from '../dialogs/new-home-post-dialog/new-home-post-dialog.component';
 import { HomeDocument } from '@models/document.model';
+import { CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-home-component',
@@ -26,8 +27,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
   public homeState$: Observable<HomeState> = this.store$.select(HomeSelectors.selectHomeState);
+  public homeStateSubscription: Subscription;
   public notificationSubscription: Subscription;
   public getHomeDocumentSubscription: Subscription;
+  public posts: HomePost[];
 
   constructor(
     private store$: Store<AppState>,
@@ -38,9 +41,14 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store$.dispatch(HomeActions.HomeGetAll());
+    this.homeStateSubscription = this.homeState$.pipe(
+      filter(hs => hs.posts != null),
+      map(hs => this.posts = [...hs.posts])
+    ).subscribe();
   }
 
   ngOnDestroy(): void {
+    if (this.homeStateSubscription) this.homeStateSubscription.unsubscribe();
     if (this.notificationSubscription) this.notificationSubscription.unsubscribe();
     if (this.getHomeDocumentSubscription) this.getHomeDocumentSubscription.unsubscribe();
   }
@@ -185,6 +193,16 @@ export class HomeComponent implements OnInit, OnDestroy {
       })
     ).subscribe();
 
+  }
+
+  moveHomePost(homePost: HomePost, movement: string) {
+    console.log(homePost, movement);
+    const index = this.posts.findIndex(post => homePost == post);
+    console.log(index)
+    let destinationHomePost: number;
+    if (movement == 'increase') destinationHomePost = this.posts[index + 1].id;
+    else destinationHomePost = this.posts[index - 1].id;
+    this.store$.dispatch(HomeActions.HomeMovePost({ homePostOriginId: homePost.id, homePostDestinationId: destinationHomePost }));
   }
 
 }

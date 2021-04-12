@@ -94,23 +94,14 @@ export class HomeService {
     );
   }
 
-  // getAllPersonalDocumentsInfo(): Observable<PersonalDocument[]> {
-  //   return this.http.get<PersonalDocumentBackend[]>(`${environment.backend.api}${environment.backend.documentsInfoEndpoint}`).pipe(
-  //     map((pd: PersonalDocumentBackend[]) => {
-  //       return pd.map(pd => this.parser.personalDocumentBackendToPersonalDocument(pd));
-  //     })
-  //   );
-  // }
-
-  // getPersonalDocument(documentId: number): Observable<{ userId: number, documentId: number, personalDocument: string }> {
-  //   return this.http.get(`${environment.backend.api}${environment.backend.documentsEndpoint}/${documentId}`).pipe(
-  //     map((response: { id: number, user_id: number, name: string, date: string, document: string, extension: string }) => {
-  //       const byteArray = new Uint8Array(atob(response.document).split('').map(char => char.charCodeAt(0)));
-  //       const document = new Blob([byteArray], { type: 'application/pdf' });
-  //       return { userId: response.user_id, documentId: response.id, personalDocument: window.URL.createObjectURL(document) };
-  //     })
-  //   );
-  // }
+  moveHomePost(homePostOriginId: number, homePostDestinationId: number): Observable<{ homePostOriginId: number, homePostDestinationId: number }> {
+    const body = {}
+    return this.http.put(`${environment.backend.api}${environment.backend.homeEndpoint}/${homePostOriginId}/${homePostDestinationId}`, body).pipe(
+      map(() => {
+        return { homePostOriginId: homePostOriginId, homePostDestinationId: homePostDestinationId }
+      })
+    );
+  }
 
   addHomePostDocument(homePostId: number, document: File): Observable<HomeDocument> {
     const formData: FormData = new FormData();

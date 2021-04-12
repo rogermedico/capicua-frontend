@@ -183,20 +183,20 @@ export class HomeEffects {
     )
   ));
 
-  // /* get all personal documents info  */
-  // getAllPersonalDocumentsInfo$ = createEffect(() => this.actions$.pipe(
-  //   ofType(HomeActions.HomeActionTypes.HOME_GET_ALL_PERSONAL_DOCUMENTS_INFO),
-  //   mergeMap(() => this.us.getAllPersonalDocumentsInfo().pipe(
-  //     map((personalDocuments) => {
-  //       return { type: HomeActions.HomeActionTypes.HOME_GET_ALL_PERSONAL_DOCUMENTS_INFO_SUCCESS, personalDocuments: personalDocuments };
-  //     }),
-  //     catchError(err => of({
-  //       type: HomeActions.HomeActionTypes.HOME_ERROR,
-  //       origin: HomeActions.HomeActionTypes.HOME_GET_ALL_PERSONAL_DOCUMENTS_INFO,
-  //       err: err
-  //     }))
-  //   ))
-  // ));
+  /* move home post */
+  moveHomePost$ = createEffect(() => this.actions$.pipe(
+    ofType(HomeActions.HomeActionTypes.HOME_MOVE_POST),
+    mergeMap((action: { type: string, homePostOriginId: number, homePostDestinationId: number }) => this.hs.moveHomePost(action.homePostOriginId, action.homePostDestinationId).pipe(
+      map((response: { homePostOriginId: number, homePostDestinationId: number }) => {
+        return { type: HomeActions.HomeActionTypes.HOME_MOVE_POST_SUCCESS, homePostOriginId: response.homePostOriginId, homePostDestinationId: response.homePostDestinationId };
+      }),
+      catchError(err => of({
+        type: HomeActions.HomeActionTypes.HOME_ERROR,
+        origin: HomeActions.HomeActionTypes.HOME_MOVE_POST,
+        err: err
+      }))
+    ))
+  ));
 
   /* get home post document  */
   getHomePostDocument$ = createEffect(() => this.actions$.pipe(

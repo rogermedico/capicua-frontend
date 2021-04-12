@@ -1,7 +1,7 @@
 <div class="container" *ngIf="(homeState$ | async).loaded; else loading" gdColumns="1fr" gdColumns.gt-sm="1fr 1fr"
   gdColumns.gt-md="1fr 1fr 1fr" gdGap="16px">
   <mat-card class="mat-elevation-z4 home-post" gdAreas="header | content | actions" gdRows="36px auto 40px" gdGap="8px"
-    *ngFor="let homePost of (homeState$ | async).posts">
+    *ngFor="let homePost of posts; let i = index">
     <mat-card-header gdArea="header">
       <mat-card-title>{{homePost.title}}</mat-card-title>
     </mat-card-header>
@@ -10,46 +10,19 @@
         {{homePost.body}}
       </section>
       <section>
-        <!-- <ul> -->
         <mat-list role="list">
-          <!-- <li *ngFor="let document of homePost.documents"> -->
           <mat-list-item role="listitem" *ngFor="let document of homePost.documents">
             <a class="action-link" [routerLink]="" (click)="viewHomeDocument(document)">
               <mat-icon class="action-icon">description</mat-icon>
             </a>
             <a class="action-link action-icon" [routerLink]="" (click)="viewHomeDocument(document)">
-              <!-- <mat-icon class="action-icon">description</mat-icon> -->
               {{document.name}}
             </a>
             <a class="action-link" [routerLink]="" (click)="deleteHomeDocument(document)">
               <mat-icon class="action-icon">delete</mat-icon>
             </a>
-
-
           </mat-list-item>
-          <!-- </li> -->
         </mat-list>
-        <!-- </ul> -->
-        <!-- <mat-table class="documents-table" [dataSource]="homePost.documents">
-
-          <ng-container matColumnDef="name">
-            <mat-cell class="name-cell" *matCellDef="let element">{{element.name}}</mat-cell>
-          </ng-container>
-
-          <ng-container matColumnDef="actions">
-            <mat-cell class="actions-cell" *matCellDef="let element; let i = index">
-              <a class="action-link" [routerLink]="" (click)="viewDocument(element)">
-                <mat-icon class="action-icon">visibility</mat-icon>
-              </a>
-              <a class="action-link" [routerLink]="" (click)="viewDocument(element)">
-                <mat-icon class="action-icon">delete</mat-icon>
-              </a>
-            </mat-cell>
-          </ng-container>
-
-          <mat-row *matRowDef="let row; columns: homePostDisplayedColumns;"></mat-row>
-
-        </mat-table> -->
       </section>
     </mat-card-content>
     <mat-card-actions class="post-actions" *ngIf="(userState$ | async).user.userType.rank != 3" gdArea="actions">
@@ -60,6 +33,14 @@
         (change)="uploadHomePostDocument(homePost,$event)" accept="application/pdf">
       <button class="post-action-button" mat-mini-fab color="accent" (click)="editHomePost(homePost)">
         <mat-icon>edit</mat-icon>
+      </button>
+      <button *ngIf="i != 0" class="post-action-button" mat-mini-fab color="accent"
+        (click)="moveHomePost(homePost,'decrease')">
+        <mat-icon>navigate_before</mat-icon>
+      </button>
+      <button *ngIf="i != posts.length-1" class="post-action-button" mat-mini-fab color="accent"
+        (click)="moveHomePost(homePost,'increase')">
+        <mat-icon>navigate_next</mat-icon>
       </button>
       <button class="post-action-button" mat-mini-fab color="accent" (click)="deleteHomePost(homePost)">
         <mat-icon>delete</mat-icon>

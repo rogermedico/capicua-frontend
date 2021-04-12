@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditHomePostDialogComponent } from './components/dialogs/edit-home-post-dialog/edit-home-post-dialog.component';
 import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
 import { NewHomePostDialogComponent } from './components/dialogs/new-home-post-dialog/new-home-post-dialog.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { NewHomePostDialogComponent } from './components/dialogs/new-home-post-d
     ReactiveFormsModule,
     MaterialModule,
     MatNativeDateModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    DragDropModule,
   ]
 })
 export class HomeModule { }
