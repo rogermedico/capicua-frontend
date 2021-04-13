@@ -17,6 +17,7 @@ import { ConfirmDialogComponent } from "./components/dialogs/confirm-dialog/conf
 import { EducationDialogComponent } from "./components/dialogs/education-dialog/education-dialog.component";
 import { LanguageDialogComponent } from "./components/dialogs/language-dialog/language-dialog.component";
 import { UserDocumentsComponent } from './components/user-documents/user-documents.component';
+import { SharedModule } from "app/shared.module";
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { UserDocumentsComponent } from './components/user-documents/user-documen
     CourseDialogComponent,
     EducationDialogComponent,
     LanguageDialogComponent,
-    UserDocumentsComponent
+    UserDocumentsComponent,
   ],
   imports: [
     CommonModule,
@@ -39,7 +40,8 @@ import { UserDocumentsComponent } from './components/user-documents/user-documen
     ReactiveFormsModule,
     MaterialModule,
     FlexLayoutModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    SharedModule
   ]
 })
 export class UserModule { }

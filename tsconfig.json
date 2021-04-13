@@ -22,6 +22,7 @@
       "@constants/*": ["app/shared/constants/*"],
       "@guards/*": ["app/shared/guards/*"],
       "@models/*": ["app/shared/models/*"],
+      "@pipes/*": ["app/shared/pipes/*"],
       "@services/*": ["app/shared/services/*"],
       "@validators/*": ["app/shared/validators/*"],
       "@mock/*": ["app/shared/mock/*"],

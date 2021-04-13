@@ -17,6 +17,7 @@ import { ViewEducationComponent } from './components/view/view-education/view-ed
 import { ViewLanguagesComponent } from './components/view/view-languages/view-languages.component';
 import { EditUserDialogComponent } from './components/dialogs/edit-user-dialog/edit-user-dialog.component';
 import { ViewUserDocumentsComponent } from './components/view/view-user-documents/view-user-documents.component';
+import { SharedModule } from 'app/shared.module';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { ViewUserDocumentsComponent } from './components/view/view-user-document
     MaterialModule,
     MatSortModule,
     MatNativeDateModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    SharedModule
   ]
 })
 export class UsersModule { }

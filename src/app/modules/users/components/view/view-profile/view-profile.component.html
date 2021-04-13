@@ -39,7 +39,7 @@
       </div>
       <div *ngIf="user.bankAccount" class="user-detail-row">
         <span class="user-tooltip">Bank account:</span>
-        <span class="user-item"> {{user.bankAccount}}</span>
+        <span class="user-item"> {{user.bankAccount | iban}}</span>
       </div>
       <div *ngIf="user.socialSecurityNumber" class="user-detail-row">
         <span class="user-tooltip">Social security number:</span>

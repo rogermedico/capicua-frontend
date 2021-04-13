@@ -47,7 +47,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    EmailNotVerifiedComponent
+    EmailNotVerifiedComponent,
   ],
   imports: [
     BrowserModule,
