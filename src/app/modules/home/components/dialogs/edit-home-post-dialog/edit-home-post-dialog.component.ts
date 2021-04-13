@@ -12,6 +12,7 @@ import { AppState } from '@store/root.state';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { filter, map, take } from 'rxjs/operators';
 import { userTypeValidator } from '@validators/userType.validator';
+import { HomePostSend } from '@models/home-post.model';
 
 @Component({
   selector: 'app-edit-home-post-dialog',
@@ -68,12 +69,20 @@ export class EditHomePostDialogComponent implements OnInit {
   }
 
   createForm() {
+
+    const paragraphReplace = {
+      '<p>': '',
+      '</p>': '\n'
+    }
+
     this.editHomePostForm = this.fb.group({
       title: [this.data.title, [
         Validators.required,
         Validators.maxLength(200)
       ]],
-      body: [this.data.body, [
+      body: [this.data.body.replace(/<p>|<\/p>/g, function (matched) {
+        return paragraphReplace[matched];
+      }), [
         Validators.required,
       ]]
     });
@@ -85,7 +94,9 @@ export class EditHomePostDialogComponent implements OnInit {
   }
 
   submit(): void {
-    this.dialogRef.close(this.editHomePostForm.value);
+    const editHomePost: HomePostSend = this.editHomePostForm.value;
+    editHomePost.body.replace(/\n/g, '\\n');
+    this.dialogRef.close(editHomePost);
   }
 
 }

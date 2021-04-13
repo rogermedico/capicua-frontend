@@ -6,8 +6,8 @@
       <mat-card-title>{{homePost.title}}</mat-card-title>
     </mat-card-header>
     <mat-card-content gdArea="content">
-      <section>
-        {{homePost.body}}
+      <section [innerHTML]="homePost.body">
+        <!-- {{homePost.body}} -->
       </section>
       <section>
         <mat-list role="list">

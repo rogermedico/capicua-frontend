@@ -217,10 +217,14 @@ export class ParserService {
   }
 
   public homePostBackendToHomePost(homePostBackend: HomePostBackend): HomePost {
+    const splitBody = homePostBackend.body.split('\n');
+    const parsedBody = splitBody.reduce((a, c) => {
+      return a + '<p>' + c + '</p>'
+    }, '');
     return {
       id: homePostBackend.id,
       title: homePostBackend.title,
-      body: homePostBackend.body,
+      body: parsedBody,
       position: homePostBackend.position,
       createdAt: new Date(homePostBackend.created_at),
       documents: homePostBackend.documents.map((homeDocumentBackend: HomeDocumentBackend) => this.homeDocumentBackendToHomeDocument(homeDocumentBackend))

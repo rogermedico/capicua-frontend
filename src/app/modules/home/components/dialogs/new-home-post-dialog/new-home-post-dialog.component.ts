@@ -12,6 +12,7 @@ import { AppState } from '@store/root.state';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { filter, map, take } from 'rxjs/operators';
 import { userTypeValidator } from '@validators/userType.validator';
+import { HomePostSend } from '@models/home-post.model';
 
 @Component({
   selector: 'app-new-home-post-dialog',
@@ -85,7 +86,9 @@ export class NewHomePostDialogComponent implements OnInit {
   }
 
   submit(): void {
-    this.dialogRef.close(this.newHomePostForm.value);
+    const newHomePost: HomePostSend = this.newHomePostForm.value;
+    newHomePost.body.replace(/\n/g, '\\n');
+    this.dialogRef.close(newHomePost);
   }
 
 }
