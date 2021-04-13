@@ -99,6 +99,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
       drivingLicences: this.user.drivingLicences.reduce((a, drivingLicence) => {
         return a += `${drivingLicence.type},`;
       }, ''),
+      bankAccount: this.user.bankAccount,
+      socialSecurityNumber: this.user.socialSecurityNumber,
     };
 
 
@@ -124,8 +126,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
             [this.userParserService.translateToBackend('addressCountry')]: result.addressCountry,
             [this.userParserService.translateToBackend('phone')]: result.phone,
             [this.userParserService.translateToBackend('drivingLicences')]: result.drivingLicences.toUpperCase(),
+            [this.userParserService.translateToBackend('bankAccount')]: result.bankAccount,
+            [this.userParserService.translateToBackend('socialSecurityNumber')]: result.socialSecurityNumber,
           };
-
+          console.log('modified user', modifiedUser)
           this.store$.dispatch(UserActions.UserProfileUpdate({ updatedProperties: modifiedUser }));
           this.notificationSubscription = this.userState$.pipe(
             skipWhile(userState => userState.loading),

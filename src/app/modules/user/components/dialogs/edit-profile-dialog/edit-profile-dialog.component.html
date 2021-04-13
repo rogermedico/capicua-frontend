@@ -59,6 +59,18 @@
     </section>
     <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
       <mat-form-field class="form__input" appearance="outline" fxFlex.gt-sm="auto">
+        <mat-label>Bank account</mat-label>
+        <input matInput type="text" placeholder="ES12 3456 7890 1234 5678" name="bankAccount"
+          formControlName="bankAccount">
+      </mat-form-field>
+      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-sm="auto">
+        <mat-label>Social security number</mat-label>
+        <input matInput type="text" placeholder="123456789 0" name="socialSecurityNumber"
+          formControlName="socialSecurityNumber">
+      </mat-form-field>
+    </section>
+    <section fxLayout="column" fxLayoutGap="0" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
+      <mat-form-field class="form__input" appearance="outline" fxFlex.gt-sm="auto">
         <mat-label>Driving Licences</mat-label>
         <input matInput type="text" placeholder="A,B" name="drivingLicences" formControlName="drivingLicences">
       </mat-form-field>

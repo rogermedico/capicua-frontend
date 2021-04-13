@@ -37,6 +37,14 @@
         <span class="user-tooltip">Country:</span>
         <span class="user-item"> {{user.address.country}}</span>
       </div>
+      <div *ngIf="user.bankAccount" class="user-detail-row">
+        <span class="user-tooltip">Bank account:</span>
+        <span class="user-item"> {{user.bankAccount}}</span>
+      </div>
+      <div *ngIf="user.socialSecurityNumber" class="user-detail-row">
+        <span class="user-tooltip">Social security number:</span>
+        <span class="user-item"> {{user.socialSecurityNumber}}</span>
+      </div>
       <div *ngIf="drivingLicences" class="user-detail-row">
         <span class="user-tooltip">Driving Licences:</span>
         <span class="user-item"> {{drivingLicences}}</span>

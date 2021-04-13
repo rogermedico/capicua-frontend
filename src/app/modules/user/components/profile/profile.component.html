@@ -57,6 +57,14 @@
         <span class="user-tooltip">Email:</span>
         <span class="user-item"> {{user.email}}</span>
       </div>
+      <div *ngIf="user.bankAccount" class="user-detail-row">
+        <span class="user-tooltip">Bank account:</span>
+        <span class="user-item"> {{user.bankAccount}}</span>
+      </div>
+      <div *ngIf="user.socialSecurityNumber" class="user-detail-row">
+        <span class="user-tooltip">Social security number:</span>
+        <span class="user-item"> {{user.socialSecurityNumber}}</span>
+      </div>
       <div class="edit-user-button" fxLayout="row" fxLayoutAlign="end center" *ngIf="editable">
         <a [routerLink]="" (click)="editProfile()">
           <button mat-mini-fab color="accent" aria-label="Edit profile" fxShow fxHide.gt-xs>

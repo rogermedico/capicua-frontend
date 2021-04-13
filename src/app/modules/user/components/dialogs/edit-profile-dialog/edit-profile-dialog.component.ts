@@ -14,6 +14,7 @@ import { combineLatest, Observable, Subscription } from 'rxjs';
 import * as UserSelectors from '@modules/user/store/user.selector';
 import * as AppConstantsSelectors from '@store/app-constants/app-constants.selector';
 import { filter, map, take } from 'rxjs/operators';
+import { bankAccountValidator } from '@validators/bank-account.validator';
 
 @Component({
   selector: 'app-edit-profile-dialog',
@@ -45,6 +46,8 @@ export class EditProfileDialogComponent implements OnInit {
       addressCountry: string;
       phone: string;
       drivingLicences: string;
+      bankAccount: string;
+      socialSecurityNumber: string;
     }
   ) { }
 
@@ -92,7 +95,14 @@ export class EditProfileDialogComponent implements OnInit {
       drivingLicences: [this.data.drivingLicences, [
         Validators.maxLength(100),
         drivingLicencesValidator
-      ]]
+      ]],
+      bankAccount: [this.data.bankAccount, [
+        Validators.maxLength(100),
+        bankAccountValidator
+      ]],
+      socialSecurityNumber: [this.data.socialSecurityNumber, [
+        Validators.maxLength(100)
+      ]],
     })
   }
 

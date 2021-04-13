@@ -74,8 +74,8 @@ export class DocumentsComponent implements OnInit, OnDestroy {
   addDocument(user: User, fileInputEvent: any) {
     const userDocumentFile = fileInputEvent.target.files[0];
     this.store$.dispatch(UsersActions.UsersAddPersonalDocument({ userId: user.id, document: userDocumentFile }));
-    this.addDocumentNotificationSubscription = this.userState$.pipe(
-      skipWhile(userState => userState.loading),
+    this.addDocumentNotificationSubscription = this.usersState$.pipe(
+      skipWhile(usersState => usersState.loading),
       take(1),
       map(() => {
         this.notificationService.showMessage('Document successfully updated', 'OK');

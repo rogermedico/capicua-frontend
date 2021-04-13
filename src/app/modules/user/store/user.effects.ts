@@ -58,7 +58,7 @@ export class UserEffects {
     ofType(UserActions.UserActionTypes.USER_PROFILE_UPDATE),
     mergeMap((action: { type: string, updatedProperties: { [key: string]: any } }) => this.us.editProfile(action.updatedProperties).pipe(
       map((updatedUser: User) => {
-        console.log(updatedUser)
+        console.log('updated profile', updatedUser);
         return { type: UserActions.UserActionTypes.USER_PROFILE_UPDATE_SUCCESS, updatedUser: updatedUser };
       }),
       catchError(err => of({

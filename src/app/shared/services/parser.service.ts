@@ -173,6 +173,8 @@ export class ParserService {
       case 'expeditionDate': return 'expedition_date';
       case 'validUntil': return 'valid_until';
       case 'drivingLicences': return 'driving_licences';
+      case 'socialSecurityNumber': return 'social_security_number';
+      case 'bankAccount': return 'bank_account';
       default: return userProperty;
     }
   }

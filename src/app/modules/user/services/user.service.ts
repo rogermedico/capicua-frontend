@@ -32,7 +32,7 @@ export class UserService {
   }
 
   editProfile(updatedProperties: { [key: string]: any }): Observable<User> {
-    console.log(updatedProperties)
+    console.log('service updated properties', updatedProperties)
     return this.http.put<UserBackend>(environment.backend.api + environment.backend.userEndpoint, updatedProperties).pipe(
       map(userBackend => this.parser.userBackendToUser(userBackend))
     );
