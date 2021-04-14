@@ -8,7 +8,7 @@ import * as UserSelectors from '@modules/user/store/user.selector';
 import * as RouterSelectors from '@store/router/router.selector';
 import * as UsersActions from '@modules/users/store/users.action';
 import { User, UserBackend } from '@models/user.model';
-import { map, skipWhile, take, tap } from 'rxjs/operators';
+import { filter, map, skipWhile, take, tap } from 'rxjs/operators';
 import { Params } from '@angular/router';
 import { UsersState } from '@modules/users/store/users.state';
 import { MatDialog } from '@angular/material/dialog';
@@ -22,7 +22,7 @@ import { ParserService } from '@services/parser.service';
 })
 export class ViewProfileComponent implements OnInit, OnDestroy {
 
-  public user: User;
+  public user: User = null;
   public avatar: SafeResourceUrl | string = 'assets/images/generic-avatar.png';
   public drivingLicences: string;
   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
@@ -36,6 +36,7 @@ export class ViewProfileComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.routeParamsUsersStateSubscription = combineLatest([this.routeParams$, this.usersState$]).pipe(
+      filter(([routeParams, usersState]) => usersState.users != null),
       take(1),
       tap(([routeParams, usersState]) => {
         this.user = usersState.users.find(user => user.id == routeParams.params.id);
@@ -52,7 +53,7 @@ export class ViewProfileComponent implements OnInit, OnDestroy {
     ).subscribe();
 
     this.userStateSubscription = this.usersState$.pipe(
-      skipWhile(() => !this.user),
+      filter(us => this.user != null && us.users != null),
       map(us => {
         this.user = us.users.find(user => user.id == this.user.id)
         this.drivingLicences = this.parser.parseDrivingLicences(this.user);

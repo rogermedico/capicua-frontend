@@ -10,7 +10,7 @@
 
 .mat-card-header {
   // display: block;
-  margin: 1rem 0 1.5rem;
+  margin: 1rem 0 0.5rem;
   & .mat-card-title {
     font-size: 2rem;
     display: unset;
@@ -36,11 +36,11 @@
 }
 
 .avatar {
-  width: 200px;
+  width: 225px;
   height: auto;
   border-radius: 50%;
 
-  @include screen("lg") {
+  @include screen("md") {
     width: 300px;
     height: auto;
   }

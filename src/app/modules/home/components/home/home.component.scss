@@ -1,15 +1,22 @@
 @import "../../../../../themes/responsive.theme.scss";
 
 .container {
-  padding: 8px;
-  margin: 0;
+  margin: 16px 8px;
+  @include screen("sm") {
+    margin: 16px 32px;
+  }
   @include screen("lg") {
-    padding: 32px;
-    // justify-content: space-around;
-    // justify-items: center;
-    margin: 0 64px;
+    margin: 32px 64px;
   }
 }
+
+// .mat-card {
+//   box-sizing: border-box;
+//   margin: 0 8px;
+//   @include screen("sm") {
+//     margin: 0 32px;
+//   }
+// }
 
 ::ng-deep .mat-card-header-text {
   margin: 0 !important;

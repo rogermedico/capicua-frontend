@@ -35,6 +35,7 @@ export class ViewUserDocumentsComponent implements OnInit {
   ngOnInit(): void {
 
     this.routeParamsUsersStateSubscription = combineLatest([this.routeParams$, this.usersState$]).pipe(
+      filter(([routeParams, usersState]) => usersState.users != null),
       tap(([routeParams, usersState]) => {
         this.user = usersState.users.find(user => user.id == routeParams.params.id);
         if (this.user) this.userDocuments = this.user.userDocuments.filter(userDocument => userDocument.file != false);

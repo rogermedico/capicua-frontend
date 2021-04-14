@@ -2,7 +2,7 @@
 
 .container {
   padding: 8px 0;
-  @include screen("lg") {
+  @include screen("md") {
     padding: 32px;
   }
 }
