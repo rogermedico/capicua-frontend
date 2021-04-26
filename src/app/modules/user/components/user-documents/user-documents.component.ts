@@ -54,8 +54,8 @@ export class UserDocumentsComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.userStateSubscription.unsubscribe();
-    if (this.getDniSubscription) this.getDniSubscription.unsubscribe();
-    if (this.getOffensesSubscription) this.getOffensesSubscription.unsubscribe();
+    // if (this.getDniSubscription) this.getDniSubscription.unsubscribe();
+    // if (this.getOffensesSubscription) this.getOffensesSubscription.unsubscribe();
     if (this.updateDniNotificationSubscription) this.updateDniNotificationSubscription.unsubscribe();
     if (this.updateOffensesNotificationSubscription) this.updateOffensesNotificationSubscription.unsubscribe();
 
@@ -71,14 +71,17 @@ export class UserDocumentsComponent implements OnInit {
           window.open(dni.file, '_blank');
         }
         else {
+          console.log('else?');
           this.store$.dispatch(UserActions.UserDniGet({ userId: this.user.id }));
           this.getDniSubscription = this.userState$.pipe(
             filter(us => {
               const dni = us.user.userDocuments.find(userDocument => userDocument.name == USER_DOCUMENTS.dni);
+              console.log('return filter', typeof dni.file != 'boolean')
               return typeof dni.file != 'boolean';
             }),
             take(1),
             map(us => {
+              console.log('user state', us);
               const dni = us.user.userDocuments.find(userDocument => userDocument.name == USER_DOCUMENTS.dni);
               window.open(<string>dni.file, '_blank');
             })
