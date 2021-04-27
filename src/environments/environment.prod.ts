@@ -20,6 +20,7 @@ export const environment = {
     avatarEndpoint: 'user/avatar',
     dniEndpoint: 'user/dni',
     offensesEndpoint: 'user/offenses',
+    cvEndpoint: 'user/cv',
 
     /* admin users */
     activateEndpoint: 'user/activate',

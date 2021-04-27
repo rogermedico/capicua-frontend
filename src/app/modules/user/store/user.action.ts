@@ -63,6 +63,12 @@ export enum UserActionTypes {
   USER_UPDATE_OFFENSES = '[User] USER_UPDATE_OFFENSES',
   USER_UPDATE_OFFENSES_SUCCESS = '[User] USER_UPDATE_OFFENSES_SUCCESS',
 
+  USER_GET_CV = '[User] USER_GET_CV',
+  USER_GET_CV_SUCCESS = '[User] USER_GET_CV_SUCCESS',
+
+  USER_UPDATE_CV = '[User] USER_UPDATE_CV',
+  USER_UPDATE_CV_SUCCESS = '[User] USER_UPDATE_CV_SUCCESS',
+
   USER_CHANGE_PASSWORD = '[User] USER_CHANGE_PASSWORD',
   USER_CHANGE_PASSWORD_SUCCESS = '[User] USER_CHANGE_PASSWORD_SUCCESS',
 
@@ -146,6 +152,14 @@ export const UserOffensesGetSuccess = createAction(UserActionTypes.USER_GET_OFFE
 /* offenses update */
 export const UserOffensesUpdate = createAction(UserActionTypes.USER_UPDATE_OFFENSES, props<{ offenses: File }>());
 export const UserOffensesUpdateSuccess = createAction(UserActionTypes.USER_UPDATE_OFFENSES_SUCCESS, props<{ offenses: string }>());
+
+/* cv get */
+export const UserCVGet = createAction(UserActionTypes.USER_GET_CV, props<{ userId: number }>());
+export const UserCVGetSuccess = createAction(UserActionTypes.USER_GET_CV_SUCCESS, props<{ cv: string }>());
+
+/* cv update */
+export const UserCVUpdate = createAction(UserActionTypes.USER_UPDATE_CV, props<{ cv: File }>());
+export const UserCVUpdateSuccess = createAction(UserActionTypes.USER_UPDATE_CV_SUCCESS, props<{ cv: string }>());
 
 /* change password */
 export const UserChangePassword = createAction(UserActionTypes.USER_CHANGE_PASSWORD, props<{ changePassword: ChangePassword }>());

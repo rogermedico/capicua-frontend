@@ -28,8 +28,10 @@ export class UserDocumentsComponent implements OnInit {
   public userStateSubscription: Subscription;
   public getDniSubscription: Subscription;
   public getOffensesSubscription: Subscription;
+  public getCVSubscription: Subscription;
   public updateDniNotificationSubscription: Subscription;
   public updateOffensesNotificationSubscription: Subscription;
+  public updateCVNotificationSubscription: Subscription;
   public editable: boolean = true;
 
   constructor(
@@ -58,6 +60,7 @@ export class UserDocumentsComponent implements OnInit {
     // if (this.getOffensesSubscription) this.getOffensesSubscription.unsubscribe();
     if (this.updateDniNotificationSubscription) this.updateDniNotificationSubscription.unsubscribe();
     if (this.updateOffensesNotificationSubscription) this.updateOffensesNotificationSubscription.unsubscribe();
+    if (this.updateCVNotificationSubscription) this.updateCVNotificationSubscription.unsubscribe();
 
     // this.courseTypesSubscription.unsubscribe();
   }
@@ -104,6 +107,26 @@ export class UserDocumentsComponent implements OnInit {
             map(us => {
               const offenses = us.user.userDocuments.find(userDocument => userDocument.name == USER_DOCUMENTS.sexOffenseCertificate);
               window.open(<string>offenses.file, '_blank');
+            })
+          ).subscribe();
+        }
+        break;
+      case USER_DOCUMENTS.cv:
+        const cv = this.user.userDocuments.find(userDocument => userDocument.name == USER_DOCUMENTS.cv);
+        if (typeof cv.file != 'boolean') {
+          window.open(cv.file, '_blank');
+        }
+        else {
+          this.store$.dispatch(UserActions.UserCVGet({ userId: this.user.id }));
+          this.getCVSubscription = this.userState$.pipe(
+            filter(us => {
+              const cv = us.user.userDocuments.find(userDocument => userDocument.name == USER_DOCUMENTS.cv);
+              return typeof cv.file != 'boolean';
+            }),
+            take(1),
+            map(us => {
+              const cv = us.user.userDocuments.find(userDocument => userDocument.name == USER_DOCUMENTS.cv);
+              window.open(<string>cv.file, '_blank');
             })
           ).subscribe();
         }
@@ -226,6 +249,52 @@ export class UserDocumentsComponent implements OnInit {
             take(1),
             map(() => {
               this.notificationService.showMessage('Offenses Certificate file successfully updated', 'OK');
+            })
+          ).subscribe()
+        }
+        break;
+      case USER_DOCUMENTS.cv:
+        const cv = this.user.userDocuments.find(userDocument => userDocument.name == USER_DOCUMENTS.cv);
+        if (typeof cv.file == 'boolean' && cv.file == true || typeof cv.file == 'string') {
+          const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+            data: {
+              question: 'Are you sure you want to override the actual CV file?'
+            },
+            width: '400px'
+          });
+
+          dialogRef.afterClosed().pipe(
+            take(1),
+            tap((result: boolean) => {
+              if (result) {
+                this.store$.dispatch(UserActions.UserCVUpdate({ cv: userDocumentFile }));
+                this.updateCVNotificationSubscription = this.userState$.pipe(
+                  skipWhile(userState => userState.loading),
+                  take(1),
+                  map(() => {
+                    this.notificationService.showMessage('CV file successfully updated', 'OK');
+                  })
+                ).subscribe()
+              }
+              else {
+                this.updateCVNotificationSubscription = this.userState$.pipe(
+                  skipWhile(userState => userState.loading),
+                  take(1),
+                  map(() => {
+                    this.notificationService.showMessage('CV file not updated', 'OK');
+                  })
+                ).subscribe()
+              }
+            })
+          ).subscribe();
+        }
+        else {
+          this.store$.dispatch(UserActions.UserCVUpdate({ cv: userDocumentFile }));
+          this.updateCVNotificationSubscription = this.userState$.pipe(
+            skipWhile(userState => userState.loading),
+            take(1),
+            map(() => {
+              this.notificationService.showMessage('CV file successfully updated', 'OK');
             })
           ).subscribe()
         }

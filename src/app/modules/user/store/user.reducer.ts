@@ -507,6 +507,72 @@ const _userReducer = createReducer(defaultUserState,
     }
   }),
 
+  /* get cv */
+  on(UserActions.UserCVGet, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* get cv success */
+  on(UserActions.UserCVGetSuccess, (state, { cv }) => {
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        userDocuments: state.user.userDocuments.map((userDocument: UserDocument) => {
+          if (userDocument.name != USER_DOCUMENTS.cv) return userDocument;
+          else {
+            return {
+              ...userDocument,
+              file: cv
+            }
+          }
+        })
+      },
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
+  /* update cv */
+  on(UserActions.UserCVUpdate, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* update cv success */
+  on(UserActions.UserCVUpdateSuccess, (state, { cv }) => {
+    console.log(cv)
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        userDocuments: state.user.userDocuments.map((userDocument: UserDocument) => {
+          if (userDocument.name != USER_DOCUMENTS.cv) return userDocument;
+          else {
+            if (typeof userDocument.file != 'boolean') window.URL.revokeObjectURL(userDocument.file)
+            return {
+              ...userDocument,
+              file: cv
+            }
+          }
+        })
+      },
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
   /* change password */
   on(UserActions.UserChangePassword, state => {
     return {

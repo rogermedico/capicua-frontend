@@ -30,6 +30,9 @@ export enum UsersActionTypes {
   USERS_GET_OFFENSES = '[Users] USERS_GET_OFFENSES',
   USERS_GET_OFFENSES_SUCCESS = '[Users] USERS_GET_OFFENSES_SUCCESS',
 
+  USERS_GET_CV = '[Users] USERS_GET_CV',
+  USERS_GET_CV_SUCCESS = '[Users] USERS_GET_CV_SUCCESS',
+
   USERS_ACTIVATE = '[Users] USERS_ACTIVATE',
   USERS_ACTIVATE_SUCCESS = '[Users] USERS_ACTIVATE_SUCCESS',
 
@@ -81,6 +84,10 @@ export const UsersDniGetSuccess = createAction(UsersActionTypes.USERS_GET_DNI_SU
 /* offenses get */
 export const UsersOffensesGet = createAction(UsersActionTypes.USERS_GET_OFFENSES, props<{ userId: number }>());
 export const UsersOffensesGetSuccess = createAction(UsersActionTypes.USERS_GET_OFFENSES_SUCCESS, props<{ userId: number, offenses: string }>());
+
+/* cv get */
+export const UsersCVGet = createAction(UsersActionTypes.USERS_GET_CV, props<{ userId: number }>());
+export const UsersCVGetSuccess = createAction(UsersActionTypes.USERS_GET_CV_SUCCESS, props<{ userId: number, cv: string }>());
 
 /* activate */
 export const UsersActivate = createAction(UsersActionTypes.USERS_ACTIVATE, props<{ userId: number }>());

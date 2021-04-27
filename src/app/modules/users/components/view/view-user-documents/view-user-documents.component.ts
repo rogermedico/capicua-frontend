@@ -27,6 +27,7 @@ export class ViewUserDocumentsComponent implements OnInit {
   public routeParamsUsersStateSubscription: Subscription;
   public getDniSubscription: Subscription;
   public getOffensesSubscription: Subscription;
+  public getCVSubscription: Subscription;
   public userDocuments: UserDocument[];
   public editable: boolean = true;
 
@@ -48,6 +49,7 @@ export class ViewUserDocumentsComponent implements OnInit {
     this.routeParamsUsersStateSubscription.unsubscribe();
     if (this.getDniSubscription) this.getDniSubscription.unsubscribe();
     if (this.getOffensesSubscription) this.getOffensesSubscription.unsubscribe();
+    if (this.getCVSubscription) this.getCVSubscription.unsubscribe();
   }
 
   viewDocument(userDocument: UserDocument) {
@@ -89,6 +91,26 @@ export class ViewUserDocumentsComponent implements OnInit {
             map(us => {
               const offenses = us.users.find(u => u.id == this.user.id).userDocuments.find(userDocument => userDocument.name == USER_DOCUMENTS.sexOffenseCertificate);
               window.open(<string>offenses.file, '_blank');
+            })
+          ).subscribe();
+        }
+        break;
+      case USER_DOCUMENTS.cv:
+        const cv = this.user.userDocuments.find(userDocument => userDocument.name == USER_DOCUMENTS.cv);
+        if (typeof cv.file != 'boolean') {
+          window.open(cv.file, '_blank');
+        }
+        else {
+          this.store$.dispatch(UsersActions.UsersCVGet({ userId: this.user.id }));
+          this.getCVSubscription = this.usersState$.pipe(
+            filter(us => {
+              const cv = us.users.find(u => u.id == this.user.id).userDocuments.find(userDocument => userDocument.name == USER_DOCUMENTS.cv);
+              return typeof cv.file != 'boolean';
+            }),
+            take(1),
+            map(us => {
+              const cv = us.users.find(u => u.id == this.user.id).userDocuments.find(userDocument => userDocument.name == USER_DOCUMENTS.cv);
+              window.open(<string>cv.file, '_blank');
             })
           ).subscribe();
         }

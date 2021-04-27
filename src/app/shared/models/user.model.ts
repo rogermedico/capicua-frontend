@@ -61,6 +61,7 @@ export interface UserBackend {
   } | boolean;
   dni_file: boolean;
   sex_offense_certificate_file: boolean;
+  cv_file: boolean;
 }
 
 export interface NewUser {

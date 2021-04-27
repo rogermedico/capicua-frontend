@@ -294,6 +294,36 @@ export class UserEffects {
     ))
   ));
 
+  /* get cv */
+  getCV$ = createEffect(() => this.actions$.pipe(
+    ofType(UserActions.UserActionTypes.USER_GET_CV),
+    mergeMap((action: { type: string, userId: number }) => this.us.getCV(action.userId).pipe(
+      map((data: { userId: number, cv: string }) => {
+        return { type: UserActions.UserActionTypes.USER_GET_CV_SUCCESS, cv: data.cv };
+      }),
+      catchError(err => of({
+        type: UserActions.UserActionTypes.USER_ERROR,
+        origin: UserActions.UserActionTypes.USER_GET_CV,
+        err: err
+      }))
+    ))
+  ));
+
+  /* update cv */
+  updateCV$ = createEffect(() => this.actions$.pipe(
+    ofType(UserActions.UserActionTypes.USER_UPDATE_CV),
+    mergeMap((action: { type: string, cv: File }) => this.us.updateCV(action.cv).pipe(
+      map((data: string) => {
+        return { type: UserActions.UserActionTypes.USER_UPDATE_CV_SUCCESS, cv: data };
+      }),
+      catchError(err => of({
+        type: UserActions.UserActionTypes.USER_ERROR,
+        origin: UserActions.UserActionTypes.USER_UPDATE_CV,
+        err: err
+      }))
+    ))
+  ));
+
   /* change password  */
   changePassword$ = createEffect(() => this.actions$.pipe(
     ofType(UserActions.UserActionTypes.USER_CHANGE_PASSWORD),

@@ -18,7 +18,8 @@
             <a class="action-link action-icon" [routerLink]="" (click)="viewHomeDocument(document)">
               {{document.name}}
             </a>
-            <a class="action-link" [routerLink]="" (click)="deleteHomeDocument(document)">
+            <a class="action-link" *ngIf="(userState$ | async).user.userType.rank != 3" [routerLink]=""
+              (click)="deleteHomeDocument(document)">
               <mat-icon class="action-icon">delete</mat-icon>
             </a>
           </mat-list-item>

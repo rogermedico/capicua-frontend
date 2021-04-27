@@ -230,6 +230,45 @@ const _usersReducer = createReducer(defaultUsersState,
     }
   }),
 
+  /* get cv */
+  on(UsersActions.UsersCVGet, state => {
+    return {
+      ...state,
+      loading: true,
+      loaded: false,
+      error: null
+    }
+  }),
+
+  /* get cv success */
+  on(UsersActions.UsersCVGetSuccess, (state, { userId, cv }) => {
+    return {
+      ...state,
+      users: state.users.map((u: User) => {
+        if (u.id != userId) {
+          return u;
+        }
+        else {
+          return {
+            ...u,
+            userDocuments: u.userDocuments.map((userDocument: UserDocument) => {
+              if (userDocument.name != USER_DOCUMENTS.cv) return userDocument;
+              else {
+                return {
+                  ...userDocument,
+                  file: cv
+                }
+              }
+            })
+          }
+        }
+      }),
+      loading: false,
+      loaded: true,
+      error: null
+    }
+  }),
+
   /* activate */
   on(UsersActions.UsersActivate, state => {
     return {

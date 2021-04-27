@@ -77,6 +77,16 @@ export class UsersService {
     )
   }
 
+  getCV(userId: number): Observable<{ userId: number, cv: string }> {
+    return this.http.get(`${environment.backend.api}${environment.backend.cvEndpoint}/${userId}`).pipe(
+      map((response: { cv: string, extension: string }) => {
+        const byteArray = new Uint8Array(atob(response.cv).split('').map(char => char.charCodeAt(0)));
+        const cv = new Blob([byteArray], { type: 'application/pdf' });
+        return { userId: userId, cv: window.URL.createObjectURL(cv) };
+      })
+    )
+  }
+
   activateUser(id: number): Observable<{ userId: number }> {
     const body = {
       user_id: id

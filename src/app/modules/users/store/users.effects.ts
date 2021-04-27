@@ -129,6 +129,21 @@ export class UsersEffects {
     ))
   ));
 
+  /* get cv */
+  getCV$ = createEffect(() => this.actions$.pipe(
+    ofType(UsersActions.UsersActionTypes.USERS_GET_CV),
+    mergeMap((action: { type: string, userId: number }) => this.us.getCV(action.userId).pipe(
+      map((data: { userId: number, cv: string }) => {
+        return { type: UsersActions.UsersActionTypes.USERS_GET_CV_SUCCESS, userId: data.userId, cv: data.cv };
+      }),
+      catchError(err => of({
+        type: UsersActions.UsersActionTypes.USERS_ERROR,
+        origin: UsersActions.UsersActionTypes.USERS_GET_CV,
+        err: err
+      }))
+    ))
+  ));
+
   /* activate user */
   activateUser$ = createEffect(() => this.actions$.pipe(
     ofType(UsersActions.UsersActionTypes.USERS_ACTIVATE),

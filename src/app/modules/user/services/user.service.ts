@@ -166,6 +166,26 @@ export class UserService {
     )
   }
 
+  getCV(userId: number): Observable<{ userId: number, cv: string }> {
+    return this.http.get(`${environment.backend.api}${environment.backend.cvEndpoint}/${userId}`).pipe(
+      map((response: { cv: string, extension: string }) => {
+        const byteArray = new Uint8Array(atob(response.cv).split('').map(char => char.charCodeAt(0)));
+        const cv = new Blob([byteArray], { type: 'application/pdf' });
+        return { userId: userId, cv: window.URL.createObjectURL(cv) };
+      })
+    )
+  }
+
+  updateCV(cv: File): Observable<string> {
+    const formData: FormData = new FormData();
+    formData.append('cv', cv, cv.name);
+    return this.http.post(`${environment.backend.api}${environment.backend.cvEndpoint}`, formData).pipe(
+      map(() => {
+        return window.URL.createObjectURL(cv);
+      })
+    )
+  }
+
   deleteAvatar(): Observable<any> {
     return this.http.delete(`${environment.backend.api}${environment.backend.avatarEndpoint}`);
   }

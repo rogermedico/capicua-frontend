@@ -89,6 +89,10 @@ export class ParserService {
         {
           name: USER_DOCUMENTS.sexOffenseCertificate,
           file: user.sex_offense_certificate_file,
+        },
+        {
+          name: USER_DOCUMENTS.cv,
+          file: user.cv_file,
         }
       ],
       personalDocuments: [],
