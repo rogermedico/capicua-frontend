@@ -1,5 +1,3 @@
-import { UserBackend } from "./user.model";
-
 export interface Auth {
   accessToken: string;
   tokenType: string;

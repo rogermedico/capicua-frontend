@@ -3,10 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { CourseType } from '@models/course.model';
 import { UserType } from '@models/user-type.model';
-import { User, UserBackend } from '@models/user.model';
-import { ParserService } from '@services/parser.service';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'

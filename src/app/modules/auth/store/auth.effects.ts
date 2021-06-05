@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { EMPTY, Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import * as AuthActions from './auth.action';
 import * as HomeActions from '@modules/home/store/home.action';
 import * as UserActions from '@modules/user/store/user.action';
@@ -18,7 +18,11 @@ import * as AppConstantsActions from '@store/app-constants/app-constants.action'
 @Injectable()
 export class AuthEffects {
 
-  constructor(private actions$: Actions, private authService: AuthService, private notificationService: NotificationService) { }
+  constructor(
+    private actions$: Actions,
+    private authService: AuthService,
+    private notificationService: NotificationService
+  ) { }
 
   /* login */
   login$ = createEffect(() => this.actions$.pipe(
@@ -66,7 +70,6 @@ export class AuthEffects {
     ofType(AuthActions.AuthActionTypes.AUTH_SEND_RESET_PASSWORD_EMAIL),
     mergeMap((action: { type: string, email: string }) => this.authService.sendResetPasswordEmail(action.email).pipe(
       map((res) => {
-        console.log(res);
         return { type: AuthActions.AuthActionTypes.AUTH_SEND_RESET_PASSWORD_EMAIL_SUCCESS };
       }),
       catchError(err => of({
@@ -82,7 +85,6 @@ export class AuthEffects {
     ofType(AuthActions.AuthActionTypes.AUTH_RESET_PASSWORD),
     mergeMap((action: { type: string, resetPassword: ResetPassword }) => this.authService.resetPassword(action.resetPassword).pipe(
       map((res) => {
-        console.log(res);
         return { type: AuthActions.AuthActionTypes.AUTH_RESET_PASSWORD_SUCCESS };
       }),
       catchError(err => of({
@@ -113,7 +115,6 @@ export class AuthEffects {
     ofType(AuthActions.AuthActionTypes.AUTH_VERIFY_EMAIL),
     mergeMap((action: { type: string, verifyEmail: VerifyEmail }) => this.authService.verifyEmail(action.verifyEmail).pipe(
       map((res) => {
-        console.log(res)
         return { type: AuthActions.AuthActionTypes.AUTH_VERIFY_EMAIL_SUCCESS };
       }),
       catchError(err => of({

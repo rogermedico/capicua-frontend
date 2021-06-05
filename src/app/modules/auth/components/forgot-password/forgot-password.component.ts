@@ -1,14 +1,12 @@
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Router } from '@angular/router';
-import { Login } from '@models/login.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '@store/root.state';
 import * as AuthActions from '../../store/auth.action';
 import * as AuthSelectors from '../../store/auth.selector';
 import { Observable, Subscription } from 'rxjs';
-import { delay, map, skipWhile } from 'rxjs/operators';
-import { UserState } from '@modules/user/store/user.state';
+import { map, skipWhile } from 'rxjs/operators';
 import { AuthState } from "@modules/auth/store/auth.state";
 
 @Component({
@@ -22,7 +20,11 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
   public authState$: Observable<AuthState> = this.store$.select(AuthSelectors.selectAuthState);
   public authStateSubscription: Subscription;
 
-  constructor(private store$: Store<AppState>, private fb: FormBuilder, private router: Router) { }
+  constructor(
+    private store$: Store<AppState>,
+    private fb: FormBuilder,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.createForm();
@@ -47,7 +49,6 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
       skipWhile(as => as.loading),
       map(() => this.router.navigateByUrl('/auth/login'))
     ).subscribe()
-
 
   }
 

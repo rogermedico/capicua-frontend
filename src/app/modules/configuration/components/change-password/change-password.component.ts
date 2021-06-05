@@ -22,7 +22,11 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
   public userStateSubscription: Subscription;
 
-  constructor(private store$: Store<AppState>, private fb: FormBuilder, private notificationService: NotificationService) { }
+  constructor(
+    private store$: Store<AppState>,
+    private fb: FormBuilder,
+    private notificationService: NotificationService
+  ) { }
 
   ngOnInit(): void {
     this.createForm();

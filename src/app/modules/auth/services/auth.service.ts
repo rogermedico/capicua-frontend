@@ -2,12 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { Login } from '@models/login.model';
-import { combineLatest, Observable, of, Subscription, timer } from 'rxjs';
+import { Observable, Subscription, timer } from 'rxjs';
 import { Auth } from '@models/auth.model';
-import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { ResetPassword } from '@models/reset-password.model';
 import { VerifyEmail } from '@models/verify-email.model';
-import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthState } from '../store/auth.state';
 import { AppState } from '@store/root.state';
 import { Store } from '@ngrx/store';
@@ -31,7 +31,6 @@ export class AuthService {
   public authInfo: Auth;
   public tokenExpiresAt: Date = null;
   public dialogRef: MatDialogRef<ConfirmDialogComponent>;
-  // public timer: Observable<number> = null;
 
   constructor(
     private http: HttpClient,
@@ -54,35 +53,11 @@ export class AuthService {
       })
     ).subscribe();
 
-    // this.renewTokenSubscription = this.router.events.pipe(
-    //   filter(re => {
-    //     // console.log(re)
-    //     return re instanceof NavigationEnd && !re.url.includes('login') && !re.url.includes('logout')
-    //   }),
-    //   map(re => {
-    //     if (this.authInfo != null) {
-    //       if (this.noticeDisconection) this.noticeDisconection.unsubscribe();
-    //       // this.tokenExpiresAt = new Date(this.authInfo.accessGarantedAt);
-    //       // console.log(this.tokenExpiresAt.toUTCString())
-    //       // this.tokenExpiresAt.setSeconds(this.tokenExpiresAt.getSeconds() + this.authInfo.expiresIn)
-
-    //       // console.log('renew token at:', this.tokenExpiresAt.toUTCString());
-
-    //       this.store$.dispatch(AuthActions.AuthRenewToken());
-    //       this.startTimer();
-    //     }
-    //     else {
-    //       this.tokenExpiresAt = null;
-    //     }
-    //   })
-    // ).subscribe();
-
     return this.http.post<Auth>(environment.backend.api + environment.backend.loginEndpoint, body);
   }
 
   logout(): Observable<any> {
     this.authStateSubscription.unsubscribe();
-    //this.renewTokenSubscription.unsubscribe();
     if (this.noticeDisconection) {
       this.noticeDisconection.unsubscribe();
       this.noticeDisconection = null;
@@ -121,11 +96,9 @@ export class AuthService {
   }
 
   private startTimer() {
-    console.log('timer started')
     this.noticeDisconection = timer((this.authInfo.expiresIn - TIME_BETWEEN_PROMPT_AND_LOGOUT - MARGIN_TIME_TO_AVOID_TOKEN_EXPIRATION) * 1000).pipe(
       map(miliseconds => {
 
-        console.log('open dialog', miliseconds)
         this.dialogRef = this.dialog.open(ConfirmDialogComponent, {
           data: {
             question: 'Intranet will automatically disconect in 5 minutes, press OK to stay.',
@@ -138,7 +111,6 @@ export class AuthService {
           switchMap(() => {
             this.dialogRef.close('CLOSED_BY_AUTOMATICALLY_LOGOUT');
             this.authStateSubscription.unsubscribe();
-            // this.renewTokenSubscription.unsubscribe();
             if (this.noticeDisconection) {
               this.noticeDisconection.unsubscribe();
               this.noticeDisconection = null;
@@ -153,7 +125,6 @@ export class AuthService {
           take(1),
           filter(result => result != 'CLOSED_BY_AUTOMATICALLY_LOGOUT'),
           tap((result) => {
-            console.log('on dialog close. result:', result)
             this.logoutTimerSubscription.unsubscribe();
             this.store$.dispatch(AuthActions.AuthRenewToken());
             this.startTimer();

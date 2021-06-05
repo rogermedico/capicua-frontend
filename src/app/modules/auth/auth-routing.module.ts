@@ -11,12 +11,10 @@ import { VerifyEmailComponent } from './components/verify-email/verify-email.com
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: "full" },
   { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
-  // { path: "register", component: RegisterComponent, canActivate: [LoginGuardService] },
   { path: 'logout', component: LogoutComponent, canActivate: [LogoutGuard] },
   { path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [LoginGuard] },
   { path: 'reset-password/:token', component: ResetPasswordComponent, canActivate: [LoginGuard] },
   { path: 'verify-email/:id/:hash', component: VerifyEmailComponent },
-
 ];
 
 @NgModule({

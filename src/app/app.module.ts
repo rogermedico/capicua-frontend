@@ -1,20 +1,9 @@
-/* default */
 import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule } from '@angular/core';
-
-/* routing */
+import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
-
-/* core components */
 import { AppComponent } from './app.component';
 import { EmailNotVerifiedComponent } from './components/email-not-verified/email-not-verified.component';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
-
-/* in memory web api */
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService } from '@services/in-memory-data.service';
 
 /* ngrx */
 import { StoreModule } from '@ngrx/store';
@@ -24,9 +13,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { reducers } from '@store/root.reducer';
 import { effects } from '@store/root.effects';
 import { CustomSerializer } from '@store/router/custom-router-serializer';
-
-/* environment */
-import { environment } from '@environments/environment';
+import { reduxDevToolsModule } from './redux-devtools';
 
 /* angular material */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -39,14 +26,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 /* interceptors */
 import { AccessTokenInterceptor } from './shared/interceptors/access-token.interceptor';
 
-/* to allow direct navigation to nested urls */
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-    FooterComponent,
     EmailNotVerifiedComponent,
   ],
   imports: [
@@ -58,11 +40,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     AuthModule,
     HttpClientModule,
 
-    /* in memory web api */
-    // HttpClientInMemoryWebApiModule.forRoot(
-    //   InMemoryDataService, { dataEncapsulation: false, delay: 1000 }
-    // ),
-
+    /* ngrx */
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot(effects),
 
@@ -70,10 +48,9 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     StoreRouterConnectingModule.forRoot({
       serializer: CustomSerializer
     }),
-    StoreDevtoolsModule.instrument({
-      maxAge: 25,
-      logOnly: environment.production
-    })
+
+    /* redux devtools extension */
+    reduxDevToolsModule,
   ],
   providers: [
     {
@@ -82,6 +59,8 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
       multi: true
     }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [
+    AppComponent
+  ]
 })
 export class AppModule { }

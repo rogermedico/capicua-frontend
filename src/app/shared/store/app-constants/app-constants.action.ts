@@ -1,6 +1,4 @@
 import { createAction, props } from '@ngrx/store';
-import { User } from '@models/user.model';
-import { ChangePassword } from '@models/change-password.model';
 import { UserType } from '@models/user-type.model';
 import { CourseType } from '@models/course.model';
 

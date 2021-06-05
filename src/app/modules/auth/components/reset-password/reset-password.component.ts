@@ -27,7 +27,11 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   public email: string;
   public token: string;
 
-  constructor(private store$: Store<AppState>, private fb: FormBuilder, private router: Router) { }
+  constructor(
+    private store$: Store<AppState>,
+    private fb: FormBuilder,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.routeParamsSubscription = this.RouteParams$.subscribe(routeParams => {

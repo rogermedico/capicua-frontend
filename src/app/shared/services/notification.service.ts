@@ -1,5 +1,4 @@
 import { Injectable, NgZone } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 @Injectable({
@@ -13,7 +12,10 @@ export class NotificationService {
     verticalPosition: 'bottom'
   }
 
-  constructor(private snackBar: MatSnackBar, private zone: NgZone, private dialog: MatDialog) { }
+  constructor(
+    private snackBar: MatSnackBar,
+    private zone: NgZone,
+  ) { }
 
   showMessage(msg: string, action: string = '', config: MatSnackBarConfig = {}) {
     this.snackBar.open(msg, action, {
@@ -34,13 +36,5 @@ export class NotificationService {
       });
     });
   }
-
-  // openServerErrorDialog(msg: string) {
-  //   this.zone.run(() => {
-  //     this.dialog.open(ErrorHandlerDialogComponent, {
-  //       data: { message },
-  //     });
-  //   });
-  // }
 
 }

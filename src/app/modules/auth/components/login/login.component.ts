@@ -1,17 +1,15 @@
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { NavigationEnd, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Login } from '@models/login.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '@store/root.state';
 import * as AuthActions from '../../store/auth.action';
 import * as AuthSelectors from '../../store/auth.selector';
 import { Observable, Subscription } from 'rxjs';
-import { delay, filter, map, skipWhile } from 'rxjs/operators';
-import { UserState } from '@modules/user/store/user.state';
+import { map, skipWhile } from 'rxjs/operators';
 import { AuthState } from "@modules/auth/store/auth.state";
 import { environment } from '../../../../../../src/environments/environment';
-import { Auth } from "@models/auth.model";
 
 @Component({
   selector: "app-login",

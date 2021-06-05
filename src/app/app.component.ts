@@ -1,23 +1,19 @@
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
-import { AfterViewInit, Attribute, Component, ElementRef, EventEmitter, HostListener, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { NavigationEnd, Params, Router } from '@angular/router';
+import { AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Params, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '@store/root.state';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import * as UserSelectors from '@modules/user/store/user.selector';
 import * as AuthSelectors from '@modules/auth/store/auth.selector';
-import { filter, map, skipWhile, take, tap } from 'rxjs/operators';
+import { filter, map, skipWhile, tap } from 'rxjs/operators';
 import { UserState } from '@modules/user/store/user.state';
 import { Meta } from '@angular/platform-browser';
 import { AuthState } from '@modules/auth/store/auth.state';
-import { AppConstantsState } from '@store/app-constants/app-constants.state';
 import * as AppConstantsSelectors from '@store/app-constants/app-constants.selector';
 import * as RouterSelectors from '@store/router/router.selector';
 import { UserType } from '@models/user-type.model';
 import { MatSidenavContent } from '@angular/material/sidenav';
-import { RouterStateUrl } from '@store/router/router.state';
-import * as AuthActions from '@modules/auth/store/auth.action';
-import { Auth } from '@models/auth.model';
 
 @Component({
   selector: 'app-root',
@@ -29,8 +25,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('getStylesElement') getStylesElement: ElementRef;
   @ViewChild('sidenav') sidenav: ElementRef;
   @ViewChild('sidenavContent') sidenavContent: MatSidenavContent;
-
-  public title: string = 'capicua-intranet-app';
 
   public authState$: Observable<AuthState> = this.store$.select(AuthSelectors.selectAuthState);
   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
@@ -52,16 +46,15 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public allowedToUsers: Observable<boolean>;
 
-  // public tokenExpiresAt: Date = null;
-  // public authInfo: Auth;
-
   constructor(
     private meta: Meta,
     private store$: Store<AppState>,
     private bpo: BreakpointObserver,
-    private router: Router) { }
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
+
     this.XSmallBreakpointSubscriber = this.bpo.observe([Breakpoints.XSmall]).subscribe((state: BreakpointState) => {
       if (state.matches) {
         this.sidenavOpened = false;
@@ -70,6 +63,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         this.sidenavMarginTop = 56;
       }
     });
+
     this.smallBreakpointSubscriber = this.bpo.observe([Breakpoints.Small]).subscribe((state: BreakpointState) => {
       if (state.matches) {
         this.sidenavOpened = false;
@@ -78,6 +72,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         this.sidenavMarginTop = 64;
       }
     });
+
     this.largeBreakpointSubscriber = this.bpo.observe([Breakpoints.Medium, Breakpoints.Large, Breakpoints.XLarge]).subscribe((state: BreakpointState) => {
       if (state.matches) {
         this.sidenavOpened = true;
@@ -88,36 +83,14 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
     this.allowedToUsers = combineLatest([this.userState$, this.userTypes$]).pipe(
-      // skipWhile(([user, userTypes]) => {
-      //   return user.user == null || user.loading || userTypes.userTypes == null || userTypes.loading;
-      // }),
-      filter(([user, userTypes]) => {
-        return user.user != null && userTypes != null;
+      filter(([us, userTypes]) => {
+        return us.user != null && userTypes != null;
       }),
-      map(([user, userTypes]) => {
+      map(([us, userTypes]) => {
         const userRanks = userTypes.map(ut => ut.rank);
-        return user.user.userType.rank < Math.max(...userRanks);
+        return us.user.userType.rank < Math.max(...userRanks);
       })
     );
-
-    // this.renewToken = this.router.events.pipe(
-    //   filter(re => re instanceof NavigationEnd),
-    //   map(routerEvent => {
-    //     if (this.authInfo != null) {
-    //       this.tokenExpiresAt = new Date(this.authInfo.accessGarantedAt);
-    //       console.log(this.tokenExpiresAt.toUTCString())
-    //       this.tokenExpiresAt.setSeconds(this.tokenExpiresAt.getSeconds() + this.authInfo.expiresIn)
-
-    //       console.log('renew token at:', this.tokenExpiresAt.toUTCString());
-
-    //       this.store$.dispatch(AuthActions.AuthRenewToken());
-
-    //     }
-    //     else {
-    //       this.tokenExpiresAt = null;
-    //     }
-    //   })
-    // ).subscribe();
 
   }
 

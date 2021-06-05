@@ -35,7 +35,10 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 @NgModule({
   imports: [],
   providers: [
-    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+    {
+      provide: MAT_DATE_LOCALE,
+      useValue: 'en-GB'
+    },
   ],
   declarations: [],
   bootstrap: [],

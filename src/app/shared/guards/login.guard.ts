@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
 import { AuthState } from "@modules/auth/store/auth.state";
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class LoginGuard implements CanActivate {
 

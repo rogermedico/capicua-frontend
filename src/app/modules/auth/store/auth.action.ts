@@ -1,5 +1,4 @@
 import { createAction, props } from '@ngrx/store';
-import { User } from '@models/user.model';
 import { Login } from '@models/login.model';
 import { Auth } from '@models/auth.model';
 import { ResetPassword } from '@models/reset-password.model';

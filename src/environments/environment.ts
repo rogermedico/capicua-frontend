@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   backend: {
     /* endpoint */
-    api: 'http://192.168.0.2:80/capicua_intranet/capicua-backend/public/api/',
+    api: 'http://localhost:80/capicua_intranet/capicua-backend/public/api/',
 
     /* auth */
     loginEndpoint: 'auth/login',

@@ -24,7 +24,7 @@
           [disabled]="!loginForm.valid">Sign in</button>
       </div>
     </form>
-    <!-- To speed up logins when developing test -->
+    <!-- To speed up logins when developing -->
     <div *ngIf="!environment.production" fxLayout="column" fxLayoutGap="15px" fxLayoutAlign="center end"
       style="margin-right: 1rem;margin-top: 1rem;">
       <button mat-raised-button color="accent" type="button"

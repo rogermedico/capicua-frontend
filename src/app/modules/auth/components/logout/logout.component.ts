@@ -18,7 +18,10 @@ export class LogoutComponent implements OnInit, OnDestroy {
   public authState$: Observable<AuthState> = this.store$.select(AuthSelectors.selectAuthState);
   private authSubscription: Subscription;
 
-  constructor(private store$: Store<AppState>, private router: Router) { }
+  constructor(
+    private store$: Store<AppState>,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.authSubscription = this.authState$.pipe(

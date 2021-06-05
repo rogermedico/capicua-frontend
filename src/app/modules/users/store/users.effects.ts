@@ -7,7 +7,6 @@ import { UsersService } from '@modules/users/services/users.service';
 import { NewUser, User } from '@models/user.model';
 import { Language } from '@models/language.model';
 import { Education } from '@models/education.model';
-import { ActivitiesFavoritesService } from '@services/activities-favorites.service';
 import { Login } from '@models/login.model';
 import { ChangePassword } from '@models/change-password.model';
 import { NotificationService } from '@services/notification.service';

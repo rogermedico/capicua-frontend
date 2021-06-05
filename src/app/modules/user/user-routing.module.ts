@@ -2,7 +2,6 @@ import { RouterModule, Routes } from "@angular/router";
 import { NgModule } from "@angular/core";
 
 import { LogoutGuard } from '@guards/logout.guard';
-import { PersonalDataGuard } from '@guards/personal-data-guard.service';
 
 import { UserComponent } from './components/user/user.component';
 
@@ -14,7 +13,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-  providers: [PersonalDataGuard]
+  exports: [RouterModule]
 })
 export class UserRoutingModule { }

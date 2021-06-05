@@ -7,10 +7,11 @@ import { MaterialModule } from '@modules/material/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
-
-
 @NgModule({
-  declarations: [ConfigurationComponent, ChangePasswordComponent],
+  declarations: [
+    ConfigurationComponent,
+    ChangePasswordComponent
+  ],
   imports: [
     CommonModule,
     ConfigurationRoutingModule,

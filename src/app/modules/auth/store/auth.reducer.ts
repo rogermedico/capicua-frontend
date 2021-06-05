@@ -2,7 +2,6 @@ import { AuthState } from './auth.state';
 import * as AuthActions from './auth.action';
 import { Action, createReducer, on } from '@ngrx/store';
 
-/* the auth state starts with no one logged in */
 const defaultAuthState: AuthState = {
   authInfo: null,
   loading: false,

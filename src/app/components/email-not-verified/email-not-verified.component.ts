@@ -5,7 +5,7 @@ import * as AuthActions from '@modules/auth/store/auth.action';
 import * as AuthSelectors from '@modules/auth/store/auth.selector';
 import { Observable, Subscription } from 'rxjs';
 import { AuthState } from '@modules/auth/store/auth.state';
-import { map, skip, skipWhile, take } from 'rxjs/operators';
+import { map, skipWhile, take } from 'rxjs/operators';
 import { NotificationService } from '@services/notification.service';
 
 
@@ -20,10 +20,13 @@ export class EmailNotVerifiedComponent implements OnInit, OnDestroy {
   public authState$: Observable<AuthState> = this.store$.select(AuthSelectors.selectAuthState);
   private authStateSubscription: Subscription;
 
-  constructor(private store$: Store<AppState>, private notificationService: NotificationService) { }
+  constructor(
+    private store$: Store<AppState>,
+    private notificationService: NotificationService
+  ) { }
 
   ngOnInit(): void {
-    this.buttonText = 'Send reset password email';
+    this.buttonText = 'Send verification email';
   }
 
   ngOnDestroy(): void {
@@ -36,8 +39,8 @@ export class EmailNotVerifiedComponent implements OnInit, OnDestroy {
       skipWhile(as => as.loading),
       take(1),
       map(() => {
-        this.notificationService.showMessage('Reset password email sent', 'OK');
-        this.buttonText = 'Resend password email';
+        this.notificationService.showMessage('Verification email sent', 'OK');
+        this.buttonText = 'Resend verification email';
       })
     ).subscribe()
   }

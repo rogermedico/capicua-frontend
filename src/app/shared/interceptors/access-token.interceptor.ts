@@ -1,17 +1,11 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor
-} from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AppState } from '@store/root.state';
 import { AuthState } from '@modules/auth/store/auth.state';
 import * as AuthSelectors from '@modules/auth/store/auth.selector';
 import { Store } from '@ngrx/store';
-import { map, mergeMap, take, tap } from 'rxjs/operators';
-import { Auth } from '@models/auth.model';
+import { mergeMap, take } from 'rxjs/operators';
 
 @Injectable()
 export class AccessTokenInterceptor implements HttpInterceptor {
@@ -37,8 +31,6 @@ export class AccessTokenInterceptor implements HttpInterceptor {
         }
       })
     )
-
-
-
   }
+
 }
