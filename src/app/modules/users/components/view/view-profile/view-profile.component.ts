@@ -7,11 +7,10 @@ import * as UsersSelectors from '@modules/users/store/users.selector';
 import * as UserSelectors from '@modules/user/store/user.selector';
 import * as RouterSelectors from '@store/router/router.selector';
 import * as UsersActions from '@modules/users/store/users.action';
-import { User, UserBackend } from '@models/user.model';
-import { filter, map, skipWhile, take, tap } from 'rxjs/operators';
+import { User } from '@models/user.model';
+import { filter, map, take, tap } from 'rxjs/operators';
 import { Params } from '@angular/router';
 import { UsersState } from '@modules/users/store/users.state';
-import { MatDialog } from '@angular/material/dialog';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { ParserService } from '@services/parser.service';
 
@@ -31,7 +30,10 @@ export class ViewProfileComponent implements OnInit, OnDestroy {
   public routeParams$: Observable<Params> = this.store$.select(RouterSelectors.selectParams);
   public routeParamsUsersStateSubscription: Subscription;
 
-  constructor(private store$: Store<AppState>, private parser: ParserService) { }
+  constructor(
+    private store$: Store<AppState>,
+    private parser: ParserService
+  ) { }
 
   ngOnInit(): void {
 

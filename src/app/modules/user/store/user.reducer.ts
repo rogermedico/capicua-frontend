@@ -7,7 +7,6 @@ import { Language } from '@models/language.model';
 import { PersonalDocument, UserDocument } from '@models/document.model';
 import { USER_DOCUMENTS } from '@constants/user-documents.constant';
 
-/* the auth state starts with no one logged in */
 const defaultUserState: UserState = {
   user: null,
   loading: false,
@@ -420,7 +419,6 @@ const _userReducer = createReducer(defaultUserState,
 
   /* update dni success */
   on(UserActions.UserDniUpdateSuccess, (state, { dni }) => {
-    console.log(dni)
     return {
       ...state,
       user: {
@@ -551,7 +549,6 @@ const _userReducer = createReducer(defaultUserState,
 
   /* update cv success */
   on(UserActions.UserCVUpdateSuccess, (state, { cv }) => {
-    console.log(cv)
     return {
       ...state,
       user: {
@@ -640,7 +637,6 @@ const _userReducer = createReducer(defaultUserState,
 
   /* get personal document success */
   on(UserActions.UserGetPersonalDocumentSuccess, (state, { documentId, personalDocument }) => {
-    console.log(documentId, personalDocument)
     return {
       ...state,
       user: {

@@ -1,12 +1,7 @@
 import { createAction, props } from '@ngrx/store';
-import { NewUser, User, UserBackend } from '@models/user.model';
-import { ChangePassword } from '@models/change-password.model';
-import { Course } from '@models/course.model';
-import { Education } from '@models/education.model';
-import { Language } from '@models/language.model';
+import { NewUser, User } from '@models/user.model';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { PersonalDocument } from '@models/document.model';
-
 
 export enum UsersActionTypes {
   USERS_GET_ALL = '[Users] USERS_GET_ALL',

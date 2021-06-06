@@ -6,7 +6,6 @@ import { Observable, Subscription } from 'rxjs';
 import * as UserSelectors from '@modules/user/store/user.selector';
 import { User } from '@models/user.model';
 import { MatDialog } from '@angular/material/dialog';
-import { ParserService } from '@services/parser.service';
 import { filter, take, tap } from 'rxjs/operators';
 import { EducationDialogComponent } from '../dialogs/education-dialog/education-dialog.component';
 import { Education } from '@models/education.model';
@@ -20,22 +19,16 @@ import { ConfirmDialogComponent } from '../dialogs/confirm-dialog/confirm-dialog
 })
 export class EducationComponent implements OnInit {
 
-  //   public educationsDisplayedColumns: string[] = ['name', 'finishDate'];
-  //   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
-
-  //   constructor(private store$: Store<AppState>) { }
-
-  //   ngOnInit(): void {
-  //   }
-
-  // }
-
   public user: User;
   public educationsDisplayedColumns: string[] = ['name', 'finishDate', 'actions'];
   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
   public userStateSubscription: Subscription;
   public editable: boolean = true;
-  constructor(private store$: Store<AppState>, private dialog: MatDialog, private parser: ParserService) { }
+
+  constructor(
+    private store$: Store<AppState>,
+    private dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this.userStateSubscription = this.userState$.pipe(
@@ -44,9 +37,6 @@ export class EducationComponent implements OnInit {
       }),
       tap(userState => {
         this.user = userState.user;
-        // if (this.user) {
-        //   this.editable = this.user.userType.rank > userState.user.userType.rank || this.user.userType.id == userState.user.id;
-        // }
       })
     ).subscribe();
 
@@ -54,13 +44,11 @@ export class EducationComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.userStateSubscription.unsubscribe();
-    // this.courseTypesSubscription.unsubscribe();
   }
 
   createEducation() {
     const dialogRef = this.dialog.open(EducationDialogComponent, {
-      data: null,
-      // width: '400px'
+      data: null
     });
 
     dialogRef.afterClosed().pipe(
@@ -69,10 +57,9 @@ export class EducationComponent implements OnInit {
         if (result) {
           const education: Education = {
             name: result.name,
-            finishDate: result.finishDate,//')]: result.expeditionDate ? `${result.expeditionDate.getFullYear()}-${result.expeditionDate.getMonth() + 1}-${result.expeditionDate.getDate()}` : null,
+            finishDate: result.finishDate,
             finished: result.finished ? true : false
           };
-          console.log(education)
           this.store$.dispatch(UserActions.UserEducationCreate({ education: education }));
         }
       })
@@ -85,8 +72,7 @@ export class EducationComponent implements OnInit {
         name: education.name,
         finishDate: education.finishDate,
         finished: education.finished,
-      },
-      // width: '400px'
+      }
     });
 
     dialogRef.afterClosed().pipe(
@@ -99,7 +85,6 @@ export class EducationComponent implements OnInit {
             finishDate: result.finishDate,
             finished: result.finished ? true : false
           };
-          console.log(education)
           this.store$.dispatch(UserActions.UserEducationUpdate({ education: editedEducation }));
         }
       })

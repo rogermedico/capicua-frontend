@@ -1,17 +1,15 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, of, Subject } from "rxjs";
-import { catchError, map, mergeMap, tap } from "rxjs/operators";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 import { User, UserBackend } from '@models/user.model';
 import { environment } from '@environments/environment';
-import { Login } from '@models/login.model';
 import { ParserService } from "../../../shared/services/parser.service";
 import { ChangePassword } from "@models/change-password.model";
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 import { Course, CourseBackend, CourseBackendSent } from "@models/course.model";
 import { Education, EducationBackend, EducationBackendSent } from "@models/education.model";
-import { Language, LanguageBackend, LanguageBackendSent } from "@models/language.model";
-import { stringify } from "@angular/compiler/src/util";
+import { Language, LanguageBackend } from "@models/language.model";
 import { PersonalDocument, PersonalDocumentBackend } from "@models/document.model";
 
 @Injectable({
@@ -19,11 +17,11 @@ import { PersonalDocument, PersonalDocumentBackend } from "@models/document.mode
 })
 export class UserService {
 
-  private httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
-  constructor(private http: HttpClient, private parser: ParserService, private sanitizer: DomSanitizer) { }
+  constructor(
+    private http: HttpClient,
+    private parser: ParserService,
+    private sanitizer: DomSanitizer
+  ) { }
 
   getUser(): Observable<User> {
     return this.http.get<UserBackend>(environment.backend.api + environment.backend.userEndpoint).pipe(
@@ -32,7 +30,6 @@ export class UserService {
   }
 
   editProfile(updatedProperties: { [key: string]: any }): Observable<User> {
-    console.log('service updated properties', updatedProperties)
     return this.http.put<UserBackend>(environment.backend.api + environment.backend.userEndpoint, updatedProperties).pipe(
       map(userBackend => this.parser.userBackendToUser(userBackend))
     );
@@ -216,59 +213,5 @@ export class UserService {
       })
     );
   }
-
-  // getOffenses(userId: number): Observable<{ userId: number, offenses: string }> {
-  //   return this.http.get(`${environment.backend.api}${environment.backend.offensesEndpoint}/${userId}`).pipe(
-  //     map((response: { offenses: string, extension: string }) => {
-  //       const byteArray = new Uint8Array(atob(response.offenses).split('').map(char => char.charCodeAt(0)));
-  //       const offenses = new Blob([byteArray], { type: 'application/pdf' });
-  //       return { userId: userId, offenses: window.URL.createObjectURL(offenses) };
-  //     })
-  //   )
-  // }
-
-  // getUserByEmail(email: string): Observable<User> {
-  //   return this.http.get<User>(`${environment.backend.api}/?email=${encodeURIComponent(email)}`).pipe(
-  //     map(user => user[0])
-  //   );
-  // }
-
-  // login(loginInfo: Login): Observable<User> {
-  //   return this.getUserByEmail(loginInfo.username).pipe(
-  //     mergeMap(user => {
-  //       if (user && (user.password === loginInfo.password)) {
-  //         user = { ...user, loggedIn: true };
-  //         this.http.put<User>(environment.backend.users, user, this.httpOptions);
-  //         return of(user);
-  //       }
-  //       else {
-  //         throw 'login error';
-  //       }
-  //     }),
-  //   )
-  // }
-
-  // logout(user: User): Observable<any> {
-  //   user = { ...user, loggedIn: false };
-  //   return this.http.put(environment.backend.users, user, this.httpOptions);
-  // }
-
-  // register(user: User): Observable<User> {
-  //   return this.getUserByEmail(user.email).pipe(
-  //     mergeMap(u => {
-  //       if (!u) {
-  //         return this.http.post<User>(environment.backend.users, user, this.httpOptions)
-  //       }
-  //       else {
-  //         throw 'register error';
-  //       }
-  //     })
-  //   );
-
-  // }
-
-  // updateUser(user: User): Observable<any> {
-  //   return this.http.put(environment.backend.api, user, this.httpOptions);
-  // }
 
 }

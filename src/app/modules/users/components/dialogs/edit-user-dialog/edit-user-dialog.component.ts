@@ -20,16 +20,7 @@ import { userTypeValidator } from '@validators/userType.validator';
 })
 export class EditUserDialogComponent implements OnInit {
 
-  // public nationalities = Object.values(NATIONALITIES);
-  // public userTypes = USER_TYPES;
-  // public user: User;
-  // public userLoggedIn$: Observable<User> = this.store$.select(UserSelectors.selectUser);
-  // public userSubscriber: Subscription;
-  // public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
-  // public userStateSubscriber: Subscription;
-  // public snackBarSubscription: Subscription;
   public editUserForm: FormGroup;
-  // public editUserFormValueChangesSubscriber: Subscription;
   public usersState$: Observable<UsersState> = this.store$.select(UsersSelectors.selectUsersState);
   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
   public userTypes$: Observable<UserType[]> = this.store$.select(AppConstantsSelectors.selectUserTypes);

@@ -6,7 +6,6 @@ import { Observable, Subscription } from 'rxjs';
 import * as UsersSelectors from '@modules/users/store/users.selector';
 import * as UsersActions from '@modules/users/store/users.action';
 import * as UserSelectors from '@modules/user/store/user.selector';
-import { MatSort } from '@angular/material/sort';
 import { NewUser, User } from '@models/user.model';
 import { filter, map, skipWhile, take, tap } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
@@ -17,7 +16,6 @@ import { ParserService } from '@services/parser.service';
 import { NewUserDialogComponent } from '../dialogs/new-user-dialog/new-user-dialog.component';
 import { NotificationService } from '@services/notification.service';
 import { EditUserDialogComponent } from '../dialogs/edit-user-dialog/edit-user-dialog.component';
-import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-users',
@@ -40,16 +38,12 @@ export class UsersComponent implements OnInit, OnDestroy {
     private store$: Store<AppState>,
     private dialog: MatDialog,
     private parserService: ParserService,
-    private notificationService: NotificationService) { }
-
-  // @ViewChild(MatSort, { static: false }) set content(sort: MatSort) {
-  //   this.activeUsers.sort = sort;
-  // };
+    private notificationService: NotificationService
+  ) { }
 
   ngOnInit(): void {
     this.store$.dispatch(UsersActions.UsersGetAll());
     this.usersStateSubscription = this.usersState$.pipe(
-      // skipWhile(us => us.users == null),
       filter(us => us.users != null),
       tap(us => {
         this.activeUsers = new MatTableDataSource(us.users.filter(user => !user.deactivated));
@@ -71,15 +65,6 @@ export class UsersComponent implements OnInit, OnDestroy {
           const transformedFilter = filter.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
           return dataStr.indexOf(transformedFilter) != -1;
         }
-
-        // to sort no first properties
-        // this.activeUsers.sortingDataAccessor = (item, property) => {
-        //   switch (property) {
-        //     case 'rank': return item.userType.name;
-        //     default: return item[property]
-        //   }
-        // };
-        // this.activeUsers.sort = this.sort;
       })
     ).subscribe();
   }
@@ -153,8 +138,7 @@ export class UsersComponent implements OnInit, OnDestroy {
       data: {
         question: 'Are you sure you want to reactivate the following user:',
         element: `${user.name} ${user.surname}`
-      },
-      // width: '400px'
+      }
     });
 
     dialogRef.afterClosed().pipe(
@@ -180,8 +164,7 @@ export class UsersComponent implements OnInit, OnDestroy {
       data: {
         question: 'Are you sure you want to deactivate the following user:',
         element: `${user.name} ${user.surname}`
-      },
-      // width: '400px'
+      }
     });
 
     dialogRef.afterClosed().pipe(
@@ -207,8 +190,7 @@ export class UsersComponent implements OnInit, OnDestroy {
       data: {
         question: 'Are you sure you want to permanently delete the following user:',
         element: `${user.name} ${user.surname}`
-      },
-      // width: '400px'
+      }
     });
 
     dialogRef.afterClosed().pipe(

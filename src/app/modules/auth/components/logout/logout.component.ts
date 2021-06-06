@@ -28,7 +28,6 @@ export class LogoutComponent implements OnInit, OnDestroy {
       take(1),
       filter(as => as.authInfo !== null),
       map(as => {
-        console.log('asdf')
         this.store$.dispatch(AuthActions.AuthLogout())
       })
     ).subscribe();

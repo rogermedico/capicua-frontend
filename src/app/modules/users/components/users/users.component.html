@@ -18,11 +18,9 @@
             <input matInput (keyup)="activeUsersApplyFilter($event)" placeholder="Ex. Roger" #input>
           </mat-form-field>
 
-          <!-- <mat-table [dataSource]="dataSource" matSort> -->
           <mat-table [dataSource]="activeUsers">
 
             <ng-container matColumnDef="name">
-              <!-- <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell> -->
               <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
               <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
             </ng-container>
@@ -60,12 +58,10 @@
             <mat-row *matRowDef="let row; columns: activeUsersDisplayedColumns;"></mat-row>
 
           </mat-table>
-          <!-- <a routerLink="/users/new"> -->
           <button class="new-user-button" mat-fab color="accent" aria-label="New user" (click)="newUser()" fxHide
             fxShow.gt-xs>
             <mat-icon>add</mat-icon>
           </button>
-          <!-- </a> -->
         </mat-tab>
         <mat-tab *ngIf="inactiveUsers.data.length != 0" label="Inactive users">
           <mat-form-field class="filter">
@@ -75,7 +71,6 @@
           <mat-table [dataSource]="inactiveUsers">
 
             <ng-container matColumnDef="name">
-              <!-- <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell> -->
               <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
               <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
             </ng-container>
@@ -111,11 +106,9 @@
           <input matInput (keyup)="activeUsersApplyFilter($event)" placeholder="Ex. Roger" #input>
         </mat-form-field>
 
-        <!-- <mat-table [dataSource]="dataSource" matSort> -->
         <mat-table [dataSource]="activeUsers">
 
           <ng-container matColumnDef="name">
-            <!-- <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell> -->
             <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
             <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
           </ng-container>
@@ -153,7 +146,6 @@
           <mat-row *matRowDef="let row; columns: activeUsersDisplayedColumns;"></mat-row>
 
         </mat-table>
-        <!-- <a routerLink="/users/new"> -->
         <button class="new-user-button" mat-fab color="accent" aria-label="New user" (click)="newUser()" fxHide
           fxShow.gt-xs>
           <mat-icon>add</mat-icon>

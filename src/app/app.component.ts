@@ -124,11 +124,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
-  onsidenavClick() {
-    const sidenavClick = new EventEmitter();
-    console.log(sidenavClick)
-  }
-
   ngOnDestroy(): void {
     this.XSmallBreakpointSubscriber.unsubscribe();
     this.smallBreakpointSubscriber.unsubscribe();

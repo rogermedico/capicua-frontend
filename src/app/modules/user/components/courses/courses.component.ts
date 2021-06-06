@@ -21,14 +21,6 @@ import { ConfirmDialogComponent } from '../dialogs/confirm-dialog/confirm-dialog
 })
 export class CoursesComponent implements OnInit {
 
-  // public coursesDisplayedColumns: string[] = ['name', 'number', 'expeditionDate', 'validUntil'];
-  // public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
-
-  // constructor(private store$: Store<AppState>) { }
-
-  // ngOnInit(): void {
-  // }
-
   public user: User;
   public coursesDisplayedColumns: string[] = ['name', 'number', 'expeditionDate', 'validUntil', 'actions'];
   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
@@ -37,7 +29,12 @@ export class CoursesComponent implements OnInit {
   public courseTypes: CourseType[];
   public editable: boolean = true;
   public allCoursesDone: boolean;
-  constructor(private store$: Store<AppState>, private dialog: MatDialog, private parser: ParserService) { }
+
+  constructor(
+    private store$: Store<AppState>,
+    private dialog: MatDialog,
+    private parser: ParserService
+  ) { }
 
   ngOnInit(): void {
 
@@ -49,30 +46,22 @@ export class CoursesComponent implements OnInit {
         this.user = userState.user;
         this.courseTypes = courseTypes;
         if (this.user) {
-          // this.editable = this.user.userType.rank > userState.user.userType.rank || this.user.userType.id == userState.user.id;
           this.allCoursesDone = this.user.courses.length == courseTypes.length;
         }
       })
     ).subscribe();
 
-    // this.courseTypesSubscription = this.courseTypes$.pipe(
-    //   take(1),
-    //   tap(ct => this.courseTypes = ct)
-    // ).subscribe();
-
   }
 
   ngOnDestroy(): void {
     this.userCourseTypesSubscription.unsubscribe();
-    // this.courseTypesSubscription.unsubscribe();
   }
 
   createCourse() {
     const dialogRef = this.dialog.open(CourseDialogComponent, {
       data: {
         coursesAlreadyAdded: this.user.courses.map(c => c.id)
-      },
-      // width: '400px'
+      }
     });
 
     dialogRef.afterClosed().pipe(
@@ -83,7 +72,7 @@ export class CoursesComponent implements OnInit {
             id: result.courseId,
             name: this.courseTypes.find(ct => ct.id == result.courseId).name,
             number: result.number,
-            expeditionDate: result.expeditionDate,//')]: result.expeditionDate ? `${result.expeditionDate.getFullYear()}-${result.expeditionDate.getMonth() + 1}-${result.expeditionDate.getDate()}` : null,
+            expeditionDate: result.expeditionDate,
             validUntil: result.validUntil
           };
           this.store$.dispatch(UserActions.UserCourseCreate({ course: course }));
@@ -100,8 +89,7 @@ export class CoursesComponent implements OnInit {
         expeditionDate: course.expeditionDate,
         validUntil: course.validUntil,
         coursesAlreadyAdded: null
-      },
-      // width: '400px'
+      }
     });
 
     dialogRef.afterClosed().pipe(
@@ -112,7 +100,7 @@ export class CoursesComponent implements OnInit {
             id: result.courseId,
             name: this.courseTypes.find(ct => ct.id == result.courseId).name,
             number: result.number,
-            expeditionDate: result.expeditionDate,//')]: result.expeditionDate ? `${result.expeditionDate.getFullYear()}-${result.expeditionDate.getMonth() + 1}-${result.expeditionDate.getDate()}` : null,
+            expeditionDate: result.expeditionDate,
             validUntil: result.validUntil
           };
           this.store$.dispatch(UserActions.UserCourseUpdate({ course: course }));

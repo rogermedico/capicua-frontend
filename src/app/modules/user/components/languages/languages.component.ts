@@ -7,7 +7,6 @@ import * as UserSelectors from '@modules/user/store/user.selector';
 import { filter, take, tap } from 'rxjs/operators';
 import { User } from '@models/user.model';
 import { MatDialog } from '@angular/material/dialog';
-import { ParserService } from '@services/parser.service';
 import { LanguageDialogComponent } from '../dialogs/language-dialog/language-dialog.component';
 import { Language } from '@models/language.model';
 import * as UserActions from '@modules/user/store/user.action';
@@ -20,23 +19,16 @@ import { ConfirmDialogComponent } from '../dialogs/confirm-dialog/confirm-dialog
 })
 export class LanguagesComponent implements OnInit, OnDestroy {
 
-  //   public languagesDisplayedColumns: string[] = ['name', 'level', 'finishDate'];
-  //   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
-
-  //   constructor(private store$: Store<AppState>) { }
-
-  //   ngOnInit(): void {
-  //   }
-
-  // }
-
   public user: User;
   public languagesDisplayedColumns: string[] = ['name', 'level', 'finishDate', 'actions'];
   public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
-
   public userStateSubscription: Subscription;
   public editable: boolean = true;
-  constructor(private store$: Store<AppState>, private dialog: MatDialog, private parser: ParserService) { }
+
+  constructor(
+    private store$: Store<AppState>,
+    private dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this.userStateSubscription = this.userState$.pipe(
@@ -45,9 +37,6 @@ export class LanguagesComponent implements OnInit, OnDestroy {
       }),
       tap(userState => {
         this.user = userState.user;
-        // if (this.user) {
-        //   this.editable = this.user.userType.rank > userState.user.userType.rank || this.user.userType.id == userState.user.id;
-        // }
       })
     ).subscribe();
 
@@ -55,15 +44,13 @@ export class LanguagesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.userStateSubscription.unsubscribe();
-    // this.courseTypesSubscription.unsubscribe();
   }
 
   createLanguage() {
     const dialogRef = this.dialog.open(LanguageDialogComponent, {
       data: {
         languagesAlreadyAdded: this.user.languages.map(l => l.name)
-      },
-      // width: '400px'
+      }
     });
 
     dialogRef.afterClosed().pipe(
@@ -75,7 +62,6 @@ export class LanguagesComponent implements OnInit, OnDestroy {
             level: result.level,
             finishDate: result.finishDate
           };
-          console.log(language)
           this.store$.dispatch(UserActions.UserLanguageCreate({ language: language }));
         }
       })
@@ -102,7 +88,6 @@ export class LanguagesComponent implements OnInit, OnDestroy {
             level: result.level,
             finishDate: result.finishDate
           };
-          console.log(language)
           this.store$.dispatch(UserActions.UserLanguageUpdate({ language: editedLanguage }));
         }
       })

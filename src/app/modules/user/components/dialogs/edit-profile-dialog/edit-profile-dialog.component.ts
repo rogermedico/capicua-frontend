@@ -1,19 +1,15 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UserType } from '@models/user-type.model';
-import { NewUser } from '@models/user.model';
 import { UserState } from '@modules/user/store/user.state';
 import { Store } from '@ngrx/store';
 import { AppState } from '@store/root.state';
-import { AppConstantsState } from '@store/app-constants/app-constants.state';
 import { dniValidator } from '@validators/dni.validator';
 import { drivingLicencesValidator } from '@validators/driving-licences.validator';
-import { userTypeValidator } from '@validators/userType.validator';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import * as UserSelectors from '@modules/user/store/user.selector';
 import * as AppConstantsSelectors from '@store/app-constants/app-constants.selector';
-import { filter, map, take } from 'rxjs/operators';
 import { bankAccountValidator } from '@validators/bank-account.validator';
 
 @Component({

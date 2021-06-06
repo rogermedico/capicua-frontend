@@ -1,16 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { UserType } from '@models/user-type.model';
 import { UserState } from '@modules/user/store/user.state';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import * as UserSelectors from '@modules/user/store/user.selector';
 import * as AppConstantsSelectors from '@store/app-constants/app-constants.selector';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState } from '@store/root.state';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { EditProfileDialogComponent } from '../edit-profile-dialog/edit-profile-dialog.component';
 import { filter, map, take } from 'rxjs/operators';
-import { userTypeValidator } from '@validators/userType.validator';
 import { CourseType } from '@models/course.model';
 
 @Component({
@@ -61,12 +58,19 @@ export class CourseDialogComponent implements OnInit {
           Validators.required
         ]
       ],
-      number: [this.data.number ? this.data.number : null, [
-        Validators.minLength(3),
-        Validators.maxLength(55)
-      ]],
-      expeditionDate: [this.data.expeditionDate ? this.data.expeditionDate : null],
-      validUntil: [this.data.validUntil ? this.data.validUntil : null],
+      number: [
+        this.data.number ? this.data.number : null,
+        [
+          Validators.minLength(3),
+          Validators.maxLength(55)
+        ]
+      ],
+      expeditionDate: [
+        this.data.expeditionDate ? this.data.expeditionDate : null
+      ],
+      validUntil: [
+        this.data.validUntil ? this.data.validUntil : null
+      ],
 
     })
   }

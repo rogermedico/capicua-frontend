@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { USER_DOCUMENTS } from '@constants/user-documents.constant';
 import { UserDocument } from '@models/document.model';
 import { User } from '@models/user.model';
@@ -9,7 +8,6 @@ import * as UserSelectors from '@modules/user/store/user.selector';
 import { UserState } from '@modules/user/store/user.state';
 import { Store } from '@ngrx/store';
 import { NotificationService } from '@services/notification.service';
-import { ParserService } from '@services/parser.service';
 import { AppState } from '@store/root.state';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, skipWhile, take, tap } from 'rxjs/operators';
@@ -37,7 +35,8 @@ export class UserDocumentsComponent implements OnInit {
   constructor(
     private store$: Store<AppState>,
     private dialog: MatDialog,
-    private notificationService: NotificationService) { }
+    private notificationService: NotificationService
+  ) { }
 
   ngOnInit(): void {
     this.userStateSubscription = this.userState$.pipe(
@@ -46,9 +45,6 @@ export class UserDocumentsComponent implements OnInit {
       }),
       tap(userState => {
         this.user = userState.user;
-        // if (this.user) {
-        //   this.editable = this.user.userType.rank > userState.user.userType.rank || this.user.userType.id == userState.user.id;
-        // }
       })
     ).subscribe();
 
@@ -56,13 +52,9 @@ export class UserDocumentsComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.userStateSubscription.unsubscribe();
-    // if (this.getDniSubscription) this.getDniSubscription.unsubscribe();
-    // if (this.getOffensesSubscription) this.getOffensesSubscription.unsubscribe();
     if (this.updateDniNotificationSubscription) this.updateDniNotificationSubscription.unsubscribe();
     if (this.updateOffensesNotificationSubscription) this.updateOffensesNotificationSubscription.unsubscribe();
     if (this.updateCVNotificationSubscription) this.updateCVNotificationSubscription.unsubscribe();
-
-    // this.courseTypesSubscription.unsubscribe();
   }
 
   viewDocument(userDocument: UserDocument) {
@@ -74,17 +66,14 @@ export class UserDocumentsComponent implements OnInit {
           window.open(dni.file, '_blank');
         }
         else {
-          console.log('else?');
           this.store$.dispatch(UserActions.UserDniGet({ userId: this.user.id }));
           this.getDniSubscription = this.userState$.pipe(
             filter(us => {
               const dni = us.user.userDocuments.find(userDocument => userDocument.name == USER_DOCUMENTS.dni);
-              console.log('return filter', typeof dni.file != 'boolean')
               return typeof dni.file != 'boolean';
             }),
             take(1),
             map(us => {
-              console.log('user state', us);
               const dni = us.user.userDocuments.find(userDocument => userDocument.name == USER_DOCUMENTS.dni);
               window.open(<string>dni.file, '_blank');
             })
@@ -132,30 +121,6 @@ export class UserDocumentsComponent implements OnInit {
         }
         break;
     }
-    // const dialogRef = this.dialog.open(EducationDialogComponent, {
-    //   data: {
-    //     name: education.name,
-    //     finishDate: education.finishDate,
-    //     finished: education.finished,
-    //   },
-    //   // width: '400px'
-    // });
-
-    // dialogRef.afterClosed().pipe(
-    //   take(1),
-    //   tap((result) => {
-    //     if (result) {
-    //       const editedEducation: Education = {
-    //         id: education.id,
-    //         name: result.name,
-    //         finishDate: result.finishDate,
-    //         finished: result.finished ? true : false
-    //       };
-    //       console.log(education)
-    //       this.store$.dispatch(UserActions.UserEducationUpdate({ education: editedEducation }));
-    //     }
-    //   })
-    // ).subscribe();
   }
 
   updateDocument(userDocument: UserDocument, fileInputEvent: any) {

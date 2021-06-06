@@ -2,13 +2,9 @@ import { UsersState } from './users.state';
 import * as UsersActions from './users.action';
 import { Action, createReducer, on } from '@ngrx/store';
 import { User } from '@models/user.model';
-import { Course } from '@models/course.model';
-import { Education } from '@models/education.model';
-import { Language } from '@models/language.model';
 import { PersonalDocument, UserDocument } from '@models/document.model';
 import { USER_DOCUMENTS } from '@constants/user-documents.constant';
 
-/* the auth state starts with no one logged in */
 const defaultUsersState: UsersState = {
   users: null,
   loading: false,
@@ -82,7 +78,6 @@ const _usersReducer = createReducer(defaultUsersState,
 
   /* create user success */
   on(UsersActions.UsersCreateSuccess, (state, { user }) => {
-    console.log('reducer usercreatesuccess', user)
     return {
       ...state,
       users: [...state.users, user],
@@ -485,7 +480,6 @@ const _usersReducer = createReducer(defaultUsersState,
       error: err
     }
   }),
-
 
 );
 

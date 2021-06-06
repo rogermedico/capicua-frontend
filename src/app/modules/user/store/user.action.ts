@@ -1,6 +1,5 @@
 import { createAction, props } from '@ngrx/store';
 import { User } from '@models/user.model';
-import { Login } from '@models/login.model';
 import { Language } from '@models/language.model';
 import { Education } from '@models/education.model';
 import { ChangePassword } from '@models/change-password.model';

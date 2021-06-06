@@ -71,7 +71,7 @@ export class AppConstantsEffects {
         default:
           this.notificationService.showError('Undefined error', 'OK');
       }
-      console.log('USER ERROR: ', {
+      console.log('CONSTANTS ERROR: ', {
         origin: action.origin,
         error: action.err
       });

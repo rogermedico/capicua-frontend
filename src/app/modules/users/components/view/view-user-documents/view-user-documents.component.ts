@@ -5,14 +5,13 @@ import { User } from '@models/user.model';
 import * as UsersSelectors from '@modules/users/store/users.selector';
 import * as UsersActions from '@modules/users/store/users.action';
 import * as RouterSelectors from '@store/router/router.selector';
-import { UserState } from '@modules/user/store/user.state';
 import { Store } from '@ngrx/store';
-import { NotificationService } from '@services/notification.service';
 import { AppState } from '@store/root.state';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 import { UsersState } from '@modules/users/store/users.state';
 import { Params } from '@angular/router';
+
 @Component({
   selector: 'app-view-user-documents',
   templateUrl: './view-user-documents.component.html',

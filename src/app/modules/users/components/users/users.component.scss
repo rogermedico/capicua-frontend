@@ -43,37 +43,17 @@ input:-webkit-autofill {
 }
 
 .new-user-button {
-  // position: absolute;
-  // bottom: auto;
-  // top: 16px;
-  // right: 16px;
-  // @include screen("sm") {
   position: fixed;
   bottom: 40px;
   top: auto;
   right: 50px;
-  // }
 }
 
 .new-user-button-small {
-  // margin-left: auto;
-  // margin-right: 1rem;
   position: absolute;
   top: 16px;
   right: 16px;
 }
-
-// .new-user-button {
-//   position: absolute;
-//   bottom: auto;
-//   top: 16px;
-//   right: 16px;
-//   margin-bottom: 16px;
-//   @include screen("sm") {
-//     bottom: 16px;
-//     top: auto;
-//   }
-// }
 
 .action-icon {
   color: rgba(0, 0, 0, 0.87);

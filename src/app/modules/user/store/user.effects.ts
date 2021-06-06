@@ -7,7 +7,6 @@ import { UserService } from '@modules/user/services/user.service';
 import { User } from '@models/user.model';
 import { Language } from '@models/language.model';
 import { Education } from '@models/education.model';
-import { Login } from '@models/login.model';
 import { ChangePassword } from '@models/change-password.model';
 import { NotificationService } from '@services/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -57,7 +56,6 @@ export class UserEffects {
     ofType(UserActions.UserActionTypes.USER_PROFILE_UPDATE),
     mergeMap((action: { type: string, updatedProperties: { [key: string]: any } }) => this.us.editProfile(action.updatedProperties).pipe(
       map((updatedUser: User) => {
-        console.log('updated profile', updatedUser);
         return { type: UserActions.UserActionTypes.USER_PROFILE_UPDATE_SUCCESS, updatedUser: updatedUser };
       }),
       catchError(err => of({

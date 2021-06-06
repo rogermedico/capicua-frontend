@@ -1,4 +1,3 @@
-import { UserType } from '@models/user-type.model';
 import { User } from '@models/user.model';
 
 export interface UserState {

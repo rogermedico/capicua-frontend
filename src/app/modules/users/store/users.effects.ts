@@ -5,20 +5,19 @@ import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import * as UsersActions from './users.action';
 import { UsersService } from '@modules/users/services/users.service';
 import { NewUser, User } from '@models/user.model';
-import { Language } from '@models/language.model';
-import { Education } from '@models/education.model';
-import { Login } from '@models/login.model';
-import { ChangePassword } from '@models/change-password.model';
 import { NotificationService } from '@services/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Course } from '@models/course.model';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { PersonalDocument } from '@models/document.model';
 
 @Injectable()
 export class UsersEffects {
 
-  constructor(private actions$: Actions, private us: UsersService, private notificationService: NotificationService) { }
+  constructor(
+    private actions$: Actions,
+    private us: UsersService,
+    private notificationService: NotificationService
+  ) { }
 
   /* get all users */
   getAll$ = createEffect(() => this.actions$.pipe(
@@ -68,7 +67,6 @@ export class UsersEffects {
     ofType(UsersActions.UsersActionTypes.USERS_EDIT),
     mergeMap((action: { type: string, userId: number, editedProperties: { [key: string]: any } }) => this.us.editUser(action.userId, action.editedProperties).pipe(
       map((editedUser: User) => {
-        console.log(editedUser)
         return { type: UsersActions.UsersActionTypes.USERS_EDIT_SUCCESS, editedUser: editedUser };
       }),
       catchError(err => of({
@@ -84,9 +82,7 @@ export class UsersEffects {
     ofType(UsersActions.UsersActionTypes.USERS_GET_AVATAR),
     mergeMap((action: { type: string, userId: number }) => {
       return this.us.getAvatar(action.userId).pipe(
-        // map(a => { console.log(a); return null })
         map((data: { userId: number, avatar: SafeResourceUrl }) => {
-          console.log(data);
           return { type: UsersActions.UsersActionTypes.USERS_GET_AVATAR_SUCCESS, userId: data.userId, avatar: data.avatar };
         }),
         catchError(err => of({
@@ -147,9 +143,7 @@ export class UsersEffects {
   activateUser$ = createEffect(() => this.actions$.pipe(
     ofType(UsersActions.UsersActionTypes.USERS_ACTIVATE),
     mergeMap((action: { type: string, userId: number }) => this.us.activateUser(action.userId).pipe(
-      // map(a => { console.log(a); return null })
       map((data: { userId: number }) => {
-        console.log(data);
         return { type: UsersActions.UsersActionTypes.USERS_ACTIVATE_SUCCESS, userId: data.userId };
       }),
       catchError(err => of({
@@ -165,9 +159,7 @@ export class UsersEffects {
   deactivateUser$ = createEffect(() => this.actions$.pipe(
     ofType(UsersActions.UsersActionTypes.USERS_DEACTIVATE),
     mergeMap((action: { type: string, userId: number }) => this.us.deactivateUser(action.userId).pipe(
-      // map(a => { console.log(a); return null })
       map((data: { userId: number }) => {
-        console.log(data);
         return { type: UsersActions.UsersActionTypes.USERS_DEACTIVATE_SUCCESS, userId: data.userId };
       }),
       catchError(err => of({
@@ -183,9 +175,7 @@ export class UsersEffects {
   deleteUser$ = createEffect(() => this.actions$.pipe(
     ofType(UsersActions.UsersActionTypes.USERS_DELETE),
     mergeMap((action: { type: string, userId: number }) => this.us.deleteUser(action.userId).pipe(
-      // map(a => { console.log(a); return null })
       map((data: { userId: number }) => {
-        console.log(data);
         return { type: UsersActions.UsersActionTypes.USERS_DELETE_SUCCESS, userId: data.userId };
       }),
       catchError(err => of({
@@ -256,8 +246,6 @@ export class UsersEffects {
       }))
     ))
   ));
-
-
 
   /* error */
   error$ = createEffect(() => this.actions$.pipe(

@@ -7,7 +7,7 @@ import * as UserSelectors from '@modules/user/store/user.selector';
 import { User } from '@models/user.model';
 import { map, skipWhile, take, tap } from 'rxjs/operators';
 import { ParserService } from '@services/parser.service';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { SafeResourceUrl } from '@angular/platform-browser';
 import { MatDialog } from '@angular/material/dialog';
 import * as UserActions from '@modules/user/store/user.action';
 import { EditProfileDialogComponent } from '../dialogs/edit-profile-dialog/edit-profile-dialog.component';
@@ -28,41 +28,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
   public notificationSubscription: Subscription;
   public editable: boolean = true;
 
-  //   constructor(private store$: Store<AppState>, private parser: ParserService) { }
-
-  //   ngOnInit(): void {
-  //     this.userStateSubscriber = this.userState$.pipe(
-  //       take(1),
-  //       tap(userState => {
-  //         this.user = userState.user;
-  //         this.drivingLicences = this.parser.parseDrivingLicences(userState.user);
-  //         if (this.user.avatar) this.avatar = this.user.avatar;
-  //       }),
-  //       tap(us => console.log('user', us.user))
-  //     ).subscribe();
-  //   }
-
-  //   ngOnDestroy(): void {
-  //     this.userStateSubscriber.unsubscribe();
-  //   }
-
-  // }
-
-  // public user: User;
-  // public avatar: SafeResourceUrl | string = 'assets/images/generic-avatar.png';
-  // public drivingLicences: string;
-  // public userState$: Observable<UserState> = this.store$.select(UserSelectors.selectUserState);
-  // public userStateSubscription: Subscription;
-  // public usersState$: Observable<UsersState> = this.store$.select(UsersSelectors.selectUsersState);
-  // public routeParams$: Observable<Params> = this.store$.select(RouterSelectors.selectParams);
-  // public combinedSubscription: Subscription;
-
-
   constructor(
     private store$: Store<AppState>,
     private dialog: MatDialog,
     private userParserService: ParserService,
-    private sanitizer: DomSanitizer,
     private parser: ParserService,
     private notificationService: NotificationService
   ) { }
@@ -73,8 +42,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.user = userState.user;
         this.drivingLicences = this.parser.parseDrivingLicences(userState.user);
         if (this.user.avatarFile) this.avatar = this.user.avatarFile;
-      }),
-      tap(us => console.log('user', us.user))
+      })
     ).subscribe();
   }
 
@@ -129,7 +97,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
             [this.userParserService.translateToBackend('bankAccount')]: result.bankAccount,
             [this.userParserService.translateToBackend('socialSecurityNumber')]: result.socialSecurityNumber,
           };
-          console.log('modified user', modifiedUser)
           this.store$.dispatch(UserActions.UserProfileUpdate({ updatedProperties: modifiedUser }));
           this.notificationSubscription = this.userState$.pipe(
             skipWhile(userState => userState.loading),
@@ -143,23 +110,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     ).subscribe();
   }
 
-  // parseDrivingLicences(drivingLicences: DrivingLicence[]): string {
-  //   let parsedDrivingLicences = '';
-  //   if (drivingLicences.length > 2) {
-  //     for (let i = 0; i < drivingLicences.length - 2; i++) {
-  //       parsedDrivingLicences = parsedDrivingLicences + drivingLicences[i].type + ', ';
-  //     }
-  //     parsedDrivingLicences = parsedDrivingLicences + drivingLicences[drivingLicences.length - 2].type + ' and ' + drivingLicences[drivingLicences.length - 1].type;
-  //   }
-  //   else if (drivingLicences.length == 2) {
-  //     parsedDrivingLicences = drivingLicences[0].type + ' and ' + drivingLicences[1].type;
-  //   }
-  //   else if (drivingLicences.length == 1) {
-  //     parsedDrivingLicences = drivingLicences[0].type;
-  //   }
-  //   return parsedDrivingLicences;
-  // }
-
   editAvatar(fileInputEvent: any): void {
     const avatar = fileInputEvent.target.files[0];
     this.store$.dispatch(UserActions.UserAvatarUpdate({ avatar: avatar }));
@@ -170,17 +120,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.notificationService.showMessage('Avatar succesfully updated', 'OK');
       })
     ).subscribe()
-    // const dialogRef = this.dialog.open(AvatarDialogComponent);
-
-    // dialogRef.afterClosed().pipe(
-    //   take(1),
-    //   tap((result) => {
-    //     if (result) {
-    //       console.log(result)
-    //       //this.store$.dispatch(UsersActions.UsersAvatarUpdate({ userId: this.user.id, avatar: result.avatar }));
-    //     }
-    //   })
-    // ).subscribe();
   }
 
 }

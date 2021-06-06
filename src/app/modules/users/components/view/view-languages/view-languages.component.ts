@@ -1,9 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UserState } from '@modules/user/store/user.state';
 import { Store } from '@ngrx/store';
 import { AppState } from '@store/root.state';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import * as UserSelectors from '@modules/user/store/user.selector';
 import { take, tap } from 'rxjs/operators';
 import { Language } from '@models/language.model';
 import { Params } from '@angular/router';
