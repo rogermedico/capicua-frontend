@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { MyDocumentsRoutingModule } from './my-documents-routing.module';
 import { MyDocumentsComponent } from './components/my-documents/my-documents.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -9,7 +8,9 @@ import { MaterialModule } from '@modules/material/material.module';
 
 
 @NgModule({
-  declarations: [MyDocumentsComponent],
+  declarations: [
+    MyDocumentsComponent
+  ],
   imports: [
     CommonModule,
     MyDocumentsRoutingModule,

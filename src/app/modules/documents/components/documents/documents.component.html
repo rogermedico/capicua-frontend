@@ -11,11 +11,9 @@
         <input matInput (keyup)="activeUsersApplyFilter($event)" placeholder="Ex. Roger" #input>
       </mat-form-field>
 
-      <!-- <mat-table [dataSource]="dataSource" matSort> -->
       <mat-table [dataSource]="activeUsers">
 
         <ng-container matColumnDef="name">
-          <!-- <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell> -->
           <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
           <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
         </ng-container>
@@ -38,17 +36,13 @@
           </mat-cell>
         </ng-container>
 
-
         <mat-header-row *matHeaderRowDef="activeUsersDisplayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: activeUsersDisplayedColumns;"></mat-row>
 
       </mat-table>
     </mat-card-content>
   </mat-card>
-
-
 </div>
-
 
 <ng-template #loading>
   <div fxLayout fxLayoutAlign="center center" class="spinner">

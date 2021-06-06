@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UsersState } from '@modules/users/store/users.state';
 import { Store } from '@ngrx/store';
 import { AppState } from '@store/root.state';
@@ -6,9 +6,8 @@ import { Observable, Subscription } from 'rxjs';
 import * as UsersSelectors from '@modules/users/store/users.selector';
 import * as UsersActions from '@modules/users/store/users.action';
 import * as UserSelectors from '@modules/user/store/user.selector';
-import { MatSort } from '@angular/material/sort';
-import { NewUser, User } from '@models/user.model';
-import { filter, map, skipWhile, switchMap, take, tap } from 'rxjs/operators';
+import { User } from '@models/user.model';
+import { filter, map, skipWhile, take, tap } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { UserState } from '@modules/user/store/user.state';
@@ -34,12 +33,12 @@ export class DocumentsComponent implements OnInit, OnDestroy {
     private store$: Store<AppState>,
     private dialog: MatDialog,
     private parserService: ParserService,
-    private notificationService: NotificationService) { }
+    private notificationService: NotificationService
+  ) { }
 
   ngOnInit(): void {
     this.store$.dispatch(UsersActions.UsersGetAll());
     this.usersStateSubscription = this.usersState$.pipe(
-      // skipWhile(us => us.users == null),
       filter(us => us.users != null),
       tap(us => {
         this.activeUsers = new MatTableDataSource(us.users.filter(user => !user.deactivated));

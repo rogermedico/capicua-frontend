@@ -4,22 +4,19 @@ import { of } from 'rxjs';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import * as HomeActions from './home.action';
 import { HomeService } from '@modules/home/services/home.service';
-import { NewUser, User } from '@models/user.model';
-import { Language } from '@models/language.model';
-import { Education } from '@models/education.model';
-import { Login } from '@models/login.model';
-import { ChangePassword } from '@models/change-password.model';
 import { NotificationService } from '@services/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Course } from '@models/course.model';
-import { SafeResourceUrl } from '@angular/platform-browser';
-import { HomeDocument, PersonalDocument } from '@models/document.model';
+import { HomeDocument } from '@models/document.model';
 import { HomePost, HomePostSend } from '@models/home-post.model';
 
 @Injectable()
 export class HomeEffects {
 
-  constructor(private actions$: Actions, private hs: HomeService, private notificationService: NotificationService) { }
+  constructor(
+    private actions$: Actions,
+    private hs: HomeService,
+    private notificationService: NotificationService
+  ) { }
 
   /* get all posts */
   getAll$ = createEffect(() => this.actions$.pipe(
@@ -69,7 +66,6 @@ export class HomeEffects {
     ofType(HomeActions.HomeActionTypes.HOME_UPDATE_POST),
     mergeMap((action: { type: string, homePostId: number, updatedHomePostProperties: { [key: string]: any } }) => this.hs.updateHomePost(action.homePostId, action.updatedHomePostProperties).pipe(
       map((updatedHomePost: HomePost) => {
-        console.log(updatedHomePost)
         return { type: HomeActions.HomeActionTypes.HOME_UPDATE_POST_SUCCESS, updatedHomePost: updatedHomePost };
       }),
       catchError(err => of({
@@ -80,97 +76,11 @@ export class HomeEffects {
     ))
   ));
 
-  // /* get avatar */
-  // usersAvatarGet$ = createEffect(() => this.actions$.pipe(
-  //   ofType(HomeActions.HomeActionTypes.HOME_GET_AVATAR),
-  //   mergeMap((action: { type: string, userId: number }) => {
-  //     return this.us.getAvatar(action.userId).pipe(
-  //       // map(a => { console.log(a); return null })
-  //       map((data: { userId: number, avatar: SafeResourceUrl }) => {
-  //         console.log(data);
-  //         return { type: HomeActions.HomeActionTypes.HOME_GET_AVATAR_SUCCESS, userId: data.userId, avatar: data.avatar };
-  //       }),
-  //       catchError(err => of({
-  //         type: HomeActions.HomeActionTypes.HOME_ERROR,
-  //         origin: HomeActions.HomeActionTypes.HOME_GET_AVATAR,
-  //         err: err
-  //       }))
-  //     )
-  //   })
-  // ));
-
-  // /* get dni */
-  // getDni$ = createEffect(() => this.actions$.pipe(
-  //   ofType(HomeActions.HomeActionTypes.HOME_GET_DNI),
-  //   mergeMap((action: { type: string, userId: number }) => this.us.getDni(action.userId).pipe(
-  //     map((data: { userId: number, dni: string }) => {
-  //       return { type: HomeActions.HomeActionTypes.HOME_GET_DNI_SUCCESS, userId: data.userId, dni: data.dni };
-  //     }),
-  //     catchError(err => of({
-  //       type: HomeActions.HomeActionTypes.HOME_ERROR,
-  //       origin: HomeActions.HomeActionTypes.HOME_GET_DNI,
-  //       err: err
-  //     }))
-  //   ))
-  // ));
-
-  // /* get offenses */
-  // getOffenses$ = createEffect(() => this.actions$.pipe(
-  //   ofType(HomeActions.HomeActionTypes.HOME_GET_OFFENSES),
-  //   mergeMap((action: { type: string, userId: number }) => this.us.getOffenses(action.userId).pipe(
-  //     map((data: { userId: number, offenses: string }) => {
-  //       return { type: HomeActions.HomeActionTypes.HOME_GET_OFFENSES_SUCCESS, userId: data.userId, offenses: data.offenses };
-  //     }),
-  //     catchError(err => of({
-  //       type: HomeActions.HomeActionTypes.HOME_ERROR,
-  //       origin: HomeActions.HomeActionTypes.HOME_GET_OFFENSES,
-  //       err: err
-  //     }))
-  //   ))
-  // ));
-
-  // /* activate user */
-  // activateUser$ = createEffect(() => this.actions$.pipe(
-  //   ofType(HomeActions.HomeActionTypes.HOME_ACTIVATE),
-  //   mergeMap((action: { type: string, userId: number }) => this.us.activateUser(action.userId).pipe(
-  //     // map(a => { console.log(a); return null })
-  //     map((data: { userId: number }) => {
-  //       console.log(data);
-  //       return { type: HomeActions.HomeActionTypes.HOME_ACTIVATE_SUCCESS, userId: data.userId };
-  //     }),
-  //     catchError(err => of({
-  //       type: HomeActions.HomeActionTypes.HOME_ERROR,
-  //       origin: HomeActions.HomeActionTypes.HOME_ACTIVATE,
-  //       err: err
-  //     }))
-  //   )
-  //   )
-  // ));
-
-  // /* deactivate user */
-  // deactivateUser$ = createEffect(() => this.actions$.pipe(
-  //   ofType(HomeActions.HomeActionTypes.HOME_DEACTIVATE),
-  //   mergeMap((action: { type: string, userId: number }) => this.us.deactivateUser(action.userId).pipe(
-  //     // map(a => { console.log(a); return null })
-  //     map((data: { userId: number }) => {
-  //       console.log(data);
-  //       return { type: HomeActions.HomeActionTypes.HOME_DEACTIVATE_SUCCESS, userId: data.userId };
-  //     }),
-  //     catchError(err => of({
-  //       type: HomeActions.HomeActionTypes.HOME_ERROR,
-  //       origin: HomeActions.HomeActionTypes.HOME_DEACTIVATE,
-  //       err: err
-  //     }))
-  //   )
-  //   )
-  // ));
-
   /* delete home post */
   deleteHomePost$ = createEffect(() => this.actions$.pipe(
     ofType(HomeActions.HomeActionTypes.HOME_DELETE_POST),
     mergeMap((action: { type: string, homePostId: number }) => this.hs.deleteHomePost(action.homePostId).pipe(
       map((data: { homePostId: number }) => {
-        console.log(data);
         return { type: HomeActions.HomeActionTypes.HOME_DELETE_POST_SUCCESS, homePostId: data.homePostId };
       }),
       catchError(err => of({
@@ -226,21 +136,6 @@ export class HomeEffects {
       }))
     ))
   ));
-
-  // /* add personal document  */
-  // addPersonalDocument$ = createEffect(() => this.actions$.pipe(
-  //   ofType(HomeActions.HomeActionTypes.HOME_ADD_PERSONAL_DOCUMENT),
-  //   mergeMap((action: { type: string, userId: number, document: File }) => this.us.addPersonalDocument(action.userId, action.document).pipe(
-  //     map((personalDocument: PersonalDocument) => {
-  //       return { type: HomeActions.HomeActionTypes.HOME_ADD_PERSONAL_DOCUMENT_SUCCESS, personalDocument: personalDocument };
-  //     }),
-  //     catchError(err => of({
-  //       type: HomeActions.HomeActionTypes.HOME_ERROR,
-  //       origin: HomeActions.HomeActionTypes.HOME_ADD_PERSONAL_DOCUMENT,
-  //       err: err
-  //     }))
-  //   ))
-  // ));
 
   /* delete home post document  */
   deleteHomePostDocument$ = createEffect(() => this.actions$.pipe(

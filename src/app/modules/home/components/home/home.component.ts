@@ -16,7 +16,6 @@ import { filter, map, skipWhile, take, tap } from 'rxjs/operators';
 import { ConfirmDialogComponent } from '../dialogs/confirm-dialog/confirm-dialog.component';
 import { NewHomePostDialogComponent } from '../dialogs/new-home-post-dialog/new-home-post-dialog.component';
 import { HomeDocument } from '@models/document.model';
-import { CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-home-component',
@@ -61,10 +60,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       take(1),
       tap((newPostProperties: HomePostSend) => {
         if (newPostProperties) {
-          // const newPostPropertiesSend = {};
-          // for (const [k, v] of Object.entries(newPostProperties)) {
-          //   newPostPropertiesSend[this.parserService.translateToBackend(k)] = v;
-          // };
           this.store$.dispatch(HomeActions.HomeCreatePost({ newHomePost: newPostProperties }));
           this.notificationSubscription = this.homeState$.pipe(
             skipWhile(usersState => usersState.loading),
@@ -147,7 +142,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   viewHomeDocument(homeDocument: HomeDocument) {
-    console.log(homeDocument);
     if (homeDocument.file) {
       window.open(homeDocument.file, '_blank');
     }
@@ -196,9 +190,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   moveHomePost(homePost: HomePost, movement: string) {
-    console.log(homePost, movement);
     const index = this.posts.findIndex(post => homePost == post);
-    console.log(index)
     let destinationHomePost: number;
     if (movement == 'increase') destinationHomePost = this.posts[index + 1].id;
     else destinationHomePost = this.posts[index - 1].id;

@@ -24,7 +24,6 @@ export class MyDocumentsComponent implements OnInit, OnDestroy {
 
   constructor(
     private store$: Store<AppState>,
-
   ) { }
 
   ngOnInit(): void {

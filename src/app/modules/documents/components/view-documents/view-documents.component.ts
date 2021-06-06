@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserState } from '@modules/user/store/user.state';
 import { Store } from '@ngrx/store';
 import { AppState } from '@store/root.state';
@@ -8,7 +8,7 @@ import * as UsersSelectors from '@modules/users/store/users.selector';
 import * as UserSelectors from '@modules/user/store/user.selector';
 import * as RouterSelectors from '@store/router/router.selector';
 import { User } from '@models/user.model';
-import { filter, map, skipWhile, take, tap } from 'rxjs/operators';
+import { filter, map, take, tap } from 'rxjs/operators';
 import { PersonalDocument } from '@models/document.model';
 import { Params } from '@angular/router';
 import { UsersState } from '@modules/users/store/users.state';
@@ -64,14 +64,11 @@ export class ViewDocumentsComponent implements OnInit {
   }
 
   viewPersonalDocument(personalDocument: PersonalDocument) {
-    console.log(personalDocument);
     if (personalDocument.file) {
       window.open(personalDocument.file, '_blank');
     }
     else {
       this.store$.dispatch(UsersActions.UsersGetPersonalDocument({ documentId: personalDocument.id }));
-      // const pd = this.user.personalDocuments.find(pd => pd.id == personalDocument.id);
-      // window.open(<string>pd.file, '_blank');
       this.getPersonalDocumentSubscription = this.usersState$.pipe(
         filter(us => {
           const user = us.users.find(user => user.id == this.user.id);
@@ -105,7 +102,6 @@ export class ViewDocumentsComponent implements OnInit {
         }
       })
     ).subscribe();
-
   }
 
 }

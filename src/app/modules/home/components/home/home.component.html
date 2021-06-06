@@ -6,9 +6,7 @@
       <mat-card-title>{{homePost.title}}</mat-card-title>
     </mat-card-header>
     <mat-card-content gdArea="content">
-      <section [innerHTML]="homePost.body">
-        <!-- {{homePost.body}} -->
-      </section>
+      <section [innerHTML]="homePost.body"></section>
       <section>
         <mat-list role="list">
           <mat-list-item role="listitem" *ngFor="let document of homePost.documents">

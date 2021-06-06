@@ -1,11 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { NewUser, User, UserBackend } from '@models/user.model';
-import { ChangePassword } from '@models/change-password.model';
-import { Course } from '@models/course.model';
-import { Education } from '@models/education.model';
-import { Language } from '@models/language.model';
-import { SafeResourceUrl } from '@angular/platform-browser';
-import { HomeDocument, PersonalDocument } from '@models/document.model';
+import { HomeDocument } from '@models/document.model';
 import { HomePost, HomePostSend } from '@models/home-post.model';
 
 
